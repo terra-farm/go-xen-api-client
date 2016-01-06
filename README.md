@@ -32,3 +32,8 @@ This description is the file `xenapi.json`, the source of which is the XenAPI
 documentation at http://xapi-project.github.io/:
 
   - https://github.com/xapi-project/xapi-project.github.io/tree/master/_data
+
+The list of error code constants in `error.go` is borrowed from xapi-projects
+OCaml client:
+
+  - https://github.com/xapi-project/xen-api/blob/master/ocaml/idl/api_errors.ml
