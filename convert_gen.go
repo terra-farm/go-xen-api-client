@@ -285,6 +285,7 @@ func convertVBDMetricsRefToVBDMetricsRecordMapToGo(context string, input interfa
 }
 
 func convertVDIRefToSRRefMapToXen(context string, goMap map[VDIRef]SRRef) (xenMap xmlrpc.Struct, err error) {
+	xenMap = make(xmlrpc.Struct)
 	for goKey, goValue := range goMap {
 		keyContext := fmt.Sprintf("%s[%s]", context, goKey)
 		xenKey, err := convertVDIRefToXen(keyContext, goKey)
@@ -411,6 +412,7 @@ func convertVIFRefToVIFRecordMapToGo(context string, input interface{}) (goMap m
 }
 
 func convertVIFRefToNetworkRefMapToXen(context string, goMap map[VIFRef]NetworkRef) (xenMap xmlrpc.Struct, err error) {
+	xenMap = make(xmlrpc.Struct)
 	for goKey, goValue := range goMap {
 		keyContext := fmt.Sprintf("%s[%s]", context, goKey)
 		xenKey, err := convertVIFRefToXen(keyContext, goKey)
@@ -449,6 +451,7 @@ func convertVIFRefToStringMapToGo(context string, input interface{}) (goMap map[
 }
 
 func convertVIFRefToStringMapToXen(context string, goMap map[VIFRef]string) (xenMap xmlrpc.Struct, err error) {
+	xenMap = make(xmlrpc.Struct)
 	for goKey, goValue := range goMap {
 		keyContext := fmt.Sprintf("%s[%s]", context, goKey)
 		xenKey, err := convertVIFRefToXen(keyContext, goKey)
@@ -575,6 +578,7 @@ func convertVMRefToStringSetMapToGo(context string, input interface{}) (goMap ma
 }
 
 func convertVMRefToStringMapToXen(context string, goMap map[VMRef]string) (xenMap xmlrpc.Struct, err error) {
+	xenMap = make(xmlrpc.Struct)
 	for goKey, goValue := range goMap {
 		keyContext := fmt.Sprintf("%s[%s]", context, goKey)
 		xenKey, err := convertVMRefToXen(keyContext, goKey)
@@ -767,6 +771,7 @@ func convertEnumVMOperationsToStringMapToGo(context string, input interface{}) (
 }
 
 func convertEnumVMOperationsToStringMapToXen(context string, goMap map[VMOperations]string) (xenMap xmlrpc.Struct, err error) {
+	xenMap = make(xmlrpc.Struct)
 	for goKey, goValue := range goMap {
 		keyContext := fmt.Sprintf("%s[%s]", context, goKey)
 		xenKey, err := convertEnumVMOperationsToXen(keyContext, goKey)
@@ -1135,6 +1140,7 @@ func convertStringToBlobRefMapToGo(context string, input interface{}) (goMap map
 }
 
 func convertStringToBlobRefMapToXen(context string, goMap map[string]BlobRef) (xenMap xmlrpc.Struct, err error) {
+	xenMap = make(xmlrpc.Struct)
 	for goKey, goValue := range goMap {
 		keyContext := fmt.Sprintf("%s[%s]", context, goKey)
 		xenKey, err := convertStringToXen(keyContext, goKey)
@@ -1195,6 +1201,7 @@ func convertStringToEnumNetworkOperationsMapToGo(context string, input interface
 }
 
 func convertStringToEnumNetworkOperationsMapToXen(context string, goMap map[string]NetworkOperations) (xenMap xmlrpc.Struct, err error) {
+	xenMap = make(xmlrpc.Struct)
 	for goKey, goValue := range goMap {
 		keyContext := fmt.Sprintf("%s[%s]", context, goKey)
 		xenKey, err := convertStringToXen(keyContext, goKey)
@@ -1299,6 +1306,7 @@ func convertStringToEnumVbdOperationsMapToGo(context string, input interface{}) 
 }
 
 func convertStringToEnumVbdOperationsMapToXen(context string, goMap map[string]VbdOperations) (xenMap xmlrpc.Struct, err error) {
+	xenMap = make(xmlrpc.Struct)
 	for goKey, goValue := range goMap {
 		keyContext := fmt.Sprintf("%s[%s]", context, goKey)
 		xenKey, err := convertStringToXen(keyContext, goKey)
@@ -1337,6 +1345,7 @@ func convertStringToEnumVdiOperationsMapToGo(context string, input interface{}) 
 }
 
 func convertStringToEnumVdiOperationsMapToXen(context string, goMap map[string]VdiOperations) (xenMap xmlrpc.Struct, err error) {
+	xenMap = make(xmlrpc.Struct)
 	for goKey, goValue := range goMap {
 		keyContext := fmt.Sprintf("%s[%s]", context, goKey)
 		xenKey, err := convertStringToXen(keyContext, goKey)
@@ -1375,6 +1384,7 @@ func convertStringToEnumVifOperationsMapToGo(context string, input interface{}) 
 }
 
 func convertStringToEnumVifOperationsMapToXen(context string, goMap map[string]VifOperations) (xenMap xmlrpc.Struct, err error) {
+	xenMap = make(xmlrpc.Struct)
 	for goKey, goValue := range goMap {
 		keyContext := fmt.Sprintf("%s[%s]", context, goKey)
 		xenKey, err := convertStringToXen(keyContext, goKey)
@@ -1413,6 +1423,7 @@ func convertStringToEnumVMApplianceOperationMapToGo(context string, input interf
 }
 
 func convertStringToEnumVMApplianceOperationMapToXen(context string, goMap map[string]VMApplianceOperation) (xenMap xmlrpc.Struct, err error) {
+	xenMap = make(xmlrpc.Struct)
 	for goKey, goValue := range goMap {
 		keyContext := fmt.Sprintf("%s[%s]", context, goKey)
 		xenKey, err := convertStringToXen(keyContext, goKey)
@@ -1451,6 +1462,7 @@ func convertStringToEnumVMOperationsMapToGo(context string, input interface{}) (
 }
 
 func convertStringToEnumVMOperationsMapToXen(context string, goMap map[string]VMOperations) (xenMap xmlrpc.Struct, err error) {
+	xenMap = make(xmlrpc.Struct)
 	for goKey, goValue := range goMap {
 		keyContext := fmt.Sprintf("%s[%s]", context, goKey)
 		xenKey, err := convertStringToXen(keyContext, goKey)
@@ -1511,6 +1523,7 @@ func convertStringToStringMapToGo(context string, input interface{}) (goMap map[
 }
 
 func convertStringToStringMapToXen(context string, goMap map[string]string) (xenMap xmlrpc.Struct, err error) {
+	xenMap = make(xmlrpc.Struct)
 	for goKey, goValue := range goMap {
 		keyContext := fmt.Sprintf("%s[%s]", context, goKey)
 		xenKey, err := convertStringToXen(keyContext, goKey)

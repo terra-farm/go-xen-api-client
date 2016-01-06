@@ -456,6 +456,7 @@ func {{ .FuncName }}(context string, input interface{}) (goMap {{ .GoType }}, er
 
 const convertMapTypeToXenFuncTemplate string = `
 func {{ .FuncName }}(context string, goMap {{.GoType }}) (xenMap xmlrpc.Struct, err error) {
+	xenMap = make(xmlrpc.Struct)
 	for goKey, goValue := range goMap {
 		keyContext := fmt.Sprintf("%s[%s]", context, goKey)
 		xenKey, err := {{ .KeyConverter }}(keyContext, goKey)
