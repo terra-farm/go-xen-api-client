@@ -165,19 +165,16 @@ type xapiLifecycle struct {
 }
 
 type xapiEnumValue struct {
-	Enum *xapiEnum `json:"-"`
-	Doc  string    `json:"doc"`
-	Name string    `json:"name"`
+	Doc  string `json:"doc"`
+	Name string `json:"name"`
 }
 
 type xapiEnum struct {
-	Class  *xapiClass       `json:"-"`
 	Values []*xapiEnumValue `json:"values"`
 	Name   string           `json:"name"`
 }
 
 type xapiField struct {
-	Class       *xapiClass       `json:"-"`
 	Default     string           `json:"default,omitempty"`
 	Lifecycle   []*xapiLifecycle `json:"lifecycle"`
 	Tag         string           `json:"tag"`
@@ -192,10 +189,9 @@ func (field *xapiField) GoType() (string, error) {
 }
 
 type xapiParam struct {
-	Message *xapiMessage `json:"-"`
-	Doc     string       `json:"doc"`
-	Name    string       `json:"name"`
-	Type    string       `json:"type"`
+	Doc  string `json:"doc"`
+	Name string `json:"name"`
+	Type string `json:"type"`
 }
 
 func (param *xapiParam) GoType() (string, error) {
@@ -217,13 +213,11 @@ func (result *xapiResult) IsVoid() bool {
 }
 
 type xapiError struct {
-	Message *xapiMessage `json:"-"`
-	Doc     string       `json:"doc"`
-	Name    string       `json:"name"`
+	Doc  string `json:"doc"`
+	Name string `json:"name"`
 }
 
 type xapiMessage struct {
-	Class       *xapiClass       `json:"-"`
 	Implicit    bool             `json:"implicit"`
 	Lifecycle   []*xapiLifecycle `json:"lifecycle"`
 	Tag         string           `json:"tag"`
@@ -518,33 +512,7 @@ func (generator *apiGenerator) loadXenAPI(filename string) (err error) {
 		return
 	}
 
-	err = json.Unmarshal(xenAPI, &generator.classes)
-	if err != nil {
-		return
-	}
-
-	for _, class := range generator.classes {
-		for _, enum := range class.Enums {
-			enum.Class = class
-			for _, value := range enum.Values {
-				value.Enum = enum
-			}
-		}
-		for _, field := range class.Fields {
-			field.Class = class
-		}
-		for _, message := range class.Messages {
-			message.Class = class
-			for _, param := range message.Params {
-				param.Message = message
-			}
-			for _, error := range message.Errors {
-				error.Message = message
-			}
-		}
-	}
-
-	return
+	return json.Unmarshal(xenAPI, &generator.classes)
 }
 
 func (generator *apiGenerator) prepTemplates() (err error) {
