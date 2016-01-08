@@ -96,6 +96,10 @@ func (_class EventClass) GetCurrentID(sessionID SessionRef) (_retval int, _err e
 }
 
 // Blocking call which returns a new token and a (possibly empty) batch of events. The returned token can be used in subsequent calls to this function.
+//
+// Errors:
+//  SESSION_NOT_REGISTERED - This session is not registered to receive events.  You must call event.register before event.next.  The session handle you are using is echoed.
+//  EVENTS_LOST - Some events have been lost from the queue and cannot be retrieved.
 func (_class EventClass) From(sessionID SessionRef, classes []string, token string, timeout float64) (_retval []EventRecord, _err error) {
 	_method := "event.from"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -123,6 +127,10 @@ func (_class EventClass) From(sessionID SessionRef, classes []string, token stri
 }
 
 // Blocking call which returns a (possibly empty) batch of events. This method is only recommended for legacy use. New development should use event.from which supercedes this method. 
+//
+// Errors:
+//  SESSION_NOT_REGISTERED - This session is not registered to receive events.  You must call event.register before event.next.  The session handle you are using is echoed.
+//  EVENTS_LOST - Some events have been lost from the queue and cannot be retrieved.
 func (_class EventClass) Next(sessionID SessionRef) (_retval []EventRecord, _err error) {
 	_method := "event.next"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

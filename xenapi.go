@@ -300,7 +300,10 @@ type {{ .Name|exported }}Ref string
 `
 
 const messageFuncTemplate string = `
-{{ .Message.Description|godoc }}
+{{ .Message.Description|godoc }}{{ if .Message.Errors }}
+//
+// Errors:{{ range .Message.Errors }}
+//  {{ .Name }} - {{ .Doc }}{{ end }}{{ end }}
 func (_class {{ .Class.Name|exported }}Class) {{ .Message.Name|exported }}({{ range $index, $param := .Message.Params }}{{ if gt $index 0 }}, {{ end }}{{ .Name|internal }} {{ .GoType }}{{ end }}) ({{ if not .Message.Result.IsVoid }}_retval {{ .Message.Result.GoType }}, {{ end }}_err error) {
 	_method := "{{ .Class.Name }}.{{ .Message.Name }}"{{ range .Message.Params }}
 	_{{ .Name|internal }}Arg, _err := {{ .Type|convertToXen }}(fmt.Sprintf("%s(%s)", _method, {{ printf "%q" .Name }}), {{ .Name|internal }})

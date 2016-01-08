@@ -532,6 +532,11 @@ func (_class VDIClass) SetManaged(sessionID SessionRef, self VDIRef, value bool)
 }
 
 // Copy either a full VDI or the block differences between two VDIs into either a fresh VDI or an existing VDI.
+//
+// Errors:
+//  VDI_READONLY - The operation required write access but this VDI is read-only
+//  VDI_TOO_SMALL - The VDI is too small. Please resize it to at least the minimum size.
+//  VDI_NOT_SPARSE - The VDI is not stored using a sparse format. It is not possible to query and manipulate only the changed blocks (or 'block differences' or 'disk deltas') between two VDIs. Please select a VDI which uses a sparse-aware technology such as VHD.
 func (_class VDIClass) Copy(sessionID SessionRef, vdi VDIRef, sr SRRef, baseVdi VDIRef, intoVdi VDIRef) (_retval VDIRef, _err error) {
 	_method := "VDI.copy"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -563,6 +568,9 @@ func (_class VDIClass) Copy(sessionID SessionRef, vdi VDIRef, sr SRRef, baseVdi 
 }
 
 // Ask the storage backend to refresh the fields in the VDI object
+//
+// Errors:
+//  SR_OPERATION_NOT_SUPPORTED - The SR backend does not support the operation (check the SR's allowed operations)
 func (_class VDIClass) Update(sessionID SessionRef, vdi VDIRef) (_err error) {
 	_method := "VDI.update"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -680,6 +688,9 @@ func (_class VDIClass) DbIntroduce(sessionID SessionRef, uuid string, nameLabel 
 }
 
 // Create a new VDI record in the database only
+//
+// Errors:
+//  SR_OPERATION_NOT_SUPPORTED - The SR backend does not support the operation (check the SR's allowed operations)
 func (_class VDIClass) Introduce(sessionID SessionRef, uuid string, nameLabel string, nameDescription string, sr SRRef, atype VdiType, sharable bool, readOnly bool, otherConfig map[string]string, location string, xenstoreData map[string]string, smConfig map[string]string, managed bool, virtualSize int, physicalUtilisation int, metadataOfPool PoolRef, isASnapshot bool, snapshotTime time.Time, snapshotOf VDIRef) (_retval VDIRef, _err error) {
 	_method := "VDI.introduce"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

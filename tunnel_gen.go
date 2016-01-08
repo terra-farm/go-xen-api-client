@@ -90,6 +90,11 @@ func (_class TunnelClass) Destroy(sessionID SessionRef, self TunnelRef) (_err er
 }
 
 // Create a tunnel
+//
+// Errors:
+//  OPENVSWITCH_NOT_ACTIVE - This operation needs the OpenVSwitch networking backend to be enabled on all hosts in the pool.
+//  TRANSPORT_PIF_NOT_CONFIGURED - The tunnel transport PIF has no IP configuration set.
+//  IS_TUNNEL_ACCESS_PIF - You tried to create a VLAN or tunnel on top of a tunnel access PIF - use the underlying transport PIF instead.
 func (_class TunnelClass) Create(sessionID SessionRef, transportPIF PIFRef, network NetworkRef) (_retval TunnelRef, _err error) {
 	_method := "tunnel.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

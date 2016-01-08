@@ -305,6 +305,9 @@ func (_class PIFClass) DbIntroduce(sessionID SessionRef, device string, network 
 }
 
 // Attempt to bring up a physical interface
+//
+// Errors:
+//  TRANSPORT_PIF_NOT_CONFIGURED - The tunnel transport PIF has no IP configuration set.
 func (_class PIFClass) Plug(sessionID SessionRef, self PIFRef) (_err error) {
 	_method := "PIF.plug"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -335,6 +338,9 @@ func (_class PIFClass) Unplug(sessionID SessionRef, self PIFRef) (_err error) {
 }
 
 // Destroy the PIF object matching a particular network interface
+//
+// Errors:
+//  PIF_TUNNEL_STILL_EXISTS - Operation cannot proceed while a tunnel exists on this interface.
 func (_class PIFClass) Forget(sessionID SessionRef, self PIFRef) (_err error) {
 	_method := "PIF.forget"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -481,6 +487,9 @@ func (_class PIFClass) ReconfigureIP(sessionID SessionRef, self PIFRef, mode IPC
 }
 
 // Destroy the PIF object (provided it is a VLAN interface). This call is deprecated: use VLAN.destroy or Bond.destroy instead
+//
+// Errors:
+//  PIF_IS_PHYSICAL - You tried to destroy a PIF, but it represents an aspect of the physical host configuration, and so cannot be destroyed.  The parameter echoes the PIF handle you gave.
 func (_class PIFClass) Destroy(sessionID SessionRef, self PIFRef) (_err error) {
 	_method := "PIF.destroy"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -496,6 +505,9 @@ func (_class PIFClass) Destroy(sessionID SessionRef, self PIFRef) (_err error) {
 }
 
 // Create a VLAN interface from an existing physical interface. This call is deprecated: use VLAN.create instead
+//
+// Errors:
+//  VLAN_TAG_INVALID - You tried to create a VLAN, but the tag you gave was invalid -- it must be between 0 and 4094.  The parameter echoes the VLAN tag you gave.
 func (_class PIFClass) CreateVLAN(sessionID SessionRef, device string, network NetworkRef, host HostRef, vlan int) (_retval PIFRef, _err error) {
 	_method := "PIF.create_VLAN"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

@@ -111,6 +111,9 @@ func (_class PBDClass) Unplug(sessionID SessionRef, self PBDRef) (_err error) {
 }
 
 // Activate the specified PBD, causing the referenced SR to be attached and scanned
+//
+// Errors:
+//  SR_UNKNOWN_DRIVER - The SR could not be connected because the driver was not recognised.
 func (_class PBDClass) Plug(sessionID SessionRef, self PBDRef) (_err error) {
 	_method := "PBD.plug"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

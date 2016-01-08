@@ -174,6 +174,10 @@ func (_class SessionClass) Logout(sessionID SessionRef) (_err error) {
 }
 
 // Attempt to authenticate the user, returning a session reference if successful
+//
+// Errors:
+//  SESSION_AUTHENTICATION_FAILED - The credentials given by the user are incorrect, so access has been denied, and you have not been issued a session handle.
+//  HOST_IS_SLAVE - You cannot make regular API calls directly on a slave. Please pass API calls via the master host.
 func (_class SessionClass) LoginWithPassword(uname string, pwd string, version string, originator string) (_retval SessionRef, _err error) {
 	_method := "session.login_with_password"
 	_unameArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "uname"), uname)

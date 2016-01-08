@@ -779,6 +779,9 @@ func (_class PoolClass) EnableHa(sessionID SessionRef, heartbeatSrs []SRRef, con
 }
 
 // Create a pool-wide VLAN by taking the PIF.
+//
+// Errors:
+//  VLAN_TAG_INVALID - You tried to create a VLAN, but the tag you gave was invalid -- it must be between 0 and 4094.  The parameter echoes the VLAN tag you gave.
 func (_class PoolClass) CreateVLANFromPIF(sessionID SessionRef, pif PIFRef, network NetworkRef, vlan int) (_retval []PIFRef, _err error) {
 	_method := "pool.create_VLAN_from_PIF"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -806,6 +809,9 @@ func (_class PoolClass) CreateVLANFromPIF(sessionID SessionRef, pif PIFRef, netw
 }
 
 // Create PIFs, mapping a network to the same physical interface/VLAN on each host. This call is deprecated: use Pool.create_VLAN_from_PIF instead.
+//
+// Errors:
+//  VLAN_TAG_INVALID - You tried to create a VLAN, but the tag you gave was invalid -- it must be between 0 and 4094.  The parameter echoes the VLAN tag you gave.
 func (_class PoolClass) CreateVLAN(sessionID SessionRef, device string, network NetworkRef, vlan int) (_retval []PIFRef, _err error) {
 	_method := "pool.create_VLAN"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -912,6 +918,9 @@ func (_class PoolClass) JoinForce(sessionID SessionRef, masterAddress string, ma
 }
 
 // Instruct host to join a new pool
+//
+// Errors:
+//  JOINING_HOST_CANNOT_CONTAIN_SHARED_SRS - The host joining the pool cannot contain any shared storage.
 func (_class PoolClass) Join(sessionID SessionRef, masterAddress string, masterUsername string, masterPassword string) (_err error) {
 	_method := "pool.join"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

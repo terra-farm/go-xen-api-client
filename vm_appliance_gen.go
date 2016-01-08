@@ -90,6 +90,9 @@ func (_class VMApplianceClass) GetAll(sessionID SessionRef) (_retval []VMApplian
 }
 
 // Recover the VM appliance
+//
+// Errors:
+//  VM_REQUIRES_SR - You attempted to run a VM on a host which doesn't have access to an SR needed by the VM. The VM has at least one VBD attached to a VDI in the SR.
 func (_class VMApplianceClass) Recover(sessionID SessionRef, self VMApplianceRef, sessionTo SessionRef, force bool) (_err error) {
 	_method := "VM_appliance.recover"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -136,6 +139,9 @@ func (_class VMApplianceClass) GetSRsRequiredForRecovery(sessionID SessionRef, s
 }
 
 // Assert whether all SRs required to recover this VM appliance are available.
+//
+// Errors:
+//  VM_REQUIRES_SR - You attempted to run a VM on a host which doesn't have access to an SR needed by the VM. The VM has at least one VBD attached to a VDI in the SR.
 func (_class VMApplianceClass) AssertCanBeRecovered(sessionID SessionRef, self VMApplianceRef, sessionTo SessionRef) (_err error) {
 	_method := "VM_appliance.assert_can_be_recovered"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -155,6 +161,9 @@ func (_class VMApplianceClass) AssertCanBeRecovered(sessionID SessionRef, self V
 }
 
 // For each VM in the appliance, try to shut it down cleanly. If this fails, perform a hard shutdown of the VM.
+//
+// Errors:
+//  OPERATION_PARTIALLY_FAILED - Some VMs belonging to the appliance threw an exception while carrying out the specified operation
 func (_class VMApplianceClass) Shutdown(sessionID SessionRef, self VMApplianceRef) (_err error) {
 	_method := "VM_appliance.shutdown"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -170,6 +179,9 @@ func (_class VMApplianceClass) Shutdown(sessionID SessionRef, self VMApplianceRe
 }
 
 // Perform a hard shutdown of all the VMs in the appliance
+//
+// Errors:
+//  OPERATION_PARTIALLY_FAILED - Some VMs belonging to the appliance threw an exception while carrying out the specified operation
 func (_class VMApplianceClass) HardShutdown(sessionID SessionRef, self VMApplianceRef) (_err error) {
 	_method := "VM_appliance.hard_shutdown"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -185,6 +197,9 @@ func (_class VMApplianceClass) HardShutdown(sessionID SessionRef, self VMApplian
 }
 
 // Perform a clean shutdown of all the VMs in the appliance
+//
+// Errors:
+//  OPERATION_PARTIALLY_FAILED - Some VMs belonging to the appliance threw an exception while carrying out the specified operation
 func (_class VMApplianceClass) CleanShutdown(sessionID SessionRef, self VMApplianceRef) (_err error) {
 	_method := "VM_appliance.clean_shutdown"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -200,6 +215,9 @@ func (_class VMApplianceClass) CleanShutdown(sessionID SessionRef, self VMApplia
 }
 
 // Start all VMs in the appliance
+//
+// Errors:
+//  OPERATION_PARTIALLY_FAILED - Some VMs belonging to the appliance threw an exception while carrying out the specified operation
 func (_class VMApplianceClass) Start(sessionID SessionRef, self VMApplianceRef, paused bool) (_err error) {
 	_method := "VM_appliance.start"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

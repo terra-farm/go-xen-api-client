@@ -685,6 +685,9 @@ func (_class HostClass) ComputeFreeMemory(sessionID SessionRef, host HostRef) (_
 }
 
 // Sets the host name to the specified string.  Both the API and lower-level system hostname are changed immediately.
+//
+// Errors:
+//  HOST_NAME_INVALID - The host name is invalid.
 func (_class HostClass) SetHostnameLive(sessionID SessionRef, host HostRef, hostname string) (_err error) {
 	_method := "host.set_hostname_live"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1013,6 +1016,9 @@ func (_class HostClass) Destroy(sessionID SessionRef, self HostRef) (_err error)
 }
 
 // Apply a new license to a host
+//
+// Errors:
+//  LICENSE_PROCESSING_ERROR - There was an error processing your license.  Please contact your support representative.
 func (_class HostClass) LicenseApply(sessionID SessionRef, host HostRef, contents string) (_err error) {
 	_method := "host.license_apply"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

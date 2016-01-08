@@ -417,6 +417,9 @@ func (_class SRClass) Update(sessionID SessionRef, sr SRRef) (_err error) {
 }
 
 // Removing specified SR-record from database, without attempting to remove SR from disk
+//
+// Errors:
+//  SR_HAS_PBD - The SR is still connected to a host via a PBD. It cannot be destroyed or forgotten.
 func (_class SRClass) Forget(sessionID SessionRef, sr SRRef) (_err error) {
 	_method := "SR.forget"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -432,6 +435,9 @@ func (_class SRClass) Forget(sessionID SessionRef, sr SRRef) (_err error) {
 }
 
 // Destroy specified SR, removing SR-record from database and remove SR from disk. (In order to affect this operation the appropriate device_config is read from the specified SR's PBD on current host)
+//
+// Errors:
+//  SR_HAS_PBD - The SR is still connected to a host via a PBD. It cannot be destroyed or forgotten.
 func (_class SRClass) Destroy(sessionID SessionRef, sr SRRef) (_err error) {
 	_method := "SR.destroy"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -537,6 +543,9 @@ func (_class SRClass) Introduce(sessionID SessionRef, uuid string, nameLabel str
 }
 
 // Create a new Storage Repository and introduce it into the managed system, creating both SR record and PBD record to attach it to current host (with specified device_config parameters)
+//
+// Errors:
+//  SR_UNKNOWN_DRIVER - The SR could not be connected because the driver was not recognised.
 func (_class SRClass) Create(sessionID SessionRef, host HostRef, deviceConfig map[string]string, physicalSize int, nameLabel string, nameDescription string, atype string, contentType string, shared bool, smConfig map[string]string) (_retval SRRef, _err error) {
 	_method := "SR.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

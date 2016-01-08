@@ -123,6 +123,9 @@ func (_class TaskClass) GetAll(sessionID SessionRef) (_retval []TaskRef, _err er
 }
 
 // Request that a task be cancelled. Note that a task may fail to be cancelled and may complete or fail normally and note that, even when a task does cancel, it might take an arbitrary amount of time.
+//
+// Errors:
+//  OPERATION_NOT_ALLOWED - You attempted an operation that was not allowed.
 func (_class TaskClass) Cancel(sessionID SessionRef, task TaskRef) (_err error) {
 	_method := "task.cancel"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

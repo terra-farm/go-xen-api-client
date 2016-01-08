@@ -180,6 +180,10 @@ func (_class VBDClass) UnplugForce(sessionID SessionRef, self VBDRef) (_err erro
 }
 
 // Hot-unplug the specified VBD, dynamically unattaching it from the running VM
+//
+// Errors:
+//  DEVICE_DETACH_REJECTED - The VM rejected the attempt to detach the device.
+//  DEVICE_ALREADY_DETACHED - The device is not currently attached
 func (_class VBDClass) Unplug(sessionID SessionRef, self VBDRef) (_err error) {
 	_method := "VBD.unplug"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -210,6 +214,10 @@ func (_class VBDClass) Plug(sessionID SessionRef, self VBDRef) (_err error) {
 }
 
 // Insert new media into the device
+//
+// Errors:
+//  VBD_NOT_REMOVABLE_MEDIA - Media could not be ejected because it is not removable
+//  VBD_NOT_EMPTY - Operation could not be performed because the drive is not empty
 func (_class VBDClass) Insert(sessionID SessionRef, vbd VBDRef, vdi VDIRef) (_err error) {
 	_method := "VBD.insert"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -229,6 +237,10 @@ func (_class VBDClass) Insert(sessionID SessionRef, vbd VBDRef, vdi VDIRef) (_er
 }
 
 // Remove the media from the device and leave it empty
+//
+// Errors:
+//  VBD_NOT_REMOVABLE_MEDIA - Media could not be ejected because it is not removable
+//  VBD_IS_EMPTY - Operation could not be performed because the drive is empty
 func (_class VBDClass) Eject(sessionID SessionRef, vbd VBDRef) (_err error) {
 	_method := "VBD.eject"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
