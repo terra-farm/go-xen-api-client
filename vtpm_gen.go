@@ -21,13 +21,17 @@ var _ = strconv.Atoi
 var _ = time.UTC
 
 type VTPMRecord struct {
+  // Unique identifier/object reference
 	UUID string
+  // the virtual machine
 	VM VMRef
+  // the domain where the backend is located
 	Backend VMRef
 }
 
 type VTPMRef string
 
+// A virtual TPM device
 type VTPMClass struct {
 	client *Client
 }
@@ -36,6 +40,7 @@ func (client *Client) VTPM() VTPMClass {
 	return VTPMClass{client}
 }
 
+// Get the backend field of the given VTPM.
 func (_class VTPMClass) GetBackend(sessionID SessionRef, self VTPMRef) (_retval VMRef, _err error) {
 	_method := "VTPM.get_backend"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -54,6 +59,7 @@ func (_class VTPMClass) GetBackend(sessionID SessionRef, self VTPMRef) (_retval 
 	return
 }
 
+// Get the VM field of the given VTPM.
 func (_class VTPMClass) GetVM(sessionID SessionRef, self VTPMRef) (_retval VMRef, _err error) {
 	_method := "VTPM.get_VM"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -72,6 +78,7 @@ func (_class VTPMClass) GetVM(sessionID SessionRef, self VTPMRef) (_retval VMRef
 	return
 }
 
+// Get the uuid field of the given VTPM.
 func (_class VTPMClass) GetUUID(sessionID SessionRef, self VTPMRef) (_retval string, _err error) {
 	_method := "VTPM.get_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -90,6 +97,7 @@ func (_class VTPMClass) GetUUID(sessionID SessionRef, self VTPMRef) (_retval str
 	return
 }
 
+// Destroy the specified VTPM instance.
 func (_class VTPMClass) Destroy(sessionID SessionRef, self VTPMRef) (_err error) {
 	_method := "VTPM.destroy"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -104,6 +112,8 @@ func (_class VTPMClass) Destroy(sessionID SessionRef, self VTPMRef) (_err error)
 	return
 }
 
+// Create a new VTPM instance, and return its handle.
+// The constructor args are: VM*, backend* (* = non-optional).
 func (_class VTPMClass) Create(sessionID SessionRef, args VTPMRecord) (_retval VTPMRef, _err error) {
 	_method := "VTPM.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -122,6 +132,7 @@ func (_class VTPMClass) Create(sessionID SessionRef, args VTPMRecord) (_retval V
 	return
 }
 
+// Get a reference to the VTPM instance with the specified UUID.
 func (_class VTPMClass) GetByUUID(sessionID SessionRef, uuid string) (_retval VTPMRef, _err error) {
 	_method := "VTPM.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -140,6 +151,7 @@ func (_class VTPMClass) GetByUUID(sessionID SessionRef, uuid string) (_retval VT
 	return
 }
 
+// Get a record containing the current state of the given VTPM.
 func (_class VTPMClass) GetRecord(sessionID SessionRef, self VTPMRef) (_retval VTPMRecord, _err error) {
 	_method := "VTPM.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

@@ -21,20 +21,31 @@ var _ = strconv.Atoi
 var _ = time.UTC
 
 type PCIRecord struct {
+  // Unique identifier/object reference
 	UUID string
+  // PCI class name
 	ClassName string
+  // Vendor name
 	VendorName string
+  // Device name
 	DeviceName string
+  // Physical machine that owns the PCI device
 	Host HostRef
+  // PCI ID of the physical device
 	PciID string
+  // List of dependent PCI devices
 	Dependencies []PCIRef
+  // Additional configuration
 	OtherConfig map[string]string
+  // Subsystem vendor name
 	SubsystemVendorName string
+  // Subsystem device name
 	SubsystemDeviceName string
 }
 
 type PCIRef string
 
+// A PCI device
 type PCIClass struct {
 	client *Client
 }
@@ -43,6 +54,7 @@ func (client *Client) PCI() PCIClass {
 	return PCIClass{client}
 }
 
+// Return a map of PCI references to PCI records for all PCIs known to the system.
 func (_class PCIClass) GetAllRecords(sessionID SessionRef) (_retval map[PCIRef]PCIRecord, _err error) {
 	_method := "PCI.get_all_records"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -57,6 +69,7 @@ func (_class PCIClass) GetAllRecords(sessionID SessionRef) (_retval map[PCIRef]P
 	return
 }
 
+// Return a list of all the PCIs known to the system.
 func (_class PCIClass) GetAll(sessionID SessionRef) (_retval []PCIRef, _err error) {
 	_method := "PCI.get_all"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -71,6 +84,7 @@ func (_class PCIClass) GetAll(sessionID SessionRef) (_retval []PCIRef, _err erro
 	return
 }
 
+// Remove the given key and its corresponding value from the other_config field of the given PCI.  If the key is not in that Map, then do nothing.
 func (_class PCIClass) RemoveFromOtherConfig(sessionID SessionRef, self PCIRef, key string) (_err error) {
 	_method := "PCI.remove_from_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -89,6 +103,7 @@ func (_class PCIClass) RemoveFromOtherConfig(sessionID SessionRef, self PCIRef, 
 	return
 }
 
+// Add the given key-value pair to the other_config field of the given PCI.
 func (_class PCIClass) AddToOtherConfig(sessionID SessionRef, self PCIRef, key string, value string) (_err error) {
 	_method := "PCI.add_to_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -111,6 +126,7 @@ func (_class PCIClass) AddToOtherConfig(sessionID SessionRef, self PCIRef, key s
 	return
 }
 
+// Set the other_config field of the given PCI.
 func (_class PCIClass) SetOtherConfig(sessionID SessionRef, self PCIRef, value map[string]string) (_err error) {
 	_method := "PCI.set_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -129,6 +145,7 @@ func (_class PCIClass) SetOtherConfig(sessionID SessionRef, self PCIRef, value m
 	return
 }
 
+// Get the subsystem_device_name field of the given PCI.
 func (_class PCIClass) GetSubsystemDeviceName(sessionID SessionRef, self PCIRef) (_retval string, _err error) {
 	_method := "PCI.get_subsystem_device_name"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -147,6 +164,7 @@ func (_class PCIClass) GetSubsystemDeviceName(sessionID SessionRef, self PCIRef)
 	return
 }
 
+// Get the subsystem_vendor_name field of the given PCI.
 func (_class PCIClass) GetSubsystemVendorName(sessionID SessionRef, self PCIRef) (_retval string, _err error) {
 	_method := "PCI.get_subsystem_vendor_name"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -165,6 +183,7 @@ func (_class PCIClass) GetSubsystemVendorName(sessionID SessionRef, self PCIRef)
 	return
 }
 
+// Get the other_config field of the given PCI.
 func (_class PCIClass) GetOtherConfig(sessionID SessionRef, self PCIRef) (_retval map[string]string, _err error) {
 	_method := "PCI.get_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -183,6 +202,7 @@ func (_class PCIClass) GetOtherConfig(sessionID SessionRef, self PCIRef) (_retva
 	return
 }
 
+// Get the dependencies field of the given PCI.
 func (_class PCIClass) GetDependencies(sessionID SessionRef, self PCIRef) (_retval []PCIRef, _err error) {
 	_method := "PCI.get_dependencies"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -201,6 +221,7 @@ func (_class PCIClass) GetDependencies(sessionID SessionRef, self PCIRef) (_retv
 	return
 }
 
+// Get the pci_id field of the given PCI.
 func (_class PCIClass) GetPciID(sessionID SessionRef, self PCIRef) (_retval string, _err error) {
 	_method := "PCI.get_pci_id"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -219,6 +240,7 @@ func (_class PCIClass) GetPciID(sessionID SessionRef, self PCIRef) (_retval stri
 	return
 }
 
+// Get the host field of the given PCI.
 func (_class PCIClass) GetHost(sessionID SessionRef, self PCIRef) (_retval HostRef, _err error) {
 	_method := "PCI.get_host"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -237,6 +259,7 @@ func (_class PCIClass) GetHost(sessionID SessionRef, self PCIRef) (_retval HostR
 	return
 }
 
+// Get the device_name field of the given PCI.
 func (_class PCIClass) GetDeviceName(sessionID SessionRef, self PCIRef) (_retval string, _err error) {
 	_method := "PCI.get_device_name"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -255,6 +278,7 @@ func (_class PCIClass) GetDeviceName(sessionID SessionRef, self PCIRef) (_retval
 	return
 }
 
+// Get the vendor_name field of the given PCI.
 func (_class PCIClass) GetVendorName(sessionID SessionRef, self PCIRef) (_retval string, _err error) {
 	_method := "PCI.get_vendor_name"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -273,6 +297,7 @@ func (_class PCIClass) GetVendorName(sessionID SessionRef, self PCIRef) (_retval
 	return
 }
 
+// Get the class_name field of the given PCI.
 func (_class PCIClass) GetClassName(sessionID SessionRef, self PCIRef) (_retval string, _err error) {
 	_method := "PCI.get_class_name"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -291,6 +316,7 @@ func (_class PCIClass) GetClassName(sessionID SessionRef, self PCIRef) (_retval 
 	return
 }
 
+// Get the uuid field of the given PCI.
 func (_class PCIClass) GetUUID(sessionID SessionRef, self PCIRef) (_retval string, _err error) {
 	_method := "PCI.get_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -309,6 +335,7 @@ func (_class PCIClass) GetUUID(sessionID SessionRef, self PCIRef) (_retval strin
 	return
 }
 
+// Get a reference to the PCI instance with the specified UUID.
 func (_class PCIClass) GetByUUID(sessionID SessionRef, uuid string) (_retval PCIRef, _err error) {
 	_method := "PCI.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -327,6 +354,7 @@ func (_class PCIClass) GetByUUID(sessionID SessionRef, uuid string) (_retval PCI
 	return
 }
 
+// Get a record containing the current state of the given PCI.
 func (_class PCIClass) GetRecord(sessionID SessionRef, self PCIRef) (_retval PCIRecord, _err error) {
 	_method := "PCI.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

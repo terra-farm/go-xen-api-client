@@ -21,15 +21,21 @@ var _ = strconv.Atoi
 var _ = time.UTC
 
 type HostCrashdumpRecord struct {
+  // Unique identifier/object reference
 	UUID string
+  // Host the crashdump relates to
 	Host HostRef
+  // Time the crash happened
 	Timestamp time.Time
+  // Size of the crashdump
 	Size int
+  // additional configuration
 	OtherConfig map[string]string
 }
 
 type HostCrashdumpRef string
 
+// Represents a host crash dump
 type HostCrashdumpClass struct {
 	client *Client
 }
@@ -38,6 +44,7 @@ func (client *Client) HostCrashdump() HostCrashdumpClass {
 	return HostCrashdumpClass{client}
 }
 
+// Return a map of host_crashdump references to host_crashdump records for all host_crashdumps known to the system.
 func (_class HostCrashdumpClass) GetAllRecords(sessionID SessionRef) (_retval map[HostCrashdumpRef]HostCrashdumpRecord, _err error) {
 	_method := "host_crashdump.get_all_records"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -52,6 +59,7 @@ func (_class HostCrashdumpClass) GetAllRecords(sessionID SessionRef) (_retval ma
 	return
 }
 
+// Return a list of all the host_crashdumps known to the system.
 func (_class HostCrashdumpClass) GetAll(sessionID SessionRef) (_retval []HostCrashdumpRef, _err error) {
 	_method := "host_crashdump.get_all"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -66,6 +74,7 @@ func (_class HostCrashdumpClass) GetAll(sessionID SessionRef) (_retval []HostCra
 	return
 }
 
+// Upload the specified host crash dump to a specified URL
 func (_class HostCrashdumpClass) Upload(sessionID SessionRef, self HostCrashdumpRef, url string, options map[string]string) (_err error) {
 	_method := "host_crashdump.upload"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -88,6 +97,7 @@ func (_class HostCrashdumpClass) Upload(sessionID SessionRef, self HostCrashdump
 	return
 }
 
+// Destroy specified host crash dump, removing it from the disk.
 func (_class HostCrashdumpClass) Destroy(sessionID SessionRef, self HostCrashdumpRef) (_err error) {
 	_method := "host_crashdump.destroy"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -102,6 +112,7 @@ func (_class HostCrashdumpClass) Destroy(sessionID SessionRef, self HostCrashdum
 	return
 }
 
+// Remove the given key and its corresponding value from the other_config field of the given host_crashdump.  If the key is not in that Map, then do nothing.
 func (_class HostCrashdumpClass) RemoveFromOtherConfig(sessionID SessionRef, self HostCrashdumpRef, key string) (_err error) {
 	_method := "host_crashdump.remove_from_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -120,6 +131,7 @@ func (_class HostCrashdumpClass) RemoveFromOtherConfig(sessionID SessionRef, sel
 	return
 }
 
+// Add the given key-value pair to the other_config field of the given host_crashdump.
 func (_class HostCrashdumpClass) AddToOtherConfig(sessionID SessionRef, self HostCrashdumpRef, key string, value string) (_err error) {
 	_method := "host_crashdump.add_to_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -142,6 +154,7 @@ func (_class HostCrashdumpClass) AddToOtherConfig(sessionID SessionRef, self Hos
 	return
 }
 
+// Set the other_config field of the given host_crashdump.
 func (_class HostCrashdumpClass) SetOtherConfig(sessionID SessionRef, self HostCrashdumpRef, value map[string]string) (_err error) {
 	_method := "host_crashdump.set_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -160,6 +173,7 @@ func (_class HostCrashdumpClass) SetOtherConfig(sessionID SessionRef, self HostC
 	return
 }
 
+// Get the other_config field of the given host_crashdump.
 func (_class HostCrashdumpClass) GetOtherConfig(sessionID SessionRef, self HostCrashdumpRef) (_retval map[string]string, _err error) {
 	_method := "host_crashdump.get_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -178,6 +192,7 @@ func (_class HostCrashdumpClass) GetOtherConfig(sessionID SessionRef, self HostC
 	return
 }
 
+// Get the size field of the given host_crashdump.
 func (_class HostCrashdumpClass) GetSize(sessionID SessionRef, self HostCrashdumpRef) (_retval int, _err error) {
 	_method := "host_crashdump.get_size"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -196,6 +211,7 @@ func (_class HostCrashdumpClass) GetSize(sessionID SessionRef, self HostCrashdum
 	return
 }
 
+// Get the timestamp field of the given host_crashdump.
 func (_class HostCrashdumpClass) GetTimestamp(sessionID SessionRef, self HostCrashdumpRef) (_retval time.Time, _err error) {
 	_method := "host_crashdump.get_timestamp"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -214,6 +230,7 @@ func (_class HostCrashdumpClass) GetTimestamp(sessionID SessionRef, self HostCra
 	return
 }
 
+// Get the host field of the given host_crashdump.
 func (_class HostCrashdumpClass) GetHost(sessionID SessionRef, self HostCrashdumpRef) (_retval HostRef, _err error) {
 	_method := "host_crashdump.get_host"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -232,6 +249,7 @@ func (_class HostCrashdumpClass) GetHost(sessionID SessionRef, self HostCrashdum
 	return
 }
 
+// Get the uuid field of the given host_crashdump.
 func (_class HostCrashdumpClass) GetUUID(sessionID SessionRef, self HostCrashdumpRef) (_retval string, _err error) {
 	_method := "host_crashdump.get_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -250,6 +268,7 @@ func (_class HostCrashdumpClass) GetUUID(sessionID SessionRef, self HostCrashdum
 	return
 }
 
+// Get a reference to the host_crashdump instance with the specified UUID.
 func (_class HostCrashdumpClass) GetByUUID(sessionID SessionRef, uuid string) (_retval HostCrashdumpRef, _err error) {
 	_method := "host_crashdump.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -268,6 +287,7 @@ func (_class HostCrashdumpClass) GetByUUID(sessionID SessionRef, uuid string) (_
 	return
 }
 
+// Get a record containing the current state of the given host_crashdump.
 func (_class HostCrashdumpClass) GetRecord(sessionID SessionRef, self HostCrashdumpRef) (_retval HostCrashdumpRecord, _err error) {
 	_method := "host_crashdump.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

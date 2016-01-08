@@ -119,6 +119,12 @@ func convertXenTypeFuncName(xenType string, direction string) (funcName string, 
 	return
 }
 
+var reBeginningOfLine = regexp.MustCompile("(?m)^")
+
+func formatGoDoc(input string) string {
+	return reBeginningOfLine.ReplaceAllString(input, "// ")
+}
+
 func exportedGoIdentifier(input string) string {
 	input = strings.Replace(input, "-", "_", -1)
 	return snaker.SnakeToCamel(input)
@@ -266,17 +272,20 @@ const enumTypeTemplate string = `
 type {{ .Name|exported }} string
 
 const ({{ range .Values }}
+  {{ .Doc|godoc }}
 	{{ (printf "%s_%s" $.Name .Name)|exported }} {{ $.Name|exported }} = {{ printf "%q" .Name }}{{ end }}
 )
 `
 
 const recordTypeTemplate string = `
 type {{ .Name|exported }}Record struct {{ "{" }}{{ range .Fields }}
+  {{ .Description|godoc }}
 	{{ .Name|exported }} {{ .GoType }}{{ end }}
 }
 `
 
 const classTypeTemplate string = `
+{{ .Description|godoc }}
 type {{ .Name|exported }}Class struct {
 	client *Client
 }
@@ -291,6 +300,7 @@ type {{ .Name|exported }}Ref string
 `
 
 const messageFuncTemplate string = `
+{{ .Message.Description|godoc }}
 func (_class {{ .Class.Name|exported }}Class) {{ .Message.Name|exported }}({{ range $index, $param := .Message.Params }}{{ if gt $index 0 }}, {{ end }}{{ .Name|internal }} {{ .GoType }}{{ end }}) ({{ if not .Message.Result.IsVoid }}_retval {{ .Message.Result.GoType }}, {{ end }}_err error) {
 	_method := "{{ .Class.Name }}.{{ .Message.Name }}"{{ range .Message.Params }}
 	_{{ .Name|internal }}Arg, _err := {{ .Type|convertToXen }}(fmt.Sprintf("%s(%s)", _method, {{ printf "%q" .Name }}), {{ .Name|internal }})
@@ -519,6 +529,7 @@ func (generator *apiGenerator) prepTemplates() (err error) {
 	generator.templates = template.New("")
 
 	generator.templates.Funcs(template.FuncMap{
+		"godoc":    formatGoDoc,
 		"exported": exportedGoIdentifier,
 		"internal": internalGoIdentifier,
 		"convertToGo": func(xenType string) (string, error) {

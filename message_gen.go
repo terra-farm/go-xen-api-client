@@ -23,25 +23,38 @@ var _ = time.UTC
 type Cls string
 
 const (
+  // VM
 	ClsVM Cls = "VM"
+  // Host
 	ClsHost Cls = "Host"
+  // SR
 	ClsSR Cls = "SR"
+  // Pool
 	ClsPool Cls = "Pool"
+  // VMPP
 	ClsVMPP Cls = "VMPP"
 )
 
 type MessageRecord struct {
+  // Unique identifier/object reference
 	UUID string
+  // The name of the message
 	Name string
+  // The message priority, 0 being low priority
 	Priority int
+  // The class of the object this message is associated with
 	Cls Cls
+  // The uuid of the object this message is associated with
 	ObjUUID string
+  // The time at which the message was created
 	Timestamp time.Time
+  // The body of the message
 	Body string
 }
 
 type MessageRef string
 
+// An message for the attention of the administrator
 type MessageClass struct {
 	client *Client
 }
@@ -50,6 +63,7 @@ func (client *Client) Message() MessageClass {
 	return MessageClass{client}
 }
 
+// 
 func (_class MessageClass) GetAllRecordsWhere(sessionID SessionRef, expr string) (_retval map[MessageRef]MessageRecord, _err error) {
 	_method := "message.get_all_records_where"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -68,6 +82,7 @@ func (_class MessageClass) GetAllRecordsWhere(sessionID SessionRef, expr string)
 	return
 }
 
+// 
 func (_class MessageClass) GetAllRecords(sessionID SessionRef) (_retval map[MessageRef]MessageRecord, _err error) {
 	_method := "message.get_all_records"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -82,6 +97,7 @@ func (_class MessageClass) GetAllRecords(sessionID SessionRef) (_retval map[Mess
 	return
 }
 
+// 
 func (_class MessageClass) GetByUUID(sessionID SessionRef, uuid string) (_retval MessageRef, _err error) {
 	_method := "message.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -100,6 +116,7 @@ func (_class MessageClass) GetByUUID(sessionID SessionRef, uuid string) (_retval
 	return
 }
 
+// 
 func (_class MessageClass) GetRecord(sessionID SessionRef, self MessageRef) (_retval MessageRecord, _err error) {
 	_method := "message.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -118,6 +135,7 @@ func (_class MessageClass) GetRecord(sessionID SessionRef, self MessageRef) (_re
 	return
 }
 
+// 
 func (_class MessageClass) GetSince(sessionID SessionRef, since time.Time) (_retval map[MessageRef]MessageRecord, _err error) {
 	_method := "message.get_since"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -136,6 +154,7 @@ func (_class MessageClass) GetSince(sessionID SessionRef, since time.Time) (_ret
 	return
 }
 
+// 
 func (_class MessageClass) GetAll(sessionID SessionRef) (_retval []MessageRef, _err error) {
 	_method := "message.get_all"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -150,6 +169,7 @@ func (_class MessageClass) GetAll(sessionID SessionRef) (_retval []MessageRef, _
 	return
 }
 
+// 
 func (_class MessageClass) Get(sessionID SessionRef, cls Cls, objUUID string, since time.Time) (_retval map[MessageRef]MessageRecord, _err error) {
 	_method := "message.get"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -176,6 +196,7 @@ func (_class MessageClass) Get(sessionID SessionRef, cls Cls, objUUID string, si
 	return
 }
 
+// 
 func (_class MessageClass) Destroy(sessionID SessionRef, self MessageRef) (_err error) {
 	_method := "message.destroy"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -190,6 +211,7 @@ func (_class MessageClass) Destroy(sessionID SessionRef, self MessageRef) (_err 
 	return
 }
 
+// 
 func (_class MessageClass) Create(sessionID SessionRef, name string, priority int, cls Cls, objUUID string, body string) (_retval MessageRef, _err error) {
 	_method := "message.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

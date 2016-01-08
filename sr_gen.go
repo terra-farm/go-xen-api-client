@@ -23,46 +23,80 @@ var _ = time.UTC
 type StorageOperations string
 
 const (
+  // Scanning backends for new or deleted VDIs
 	StorageOperationsScan StorageOperations = "scan"
+  // Destroying the SR
 	StorageOperationsDestroy StorageOperations = "destroy"
+  // Forgetting about SR
 	StorageOperationsForget StorageOperations = "forget"
+  // Plugging a PBD into this SR
 	StorageOperationsPlug StorageOperations = "plug"
+  // Unplugging a PBD from this SR
 	StorageOperationsUnplug StorageOperations = "unplug"
+  // Refresh the fields on the SR
 	StorageOperationsUpdate StorageOperations = "update"
+  // Creating a new VDI
 	StorageOperationsVdiCreate StorageOperations = "vdi_create"
+  // Introducing a new VDI
 	StorageOperationsVdiIntroduce StorageOperations = "vdi_introduce"
+  // Destroying a VDI
 	StorageOperationsVdiDestroy StorageOperations = "vdi_destroy"
+  // Resizing a VDI
 	StorageOperationsVdiResize StorageOperations = "vdi_resize"
+  // Cloneing a VDI
 	StorageOperationsVdiClone StorageOperations = "vdi_clone"
+  // Snapshotting a VDI
 	StorageOperationsVdiSnapshot StorageOperations = "vdi_snapshot"
+  // Creating a PBD for this SR
 	StorageOperationsPbdCreate StorageOperations = "pbd_create"
+  // Destroying one of this SR's PBDs
 	StorageOperationsPbdDestroy StorageOperations = "pbd_destroy"
 )
 
 type SRRecord struct {
+  // Unique identifier/object reference
 	UUID string
+  // a human-readable name
 	NameLabel string
+  // a notes field containing human-readable description
 	NameDescription string
+  // list of the operations allowed in this state. This list is advisory only and the server state may have changed by the time this field is read by a client.
 	AllowedOperations []StorageOperations
+  // links each of the running tasks using this object (by reference) to a current_operation enum which describes the nature of the task.
 	CurrentOperations map[string]StorageOperations
+  // all virtual disks known to this storage repository
 	VDIs []VDIRef
+  // describes how particular hosts can see this storage repository
 	PBDs []PBDRef
+  // sum of virtual_sizes of all VDIs in this storage repository (in bytes)
 	VirtualAllocation int
+  // physical space currently utilised on this storage repository (in bytes). Note that for sparse disk formats, physical_utilisation may be less than virtual_allocation
 	PhysicalUtilisation int
+  // total physical size of the repository (in bytes)
 	PhysicalSize int
+  // type of the storage repository
 	Type string
+  // the type of the SR's content, if required (e.g. ISOs)
 	ContentType string
+  // true if this SR is (capable of being) shared between multiple hosts
 	Shared bool
+  // additional configuration
 	OtherConfig map[string]string
+  // user-specified tags for categorization purposes
 	Tags []string
+  // SM dependent data
 	SmConfig map[string]string
+  // Binary blobs associated with this SR
 	Blobs map[string]BlobRef
+  // True if this SR is assigned to be the local cache for its host
 	LocalCacheEnabled bool
+  // The disaster recovery task which introduced this SR
 	IntroducedBy DRTaskRef
 }
 
 type SRRef string
 
+// A storage repository
 type SRClass struct {
 	client *Client
 }
@@ -71,6 +105,7 @@ func (client *Client) SR() SRClass {
 	return SRClass{client}
 }
 
+// Return a map of SR references to SR records for all SRs known to the system.
 func (_class SRClass) GetAllRecords(sessionID SessionRef) (_retval map[SRRef]SRRecord, _err error) {
 	_method := "SR.get_all_records"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -85,6 +120,7 @@ func (_class SRClass) GetAllRecords(sessionID SessionRef) (_retval map[SRRef]SRR
 	return
 }
 
+// Return a list of all the SRs known to the system.
 func (_class SRClass) GetAll(sessionID SessionRef) (_retval []SRRef, _err error) {
 	_method := "SR.get_all"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -99,6 +135,7 @@ func (_class SRClass) GetAll(sessionID SessionRef) (_retval []SRRef, _err error)
 	return
 }
 
+// 
 func (_class SRClass) DisableDatabaseReplication(sessionID SessionRef, sr SRRef) (_err error) {
 	_method := "SR.disable_database_replication"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -113,6 +150,7 @@ func (_class SRClass) DisableDatabaseReplication(sessionID SessionRef, sr SRRef)
 	return
 }
 
+// 
 func (_class SRClass) EnableDatabaseReplication(sessionID SessionRef, sr SRRef) (_err error) {
 	_method := "SR.enable_database_replication"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -127,6 +165,7 @@ func (_class SRClass) EnableDatabaseReplication(sessionID SessionRef, sr SRRef) 
 	return
 }
 
+// Returns successfully if the given SR supports database replication. Otherwise returns an error to explain why not.
 func (_class SRClass) AssertSupportsDatabaseReplication(sessionID SessionRef, sr SRRef) (_err error) {
 	_method := "SR.assert_supports_database_replication"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -141,6 +180,7 @@ func (_class SRClass) AssertSupportsDatabaseReplication(sessionID SessionRef, sr
 	return
 }
 
+// Returns successfully if the given SR can host an HA statefile. Otherwise returns an error to explain why not
 func (_class SRClass) AssertCanHostHaStatefile(sessionID SessionRef, sr SRRef) (_err error) {
 	_method := "SR.assert_can_host_ha_statefile"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -155,6 +195,7 @@ func (_class SRClass) AssertCanHostHaStatefile(sessionID SessionRef, sr SRRef) (
 	return
 }
 
+// Sets the SR's physical_utilisation field
 func (_class SRClass) SetPhysicalUtilisation(sessionID SessionRef, self SRRef, value int) (_err error) {
 	_method := "SR.set_physical_utilisation"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -173,6 +214,7 @@ func (_class SRClass) SetPhysicalUtilisation(sessionID SessionRef, self SRRef, v
 	return
 }
 
+// Sets the SR's virtual_allocation field
 func (_class SRClass) SetVirtualAllocation(sessionID SessionRef, self SRRef, value int) (_err error) {
 	_method := "SR.set_virtual_allocation"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -191,6 +233,7 @@ func (_class SRClass) SetVirtualAllocation(sessionID SessionRef, self SRRef, val
 	return
 }
 
+// Sets the SR's physical_size field
 func (_class SRClass) SetPhysicalSize(sessionID SessionRef, self SRRef, value int) (_err error) {
 	_method := "SR.set_physical_size"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -209,6 +252,7 @@ func (_class SRClass) SetPhysicalSize(sessionID SessionRef, self SRRef, value in
 	return
 }
 
+// Create a placeholder for a named binary blob of data that is associated with this SR
 func (_class SRClass) CreateNewBlob(sessionID SessionRef, sr SRRef, name string, mimeType string, public bool) (_retval BlobRef, _err error) {
 	_method := "SR.create_new_blob"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -239,6 +283,7 @@ func (_class SRClass) CreateNewBlob(sessionID SessionRef, sr SRRef, name string,
 	return
 }
 
+// Set the name description of the SR
 func (_class SRClass) SetNameDescription(sessionID SessionRef, sr SRRef, value string) (_err error) {
 	_method := "SR.set_name_description"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -257,6 +302,7 @@ func (_class SRClass) SetNameDescription(sessionID SessionRef, sr SRRef, value s
 	return
 }
 
+// Set the name label of the SR
 func (_class SRClass) SetNameLabel(sessionID SessionRef, sr SRRef, value string) (_err error) {
 	_method := "SR.set_name_label"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -275,6 +321,7 @@ func (_class SRClass) SetNameLabel(sessionID SessionRef, sr SRRef, value string)
 	return
 }
 
+// Sets the shared flag on the SR
 func (_class SRClass) SetShared(sessionID SessionRef, sr SRRef, value bool) (_err error) {
 	_method := "SR.set_shared"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -293,6 +340,7 @@ func (_class SRClass) SetShared(sessionID SessionRef, sr SRRef, value bool) (_er
 	return
 }
 
+// Perform a backend-specific scan, using the given device_config.  If the device_config is complete, then this will return a list of the SRs present of this type on the device, if any.  If the device_config is partial, then a backend-specific scan will be performed, returning results that will guide the user in improving the device_config.
 func (_class SRClass) Probe(sessionID SessionRef, host HostRef, deviceConfig map[string]string, atype string, smConfig map[string]string) (_retval string, _err error) {
 	_method := "SR.probe"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -323,6 +371,7 @@ func (_class SRClass) Probe(sessionID SessionRef, host HostRef, deviceConfig map
 	return
 }
 
+// Refreshes the list of VDIs associated with an SR
 func (_class SRClass) Scan(sessionID SessionRef, sr SRRef) (_err error) {
 	_method := "SR.scan"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -337,6 +386,7 @@ func (_class SRClass) Scan(sessionID SessionRef, sr SRRef) (_err error) {
 	return
 }
 
+// Return a set of all the SR types supported by the system
 func (_class SRClass) GetSupportedTypes(sessionID SessionRef) (_retval []string, _err error) {
 	_method := "SR.get_supported_types"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -351,6 +401,7 @@ func (_class SRClass) GetSupportedTypes(sessionID SessionRef) (_retval []string,
 	return
 }
 
+// Refresh the fields on the SR object
 func (_class SRClass) Update(sessionID SessionRef, sr SRRef) (_err error) {
 	_method := "SR.update"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -365,6 +416,7 @@ func (_class SRClass) Update(sessionID SessionRef, sr SRRef) (_err error) {
 	return
 }
 
+// Removing specified SR-record from database, without attempting to remove SR from disk
 func (_class SRClass) Forget(sessionID SessionRef, sr SRRef) (_err error) {
 	_method := "SR.forget"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -379,6 +431,7 @@ func (_class SRClass) Forget(sessionID SessionRef, sr SRRef) (_err error) {
 	return
 }
 
+// Destroy specified SR, removing SR-record from database and remove SR from disk. (In order to affect this operation the appropriate device_config is read from the specified SR's PBD on current host)
 func (_class SRClass) Destroy(sessionID SessionRef, sr SRRef) (_err error) {
 	_method := "SR.destroy"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -393,6 +446,7 @@ func (_class SRClass) Destroy(sessionID SessionRef, sr SRRef) (_err error) {
 	return
 }
 
+// Create a new Storage Repository on disk. This call is deprecated: use SR.create instead.
 func (_class SRClass) Make(sessionID SessionRef, host HostRef, deviceConfig map[string]string, physicalSize int, nameLabel string, nameDescription string, atype string, contentType string, smConfig map[string]string) (_retval string, _err error) {
 	_method := "SR.make"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -439,6 +493,7 @@ func (_class SRClass) Make(sessionID SessionRef, host HostRef, deviceConfig map[
 	return
 }
 
+// Introduce a new Storage Repository into the managed system
 func (_class SRClass) Introduce(sessionID SessionRef, uuid string, nameLabel string, nameDescription string, atype string, contentType string, shared bool, smConfig map[string]string) (_retval SRRef, _err error) {
 	_method := "SR.introduce"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -481,6 +536,7 @@ func (_class SRClass) Introduce(sessionID SessionRef, uuid string, nameLabel str
 	return
 }
 
+// Create a new Storage Repository and introduce it into the managed system, creating both SR record and PBD record to attach it to current host (with specified device_config parameters)
 func (_class SRClass) Create(sessionID SessionRef, host HostRef, deviceConfig map[string]string, physicalSize int, nameLabel string, nameDescription string, atype string, contentType string, shared bool, smConfig map[string]string) (_retval SRRef, _err error) {
 	_method := "SR.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -531,6 +587,7 @@ func (_class SRClass) Create(sessionID SessionRef, host HostRef, deviceConfig ma
 	return
 }
 
+// Remove the given key and its corresponding value from the sm_config field of the given SR.  If the key is not in that Map, then do nothing.
 func (_class SRClass) RemoveFromSmConfig(sessionID SessionRef, self SRRef, key string) (_err error) {
 	_method := "SR.remove_from_sm_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -549,6 +606,7 @@ func (_class SRClass) RemoveFromSmConfig(sessionID SessionRef, self SRRef, key s
 	return
 }
 
+// Add the given key-value pair to the sm_config field of the given SR.
 func (_class SRClass) AddToSmConfig(sessionID SessionRef, self SRRef, key string, value string) (_err error) {
 	_method := "SR.add_to_sm_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -571,6 +629,7 @@ func (_class SRClass) AddToSmConfig(sessionID SessionRef, self SRRef, key string
 	return
 }
 
+// Set the sm_config field of the given SR.
 func (_class SRClass) SetSmConfig(sessionID SessionRef, self SRRef, value map[string]string) (_err error) {
 	_method := "SR.set_sm_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -589,6 +648,7 @@ func (_class SRClass) SetSmConfig(sessionID SessionRef, self SRRef, value map[st
 	return
 }
 
+// Remove the given value from the tags field of the given SR.  If the value is not in that Set, then do nothing.
 func (_class SRClass) RemoveTags(sessionID SessionRef, self SRRef, value string) (_err error) {
 	_method := "SR.remove_tags"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -607,6 +667,7 @@ func (_class SRClass) RemoveTags(sessionID SessionRef, self SRRef, value string)
 	return
 }
 
+// Add the given value to the tags field of the given SR.  If the value is already in that Set, then do nothing.
 func (_class SRClass) AddTags(sessionID SessionRef, self SRRef, value string) (_err error) {
 	_method := "SR.add_tags"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -625,6 +686,7 @@ func (_class SRClass) AddTags(sessionID SessionRef, self SRRef, value string) (_
 	return
 }
 
+// Set the tags field of the given SR.
 func (_class SRClass) SetTags(sessionID SessionRef, self SRRef, value []string) (_err error) {
 	_method := "SR.set_tags"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -643,6 +705,7 @@ func (_class SRClass) SetTags(sessionID SessionRef, self SRRef, value []string) 
 	return
 }
 
+// Remove the given key and its corresponding value from the other_config field of the given SR.  If the key is not in that Map, then do nothing.
 func (_class SRClass) RemoveFromOtherConfig(sessionID SessionRef, self SRRef, key string) (_err error) {
 	_method := "SR.remove_from_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -661,6 +724,7 @@ func (_class SRClass) RemoveFromOtherConfig(sessionID SessionRef, self SRRef, ke
 	return
 }
 
+// Add the given key-value pair to the other_config field of the given SR.
 func (_class SRClass) AddToOtherConfig(sessionID SessionRef, self SRRef, key string, value string) (_err error) {
 	_method := "SR.add_to_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -683,6 +747,7 @@ func (_class SRClass) AddToOtherConfig(sessionID SessionRef, self SRRef, key str
 	return
 }
 
+// Set the other_config field of the given SR.
 func (_class SRClass) SetOtherConfig(sessionID SessionRef, self SRRef, value map[string]string) (_err error) {
 	_method := "SR.set_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -701,6 +766,7 @@ func (_class SRClass) SetOtherConfig(sessionID SessionRef, self SRRef, value map
 	return
 }
 
+// Get the introduced_by field of the given SR.
 func (_class SRClass) GetIntroducedBy(sessionID SessionRef, self SRRef) (_retval DRTaskRef, _err error) {
 	_method := "SR.get_introduced_by"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -719,6 +785,7 @@ func (_class SRClass) GetIntroducedBy(sessionID SessionRef, self SRRef) (_retval
 	return
 }
 
+// Get the local_cache_enabled field of the given SR.
 func (_class SRClass) GetLocalCacheEnabled(sessionID SessionRef, self SRRef) (_retval bool, _err error) {
 	_method := "SR.get_local_cache_enabled"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -737,6 +804,7 @@ func (_class SRClass) GetLocalCacheEnabled(sessionID SessionRef, self SRRef) (_r
 	return
 }
 
+// Get the blobs field of the given SR.
 func (_class SRClass) GetBlobs(sessionID SessionRef, self SRRef) (_retval map[string]BlobRef, _err error) {
 	_method := "SR.get_blobs"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -755,6 +823,7 @@ func (_class SRClass) GetBlobs(sessionID SessionRef, self SRRef) (_retval map[st
 	return
 }
 
+// Get the sm_config field of the given SR.
 func (_class SRClass) GetSmConfig(sessionID SessionRef, self SRRef) (_retval map[string]string, _err error) {
 	_method := "SR.get_sm_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -773,6 +842,7 @@ func (_class SRClass) GetSmConfig(sessionID SessionRef, self SRRef) (_retval map
 	return
 }
 
+// Get the tags field of the given SR.
 func (_class SRClass) GetTags(sessionID SessionRef, self SRRef) (_retval []string, _err error) {
 	_method := "SR.get_tags"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -791,6 +861,7 @@ func (_class SRClass) GetTags(sessionID SessionRef, self SRRef) (_retval []strin
 	return
 }
 
+// Get the other_config field of the given SR.
 func (_class SRClass) GetOtherConfig(sessionID SessionRef, self SRRef) (_retval map[string]string, _err error) {
 	_method := "SR.get_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -809,6 +880,7 @@ func (_class SRClass) GetOtherConfig(sessionID SessionRef, self SRRef) (_retval 
 	return
 }
 
+// Get the shared field of the given SR.
 func (_class SRClass) GetShared(sessionID SessionRef, self SRRef) (_retval bool, _err error) {
 	_method := "SR.get_shared"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -827,6 +899,7 @@ func (_class SRClass) GetShared(sessionID SessionRef, self SRRef) (_retval bool,
 	return
 }
 
+// Get the content_type field of the given SR.
 func (_class SRClass) GetContentType(sessionID SessionRef, self SRRef) (_retval string, _err error) {
 	_method := "SR.get_content_type"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -845,6 +918,7 @@ func (_class SRClass) GetContentType(sessionID SessionRef, self SRRef) (_retval 
 	return
 }
 
+// Get the type field of the given SR.
 func (_class SRClass) GetType(sessionID SessionRef, self SRRef) (_retval string, _err error) {
 	_method := "SR.get_type"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -863,6 +937,7 @@ func (_class SRClass) GetType(sessionID SessionRef, self SRRef) (_retval string,
 	return
 }
 
+// Get the physical_size field of the given SR.
 func (_class SRClass) GetPhysicalSize(sessionID SessionRef, self SRRef) (_retval int, _err error) {
 	_method := "SR.get_physical_size"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -881,6 +956,7 @@ func (_class SRClass) GetPhysicalSize(sessionID SessionRef, self SRRef) (_retval
 	return
 }
 
+// Get the physical_utilisation field of the given SR.
 func (_class SRClass) GetPhysicalUtilisation(sessionID SessionRef, self SRRef) (_retval int, _err error) {
 	_method := "SR.get_physical_utilisation"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -899,6 +975,7 @@ func (_class SRClass) GetPhysicalUtilisation(sessionID SessionRef, self SRRef) (
 	return
 }
 
+// Get the virtual_allocation field of the given SR.
 func (_class SRClass) GetVirtualAllocation(sessionID SessionRef, self SRRef) (_retval int, _err error) {
 	_method := "SR.get_virtual_allocation"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -917,6 +994,7 @@ func (_class SRClass) GetVirtualAllocation(sessionID SessionRef, self SRRef) (_r
 	return
 }
 
+// Get the PBDs field of the given SR.
 func (_class SRClass) GetPBDs(sessionID SessionRef, self SRRef) (_retval []PBDRef, _err error) {
 	_method := "SR.get_PBDs"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -935,6 +1013,7 @@ func (_class SRClass) GetPBDs(sessionID SessionRef, self SRRef) (_retval []PBDRe
 	return
 }
 
+// Get the VDIs field of the given SR.
 func (_class SRClass) GetVDIs(sessionID SessionRef, self SRRef) (_retval []VDIRef, _err error) {
 	_method := "SR.get_VDIs"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -953,6 +1032,7 @@ func (_class SRClass) GetVDIs(sessionID SessionRef, self SRRef) (_retval []VDIRe
 	return
 }
 
+// Get the current_operations field of the given SR.
 func (_class SRClass) GetCurrentOperations(sessionID SessionRef, self SRRef) (_retval map[string]StorageOperations, _err error) {
 	_method := "SR.get_current_operations"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -971,6 +1051,7 @@ func (_class SRClass) GetCurrentOperations(sessionID SessionRef, self SRRef) (_r
 	return
 }
 
+// Get the allowed_operations field of the given SR.
 func (_class SRClass) GetAllowedOperations(sessionID SessionRef, self SRRef) (_retval []StorageOperations, _err error) {
 	_method := "SR.get_allowed_operations"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -989,6 +1070,7 @@ func (_class SRClass) GetAllowedOperations(sessionID SessionRef, self SRRef) (_r
 	return
 }
 
+// Get the name/description field of the given SR.
 func (_class SRClass) GetNameDescription(sessionID SessionRef, self SRRef) (_retval string, _err error) {
 	_method := "SR.get_name_description"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1007,6 +1089,7 @@ func (_class SRClass) GetNameDescription(sessionID SessionRef, self SRRef) (_ret
 	return
 }
 
+// Get the name/label field of the given SR.
 func (_class SRClass) GetNameLabel(sessionID SessionRef, self SRRef) (_retval string, _err error) {
 	_method := "SR.get_name_label"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1025,6 +1108,7 @@ func (_class SRClass) GetNameLabel(sessionID SessionRef, self SRRef) (_retval st
 	return
 }
 
+// Get the uuid field of the given SR.
 func (_class SRClass) GetUUID(sessionID SessionRef, self SRRef) (_retval string, _err error) {
 	_method := "SR.get_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1043,6 +1127,7 @@ func (_class SRClass) GetUUID(sessionID SessionRef, self SRRef) (_retval string,
 	return
 }
 
+// Get all the SR instances with the given label.
 func (_class SRClass) GetByNameLabel(sessionID SessionRef, label string) (_retval []SRRef, _err error) {
 	_method := "SR.get_by_name_label"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1061,6 +1146,7 @@ func (_class SRClass) GetByNameLabel(sessionID SessionRef, label string) (_retva
 	return
 }
 
+// Get a reference to the SR instance with the specified UUID.
 func (_class SRClass) GetByUUID(sessionID SessionRef, uuid string) (_retval SRRef, _err error) {
 	_method := "SR.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1079,6 +1165,7 @@ func (_class SRClass) GetByUUID(sessionID SessionRef, uuid string) (_retval SRRe
 	return
 }
 
+// Get a record containing the current state of the given SR.
 func (_class SRClass) GetRecord(sessionID SessionRef, self SRRef) (_retval SRRecord, _err error) {
 	_method := "SR.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

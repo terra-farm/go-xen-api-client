@@ -23,31 +23,50 @@ var _ = time.UTC
 type VgpuTypeImplementation string
 
 const (
+  // Pass through an entire physical GPU to a guest
 	VgpuTypeImplementationPassthrough VgpuTypeImplementation = "passthrough"
+  // vGPU using NVIDIA hardware
 	VgpuTypeImplementationNvidia VgpuTypeImplementation = "nvidia"
+  // vGPU using Intel GVT-g
 	VgpuTypeImplementationGvtG VgpuTypeImplementation = "gvt_g"
 )
 
 type VGPUTypeRecord struct {
+  // Unique identifier/object reference
 	UUID string
+  // Name of VGPU vendor
 	VendorName string
+  // Model name associated with the VGPU type
 	ModelName string
+  // Framebuffer size of the VGPU type, in bytes
 	FramebufferSize int
+  // Maximum number of displays supported by the VGPU type
 	MaxHeads int
+  // Maximum resolution (width) supported by the VGPU type
 	MaxResolutionX int
+  // Maximum resolution (height) supported by the VGPU type
 	MaxResolutionY int
+  // List of PGPUs that support this VGPU type
 	SupportedOnPGPUs []PGPURef
+  // List of PGPUs that have this VGPU type enabled
 	EnabledOnPGPUs []PGPURef
+  // List of VGPUs of this type
 	VGPUs []VGPURef
+  // List of GPU groups in which at least one PGPU supports this VGPU type
 	SupportedOnGPUGroups []GPUGroupRef
+  // List of GPU groups in which at least one have this VGPU type enabled
 	EnabledOnGPUGroups []GPUGroupRef
+  // The internal implementation of this VGPU type
 	Implementation VgpuTypeImplementation
+  // Key used to identify VGPU types and avoid creating duplicates - this field is used internally and not intended for interpretation by API clients
 	Identifier string
+  // Indicates whether VGPUs of this type should be considered experimental
 	Experimental bool
 }
 
 type VGPUTypeRef string
 
+// A type of virtual GPU
 type VGPUTypeClass struct {
 	client *Client
 }
@@ -56,6 +75,7 @@ func (client *Client) VGPUType() VGPUTypeClass {
 	return VGPUTypeClass{client}
 }
 
+// Return a map of VGPU_type references to VGPU_type records for all VGPU_types known to the system.
 func (_class VGPUTypeClass) GetAllRecords(sessionID SessionRef) (_retval map[VGPUTypeRef]VGPUTypeRecord, _err error) {
 	_method := "VGPU_type.get_all_records"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -70,6 +90,7 @@ func (_class VGPUTypeClass) GetAllRecords(sessionID SessionRef) (_retval map[VGP
 	return
 }
 
+// Return a list of all the VGPU_types known to the system.
 func (_class VGPUTypeClass) GetAll(sessionID SessionRef) (_retval []VGPUTypeRef, _err error) {
 	_method := "VGPU_type.get_all"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -84,6 +105,7 @@ func (_class VGPUTypeClass) GetAll(sessionID SessionRef) (_retval []VGPUTypeRef,
 	return
 }
 
+// Get the experimental field of the given VGPU_type.
 func (_class VGPUTypeClass) GetExperimental(sessionID SessionRef, self VGPUTypeRef) (_retval bool, _err error) {
 	_method := "VGPU_type.get_experimental"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -102,6 +124,7 @@ func (_class VGPUTypeClass) GetExperimental(sessionID SessionRef, self VGPUTypeR
 	return
 }
 
+// Get the identifier field of the given VGPU_type.
 func (_class VGPUTypeClass) GetIdentifier(sessionID SessionRef, self VGPUTypeRef) (_retval string, _err error) {
 	_method := "VGPU_type.get_identifier"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -120,6 +143,7 @@ func (_class VGPUTypeClass) GetIdentifier(sessionID SessionRef, self VGPUTypeRef
 	return
 }
 
+// Get the implementation field of the given VGPU_type.
 func (_class VGPUTypeClass) GetImplementation(sessionID SessionRef, self VGPUTypeRef) (_retval VgpuTypeImplementation, _err error) {
 	_method := "VGPU_type.get_implementation"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -138,6 +162,7 @@ func (_class VGPUTypeClass) GetImplementation(sessionID SessionRef, self VGPUTyp
 	return
 }
 
+// Get the enabled_on_GPU_groups field of the given VGPU_type.
 func (_class VGPUTypeClass) GetEnabledOnGPUGroups(sessionID SessionRef, self VGPUTypeRef) (_retval []GPUGroupRef, _err error) {
 	_method := "VGPU_type.get_enabled_on_GPU_groups"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -156,6 +181,7 @@ func (_class VGPUTypeClass) GetEnabledOnGPUGroups(sessionID SessionRef, self VGP
 	return
 }
 
+// Get the supported_on_GPU_groups field of the given VGPU_type.
 func (_class VGPUTypeClass) GetSupportedOnGPUGroups(sessionID SessionRef, self VGPUTypeRef) (_retval []GPUGroupRef, _err error) {
 	_method := "VGPU_type.get_supported_on_GPU_groups"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -174,6 +200,7 @@ func (_class VGPUTypeClass) GetSupportedOnGPUGroups(sessionID SessionRef, self V
 	return
 }
 
+// Get the VGPUs field of the given VGPU_type.
 func (_class VGPUTypeClass) GetVGPUs(sessionID SessionRef, self VGPUTypeRef) (_retval []VGPURef, _err error) {
 	_method := "VGPU_type.get_VGPUs"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -192,6 +219,7 @@ func (_class VGPUTypeClass) GetVGPUs(sessionID SessionRef, self VGPUTypeRef) (_r
 	return
 }
 
+// Get the enabled_on_PGPUs field of the given VGPU_type.
 func (_class VGPUTypeClass) GetEnabledOnPGPUs(sessionID SessionRef, self VGPUTypeRef) (_retval []PGPURef, _err error) {
 	_method := "VGPU_type.get_enabled_on_PGPUs"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -210,6 +238,7 @@ func (_class VGPUTypeClass) GetEnabledOnPGPUs(sessionID SessionRef, self VGPUTyp
 	return
 }
 
+// Get the supported_on_PGPUs field of the given VGPU_type.
 func (_class VGPUTypeClass) GetSupportedOnPGPUs(sessionID SessionRef, self VGPUTypeRef) (_retval []PGPURef, _err error) {
 	_method := "VGPU_type.get_supported_on_PGPUs"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -228,6 +257,7 @@ func (_class VGPUTypeClass) GetSupportedOnPGPUs(sessionID SessionRef, self VGPUT
 	return
 }
 
+// Get the max_resolution_y field of the given VGPU_type.
 func (_class VGPUTypeClass) GetMaxResolutionY(sessionID SessionRef, self VGPUTypeRef) (_retval int, _err error) {
 	_method := "VGPU_type.get_max_resolution_y"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -246,6 +276,7 @@ func (_class VGPUTypeClass) GetMaxResolutionY(sessionID SessionRef, self VGPUTyp
 	return
 }
 
+// Get the max_resolution_x field of the given VGPU_type.
 func (_class VGPUTypeClass) GetMaxResolutionX(sessionID SessionRef, self VGPUTypeRef) (_retval int, _err error) {
 	_method := "VGPU_type.get_max_resolution_x"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -264,6 +295,7 @@ func (_class VGPUTypeClass) GetMaxResolutionX(sessionID SessionRef, self VGPUTyp
 	return
 }
 
+// Get the max_heads field of the given VGPU_type.
 func (_class VGPUTypeClass) GetMaxHeads(sessionID SessionRef, self VGPUTypeRef) (_retval int, _err error) {
 	_method := "VGPU_type.get_max_heads"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -282,6 +314,7 @@ func (_class VGPUTypeClass) GetMaxHeads(sessionID SessionRef, self VGPUTypeRef) 
 	return
 }
 
+// Get the framebuffer_size field of the given VGPU_type.
 func (_class VGPUTypeClass) GetFramebufferSize(sessionID SessionRef, self VGPUTypeRef) (_retval int, _err error) {
 	_method := "VGPU_type.get_framebuffer_size"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -300,6 +333,7 @@ func (_class VGPUTypeClass) GetFramebufferSize(sessionID SessionRef, self VGPUTy
 	return
 }
 
+// Get the model_name field of the given VGPU_type.
 func (_class VGPUTypeClass) GetModelName(sessionID SessionRef, self VGPUTypeRef) (_retval string, _err error) {
 	_method := "VGPU_type.get_model_name"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -318,6 +352,7 @@ func (_class VGPUTypeClass) GetModelName(sessionID SessionRef, self VGPUTypeRef)
 	return
 }
 
+// Get the vendor_name field of the given VGPU_type.
 func (_class VGPUTypeClass) GetVendorName(sessionID SessionRef, self VGPUTypeRef) (_retval string, _err error) {
 	_method := "VGPU_type.get_vendor_name"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -336,6 +371,7 @@ func (_class VGPUTypeClass) GetVendorName(sessionID SessionRef, self VGPUTypeRef
 	return
 }
 
+// Get the uuid field of the given VGPU_type.
 func (_class VGPUTypeClass) GetUUID(sessionID SessionRef, self VGPUTypeRef) (_retval string, _err error) {
 	_method := "VGPU_type.get_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -354,6 +390,7 @@ func (_class VGPUTypeClass) GetUUID(sessionID SessionRef, self VGPUTypeRef) (_re
 	return
 }
 
+// Get a reference to the VGPU_type instance with the specified UUID.
 func (_class VGPUTypeClass) GetByUUID(sessionID SessionRef, uuid string) (_retval VGPUTypeRef, _err error) {
 	_method := "VGPU_type.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -372,6 +409,7 @@ func (_class VGPUTypeClass) GetByUUID(sessionID SessionRef, uuid string) (_retva
 	return
 }
 
+// Get a record containing the current state of the given VGPU_type.
 func (_class VGPUTypeClass) GetRecord(sessionID SessionRef, self VGPUTypeRef) (_retval VGPUTypeRecord, _err error) {
 	_method := "VGPU_type.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

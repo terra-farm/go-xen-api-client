@@ -23,28 +23,44 @@ var _ = time.UTC
 type PgpuDom0Access string
 
 const (
+  // dom0 can access this device as normal
 	PgpuDom0AccessEnabled PgpuDom0Access = "enabled"
+  // On host reboot dom0 will be blocked from accessing this device
 	PgpuDom0AccessDisableOnReboot PgpuDom0Access = "disable_on_reboot"
+  // dom0 cannot access this device
 	PgpuDom0AccessDisabled PgpuDom0Access = "disabled"
+  // On host reboot dom0 will be allowed to access this device
 	PgpuDom0AccessEnableOnReboot PgpuDom0Access = "enable_on_reboot"
 )
 
 type PGPURecord struct {
+  // Unique identifier/object reference
 	UUID string
+  // Link to underlying PCI device
 	PCI PCIRef
+  // GPU group the pGPU is contained in
 	GPUGroup GPUGroupRef
+  // Host that own the GPU
 	Host HostRef
+  // Additional configuration
 	OtherConfig map[string]string
+  // List of VGPU types supported by the underlying hardware
 	SupportedVGPUTypes []VGPUTypeRef
+  // List of VGPU types which have been enabled for this PGPU
 	EnabledVGPUTypes []VGPUTypeRef
+  // List of VGPUs running on this PGPU
 	ResidentVGPUs []VGPURef
+  // A map relating each VGPU type supported on this GPU to the maximum number of VGPUs of that type which can run simultaneously on this GPU
 	SupportedVGPUMaxCapacities map[VGPUTypeRef]int
+  // The accessibility of this device from dom0
 	Dom0Access PgpuDom0Access
+  // Is this device the system display device
 	IsSystemDisplayDevice bool
 }
 
 type PGPURef string
 
+// A physical GPU (pGPU)
 type PGPUClass struct {
 	client *Client
 }
@@ -53,6 +69,7 @@ func (client *Client) PGPU() PGPUClass {
 	return PGPUClass{client}
 }
 
+// Return a map of PGPU references to PGPU records for all PGPUs known to the system.
 func (_class PGPUClass) GetAllRecords(sessionID SessionRef) (_retval map[PGPURef]PGPURecord, _err error) {
 	_method := "PGPU.get_all_records"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -67,6 +84,7 @@ func (_class PGPUClass) GetAllRecords(sessionID SessionRef) (_retval map[PGPURef
 	return
 }
 
+// Return a list of all the PGPUs known to the system.
 func (_class PGPUClass) GetAll(sessionID SessionRef) (_retval []PGPURef, _err error) {
 	_method := "PGPU.get_all"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -81,6 +99,7 @@ func (_class PGPUClass) GetAll(sessionID SessionRef) (_retval []PGPURef, _err er
 	return
 }
 
+// 
 func (_class PGPUClass) DisableDom0Access(sessionID SessionRef, self PGPURef) (_retval PgpuDom0Access, _err error) {
 	_method := "PGPU.disable_dom0_access"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -99,6 +118,7 @@ func (_class PGPUClass) DisableDom0Access(sessionID SessionRef, self PGPURef) (_
 	return
 }
 
+// 
 func (_class PGPUClass) EnableDom0Access(sessionID SessionRef, self PGPURef) (_retval PgpuDom0Access, _err error) {
 	_method := "PGPU.enable_dom0_access"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -117,6 +137,7 @@ func (_class PGPUClass) EnableDom0Access(sessionID SessionRef, self PGPURef) (_r
 	return
 }
 
+// 
 func (_class PGPUClass) GetRemainingCapacity(sessionID SessionRef, self PGPURef, vgpuType VGPUTypeRef) (_retval int, _err error) {
 	_method := "PGPU.get_remaining_capacity"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -139,6 +160,7 @@ func (_class PGPUClass) GetRemainingCapacity(sessionID SessionRef, self PGPURef,
 	return
 }
 
+// 
 func (_class PGPUClass) SetGPUGroup(sessionID SessionRef, self PGPURef, value GPUGroupRef) (_err error) {
 	_method := "PGPU.set_GPU_group"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -157,6 +179,7 @@ func (_class PGPUClass) SetGPUGroup(sessionID SessionRef, self PGPURef, value GP
 	return
 }
 
+// 
 func (_class PGPUClass) SetEnabledVGPUTypes(sessionID SessionRef, self PGPURef, value []VGPUTypeRef) (_err error) {
 	_method := "PGPU.set_enabled_VGPU_types"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -175,6 +198,7 @@ func (_class PGPUClass) SetEnabledVGPUTypes(sessionID SessionRef, self PGPURef, 
 	return
 }
 
+// 
 func (_class PGPUClass) RemoveEnabledVGPUTypes(sessionID SessionRef, self PGPURef, value VGPUTypeRef) (_err error) {
 	_method := "PGPU.remove_enabled_VGPU_types"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -193,6 +217,7 @@ func (_class PGPUClass) RemoveEnabledVGPUTypes(sessionID SessionRef, self PGPURe
 	return
 }
 
+// 
 func (_class PGPUClass) AddEnabledVGPUTypes(sessionID SessionRef, self PGPURef, value VGPUTypeRef) (_err error) {
 	_method := "PGPU.add_enabled_VGPU_types"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -211,6 +236,7 @@ func (_class PGPUClass) AddEnabledVGPUTypes(sessionID SessionRef, self PGPURef, 
 	return
 }
 
+// Remove the given key and its corresponding value from the other_config field of the given PGPU.  If the key is not in that Map, then do nothing.
 func (_class PGPUClass) RemoveFromOtherConfig(sessionID SessionRef, self PGPURef, key string) (_err error) {
 	_method := "PGPU.remove_from_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -229,6 +255,7 @@ func (_class PGPUClass) RemoveFromOtherConfig(sessionID SessionRef, self PGPURef
 	return
 }
 
+// Add the given key-value pair to the other_config field of the given PGPU.
 func (_class PGPUClass) AddToOtherConfig(sessionID SessionRef, self PGPURef, key string, value string) (_err error) {
 	_method := "PGPU.add_to_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -251,6 +278,7 @@ func (_class PGPUClass) AddToOtherConfig(sessionID SessionRef, self PGPURef, key
 	return
 }
 
+// Set the other_config field of the given PGPU.
 func (_class PGPUClass) SetOtherConfig(sessionID SessionRef, self PGPURef, value map[string]string) (_err error) {
 	_method := "PGPU.set_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -269,6 +297,7 @@ func (_class PGPUClass) SetOtherConfig(sessionID SessionRef, self PGPURef, value
 	return
 }
 
+// Get the is_system_display_device field of the given PGPU.
 func (_class PGPUClass) GetIsSystemDisplayDevice(sessionID SessionRef, self PGPURef) (_retval bool, _err error) {
 	_method := "PGPU.get_is_system_display_device"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -287,6 +316,7 @@ func (_class PGPUClass) GetIsSystemDisplayDevice(sessionID SessionRef, self PGPU
 	return
 }
 
+// Get the dom0_access field of the given PGPU.
 func (_class PGPUClass) GetDom0Access(sessionID SessionRef, self PGPURef) (_retval PgpuDom0Access, _err error) {
 	_method := "PGPU.get_dom0_access"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -305,6 +335,7 @@ func (_class PGPUClass) GetDom0Access(sessionID SessionRef, self PGPURef) (_retv
 	return
 }
 
+// Get the supported_VGPU_max_capacities field of the given PGPU.
 func (_class PGPUClass) GetSupportedVGPUMaxCapacities(sessionID SessionRef, self PGPURef) (_retval map[VGPUTypeRef]int, _err error) {
 	_method := "PGPU.get_supported_VGPU_max_capacities"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -323,6 +354,7 @@ func (_class PGPUClass) GetSupportedVGPUMaxCapacities(sessionID SessionRef, self
 	return
 }
 
+// Get the resident_VGPUs field of the given PGPU.
 func (_class PGPUClass) GetResidentVGPUs(sessionID SessionRef, self PGPURef) (_retval []VGPURef, _err error) {
 	_method := "PGPU.get_resident_VGPUs"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -341,6 +373,7 @@ func (_class PGPUClass) GetResidentVGPUs(sessionID SessionRef, self PGPURef) (_r
 	return
 }
 
+// Get the enabled_VGPU_types field of the given PGPU.
 func (_class PGPUClass) GetEnabledVGPUTypes(sessionID SessionRef, self PGPURef) (_retval []VGPUTypeRef, _err error) {
 	_method := "PGPU.get_enabled_VGPU_types"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -359,6 +392,7 @@ func (_class PGPUClass) GetEnabledVGPUTypes(sessionID SessionRef, self PGPURef) 
 	return
 }
 
+// Get the supported_VGPU_types field of the given PGPU.
 func (_class PGPUClass) GetSupportedVGPUTypes(sessionID SessionRef, self PGPURef) (_retval []VGPUTypeRef, _err error) {
 	_method := "PGPU.get_supported_VGPU_types"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -377,6 +411,7 @@ func (_class PGPUClass) GetSupportedVGPUTypes(sessionID SessionRef, self PGPURef
 	return
 }
 
+// Get the other_config field of the given PGPU.
 func (_class PGPUClass) GetOtherConfig(sessionID SessionRef, self PGPURef) (_retval map[string]string, _err error) {
 	_method := "PGPU.get_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -395,6 +430,7 @@ func (_class PGPUClass) GetOtherConfig(sessionID SessionRef, self PGPURef) (_ret
 	return
 }
 
+// Get the host field of the given PGPU.
 func (_class PGPUClass) GetHost(sessionID SessionRef, self PGPURef) (_retval HostRef, _err error) {
 	_method := "PGPU.get_host"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -413,6 +449,7 @@ func (_class PGPUClass) GetHost(sessionID SessionRef, self PGPURef) (_retval Hos
 	return
 }
 
+// Get the GPU_group field of the given PGPU.
 func (_class PGPUClass) GetGPUGroup(sessionID SessionRef, self PGPURef) (_retval GPUGroupRef, _err error) {
 	_method := "PGPU.get_GPU_group"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -431,6 +468,7 @@ func (_class PGPUClass) GetGPUGroup(sessionID SessionRef, self PGPURef) (_retval
 	return
 }
 
+// Get the PCI field of the given PGPU.
 func (_class PGPUClass) GetPCI(sessionID SessionRef, self PGPURef) (_retval PCIRef, _err error) {
 	_method := "PGPU.get_PCI"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -449,6 +487,7 @@ func (_class PGPUClass) GetPCI(sessionID SessionRef, self PGPURef) (_retval PCIR
 	return
 }
 
+// Get the uuid field of the given PGPU.
 func (_class PGPUClass) GetUUID(sessionID SessionRef, self PGPURef) (_retval string, _err error) {
 	_method := "PGPU.get_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -467,6 +506,7 @@ func (_class PGPUClass) GetUUID(sessionID SessionRef, self PGPURef) (_retval str
 	return
 }
 
+// Get a reference to the PGPU instance with the specified UUID.
 func (_class PGPUClass) GetByUUID(sessionID SessionRef, uuid string) (_retval PGPURef, _err error) {
 	_method := "PGPU.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -485,6 +525,7 @@ func (_class PGPUClass) GetByUUID(sessionID SessionRef, uuid string) (_retval PG
 	return
 }
 
+// Get a record containing the current state of the given PGPU.
 func (_class PGPUClass) GetRecord(sessionID SessionRef, self PGPURef) (_retval PGPURecord, _err error) {
 	_method := "PGPU.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
