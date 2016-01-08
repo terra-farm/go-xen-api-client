@@ -45,9 +45,12 @@ func (client *Client) APICall(method string, params ...interface{}) (result APIR
 	return
 }
 
-func NewClient(url string) *Client {
-	rpc, _ := xmlrpc.NewClient(url, &http.Transport{
-		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-	})
+func NewClient(url string, transport *http.Transport) *Client {
+	if transport == nil {
+		transport = &http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+		}
+	}
+	rpc, _ := xmlrpc.NewClient(url, transport)
 	return prepClient(rpc)
 }
