@@ -101,10 +101,6 @@ type SRClass struct {
 	client *Client
 }
 
-func (client *Client) SR() SRClass {
-	return SRClass{client}
-}
-
 // Return a map of SR references to SR records for all SRs known to the system.
 func (_class SRClass) GetAllRecords(sessionID SessionRef) (_retval map[SRRef]SRRecord, _err error) {
 	_method := "SR.get_all_records"

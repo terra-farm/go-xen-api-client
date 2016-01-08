@@ -27,10 +27,6 @@ type AuthClass struct {
 	client *Client
 }
 
-func (client *Client) Auth() AuthClass {
-	return AuthClass{client}
-}
-
 // This calls queries the external directory service to obtain the transitively-closed set of groups that the the subject_identifier is member of.
 func (_class AuthClass) GetGroupMembership(sessionID SessionRef, subjectIdentifier string) (_retval []string, _err error) {
 	_method := "auth.get_group_membership"

@@ -40,10 +40,6 @@ type HostCrashdumpClass struct {
 	client *Client
 }
 
-func (client *Client) HostCrashdump() HostCrashdumpClass {
-	return HostCrashdumpClass{client}
-}
-
 // Return a map of host_crashdump references to host_crashdump records for all host_crashdumps known to the system.
 func (_class HostCrashdumpClass) GetAllRecords(sessionID SessionRef) (_retval map[HostCrashdumpRef]HostCrashdumpRecord, _err error) {
 	_method := "host_crashdump.get_all_records"

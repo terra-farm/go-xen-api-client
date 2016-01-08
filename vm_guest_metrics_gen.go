@@ -56,10 +56,6 @@ type VMGuestMetricsClass struct {
 	client *Client
 }
 
-func (client *Client) VMGuestMetrics() VMGuestMetricsClass {
-	return VMGuestMetricsClass{client}
-}
-
 // Return a map of VM_guest_metrics references to VM_guest_metrics records for all VM_guest_metrics instances known to the system.
 func (_class VMGuestMetricsClass) GetAllRecords(sessionID SessionRef) (_retval map[VMGuestMetricsRef]VMGuestMetricsRecord, _err error) {
 	_method := "VM_guest_metrics.get_all_records"

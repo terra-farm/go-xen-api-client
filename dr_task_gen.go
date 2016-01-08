@@ -34,10 +34,6 @@ type DRTaskClass struct {
 	client *Client
 }
 
-func (client *Client) DRTask() DRTaskClass {
-	return DRTaskClass{client}
-}
-
 // Return a map of DR_task references to DR_task records for all DR_tasks known to the system.
 func (_class DRTaskClass) GetAllRecords(sessionID SessionRef) (_retval map[DRTaskRef]DRTaskRecord, _err error) {
 	_method := "DR_task.get_all_records"

@@ -166,10 +166,6 @@ type HostClass struct {
 	client *Client
 }
 
-func (client *Client) Host() HostClass {
-	return HostClass{client}
-}
-
 // Return a map of host references to host records for all hosts known to the system.
 func (_class HostClass) GetAllRecords(sessionID SessionRef) (_retval map[HostRef]HostRecord, _err error) {
 	_method := "host.get_all_records"

@@ -45,7 +45,3 @@ type DataSourceRef string
 type DataSourceClass struct {
 	client *Client
 }
-
-func (client *Client) DataSource() DataSourceClass {
-	return DataSourceClass{client}
-}

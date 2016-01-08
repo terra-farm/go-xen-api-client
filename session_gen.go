@@ -60,10 +60,6 @@ type SessionClass struct {
 	client *Client
 }
 
-func (client *Client) Session() SessionClass {
-	return SessionClass{client}
-}
-
 // Log out all sessions associated to a user subject-identifier, except the session associated with the context calling this function
 func (_class SessionClass) LogoutSubjectIdentifier(sessionID SessionRef, subjectIdentifier string) (_err error) {
 	_method := "session.logout_subject_identifier"

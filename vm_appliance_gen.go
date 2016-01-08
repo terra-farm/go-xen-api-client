@@ -55,10 +55,6 @@ type VMApplianceClass struct {
 	client *Client
 }
 
-func (client *Client) VMAppliance() VMApplianceClass {
-	return VMApplianceClass{client}
-}
-
 // Return a map of VM_appliance references to VM_appliance records for all VM_appliances known to the system.
 func (_class VMApplianceClass) GetAllRecords(sessionID SessionRef) (_retval map[VMApplianceRef]VMApplianceRecord, _err error) {
 	_method := "VM_appliance.get_all_records"

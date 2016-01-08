@@ -56,10 +56,6 @@ type HostCPUClass struct {
 	client *Client
 }
 
-func (client *Client) HostCPU() HostCPUClass {
-	return HostCPUClass{client}
-}
-
 // Return a map of host_cpu references to host_cpu records for all host_cpus known to the system.
 func (_class HostCPUClass) GetAllRecords(sessionID SessionRef) (_retval map[HostCPURef]HostCPURecord, _err error) {
 	_method := "host_cpu.get_all_records"

@@ -40,10 +40,6 @@ type VLANClass struct {
 	client *Client
 }
 
-func (client *Client) VLAN() VLANClass {
-	return VLANClass{client}
-}
-
 // Return a map of VLAN references to VLAN records for all VLANs known to the system.
 func (_class VLANClass) GetAllRecords(sessionID SessionRef) (_retval map[VLANRef]VLANRecord, _err error) {
 	_method := "VLAN.get_all_records"

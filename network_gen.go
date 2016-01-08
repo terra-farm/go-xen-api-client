@@ -74,10 +74,6 @@ type NetworkClass struct {
 	client *Client
 }
 
-func (client *Client) Network() NetworkClass {
-	return NetworkClass{client}
-}
-
 // Return a map of network references to network records for all networks known to the system.
 func (_class NetworkClass) GetAllRecords(sessionID SessionRef) (_retval map[NetworkRef]NetworkRecord, _err error) {
 	_method := "network.get_all_records"

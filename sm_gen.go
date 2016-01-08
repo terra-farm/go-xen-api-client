@@ -58,10 +58,6 @@ type SMClass struct {
 	client *Client
 }
 
-func (client *Client) SM() SMClass {
-	return SMClass{client}
-}
-
 // Return a map of SM references to SM records for all SMs known to the system.
 func (_class SMClass) GetAllRecords(sessionID SessionRef) (_retval map[SMRef]SMRecord, _err error) {
 	_method := "SM.get_all_records"

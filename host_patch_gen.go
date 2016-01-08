@@ -50,10 +50,6 @@ type HostPatchClass struct {
 	client *Client
 }
 
-func (client *Client) HostPatch() HostPatchClass {
-	return HostPatchClass{client}
-}
-
 // Return a map of host_patch references to host_patch records for all host_patchs known to the system.
 func (_class HostPatchClass) GetAllRecords(sessionID SessionRef) (_retval map[HostPatchRef]HostPatchRecord, _err error) {
 	_method := "host_patch.get_all_records"

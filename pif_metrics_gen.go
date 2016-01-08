@@ -56,10 +56,6 @@ type PIFMetricsClass struct {
 	client *Client
 }
 
-func (client *Client) PIFMetrics() PIFMetricsClass {
-	return PIFMetricsClass{client}
-}
-
 // Return a map of PIF_metrics references to PIF_metrics records for all PIF_metrics instances known to the system.
 func (_class PIFMetricsClass) GetAllRecords(sessionID SessionRef) (_retval map[PIFMetricsRef]PIFMetricsRecord, _err error) {
 	_method := "PIF_metrics.get_all_records"

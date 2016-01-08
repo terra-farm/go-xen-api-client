@@ -38,10 +38,6 @@ type SubjectClass struct {
 	client *Client
 }
 
-func (client *Client) Subject() SubjectClass {
-	return SubjectClass{client}
-}
-
 // Return a map of subject references to subject records for all subjects known to the system.
 func (_class SubjectClass) GetAllRecords(sessionID SessionRef) (_retval map[SubjectRef]SubjectRecord, _err error) {
 	_method := "subject.get_all_records"

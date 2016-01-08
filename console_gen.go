@@ -51,10 +51,6 @@ type ConsoleClass struct {
 	client *Client
 }
 
-func (client *Client) Console() ConsoleClass {
-	return ConsoleClass{client}
-}
-
 // Return a map of console references to console records for all consoles known to the system.
 func (_class ConsoleClass) GetAllRecords(sessionID SessionRef) (_retval map[ConsoleRef]ConsoleRecord, _err error) {
 	_method := "console.get_all_records"

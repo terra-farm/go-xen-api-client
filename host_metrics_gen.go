@@ -42,10 +42,6 @@ type HostMetricsClass struct {
 	client *Client
 }
 
-func (client *Client) HostMetrics() HostMetricsClass {
-	return HostMetricsClass{client}
-}
-
 // Return a map of host_metrics references to host_metrics records for all host_metrics instances known to the system.
 func (_class HostMetricsClass) GetAllRecords(sessionID SessionRef) (_retval map[HostMetricsRef]HostMetricsRecord, _err error) {
 	_method := "host_metrics.get_all_records"

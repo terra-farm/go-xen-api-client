@@ -40,10 +40,6 @@ type VIFMetricsClass struct {
 	client *Client
 }
 
-func (client *Client) VIFMetrics() VIFMetricsClass {
-	return VIFMetricsClass{client}
-}
-
 // Return a map of VIF_metrics references to VIF_metrics records for all VIF_metrics instances known to the system.
 func (_class VIFMetricsClass) GetAllRecords(sessionID SessionRef) (_retval map[VIFMetricsRef]VIFMetricsRecord, _err error) {
 	_method := "VIF_metrics.get_all_records"

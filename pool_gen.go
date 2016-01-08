@@ -101,10 +101,6 @@ type PoolClass struct {
 	client *Client
 }
 
-func (client *Client) Pool() PoolClass {
-	return PoolClass{client}
-}
-
 // Return a map of pool references to pool records for all pools known to the system.
 func (_class PoolClass) GetAllRecords(sessionID SessionRef) (_retval map[PoolRef]PoolRecord, _err error) {
 	_method := "pool.get_all_records"

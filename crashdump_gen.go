@@ -38,10 +38,6 @@ type CrashdumpClass struct {
 	client *Client
 }
 
-func (client *Client) Crashdump() CrashdumpClass {
-	return CrashdumpClass{client}
-}
-
 // Return a map of crashdump references to crashdump records for all crashdumps known to the system.
 func (_class CrashdumpClass) GetAllRecords(sessionID SessionRef) (_retval map[CrashdumpRef]CrashdumpRecord, _err error) {
 	_method := "crashdump.get_all_records"

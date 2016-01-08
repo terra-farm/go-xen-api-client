@@ -59,10 +59,6 @@ type GPUGroupClass struct {
 	client *Client
 }
 
-func (client *Client) GPUGroup() GPUGroupClass {
-	return GPUGroupClass{client}
-}
-
 // Return a map of GPU_group references to GPU_group records for all GPU_groups known to the system.
 func (_class GPUGroupClass) GetAllRecords(sessionID SessionRef) (_retval map[GPUGroupRef]GPUGroupRecord, _err error) {
 	_method := "GPU_group.get_all_records"

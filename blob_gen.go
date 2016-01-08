@@ -44,10 +44,6 @@ type BlobClass struct {
 	client *Client
 }
 
-func (client *Client) Blob() BlobClass {
-	return BlobClass{client}
-}
-
 // Return a map of blob references to blob records for all blobs known to the system.
 func (_class BlobClass) GetAllRecords(sessionID SessionRef) (_retval map[BlobRef]BlobRecord, _err error) {
 	_method := "blob.get_all_records"

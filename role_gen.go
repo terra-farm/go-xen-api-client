@@ -38,10 +38,6 @@ type RoleClass struct {
 	client *Client
 }
 
-func (client *Client) Role() RoleClass {
-	return RoleClass{client}
-}
-
 // Return a map of role references to role records for all roles known to the system.
 func (_class RoleClass) GetAllRecords(sessionID SessionRef) (_retval map[RoleRef]RoleRecord, _err error) {
 	_method := "role.get_all_records"

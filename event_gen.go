@@ -53,10 +53,6 @@ type EventClass struct {
 	client *Client
 }
 
-func (client *Client) Event() EventClass {
-	return EventClass{client}
-}
-
 // Injects an artificial event on the given object and return the corresponding ID
 func (_class EventClass) Inject(sessionID SessionRef, class string, ref string) (_retval string, _err error) {
 	_method := "event.inject"

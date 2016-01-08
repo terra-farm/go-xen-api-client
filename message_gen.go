@@ -59,10 +59,6 @@ type MessageClass struct {
 	client *Client
 }
 
-func (client *Client) Message() MessageClass {
-	return MessageClass{client}
-}
-
 // 
 func (_class MessageClass) GetAllRecordsWhere(sessionID SessionRef, expr string) (_retval map[MessageRef]MessageRecord, _err error) {
 	_method := "message.get_all_records_where"

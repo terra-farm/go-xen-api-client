@@ -115,10 +115,6 @@ type VBDClass struct {
 	client *Client
 }
 
-func (client *Client) VBD() VBDClass {
-	return VBDClass{client}
-}
-
 // Return a map of VBD references to VBD records for all VBDs known to the system.
 func (_class VBDClass) GetAllRecords(sessionID SessionRef) (_retval map[VBDRef]VBDRecord, _err error) {
 	_method := "VBD.get_all_records"

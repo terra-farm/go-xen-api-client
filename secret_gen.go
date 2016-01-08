@@ -36,10 +36,6 @@ type SecretClass struct {
 	client *Client
 }
 
-func (client *Client) Secret() SecretClass {
-	return SecretClass{client}
-}
-
 // Return a map of secret references to secret records for all secrets known to the system.
 func (_class SecretClass) GetAllRecords(sessionID SessionRef) (_retval map[SecretRef]SecretRecord, _err error) {
 	_method := "secret.get_all_records"

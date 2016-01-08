@@ -38,10 +38,6 @@ type UserClass struct {
 	client *Client
 }
 
-func (client *Client) User() UserClass {
-	return UserClass{client}
-}
-
 // Remove the given key and its corresponding value from the other_config field of the given user.  If the key is not in that Map, then do nothing.
 func (_class UserClass) RemoveFromOtherConfig(sessionID SessionRef, self UserRef, key string) (_err error) {
 	_method := "user.remove_from_other_config"

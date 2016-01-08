@@ -42,10 +42,6 @@ type PBDClass struct {
 	client *Client
 }
 
-func (client *Client) PBD() PBDClass {
-	return PBDClass{client}
-}
-
 // Return a map of PBD references to PBD records for all PBDs known to the system.
 func (_class PBDClass) GetAllRecords(sessionID SessionRef) (_retval map[PBDRef]PBDRecord, _err error) {
 	_method := "PBD.get_all_records"

@@ -125,10 +125,6 @@ type PIFClass struct {
 	client *Client
 }
 
-func (client *Client) PIF() PIFClass {
-	return PIFClass{client}
-}
-
 // Return a map of PIF references to PIF records for all PIFs known to the system.
 func (_class PIFClass) GetAllRecords(sessionID SessionRef) (_retval map[PIFRef]PIFRecord, _err error) {
 	_method := "PIF.get_all_records"

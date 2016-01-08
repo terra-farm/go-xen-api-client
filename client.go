@@ -9,10 +9,6 @@ import (
 	"net/http"
 )
 
-type Client struct {
-	rpc *xmlrpc.Client
-}
-
 type APIResult struct {
 	Value interface{}
 }
@@ -53,5 +49,5 @@ func NewClient(url string) *Client {
 	rpc, _ := xmlrpc.NewClient(url, &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 	})
-	return &Client{rpc}
+	return prepClient(rpc)
 }

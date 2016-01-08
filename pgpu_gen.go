@@ -65,10 +65,6 @@ type PGPUClass struct {
 	client *Client
 }
 
-func (client *Client) PGPU() PGPUClass {
-	return PGPUClass{client}
-}
-
 // Return a map of PGPU references to PGPU records for all PGPUs known to the system.
 func (_class PGPUClass) GetAllRecords(sessionID SessionRef) (_retval map[PGPURef]PGPURecord, _err error) {
 	_method := "PGPU.get_all_records"

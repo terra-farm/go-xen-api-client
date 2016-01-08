@@ -40,10 +40,6 @@ type TunnelClass struct {
 	client *Client
 }
 
-func (client *Client) Tunnel() TunnelClass {
-	return TunnelClass{client}
-}
-
 // Return a map of tunnel references to tunnel records for all tunnels known to the system.
 func (_class TunnelClass) GetAllRecords(sessionID SessionRef) (_retval map[TunnelRef]TunnelRecord, _err error) {
 	_method := "tunnel.get_all_records"

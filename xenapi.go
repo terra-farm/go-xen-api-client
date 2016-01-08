@@ -289,10 +289,6 @@ const classTypeTemplate string = `
 type {{ .Name|exported }}Class struct {
 	client *Client
 }
-
-func (client *Client) {{ .Name|exported }}() {{ .Name|exported }}Class {
-	return {{ .Name|exported }}Class{client}
-}
 `
 
 const refTypeTemplate string = `
@@ -316,6 +312,20 @@ func (_class {{ .Class.Name|exported }}Class) {{ .Message.Name|exported }}({{ ra
 	}
 	_retval, _err = {{ .Message.Result.Type|convertToGo }}(_method + " -> ", _result.Value){{ end }}
 	return
+}
+`
+
+const clientStructTemplate string = `
+type Client struct {
+	rpc *xmlrpc.Client{{ range .Classes }}
+	{{ .Name|exported }} {{ .Name|exported }}Class{{ end }}
+}
+
+func prepClient(rpc *xmlrpc.Client) *Client {
+	var client Client
+	client.rpc = rpc{{ range .Classes }}
+	client.{{ .Name|exported }} = {{ .Name|exported }}Class{&client}{{ end }}
+	return &client
 }
 `
 
@@ -558,6 +568,7 @@ func (generator *apiGenerator) prepTemplates() (err error) {
 		"ClassType":                  classTypeTemplate,
 		"RefType":                    refTypeTemplate,
 		"MessageFunc":                messageFuncTemplate,
+		"ClientStruct":               clientStructTemplate,
 		"convertSimpleTypeToGoFunc":  convertSimpleTypeToGoFuncTemplate,
 		"convertSimpleTypeToXenFunc": convertSimpleTypeToXenFuncTemplate,
 		"convertIntToGoFunc":         convertIntToGoFuncTemplate,
@@ -852,6 +863,26 @@ func (generator *apiGenerator) generateConverters() (err error) {
 	return
 }
 
+func (generator *apiGenerator) generateClient() (err error) {
+	fileHandle, err := os.Create("client_gen.go")
+	if err != nil {
+		return
+	}
+
+	defer fileHandle.Close()
+
+	err = generator.templates.ExecuteTemplate(fileHandle, "FileHeader", nil)
+	if err != nil {
+		return
+	}
+
+	err = generator.templates.ExecuteTemplate(fileHandle, "ClientStruct", map[string]interface{}{
+		"Classes": generator.classes,
+	})
+
+	return
+}
+
 func (generator *apiGenerator) run() (err error) {
 	err = generator.loadXenAPI("xenapi.json")
 	if err != nil {
@@ -871,6 +902,11 @@ func (generator *apiGenerator) run() (err error) {
 	}
 
 	err = generator.generateConverters()
+	if err != nil {
+		return
+	}
+
+	err = generator.generateClient()
 	return
 }
 

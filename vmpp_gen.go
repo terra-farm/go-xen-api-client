@@ -114,10 +114,6 @@ type VMPPClass struct {
 	client *Client
 }
 
-func (client *Client) VMPP() VMPPClass {
-	return VMPPClass{client}
-}
-
 // Return a map of VMPP references to VMPP records for all VMPPs known to the system.
 func (_class VMPPClass) GetAllRecords(sessionID SessionRef) (_retval map[VMPPRef]VMPPRecord, _err error) {
 	_method := "VMPP.get_all_records"

@@ -57,10 +57,6 @@ type BondClass struct {
 	client *Client
 }
 
-func (client *Client) Bond() BondClass {
-	return BondClass{client}
-}
-
 // Return a map of Bond references to Bond records for all Bonds known to the system.
 func (_class BondClass) GetAllRecords(sessionID SessionRef) (_retval map[BondRef]BondRecord, _err error) {
 	_method := "Bond.get_all_records"

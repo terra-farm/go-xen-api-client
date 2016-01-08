@@ -46,10 +46,6 @@ type VGPUClass struct {
 	client *Client
 }
 
-func (client *Client) VGPU() VGPUClass {
-	return VGPUClass{client}
-}
-
 // Return a map of VGPU references to VGPU records for all VGPUs known to the system.
 func (_class VGPUClass) GetAllRecords(sessionID SessionRef) (_retval map[VGPURef]VGPURecord, _err error) {
 	_method := "VGPU.get_all_records"

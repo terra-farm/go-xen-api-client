@@ -61,10 +61,6 @@ type PoolPatchClass struct {
 	client *Client
 }
 
-func (client *Client) PoolPatch() PoolPatchClass {
-	return PoolPatchClass{client}
-}
-
 // Return a map of pool_patch references to pool_patch records for all pool_patchs known to the system.
 func (_class PoolPatchClass) GetAllRecords(sessionID SessionRef) (_retval map[PoolPatchRef]PoolPatchRecord, _err error) {
 	_method := "pool_patch.get_all_records"

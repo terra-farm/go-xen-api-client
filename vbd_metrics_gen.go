@@ -40,10 +40,6 @@ type VBDMetricsClass struct {
 	client *Client
 }
 
-func (client *Client) VBDMetrics() VBDMetricsClass {
-	return VBDMetricsClass{client}
-}
-
 // Return a map of VBD_metrics references to VBD_metrics records for all VBD_metrics instances known to the system.
 func (_class VBDMetricsClass) GetAllRecords(sessionID SessionRef) (_retval map[VBDMetricsRef]VBDMetricsRecord, _err error) {
 	_method := "VBD_metrics.get_all_records"

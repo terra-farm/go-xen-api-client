@@ -88,10 +88,6 @@ type TaskClass struct {
 	client *Client
 }
 
-func (client *Client) Task() TaskClass {
-	return TaskClass{client}
-}
-
 // Return a map of task references to task records for all tasks known to the system.
 func (_class TaskClass) GetAllRecords(sessionID SessionRef) (_retval map[TaskRef]TaskRecord, _err error) {
 	_method := "task.get_all_records"

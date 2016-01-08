@@ -96,10 +96,6 @@ type VIFClass struct {
 	client *Client
 }
 
-func (client *Client) VIF() VIFClass {
-	return VIFClass{client}
-}
-
 // Return a map of VIF references to VIF records for all VIFs known to the system.
 func (_class VIFClass) GetAllRecords(sessionID SessionRef) (_retval map[VIFRef]VIFRecord, _err error) {
 	_method := "VIF.get_all_records"

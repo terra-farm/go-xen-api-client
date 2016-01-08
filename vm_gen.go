@@ -322,10 +322,6 @@ type VMClass struct {
 	client *Client
 }
 
-func (client *Client) VM() VMClass {
-	return VMClass{client}
-}
-
 // Return a map of VM references to VM records for all VMs known to the system.
 func (_class VMClass) GetAllRecords(sessionID SessionRef) (_retval map[VMRef]VMRecord, _err error) {
 	_method := "VM.get_all_records"

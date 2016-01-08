@@ -36,10 +36,6 @@ type VTPMClass struct {
 	client *Client
 }
 
-func (client *Client) VTPM() VTPMClass {
-	return VTPMClass{client}
-}
-
 // Get the backend field of the given VTPM.
 func (_class VTPMClass) GetBackend(sessionID SessionRef, self VTPMRef) (_retval VMRef, _err error) {
 	_method := "VTPM.get_backend"

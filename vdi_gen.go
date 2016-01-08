@@ -151,10 +151,6 @@ type VDIClass struct {
 	client *Client
 }
 
-func (client *Client) VDI() VDIClass {
-	return VDIClass{client}
-}
-
 // Return a map of VDI references to VDI records for all VDIs known to the system.
 func (_class VDIClass) GetAllRecords(sessionID SessionRef) (_retval map[VDIRef]VDIRecord, _err error) {
 	_method := "VDI.get_all_records"

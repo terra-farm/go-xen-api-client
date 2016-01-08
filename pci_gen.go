@@ -50,10 +50,6 @@ type PCIClass struct {
 	client *Client
 }
 
-func (client *Client) PCI() PCIClass {
-	return PCIClass{client}
-}
-
 // Return a map of PCI references to PCI records for all PCIs known to the system.
 func (_class PCIClass) GetAllRecords(sessionID SessionRef) (_retval map[PCIRef]PCIRecord, _err error) {
 	_method := "PCI.get_all_records"
