@@ -4140,6 +4140,7 @@ func convertVIFRecordToGo(context string, input interface{}) (record VIFRecord, 
 }
 
 func convertVIFRecordToXen(context string, record VIFRecord) (rpcStruct xmlrpc.Struct, err error) {
+  rpcStruct = xmlrpc.Struct{}
   rpcStruct["uuid"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "uuid"), record.UUID)
   if err != nil {
 		return

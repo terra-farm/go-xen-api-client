@@ -33,10 +33,18 @@ func (client *Client) APICall(method string, params ...interface{}) (result APIR
 
 	if status != "Success" {
 		details := rpcResult["ErrorDescription"].([]interface{})
+		_objtype := ""
+		if details[1] != nil {
+			_objtype = details[1].(string)
+		}
+		var _uuid string
+		if len(details) > 2 {
+			_uuid = details[2].(string)
+		}
 		err = &Error{
 			code:    details[0].(string),
-			objtype: details[1].(string), // might be nil
-			uuid:    details[2].(string), // optional
+			objtype: _objtype, // might be nil
+			uuid:    _uuid, // optional
 		}
 		return
 	}
