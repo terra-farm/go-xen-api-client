@@ -3114,6 +3114,7 @@ func convertVBDRecordToGo(context string, input interface{}) (record VBDRecord, 
 }
 
 func convertVBDRecordToXen(context string, record VBDRecord) (rpcStruct xmlrpc.Struct, err error) {
+  rpcStruct = xmlrpc.Struct{}
   rpcStruct["uuid"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "uuid"), record.UUID)
   if err != nil {
 		return
