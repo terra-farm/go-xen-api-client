@@ -34,7 +34,7 @@ func (client *Client) APICall(method string, params ...interface{}) (result APIR
 	if status != "Success" {
 		details := rpcResult["ErrorDescription"].([]interface{})
 		_objtype := ""
-		if details[1] != nil {
+		if len(details) > 1 && details[1] != nil {
 			_objtype = details[1].(string)
 		}
 		var _uuid string
