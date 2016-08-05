@@ -439,6 +439,7 @@ func {{ .FuncName }}(context string, input interface{}) (record {{ .GoType }}, e
 
 const convertRecordTypeToXenFuncTemplate string = `
 func {{ .FuncName }}(context string, record {{ .GoType }}) (rpcStruct xmlrpc.Struct, err error) {{ "{" }}{{ range .Fields }}
+  rpcStruct = xmlrpc.Struct{}
   rpcStruct[{{ printf "%q" .Name }}], err = {{ .Type|convertToXen }}(fmt.Sprintf("%s.%s", context, {{ printf "%q" .Name }}), record.{{ .Name|exported }})
   if err != nil {
 		return
