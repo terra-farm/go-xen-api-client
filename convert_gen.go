@@ -1925,27 +1925,22 @@ func convertPBDRecordToXen(context string, record PBDRecord) (rpcStruct xmlrpc.S
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["host"], err = convertHostRefToXen(fmt.Sprintf("%s.%s", context, "host"), record.Host)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["SR"], err = convertSRRefToXen(fmt.Sprintf("%s.%s", context, "SR"), record.SR)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["device_config"], err = convertStringToStringMapToXen(fmt.Sprintf("%s.%s", context, "device_config"), record.DeviceConfig)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["currently_attached"], err = convertBoolToXen(fmt.Sprintf("%s.%s", context, "currently_attached"), record.CurrentlyAttached)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["other_config"], err = convertStringToStringMapToXen(fmt.Sprintf("%s.%s", context, "other_config"), record.OtherConfig)
   if err != nil {
 		return
@@ -3125,107 +3120,86 @@ func convertVBDRecordToXen(context string, record VBDRecord) (rpcStruct xmlrpc.S
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["allowed_operations"], err = convertEnumVbdOperationsSetToXen(fmt.Sprintf("%s.%s", context, "allowed_operations"), record.AllowedOperations)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["current_operations"], err = convertStringToEnumVbdOperationsMapToXen(fmt.Sprintf("%s.%s", context, "current_operations"), record.CurrentOperations)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["VM"], err = convertVMRefToXen(fmt.Sprintf("%s.%s", context, "VM"), record.VM)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["VDI"], err = convertVDIRefToXen(fmt.Sprintf("%s.%s", context, "VDI"), record.VDI)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["device"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "device"), record.Device)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["userdevice"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "userdevice"), record.Userdevice)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["bootable"], err = convertBoolToXen(fmt.Sprintf("%s.%s", context, "bootable"), record.Bootable)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["mode"], err = convertEnumVbdModeToXen(fmt.Sprintf("%s.%s", context, "mode"), record.Mode)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["type"], err = convertEnumVbdTypeToXen(fmt.Sprintf("%s.%s", context, "type"), record.Type)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["unpluggable"], err = convertBoolToXen(fmt.Sprintf("%s.%s", context, "unpluggable"), record.Unpluggable)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["storage_lock"], err = convertBoolToXen(fmt.Sprintf("%s.%s", context, "storage_lock"), record.StorageLock)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["empty"], err = convertBoolToXen(fmt.Sprintf("%s.%s", context, "empty"), record.Empty)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["other_config"], err = convertStringToStringMapToXen(fmt.Sprintf("%s.%s", context, "other_config"), record.OtherConfig)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["currently_attached"], err = convertBoolToXen(fmt.Sprintf("%s.%s", context, "currently_attached"), record.CurrentlyAttached)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["status_code"], err = convertIntToXen(fmt.Sprintf("%s.%s", context, "status_code"), record.StatusCode)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["status_detail"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "status_detail"), record.StatusDetail)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["runtime_properties"], err = convertStringToStringMapToXen(fmt.Sprintf("%s.%s", context, "runtime_properties"), record.RuntimeProperties)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["qos_algorithm_type"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "qos_algorithm_type"), record.QosAlgorithmType)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["qos_algorithm_params"], err = convertStringToStringMapToXen(fmt.Sprintf("%s.%s", context, "qos_algorithm_params"), record.QosAlgorithmParams)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["qos_supported_algorithms"], err = convertStringSetToXen(fmt.Sprintf("%s.%s", context, "qos_supported_algorithms"), record.QosSupportedAlgorithms)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["metrics"], err = convertVBDMetricsRefToXen(fmt.Sprintf("%s.%s", context, "metrics"), record.Metrics)
   if err != nil {
 		return
@@ -3579,147 +3553,118 @@ func convertVDIRecordToXen(context string, record VDIRecord) (rpcStruct xmlrpc.S
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["name_label"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "name_label"), record.NameLabel)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["name_description"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "name_description"), record.NameDescription)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["allowed_operations"], err = convertEnumVdiOperationsSetToXen(fmt.Sprintf("%s.%s", context, "allowed_operations"), record.AllowedOperations)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["current_operations"], err = convertStringToEnumVdiOperationsMapToXen(fmt.Sprintf("%s.%s", context, "current_operations"), record.CurrentOperations)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["SR"], err = convertSRRefToXen(fmt.Sprintf("%s.%s", context, "SR"), record.SR)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["VBDs"], err = convertVBDRefSetToXen(fmt.Sprintf("%s.%s", context, "VBDs"), record.VBDs)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["crash_dumps"], err = convertCrashdumpRefSetToXen(fmt.Sprintf("%s.%s", context, "crash_dumps"), record.CrashDumps)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["virtual_size"], err = convertIntToXen(fmt.Sprintf("%s.%s", context, "virtual_size"), record.VirtualSize)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["physical_utilisation"], err = convertIntToXen(fmt.Sprintf("%s.%s", context, "physical_utilisation"), record.PhysicalUtilisation)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["type"], err = convertEnumVdiTypeToXen(fmt.Sprintf("%s.%s", context, "type"), record.Type)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["sharable"], err = convertBoolToXen(fmt.Sprintf("%s.%s", context, "sharable"), record.Sharable)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["read_only"], err = convertBoolToXen(fmt.Sprintf("%s.%s", context, "read_only"), record.ReadOnly)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["other_config"], err = convertStringToStringMapToXen(fmt.Sprintf("%s.%s", context, "other_config"), record.OtherConfig)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["storage_lock"], err = convertBoolToXen(fmt.Sprintf("%s.%s", context, "storage_lock"), record.StorageLock)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["location"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "location"), record.Location)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["managed"], err = convertBoolToXen(fmt.Sprintf("%s.%s", context, "managed"), record.Managed)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["missing"], err = convertBoolToXen(fmt.Sprintf("%s.%s", context, "missing"), record.Missing)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["parent"], err = convertVDIRefToXen(fmt.Sprintf("%s.%s", context, "parent"), record.Parent)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["xenstore_data"], err = convertStringToStringMapToXen(fmt.Sprintf("%s.%s", context, "xenstore_data"), record.XenstoreData)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["sm_config"], err = convertStringToStringMapToXen(fmt.Sprintf("%s.%s", context, "sm_config"), record.SmConfig)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["is_a_snapshot"], err = convertBoolToXen(fmt.Sprintf("%s.%s", context, "is_a_snapshot"), record.IsASnapshot)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["snapshot_of"], err = convertVDIRefToXen(fmt.Sprintf("%s.%s", context, "snapshot_of"), record.SnapshotOf)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["snapshots"], err = convertVDIRefSetToXen(fmt.Sprintf("%s.%s", context, "snapshots"), record.Snapshots)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["snapshot_time"], err = convertTimeToXen(fmt.Sprintf("%s.%s", context, "snapshot_time"), record.SnapshotTime)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["tags"], err = convertStringSetToXen(fmt.Sprintf("%s.%s", context, "tags"), record.Tags)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["allow_caching"], err = convertBoolToXen(fmt.Sprintf("%s.%s", context, "allow_caching"), record.AllowCaching)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["on_boot"], err = convertEnumOnBootToXen(fmt.Sprintf("%s.%s", context, "on_boot"), record.OnBoot)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["metadata_of_pool"], err = convertPoolRefToXen(fmt.Sprintf("%s.%s", context, "metadata_of_pool"), record.MetadataOfPool)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["metadata_latest"], err = convertBoolToXen(fmt.Sprintf("%s.%s", context, "metadata_latest"), record.MetadataLatest)
   if err != nil {
 		return
@@ -4203,102 +4148,82 @@ func convertVIFRecordToXen(context string, record VIFRecord) (rpcStruct xmlrpc.S
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["allowed_operations"], err = convertEnumVifOperationsSetToXen(fmt.Sprintf("%s.%s", context, "allowed_operations"), record.AllowedOperations)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["current_operations"], err = convertStringToEnumVifOperationsMapToXen(fmt.Sprintf("%s.%s", context, "current_operations"), record.CurrentOperations)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["device"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "device"), record.Device)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["network"], err = convertNetworkRefToXen(fmt.Sprintf("%s.%s", context, "network"), record.Network)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["VM"], err = convertVMRefToXen(fmt.Sprintf("%s.%s", context, "VM"), record.VM)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["MAC"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "MAC"), record.MAC)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["MTU"], err = convertIntToXen(fmt.Sprintf("%s.%s", context, "MTU"), record.MTU)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["other_config"], err = convertStringToStringMapToXen(fmt.Sprintf("%s.%s", context, "other_config"), record.OtherConfig)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["currently_attached"], err = convertBoolToXen(fmt.Sprintf("%s.%s", context, "currently_attached"), record.CurrentlyAttached)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["status_code"], err = convertIntToXen(fmt.Sprintf("%s.%s", context, "status_code"), record.StatusCode)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["status_detail"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "status_detail"), record.StatusDetail)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["runtime_properties"], err = convertStringToStringMapToXen(fmt.Sprintf("%s.%s", context, "runtime_properties"), record.RuntimeProperties)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["qos_algorithm_type"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "qos_algorithm_type"), record.QosAlgorithmType)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["qos_algorithm_params"], err = convertStringToStringMapToXen(fmt.Sprintf("%s.%s", context, "qos_algorithm_params"), record.QosAlgorithmParams)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["qos_supported_algorithms"], err = convertStringSetToXen(fmt.Sprintf("%s.%s", context, "qos_supported_algorithms"), record.QosSupportedAlgorithms)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["metrics"], err = convertVIFMetricsRefToXen(fmt.Sprintf("%s.%s", context, "metrics"), record.Metrics)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["MAC_autogenerated"], err = convertBoolToXen(fmt.Sprintf("%s.%s", context, "MAC_autogenerated"), record.MACAutogenerated)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["locking_mode"], err = convertEnumVifLockingModeToXen(fmt.Sprintf("%s.%s", context, "locking_mode"), record.LockingMode)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["ipv4_allowed"], err = convertStringSetToXen(fmt.Sprintf("%s.%s", context, "ipv4_allowed"), record.Ipv4Allowed)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["ipv6_allowed"], err = convertStringSetToXen(fmt.Sprintf("%s.%s", context, "ipv6_allowed"), record.Ipv6Allowed)
   if err != nil {
 		return
@@ -5057,382 +4982,306 @@ func convertVMRecordToXen(context string, record VMRecord) (rpcStruct xmlrpc.Str
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["allowed_operations"], err = convertEnumVMOperationsSetToXen(fmt.Sprintf("%s.%s", context, "allowed_operations"), record.AllowedOperations)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["current_operations"], err = convertStringToEnumVMOperationsMapToXen(fmt.Sprintf("%s.%s", context, "current_operations"), record.CurrentOperations)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["power_state"], err = convertEnumVMPowerStateToXen(fmt.Sprintf("%s.%s", context, "power_state"), record.PowerState)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["name_label"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "name_label"), record.NameLabel)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["name_description"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "name_description"), record.NameDescription)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["user_version"], err = convertIntToXen(fmt.Sprintf("%s.%s", context, "user_version"), record.UserVersion)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["is_a_template"], err = convertBoolToXen(fmt.Sprintf("%s.%s", context, "is_a_template"), record.IsATemplate)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["suspend_VDI"], err = convertVDIRefToXen(fmt.Sprintf("%s.%s", context, "suspend_VDI"), record.SuspendVDI)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["resident_on"], err = convertHostRefToXen(fmt.Sprintf("%s.%s", context, "resident_on"), record.ResidentOn)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["affinity"], err = convertHostRefToXen(fmt.Sprintf("%s.%s", context, "affinity"), record.Affinity)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["memory_overhead"], err = convertIntToXen(fmt.Sprintf("%s.%s", context, "memory_overhead"), record.MemoryOverhead)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["memory_target"], err = convertIntToXen(fmt.Sprintf("%s.%s", context, "memory_target"), record.MemoryTarget)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["memory_static_max"], err = convertIntToXen(fmt.Sprintf("%s.%s", context, "memory_static_max"), record.MemoryStaticMax)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["memory_dynamic_max"], err = convertIntToXen(fmt.Sprintf("%s.%s", context, "memory_dynamic_max"), record.MemoryDynamicMax)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["memory_dynamic_min"], err = convertIntToXen(fmt.Sprintf("%s.%s", context, "memory_dynamic_min"), record.MemoryDynamicMin)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["memory_static_min"], err = convertIntToXen(fmt.Sprintf("%s.%s", context, "memory_static_min"), record.MemoryStaticMin)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["VCPUs_params"], err = convertStringToStringMapToXen(fmt.Sprintf("%s.%s", context, "VCPUs_params"), record.VCPUsParams)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["VCPUs_max"], err = convertIntToXen(fmt.Sprintf("%s.%s", context, "VCPUs_max"), record.VCPUsMax)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["VCPUs_at_startup"], err = convertIntToXen(fmt.Sprintf("%s.%s", context, "VCPUs_at_startup"), record.VCPUsAtStartup)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["actions_after_shutdown"], err = convertEnumOnNormalExitToXen(fmt.Sprintf("%s.%s", context, "actions_after_shutdown"), record.ActionsAfterShutdown)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["actions_after_reboot"], err = convertEnumOnNormalExitToXen(fmt.Sprintf("%s.%s", context, "actions_after_reboot"), record.ActionsAfterReboot)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["actions_after_crash"], err = convertEnumOnCrashBehaviourToXen(fmt.Sprintf("%s.%s", context, "actions_after_crash"), record.ActionsAfterCrash)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["consoles"], err = convertConsoleRefSetToXen(fmt.Sprintf("%s.%s", context, "consoles"), record.Consoles)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["VIFs"], err = convertVIFRefSetToXen(fmt.Sprintf("%s.%s", context, "VIFs"), record.VIFs)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["VBDs"], err = convertVBDRefSetToXen(fmt.Sprintf("%s.%s", context, "VBDs"), record.VBDs)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["crash_dumps"], err = convertCrashdumpRefSetToXen(fmt.Sprintf("%s.%s", context, "crash_dumps"), record.CrashDumps)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["VTPMs"], err = convertVTPMRefSetToXen(fmt.Sprintf("%s.%s", context, "VTPMs"), record.VTPMs)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["PV_bootloader"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "PV_bootloader"), record.PVBootloader)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["PV_kernel"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "PV_kernel"), record.PVKernel)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["PV_ramdisk"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "PV_ramdisk"), record.PVRamdisk)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["PV_args"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "PV_args"), record.PVArgs)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["PV_bootloader_args"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "PV_bootloader_args"), record.PVBootloaderArgs)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["PV_legacy_args"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "PV_legacy_args"), record.PVLegacyArgs)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["HVM_boot_policy"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "HVM_boot_policy"), record.HVMBootPolicy)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["HVM_boot_params"], err = convertStringToStringMapToXen(fmt.Sprintf("%s.%s", context, "HVM_boot_params"), record.HVMBootParams)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["HVM_shadow_multiplier"], err = convertFloatToXen(fmt.Sprintf("%s.%s", context, "HVM_shadow_multiplier"), record.HVMShadowMultiplier)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["platform"], err = convertStringToStringMapToXen(fmt.Sprintf("%s.%s", context, "platform"), record.Platform)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["PCI_bus"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "PCI_bus"), record.PCIBus)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["other_config"], err = convertStringToStringMapToXen(fmt.Sprintf("%s.%s", context, "other_config"), record.OtherConfig)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["domid"], err = convertIntToXen(fmt.Sprintf("%s.%s", context, "domid"), record.Domid)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["domarch"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "domarch"), record.Domarch)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["last_boot_CPU_flags"], err = convertStringToStringMapToXen(fmt.Sprintf("%s.%s", context, "last_boot_CPU_flags"), record.LastBootCPUFlags)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["is_control_domain"], err = convertBoolToXen(fmt.Sprintf("%s.%s", context, "is_control_domain"), record.IsControlDomain)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["metrics"], err = convertVMMetricsRefToXen(fmt.Sprintf("%s.%s", context, "metrics"), record.Metrics)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["guest_metrics"], err = convertVMGuestMetricsRefToXen(fmt.Sprintf("%s.%s", context, "guest_metrics"), record.GuestMetrics)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["last_booted_record"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "last_booted_record"), record.LastBootedRecord)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["recommendations"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "recommendations"), record.Recommendations)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["xenstore_data"], err = convertStringToStringMapToXen(fmt.Sprintf("%s.%s", context, "xenstore_data"), record.XenstoreData)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["ha_always_run"], err = convertBoolToXen(fmt.Sprintf("%s.%s", context, "ha_always_run"), record.HaAlwaysRun)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["ha_restart_priority"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "ha_restart_priority"), record.HaRestartPriority)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["is_a_snapshot"], err = convertBoolToXen(fmt.Sprintf("%s.%s", context, "is_a_snapshot"), record.IsASnapshot)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["snapshot_of"], err = convertVMRefToXen(fmt.Sprintf("%s.%s", context, "snapshot_of"), record.SnapshotOf)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["snapshots"], err = convertVMRefSetToXen(fmt.Sprintf("%s.%s", context, "snapshots"), record.Snapshots)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["snapshot_time"], err = convertTimeToXen(fmt.Sprintf("%s.%s", context, "snapshot_time"), record.SnapshotTime)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["transportable_snapshot_id"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "transportable_snapshot_id"), record.TransportableSnapshotID)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["blobs"], err = convertStringToBlobRefMapToXen(fmt.Sprintf("%s.%s", context, "blobs"), record.Blobs)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["tags"], err = convertStringSetToXen(fmt.Sprintf("%s.%s", context, "tags"), record.Tags)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["blocked_operations"], err = convertEnumVMOperationsToStringMapToXen(fmt.Sprintf("%s.%s", context, "blocked_operations"), record.BlockedOperations)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["snapshot_info"], err = convertStringToStringMapToXen(fmt.Sprintf("%s.%s", context, "snapshot_info"), record.SnapshotInfo)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["snapshot_metadata"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "snapshot_metadata"), record.SnapshotMetadata)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["parent"], err = convertVMRefToXen(fmt.Sprintf("%s.%s", context, "parent"), record.Parent)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["children"], err = convertVMRefSetToXen(fmt.Sprintf("%s.%s", context, "children"), record.Children)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["bios_strings"], err = convertStringToStringMapToXen(fmt.Sprintf("%s.%s", context, "bios_strings"), record.BiosStrings)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["protection_policy"], err = convertVMPPRefToXen(fmt.Sprintf("%s.%s", context, "protection_policy"), record.ProtectionPolicy)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["is_snapshot_from_vmpp"], err = convertBoolToXen(fmt.Sprintf("%s.%s", context, "is_snapshot_from_vmpp"), record.IsSnapshotFromVmpp)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["appliance"], err = convertVMApplianceRefToXen(fmt.Sprintf("%s.%s", context, "appliance"), record.Appliance)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["start_delay"], err = convertIntToXen(fmt.Sprintf("%s.%s", context, "start_delay"), record.StartDelay)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["shutdown_delay"], err = convertIntToXen(fmt.Sprintf("%s.%s", context, "shutdown_delay"), record.ShutdownDelay)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["order"], err = convertIntToXen(fmt.Sprintf("%s.%s", context, "order"), record.Order)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["VGPUs"], err = convertVGPURefSetToXen(fmt.Sprintf("%s.%s", context, "VGPUs"), record.VGPUs)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["attached_PCIs"], err = convertPCIRefSetToXen(fmt.Sprintf("%s.%s", context, "attached_PCIs"), record.AttachedPCIs)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["suspend_SR"], err = convertSRRefToXen(fmt.Sprintf("%s.%s", context, "suspend_SR"), record.SuspendSR)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["version"], err = convertIntToXen(fmt.Sprintf("%s.%s", context, "version"), record.Version)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["generation_id"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "generation_id"), record.GenerationID)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["hardware_platform_version"], err = convertIntToXen(fmt.Sprintf("%s.%s", context, "hardware_platform_version"), record.HardwarePlatformVersion)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["auto_update_drivers"], err = convertBoolToXen(fmt.Sprintf("%s.%s", context, "auto_update_drivers"), record.AutoUpdateDrivers)
   if err != nil {
 		return
@@ -5640,97 +5489,78 @@ func convertVMPPRecordToXen(context string, record VMPPRecord) (rpcStruct xmlrpc
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["name_label"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "name_label"), record.NameLabel)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["name_description"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "name_description"), record.NameDescription)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["is_policy_enabled"], err = convertBoolToXen(fmt.Sprintf("%s.%s", context, "is_policy_enabled"), record.IsPolicyEnabled)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["backup_type"], err = convertEnumVmppBackupTypeToXen(fmt.Sprintf("%s.%s", context, "backup_type"), record.BackupType)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["backup_retention_value"], err = convertIntToXen(fmt.Sprintf("%s.%s", context, "backup_retention_value"), record.BackupRetentionValue)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["backup_frequency"], err = convertEnumVmppBackupFrequencyToXen(fmt.Sprintf("%s.%s", context, "backup_frequency"), record.BackupFrequency)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["backup_schedule"], err = convertStringToStringMapToXen(fmt.Sprintf("%s.%s", context, "backup_schedule"), record.BackupSchedule)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["is_backup_running"], err = convertBoolToXen(fmt.Sprintf("%s.%s", context, "is_backup_running"), record.IsBackupRunning)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["backup_last_run_time"], err = convertTimeToXen(fmt.Sprintf("%s.%s", context, "backup_last_run_time"), record.BackupLastRunTime)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["archive_target_type"], err = convertEnumVmppArchiveTargetTypeToXen(fmt.Sprintf("%s.%s", context, "archive_target_type"), record.ArchiveTargetType)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["archive_target_config"], err = convertStringToStringMapToXen(fmt.Sprintf("%s.%s", context, "archive_target_config"), record.ArchiveTargetConfig)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["archive_frequency"], err = convertEnumVmppArchiveFrequencyToXen(fmt.Sprintf("%s.%s", context, "archive_frequency"), record.ArchiveFrequency)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["archive_schedule"], err = convertStringToStringMapToXen(fmt.Sprintf("%s.%s", context, "archive_schedule"), record.ArchiveSchedule)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["is_archive_running"], err = convertBoolToXen(fmt.Sprintf("%s.%s", context, "is_archive_running"), record.IsArchiveRunning)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["archive_last_run_time"], err = convertTimeToXen(fmt.Sprintf("%s.%s", context, "archive_last_run_time"), record.ArchiveLastRunTime)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["VMs"], err = convertVMRefSetToXen(fmt.Sprintf("%s.%s", context, "VMs"), record.VMs)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["is_alarm_enabled"], err = convertBoolToXen(fmt.Sprintf("%s.%s", context, "is_alarm_enabled"), record.IsAlarmEnabled)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["alarm_config"], err = convertStringToStringMapToXen(fmt.Sprintf("%s.%s", context, "alarm_config"), record.AlarmConfig)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["recent_alerts"], err = convertStringSetToXen(fmt.Sprintf("%s.%s", context, "recent_alerts"), record.RecentAlerts)
   if err != nil {
 		return
@@ -5827,27 +5657,22 @@ func convertVMApplianceRecordToXen(context string, record VMApplianceRecord) (rp
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["name_label"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "name_label"), record.NameLabel)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["name_description"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "name_description"), record.NameDescription)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["allowed_operations"], err = convertEnumVMApplianceOperationSetToXen(fmt.Sprintf("%s.%s", context, "allowed_operations"), record.AllowedOperations)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["current_operations"], err = convertStringToEnumVMApplianceOperationMapToXen(fmt.Sprintf("%s.%s", context, "current_operations"), record.CurrentOperations)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["VMs"], err = convertVMRefSetToXen(fmt.Sprintf("%s.%s", context, "VMs"), record.VMs)
   if err != nil {
 		return
@@ -6180,12 +6005,10 @@ func convertVTPMRecordToXen(context string, record VTPMRecord) (rpcStruct xmlrpc
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["VM"], err = convertVMRefToXen(fmt.Sprintf("%s.%s", context, "VM"), record.VM)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["backend"], err = convertVMRefToXen(fmt.Sprintf("%s.%s", context, "backend"), record.Backend)
   if err != nil {
 		return
@@ -6393,22 +6216,18 @@ func convertConsoleRecordToXen(context string, record ConsoleRecord) (rpcStruct 
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["protocol"], err = convertEnumConsoleProtocolToXen(fmt.Sprintf("%s.%s", context, "protocol"), record.Protocol)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["location"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "location"), record.Location)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["VM"], err = convertVMRefToXen(fmt.Sprintf("%s.%s", context, "VM"), record.VM)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["other_config"], err = convertStringToStringMapToXen(fmt.Sprintf("%s.%s", context, "other_config"), record.OtherConfig)
   if err != nil {
 		return
@@ -8973,67 +8792,54 @@ func convertNetworkRecordToXen(context string, record NetworkRecord) (rpcStruct 
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["name_label"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "name_label"), record.NameLabel)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["name_description"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "name_description"), record.NameDescription)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["allowed_operations"], err = convertEnumNetworkOperationsSetToXen(fmt.Sprintf("%s.%s", context, "allowed_operations"), record.AllowedOperations)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["current_operations"], err = convertStringToEnumNetworkOperationsMapToXen(fmt.Sprintf("%s.%s", context, "current_operations"), record.CurrentOperations)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["VIFs"], err = convertVIFRefSetToXen(fmt.Sprintf("%s.%s", context, "VIFs"), record.VIFs)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["PIFs"], err = convertPIFRefSetToXen(fmt.Sprintf("%s.%s", context, "PIFs"), record.PIFs)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["MTU"], err = convertIntToXen(fmt.Sprintf("%s.%s", context, "MTU"), record.MTU)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["other_config"], err = convertStringToStringMapToXen(fmt.Sprintf("%s.%s", context, "other_config"), record.OtherConfig)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["bridge"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "bridge"), record.Bridge)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["blobs"], err = convertStringToBlobRefMapToXen(fmt.Sprintf("%s.%s", context, "blobs"), record.Blobs)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["tags"], err = convertStringSetToXen(fmt.Sprintf("%s.%s", context, "tags"), record.Tags)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["default_locking_mode"], err = convertEnumNetworkDefaultLockingModeToXen(fmt.Sprintf("%s.%s", context, "default_locking_mode"), record.DefaultLockingMode)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["assigned_ips"], err = convertVIFRefToStringMapToXen(fmt.Sprintf("%s.%s", context, "assigned_ips"), record.AssignedIps)
   if err != nil {
 		return
@@ -9553,12 +9359,10 @@ func convertSecretRecordToXen(context string, record SecretRecord) (rpcStruct xm
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["value"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "value"), record.Value)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["other_config"], err = convertStringToStringMapToXen(fmt.Sprintf("%s.%s", context, "other_config"), record.OtherConfig)
   if err != nil {
 		return
@@ -9815,17 +9619,14 @@ func convertSubjectRecordToXen(context string, record SubjectRecord) (rpcStruct 
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["subject_identifier"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "subject_identifier"), record.SubjectIdentifier)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["other_config"], err = convertStringToStringMapToXen(fmt.Sprintf("%s.%s", context, "other_config"), record.OtherConfig)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["roles"], err = convertRoleRefSetToXen(fmt.Sprintf("%s.%s", context, "roles"), record.Roles)
   if err != nil {
 		return
@@ -10144,17 +9945,14 @@ func convertUserRecordToXen(context string, record UserRecord) (rpcStruct xmlrpc
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["short_name"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "short_name"), record.ShortName)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["fullname"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "fullname"), record.Fullname)
   if err != nil {
 		return
 	}
-  rpcStruct = xmlrpc.Struct{}
   rpcStruct["other_config"], err = convertStringToStringMapToXen(fmt.Sprintf("%s.%s", context, "other_config"), record.OtherConfig)
   if err != nil {
 		return
