@@ -427,7 +427,7 @@ func {{ .FuncName }}(context string, input interface{}) (record {{ .GoType }}, e
 		return
 	}{{ range .Fields }}
   {{ .Name|internal }}Value, ok := rpcStruct[{{ printf "%q" .Name }}]
-	if ok {
+	if ok && {{ .Name|internal }}Value != nil {
   	record.{{ .Name|exported }}, err = {{ .Type|convertToGo }}(fmt.Sprintf("%s.%s", context, {{ printf "%q" .Name }}), {{ .Name|internal }}Value)
 		if err != nil {
 			return
