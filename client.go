@@ -38,7 +38,7 @@ func (client *Client) APICall(method string, params ...interface{}) (result APIR
 			_objtype = details[1].(string)
 		}
 		var _uuid string
-		if len(details) > 2 {
+		if len(details) > 2 && details[2] != nil {
 			_uuid = details[2].(string)
 		}
 		err = &Error{
