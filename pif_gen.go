@@ -20,6 +20,17 @@ var _ = reflect.TypeOf
 var _ = strconv.Atoi
 var _ = time.UTC
 
+type PifIgmpStatus string
+
+const (
+  // IGMP Snooping is enabled in the corresponding backend bridge.'
+	PifIgmpStatusEnabled PifIgmpStatus = "enabled"
+  // IGMP Snooping is disabled in the corresponding backend bridge.'
+	PifIgmpStatusDisabled PifIgmpStatus = "disabled"
+  // IGMP snooping status is unknown. If this is a VLAN master, then please consult the underlying VLAN slave PIF.
+	PifIgmpStatusUnknown PifIgmpStatus = "unknown"
+)
+
 type IPConfigurationMode string
 
 const (
@@ -116,6 +127,8 @@ type PIFRecord struct {
 	Properties map[string]string
   // Additional capabilities on the interface.
 	Capabilities []string
+  // The IGMP snooping status of the corresponding network bridge
+	IgmpSnoopingStatus PifIgmpStatus
 }
 
 type PIFRef string
@@ -611,6 +624,25 @@ func (_class PIFClass) SetOtherConfig(sessionID SessionRef, self PIFRef, value m
 		return
 	}
 	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// Get the igmp_snooping_status field of the given PIF.
+func (_class PIFClass) GetIgmpSnoopingStatus(sessionID SessionRef, self PIFRef) (_retval PifIgmpStatus, _err error) {
+	_method := "PIF.get_igmp_snooping_status"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPIFRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertEnumPifIgmpStatusToGo(_method + " -> ", _result.Value)
 	return
 }
 

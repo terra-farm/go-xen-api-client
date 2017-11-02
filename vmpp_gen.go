@@ -79,7 +79,7 @@ type VMPPRecord struct {
 	BackupRetentionValue int
   // frequency of the backup schedule
 	BackupFrequency VmppBackupFrequency
-  // schedule of the backup containing 'hour', 'min', 'days'. Date/time-related information is in XenServer Local Timezone
+  // schedule of the backup containing 'hour', 'min', 'days'. Date/time-related information is in Local Timezone
 	BackupSchedule map[string]string
   // true if this protection policy's backup is running
 	IsBackupRunning bool
@@ -91,7 +91,7 @@ type VMPPRecord struct {
 	ArchiveTargetConfig map[string]string
   // frequency of the archive schedule
 	ArchiveFrequency VmppArchiveFrequency
-  // schedule of the archive containing 'hour', 'min', 'days'. Date/time-related information is in XenServer Local Timezone
+  // schedule of the archive containing 'hour', 'min', 'days'. Date/time-related information is in Local Timezone
 	ArchiveSchedule map[string]string
   // true if this protection policy's archive is running
 	IsArchiveRunning bool

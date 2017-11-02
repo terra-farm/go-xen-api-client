@@ -103,6 +103,8 @@ type HostRecord struct {
 	Crashdumps []HostCrashdumpRef
   // Set of host patches
 	Patches []HostPatchRef
+  // Set of updates
+	Updates []PoolUpdateRef
   // physical blockdevices
 	PBDs []PBDRef
   // The physical CPUs on this host
@@ -131,7 +133,7 @@ type HostRecord struct {
 	ExternalAuthServiceName string
   // configuration specific to external authentication service
 	ExternalAuthConfiguration map[string]string
-  // XenServer edition
+  // Product edition
 	Edition string
   // Contact information of the license server
 	LicenseServer map[string]string
@@ -149,7 +151,9 @@ type HostRecord struct {
 	PCIs []PCIRef
   // List of physical GPUs in the host
 	PGPUs []PGPURef
-  // Allow SSLv3 protocol and ciphersuites as used by older XenServers
+  // List of physical USBs in the host
+	PUSBs []PUSBRef
+  // Allow SSLv3 protocol and ciphersuites as used by older XenServers. This controls both incoming and outgoing connections. When this is set to a different value, the host immediately restarts its SSL/TLS listening service; typically this takes less than a second but existing connections to it will be broken. XenAPI login sessions will remain valid.
 	SslLegacy bool
   // VCPUs params to apply to all resident guests
 	GuestVCPUsParams map[string]string
@@ -157,6 +161,12 @@ type HostRecord struct {
 	Display HostDisplay
   // The set of versions of the virtual hardware platform that the host can offer to its guests
 	VirtualHardwarePlatformVersions []int
+  // The control domain (domain 0)
+	ControlDomain VMRef
+  // List of updates which require reboot
+	UpdatesRequiringReboot []PoolUpdateRef
+  // List of features available on this host
+	Features []FeatureRef
 }
 
 type HostRef string
@@ -196,7 +206,7 @@ func (_class HostClass) GetAll(sessionID SessionRef) (_retval []HostRef, _err er
 	return
 }
 
-// Enable/disable SSLv3 for interoperability with older versions of XenServer
+// Enable/disable SSLv3 for interoperability with older versions of XenServer. When this is set to a different value, the host immediately restarts its SSL/TLS listening service; typically this takes less than a second but existing connections to it will be broken. XenAPI login sessions will remain valid.
 func (_class HostClass) SetSslLegacy(sessionID SessionRef, self HostRef, value bool) (_err error) {
 	_method := "host.set_ssl_legacy"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -424,7 +434,7 @@ func (_class HostClass) ApplyEdition(sessionID SessionRef, host HostRef, edition
 	return
 }
 
-// Get the installed server SSL certificate.
+// Get the installed server public TLS certificate.
 func (_class HostClass) GetServerCertificate(sessionID SessionRef, host HostRef) (_retval string, _err error) {
 	_method := "host.get_server_certificate"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -543,6 +553,52 @@ func (_class HostClass) GetServertime(sessionID SessionRef, host HostRef) (_retv
 		return
 	}
 	_retval, _err = convertTimeToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Call a XenAPI extension on this host
+func (_class HostClass) CallExtension(sessionID SessionRef, host HostRef, call string) (_retval string, _err error) {
+	_method := "host.call_extension"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_hostArg, _err := convertHostRefToXen(fmt.Sprintf("%s(%s)", _method, "host"), host)
+	if _err != nil {
+		return
+	}
+	_callArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "call"), call)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _hostArg, _callArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertStringToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Return true if the extension is available on the host
+func (_class HostClass) HasExtension(sessionID SessionRef, host HostRef, name string) (_retval bool, _err error) {
+	_method := "host.has_extension"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_hostArg, _err := convertHostRefToXen(fmt.Sprintf("%s(%s)", _method, "host"), host)
+	if _err != nil {
+		return
+	}
+	_nameArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "name"), name)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _hostArg, _nameArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertBoolToGo(_method + " -> ", _result.Value)
 	return
 }
 
@@ -971,13 +1027,17 @@ func (_class HostClass) GetDataSources(sessionID SessionRef, host HostRef) (_ret
 }
 
 // This call disables HA on the local host. This should only be used with extreme care.
-func (_class HostClass) EmergencyHaDisable(sessionID SessionRef) (_err error) {
+func (_class HostClass) EmergencyHaDisable(sessionID SessionRef, soft bool) (_err error) {
 	_method := "host.emergency_ha_disable"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
 	if _err != nil {
 		return
 	}
-	_, _err =  _class.client.APICall(_method, _sessionIDArg)
+	_softArg, _err := convertBoolToXen(fmt.Sprintf("%s(%s)", _method, "soft"), soft)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _softArg)
 	return
 }
 
@@ -1008,6 +1068,43 @@ func (_class HostClass) Destroy(sessionID SessionRef, self HostRef) (_err error)
 		return
 	}
 	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	return
+}
+
+// Remove any license file from the specified host, and switch that host to the unlicensed edition
+func (_class HostClass) LicenseRemove(sessionID SessionRef, host HostRef) (_err error) {
+	_method := "host.license_remove"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_hostArg, _err := convertHostRefToXen(fmt.Sprintf("%s(%s)", _method, "host"), host)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _hostArg)
+	return
+}
+
+// Apply a new license to a host
+//
+// Errors:
+//  LICENSE_PROCESSING_ERROR - There was an error processing your license.  Please contact your support representative.
+func (_class HostClass) LicenseAdd(sessionID SessionRef, host HostRef, contents string) (_err error) {
+	_method := "host.license_add"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_hostArg, _err := convertHostRefToXen(fmt.Sprintf("%s(%s)", _method, "host"), host)
+	if _err != nil {
+		return
+	}
+	_contentsArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "contents"), contents)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _hostArg, _contentsArg)
 	return
 }
 
@@ -1048,7 +1145,7 @@ func (_class HostClass) ListMethods(sessionID SessionRef) (_retval []string, _er
 	return
 }
 
-// Run xen-bugtool --yestoall and upload the output to Citrix support
+// Run xen-bugtool --yestoall and upload the output to support
 func (_class HostClass) BugreportUpload(sessionID SessionRef, host HostRef, url string, options map[string]string) (_err error) {
 	_method := "host.bugreport_upload"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1641,6 +1738,63 @@ func (_class HostClass) SetNameLabel(sessionID SessionRef, self HostRef, value s
 	return
 }
 
+// Get the features field of the given host.
+func (_class HostClass) GetFeatures(sessionID SessionRef, self HostRef) (_retval []FeatureRef, _err error) {
+	_method := "host.get_features"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertHostRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertFeatureRefSetToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Get the updates_requiring_reboot field of the given host.
+func (_class HostClass) GetUpdatesRequiringReboot(sessionID SessionRef, self HostRef) (_retval []PoolUpdateRef, _err error) {
+	_method := "host.get_updates_requiring_reboot"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertHostRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertPoolUpdateRefSetToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Get the control_domain field of the given host.
+func (_class HostClass) GetControlDomain(sessionID SessionRef, self HostRef) (_retval VMRef, _err error) {
+	_method := "host.get_control_domain"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertHostRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertVMRefToGo(_method + " -> ", _result.Value)
+	return
+}
+
 // Get the virtual_hardware_platform_versions field of the given host.
 func (_class HostClass) GetVirtualHardwarePlatformVersions(sessionID SessionRef, self HostRef) (_retval []int, _err error) {
 	_method := "host.get_virtual_hardware_platform_versions"
@@ -1714,6 +1868,25 @@ func (_class HostClass) GetSslLegacy(sessionID SessionRef, self HostRef) (_retva
 		return
 	}
 	_retval, _err = convertBoolToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Get the PUSBs field of the given host.
+func (_class HostClass) GetPUSBs(sessionID SessionRef, self HostRef) (_retval []PUSBRef, _err error) {
+	_method := "host.get_PUSBs"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertHostRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertPUSBRefSetToGo(_method + " -> ", _result.Value)
 	return
 }
 
@@ -2151,6 +2324,25 @@ func (_class HostClass) GetPBDs(sessionID SessionRef, self HostRef) (_retval []P
 		return
 	}
 	_retval, _err = convertPBDRefSetToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Get the updates field of the given host.
+func (_class HostClass) GetUpdates(sessionID SessionRef, self HostRef) (_retval []PoolUpdateRef, _err error) {
+	_method := "host.get_updates"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertHostRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertPoolUpdateRefSetToGo(_method + " -> ", _result.Value)
 	return
 }
 

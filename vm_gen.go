@@ -171,15 +171,17 @@ type VMRecord struct {
 	NameLabel string
   // a notes field containing human-readable description
 	NameDescription string
-  // a user version number for this machine
+  // Creators of VMs and templates may store version information here.
 	UserVersion int
   // true if this is a template. Template VMs can never be started, they are used only for cloning other VMs
 	IsATemplate bool
+  // true if this is a default template. Default template VMs can never be started or migrated, they are used only for cloning other VMs
+	IsDefaultTemplate bool
   // The VDI that a suspend image is stored on. (Only has meaning if VM is currently suspended)
 	SuspendVDI VDIRef
   // the host the VM is currently resident on
 	ResidentOn HostRef
-  // a host which the VM has some affinity for (or NULL). This is used as a hint to the start call when it decides where to run the VM. Implementations are free to ignore this field.
+  // A host which the VM has some affinity for (or NULL). This is used as a hint to the start call when it decides where to run the VM. Resource constraints may cause the VM to be started elsewhere.
 	Affinity HostRef
   // Virtualization memory overhead (bytes).
 	MemoryOverhead int
@@ -211,6 +213,8 @@ type VMRecord struct {
 	VIFs []VIFRef
   // virtual block devices
 	VBDs []VBDRef
+  // vitual usb devices
+	VUSBs []VUSBRef
   // crash dumps associated with this VM
 	CrashDumps []CrashdumpRef
   // virtual TPMs
@@ -291,6 +295,10 @@ type VMRecord struct {
 	ProtectionPolicy VMPPRef
   // true if this snapshot was created by the protection policy
 	IsSnapshotFromVmpp bool
+  // Ref pointing to a snapshot schedule for this VM
+	SnapshotSchedule VMSSRef
+  // true if this snapshot was created by the snapshot schedule
+	IsVmssSnapshot bool
   // the appliance to which this VM belongs
 	Appliance VMApplianceRef
   // The delay to wait before proceeding to the next order in the startup sequence (seconds)
@@ -311,8 +319,12 @@ type VMRecord struct {
 	GenerationID string
   // The host virtual hardware platform version the VM can run on
 	HardwarePlatformVersion int
-  // True if the Windows Update feature is enabled on the VM; false otherwise
-	AutoUpdateDrivers bool
+  // When an HVM guest starts, this controls the presence of the emulated C000 PCI device which triggers Windows Update to fetch or update PV drivers.
+	HasVendorDevice bool
+  // Indicates whether a VM requires a reboot in order to update its configuration, e.g. its memory allocation.
+	RequiresReboot bool
+  // Textual reference to the template used to create a VM. This can be used by clients in need of an immutable reference to the template since the latter's uuid and name_label may change, for example, after a package installation or upgrade.
+	ReferenceLabel string
 }
 
 type VMRef string
@@ -352,21 +364,6 @@ func (_class VMClass) GetAll(sessionID SessionRef) (_retval []VMRef, _err error)
 	return
 }
 
-// Start the 'xenprep' process on the VM; the process will remove any tools and drivers for XenServer and then set auto update drivers true.
-func (_class VMClass) XenprepStart(sessionID SessionRef, self VMRef) (_err error) {
-	_method := "VM.xenprep_start"
-	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
-	if _err != nil {
-		return
-	}
-	_selfArg, _err := convertVMRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
-	if _err != nil {
-		return
-	}
-	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg)
-	return
-}
-
 // Import an XVA from a URI
 func (_class VMClass) Import(sessionID SessionRef, url string, sr SRRef, fullRestore bool, force bool) (_retval []VMRef, _err error) {
 	_method := "VM.import"
@@ -398,28 +395,9 @@ func (_class VMClass) Import(sessionID SessionRef, url string, sr SRRef, fullRes
 	return
 }
 
-// Check if PV auto update can be set on Windows vm
-func (_class VMClass) AssertCanSetAutoUpdateDrivers(sessionID SessionRef, self VMRef, value bool) (_err error) {
-	_method := "VM.assert_can_set_auto_update_drivers"
-	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
-	if _err != nil {
-		return
-	}
-	_selfArg, _err := convertVMRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
-	if _err != nil {
-		return
-	}
-	_valueArg, _err := convertBoolToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
-	if _err != nil {
-		return
-	}
-	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
-	return
-}
-
-// Enable or disable PV auto update on Windows vm
-func (_class VMClass) SetAutoUpdateDrivers(sessionID SessionRef, self VMRef, value bool) (_err error) {
-	_method := "VM.set_auto_update_drivers"
+// Controls whether, when the VM starts in HVM mode, its virtual hardware will include the emulated PCI device for which drivers may be available through Windows Update. Usually this should never be changed on a VM on which Windows has been installed: changing it on such a VM is likely to lead to a crash on next start.
+func (_class VMClass) SetHasVendorDevice(sessionID SessionRef, self VMRef, value bool) (_err error) {
+	_method := "VM.set_has_vendor_device"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
 	if _err != nil {
 		return
@@ -681,6 +659,25 @@ func (_class VMClass) SetStartDelay(sessionID SessionRef, self VMRef, value int)
 	return
 }
 
+// Set the value of the snapshot schedule field
+func (_class VMClass) SetSnapshotSchedule(sessionID SessionRef, self VMRef, value VMSSRef) (_err error) {
+	_method := "VM.set_snapshot_schedule"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVMRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_valueArg, _err := convertVMSSRefToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
 // Set the value of the protection_policy field
 func (_class VMClass) SetProtectionPolicy(sessionID SessionRef, self VMRef, value VMPPRef) (_err error) {
 	_method := "VM.set_protection_policy"
@@ -716,6 +713,29 @@ func (_class VMClass) CopyBiosStrings(sessionID SessionRef, vm VMRef, host HostR
 		return
 	}
 	_, _err =  _class.client.APICall(_method, _sessionIDArg, _vmArg, _hostArg)
+	return
+}
+
+// Set custom BIOS strings to this VM. VM will be given a default set of BIOS strings, only some of which can be overridden by the supplied values. Allowed keys are: 'bios-vendor', 'bios-version', 'system-manufacturer', 'system-product-name', 'system-version', 'system-serial-number', 'enclosure-asset-tag'
+//
+// Errors:
+//  VM_BIOS_STRINGS_ALREADY_SET - The BIOS strings for this VM have already been set and cannot be changed.
+//  INVALID_VALUE - The value given is invalid
+func (_class VMClass) SetBiosStrings(sessionID SessionRef, self VMRef, value map[string]string) (_err error) {
+	_method := "VM.set_bios_strings"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVMRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_valueArg, _err := convertStringToStringMapToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
 	return
 }
 
@@ -1000,6 +1020,9 @@ func (_class VMClass) GetBootRecord(sessionID SessionRef, self VMRef) (_retval V
 }
 
 // Assert whether a VM can be migrated to the specified destination.
+//
+// Errors:
+//  LICENCE_RESTRICTION - This operation is not allowed because your license lacks a needed feature.  Please contact your support representative.
 func (_class VMClass) AssertCanMigrate(sessionID SessionRef, vm VMRef, dest map[string]string, live bool, vdiMap map[VDIRef]SRRef, vifMap map[VIFRef]NetworkRef, options map[string]string) (_err error) {
 	_method := "VM.assert_can_migrate"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1038,6 +1061,7 @@ func (_class VMClass) AssertCanMigrate(sessionID SessionRef, vm VMRef, dest map[
 //
 // Errors:
 //  VM_BAD_POWER_STATE - You attempted an operation on a VM that was not in an appropriate power state at the time; for example, you attempted to start a VM that was already running.  The parameters returned are the VM's handle, and the expected and actual VM state at the time of the call.
+//  LICENCE_RESTRICTION - This operation is not allowed because your license lacks a needed feature.  Please contact your support representative.
 func (_class VMClass) MigrateSend(sessionID SessionRef, vm VMRef, dest map[string]string, live bool, vdiMap map[VDIRef]SRRef, vifMap map[VIFRef]NetworkRef, options map[string]string) (_retval VMRef, _err error) {
 	_method := "VM.migrate_send"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1273,6 +1297,25 @@ func (_class VMClass) SetMemoryTargetLive(sessionID SessionRef, self VMRef, targ
 		return
 	}
 	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _targetArg)
+	return
+}
+
+// Set the memory allocation of this VM. Sets all of memory_static_max, memory_dynamic_min, and memory_dynamic_max to the given value, and leaves memory_static_min untouched.
+func (_class VMClass) SetMemory(sessionID SessionRef, self VMRef, value int) (_err error) {
+	_method := "VM.set_memory"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVMRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_valueArg, _err := convertIntToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
 	return
 }
 
@@ -1513,6 +1556,10 @@ func (_class VMClass) AddToVCPUsParamsLive(sessionID SessionRef, self VMRef, key
 }
 
 // Set the number of VCPUs for a running VM
+//
+// Errors:
+//  OPERATION_NOT_ALLOWED - You attempted an operation that was not allowed.
+//  LICENCE_RESTRICTION - This operation is not allowed because your license lacks a needed feature.  Please contact your support representative.
 func (_class VMClass) SetVCPUsNumberLive(sessionID SessionRef, self VMRef, nvcpu int) (_err error) {
 	_method := "VM.set_VCPUs_number_live"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1849,7 +1896,7 @@ func (_class VMClass) StartOn(sessionID SessionRef, vm VMRef, host HostRef, star
 //  BOOTLOADER_FAILED - The bootloader returned an error
 //  UNKNOWN_BOOTLOADER - The requested bootloader is unknown
 //  NO_HOSTS_AVAILABLE - There were no hosts available to complete the specified operation.
-//  LICENCE_RESTRICTION - This operation is not allowed under your license.  Please contact your support representative.
+//  LICENCE_RESTRICTION - This operation is not allowed because your license lacks a needed feature.  Please contact your support representative.
 func (_class VMClass) Start(sessionID SessionRef, vm VMRef, startPaused bool, force bool) (_err error) {
 	_method := "VM.start"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1878,6 +1925,7 @@ func (_class VMClass) Start(sessionID SessionRef, vm VMRef, startPaused bool, fo
 //  VM_BAD_POWER_STATE - You attempted an operation on a VM that was not in an appropriate power state at the time; for example, you attempted to start a VM that was already running.  The parameters returned are the VM's handle, and the expected and actual VM state at the time of the call.
 //  SR_FULL - The SR is full. Requested new size exceeds the maximum size
 //  OPERATION_NOT_ALLOWED - You attempted an operation that was not allowed.
+//  LICENCE_RESTRICTION - This operation is not allowed because your license lacks a needed feature.  Please contact your support representative.
 func (_class VMClass) Provision(sessionID SessionRef, vm VMRef) (_err error) {
 	_method := "VM.provision"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1949,6 +1997,7 @@ func (_class VMClass) Revert(sessionID SessionRef, snapshot VMRef) (_err error) 
 //  VM_BAD_POWER_STATE - You attempted an operation on a VM that was not in an appropriate power state at the time; for example, you attempted to start a VM that was already running.  The parameters returned are the VM's handle, and the expected and actual VM state at the time of the call.
 //  SR_FULL - The SR is full. Requested new size exceeds the maximum size
 //  OPERATION_NOT_ALLOWED - You attempted an operation that was not allowed.
+//  LICENCE_RESTRICTION - This operation is not allowed because your license lacks a needed feature.  Please contact your support representative.
 func (_class VMClass) Copy(sessionID SessionRef, vm VMRef, newName string, sr SRRef) (_retval VMRef, _err error) {
 	_method := "VM.copy"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1981,6 +2030,7 @@ func (_class VMClass) Copy(sessionID SessionRef, vm VMRef, newName string, sr SR
 //  VM_BAD_POWER_STATE - You attempted an operation on a VM that was not in an appropriate power state at the time; for example, you attempted to start a VM that was already running.  The parameters returned are the VM's handle, and the expected and actual VM state at the time of the call.
 //  SR_FULL - The SR is full. Requested new size exceeds the maximum size
 //  OPERATION_NOT_ALLOWED - You attempted an operation that was not allowed.
+//  LICENCE_RESTRICTION - This operation is not allowed because your license lacks a needed feature.  Please contact your support representative.
 func (_class VMClass) Clone(sessionID SessionRef, vm VMRef, newName string) (_retval VMRef, _err error) {
 	_method := "VM.clone"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2847,9 +2897,47 @@ func (_class VMClass) SetNameLabel(sessionID SessionRef, self VMRef, value strin
 	return
 }
 
-// Get the auto_update_drivers field of the given VM.
-func (_class VMClass) GetAutoUpdateDrivers(sessionID SessionRef, self VMRef) (_retval bool, _err error) {
-	_method := "VM.get_auto_update_drivers"
+// Get the reference_label field of the given VM.
+func (_class VMClass) GetReferenceLabel(sessionID SessionRef, self VMRef) (_retval string, _err error) {
+	_method := "VM.get_reference_label"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVMRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertStringToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Get the requires_reboot field of the given VM.
+func (_class VMClass) GetRequiresReboot(sessionID SessionRef, self VMRef) (_retval bool, _err error) {
+	_method := "VM.get_requires_reboot"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVMRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertBoolToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Get the has_vendor_device field of the given VM.
+func (_class VMClass) GetHasVendorDevice(sessionID SessionRef, self VMRef) (_retval bool, _err error) {
+	_method := "VM.get_has_vendor_device"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
 	if _err != nil {
 		return
@@ -3053,6 +3141,44 @@ func (_class VMClass) GetAppliance(sessionID SessionRef, self VMRef) (_retval VM
 		return
 	}
 	_retval, _err = convertVMApplianceRefToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Get the is_vmss_snapshot field of the given VM.
+func (_class VMClass) GetIsVmssSnapshot(sessionID SessionRef, self VMRef) (_retval bool, _err error) {
+	_method := "VM.get_is_vmss_snapshot"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVMRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertBoolToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Get the snapshot_schedule field of the given VM.
+func (_class VMClass) GetSnapshotSchedule(sessionID SessionRef, self VMRef) (_retval VMSSRef, _err error) {
+	_method := "VM.get_snapshot_schedule"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVMRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertVMSSRefToGo(_method + " -> ", _result.Value)
 	return
 }
 
@@ -3816,6 +3942,25 @@ func (_class VMClass) GetCrashDumps(sessionID SessionRef, self VMRef) (_retval [
 	return
 }
 
+// Get the VUSBs field of the given VM.
+func (_class VMClass) GetVUSBs(sessionID SessionRef, self VMRef) (_retval []VUSBRef, _err error) {
+	_method := "VM.get_VUSBs"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVMRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertVUSBRefSetToGo(_method + " -> ", _result.Value)
+	return
+}
+
 // Get the VBDs field of the given VM.
 func (_class VMClass) GetVBDs(sessionID SessionRef, self VMRef) (_retval []VBDRef, _err error) {
 	_method := "VM.get_VBDs"
@@ -4158,6 +4303,25 @@ func (_class VMClass) GetSuspendVDI(sessionID SessionRef, self VMRef) (_retval V
 	return
 }
 
+// Get the is_default_template field of the given VM.
+func (_class VMClass) GetIsDefaultTemplate(sessionID SessionRef, self VMRef) (_retval bool, _err error) {
+	_method := "VM.get_is_default_template"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVMRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertBoolToGo(_method + " -> ", _result.Value)
+	return
+}
+
 // Get the is_a_template field of the given VM.
 func (_class VMClass) GetIsATemplate(sessionID SessionRef, self VMRef) (_retval bool, _err error) {
 	_method := "VM.get_is_a_template"
@@ -4344,8 +4508,8 @@ func (_class VMClass) Destroy(sessionID SessionRef, self VMRef) (_err error) {
 	return
 }
 
-// Create a new VM instance, and return its handle.
-// The constructor args are: name_label, name_description, user_version*, is_a_template*, affinity*, memory_target, memory_static_max*, memory_dynamic_max*, memory_dynamic_min*, memory_static_min*, VCPUs_params*, VCPUs_max*, VCPUs_at_startup*, actions_after_shutdown*, actions_after_reboot*, actions_after_crash*, PV_bootloader*, PV_kernel*, PV_ramdisk*, PV_args*, PV_bootloader_args*, PV_legacy_args*, HVM_boot_policy*, HVM_boot_params*, HVM_shadow_multiplier, platform*, PCI_bus*, other_config*, recommendations*, xenstore_data, ha_always_run, ha_restart_priority, tags, blocked_operations, protection_policy, is_snapshot_from_vmpp, appliance, start_delay, shutdown_delay, order, suspend_SR, version, generation_id, hardware_platform_version (* = non-optional).
+// NOT RECOMMENDED! VM.clone or VM.copy (or VM.import) is a better choice in almost all situations. The standard way to obtain a new VM is to call VM.clone on a template VM, then call VM.provision on the new clone. Caution: if VM.create is used and then the new VM is attached to a virtual disc that has an operating system already installed, then there is no guarantee that the operating system will boot and run. Any software that calls VM.create on a future version of this API may fail or give unexpected results. For example this could happen if an additional parameter were added to VM.create. VM.create is intended only for use in the automatic creation of the system VM templates. It creates a new VM instance, and returns its handle.
+// The constructor args are: name_label, name_description, user_version*, is_a_template*, affinity*, memory_target, memory_static_max*, memory_dynamic_max*, memory_dynamic_min*, memory_static_min*, VCPUs_params*, VCPUs_max*, VCPUs_at_startup*, actions_after_shutdown*, actions_after_reboot*, actions_after_crash*, PV_bootloader*, PV_kernel*, PV_ramdisk*, PV_args*, PV_bootloader_args*, PV_legacy_args*, HVM_boot_policy*, HVM_boot_params*, HVM_shadow_multiplier, platform*, PCI_bus*, other_config*, recommendations*, xenstore_data, ha_always_run, ha_restart_priority, tags, blocked_operations, protection_policy, is_snapshot_from_vmpp, snapshot_schedule, is_vmss_snapshot, appliance, start_delay, shutdown_delay, order, suspend_SR, version, generation_id, hardware_platform_version, has_vendor_device, reference_label (* = non-optional).
 func (_class VMClass) Create(sessionID SessionRef, args VMRecord) (_retval VMRef, _err error) {
 	_method := "VM.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

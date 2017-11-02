@@ -47,6 +47,18 @@ const (
 	StorageOperationsVdiClone StorageOperations = "vdi_clone"
   // Snapshotting a VDI
 	StorageOperationsVdiSnapshot StorageOperations = "vdi_snapshot"
+  // Mirroring a VDI
+	StorageOperationsVdiMirror StorageOperations = "vdi_mirror"
+  // Enabling changed block tracking for a VDI
+	StorageOperationsVdiEnableCbt StorageOperations = "vdi_enable_cbt"
+  // Disabling changed block tracking for a VDI
+	StorageOperationsVdiDisableCbt StorageOperations = "vdi_disable_cbt"
+  // Deleting the data of the VDI
+	StorageOperationsVdiDataDestroy StorageOperations = "vdi_data_destroy"
+  // Exporting a bitmap that shows the changed blocks between two VDIs
+	StorageOperationsVdiListChangedBlocks StorageOperations = "vdi_list_changed_blocks"
+  // Setting the on_boot field of the VDI
+	StorageOperationsVdiSetOnBoot StorageOperations = "vdi_set_on_boot"
   // Creating a PBD for this SR
 	StorageOperationsPbdCreate StorageOperations = "pbd_create"
   // Destroying one of this SR's PBDs
@@ -92,6 +104,10 @@ type SRRecord struct {
 	LocalCacheEnabled bool
   // The disaster recovery task which introduced this SR
 	IntroducedBy DRTaskRef
+  // True if the SR is using aggregated local storage
+	Clustered bool
+  // True if this is the SR that contains the Tools ISO VDIs
+	IsToolsSr bool
 }
 
 type SRRef string
@@ -128,6 +144,86 @@ func (_class SRClass) GetAll(sessionID SessionRef) (_retval []SRRef, _err error)
 		return
 	}
 	_retval, _err = convertSRRefSetToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Forget the recorded statistics related to the specified data source
+func (_class SRClass) ForgetDataSourceArchives(sessionID SessionRef, sr SRRef, dataSource string) (_err error) {
+	_method := "SR.forget_data_source_archives"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_srArg, _err := convertSRRefToXen(fmt.Sprintf("%s(%s)", _method, "sr"), sr)
+	if _err != nil {
+		return
+	}
+	_dataSourceArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "data_source"), dataSource)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _srArg, _dataSourceArg)
+	return
+}
+
+// Query the latest value of the specified data source
+func (_class SRClass) QueryDataSource(sessionID SessionRef, sr SRRef, dataSource string) (_retval float64, _err error) {
+	_method := "SR.query_data_source"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_srArg, _err := convertSRRefToXen(fmt.Sprintf("%s(%s)", _method, "sr"), sr)
+	if _err != nil {
+		return
+	}
+	_dataSourceArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "data_source"), dataSource)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _srArg, _dataSourceArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertFloatToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Start recording the specified data source
+func (_class SRClass) RecordDataSource(sessionID SessionRef, sr SRRef, dataSource string) (_err error) {
+	_method := "SR.record_data_source"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_srArg, _err := convertSRRefToXen(fmt.Sprintf("%s(%s)", _method, "sr"), sr)
+	if _err != nil {
+		return
+	}
+	_dataSourceArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "data_source"), dataSource)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _srArg, _dataSourceArg)
+	return
+}
+
+// 
+func (_class SRClass) GetDataSources(sessionID SessionRef, sr SRRef) (_retval []DataSourceRecord, _err error) {
+	_method := "SR.get_data_sources"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_srArg, _err := convertSRRefToXen(fmt.Sprintf("%s(%s)", _method, "sr"), sr)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _srArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertDataSourceRecordSetToGo(_method + " -> ", _result.Value)
 	return
 }
 
@@ -768,6 +864,44 @@ func (_class SRClass) SetOtherConfig(sessionID SessionRef, self SRRef, value map
 		return
 	}
 	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// Get the is_tools_sr field of the given SR.
+func (_class SRClass) GetIsToolsSr(sessionID SessionRef, self SRRef) (_retval bool, _err error) {
+	_method := "SR.get_is_tools_sr"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertSRRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertBoolToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Get the clustered field of the given SR.
+func (_class SRClass) GetClustered(sessionID SessionRef, self SRRef) (_retval bool, _err error) {
+	_method := "SR.get_clustered"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertSRRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertBoolToGo(_method + " -> ", _result.Value)
 	return
 }
 
