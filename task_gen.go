@@ -118,6 +118,25 @@ func (_class TaskClass) GetAll(sessionID SessionRef) (_retval []TaskRef, _err er
 	return
 }
 
+// Set the task status
+func (_class TaskClass) SetStatus(sessionID SessionRef, self TaskRef, value TaskStatusType) (_err error) {
+	_method := "task.set_status"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertTaskRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_valueArg, _err := convertEnumTaskStatusTypeToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
 // Request that a task be cancelled. Note that a task may fail to be cancelled and may complete or fail normally and note that, even when a task does cancel, it might take an arbitrary amount of time.
 //
 // Errors:

@@ -29,6 +29,8 @@ const (
 	VgpuTypeImplementationNvidia VgpuTypeImplementation = "nvidia"
   // vGPU using Intel GVT-g
 	VgpuTypeImplementationGvtG VgpuTypeImplementation = "gvt_g"
+  // vGPU using AMD MxGPU
+	VgpuTypeImplementationMxgpu VgpuTypeImplementation = "mxgpu"
 )
 
 type VGPUTypeRecord struct {

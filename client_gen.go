@@ -30,10 +30,12 @@ type Client struct {
 	Event EventClass
 	Pool PoolClass
 	PoolPatch PoolPatchClass
+	PoolUpdate PoolUpdateClass
 	VM VMClass
 	VMMetrics VMMetricsClass
 	VMGuestMetrics VMGuestMetricsClass
 	VMPP VMPPClass
+	VMSS VMSSClass
 	VMAppliance VMApplianceClass
 	DRTask DRTaskClass
 	Host HostClass
@@ -50,6 +52,7 @@ type Client struct {
 	VLAN VLANClass
 	SM SMClass
 	SR SRClass
+	LVHD LVHDClass
 	VDI VDIClass
 	VBD VBDClass
 	VBDMetrics VBDMetricsClass
@@ -68,6 +71,16 @@ type Client struct {
 	GPUGroup GPUGroupClass
 	VGPU VGPUClass
 	VGPUType VGPUTypeClass
+	PVSSite PVSSiteClass
+	PVSServer PVSServerClass
+	PVSProxy PVSProxyClass
+	PVSCacheStorage PVSCacheStorageClass
+	Feature FeatureClass
+	SDNController SDNControllerClass
+	VdiNbdServerInfo VdiNbdServerInfoClass
+	PUSB PUSBClass
+	USBGroup USBGroupClass
+	VUSB VUSBClass
 }
 
 func prepClient(rpc *xmlrpc.Client) *Client {
@@ -81,10 +94,12 @@ func prepClient(rpc *xmlrpc.Client) *Client {
 	client.Event = EventClass{&client}
 	client.Pool = PoolClass{&client}
 	client.PoolPatch = PoolPatchClass{&client}
+	client.PoolUpdate = PoolUpdateClass{&client}
 	client.VM = VMClass{&client}
 	client.VMMetrics = VMMetricsClass{&client}
 	client.VMGuestMetrics = VMGuestMetricsClass{&client}
 	client.VMPP = VMPPClass{&client}
+	client.VMSS = VMSSClass{&client}
 	client.VMAppliance = VMApplianceClass{&client}
 	client.DRTask = DRTaskClass{&client}
 	client.Host = HostClass{&client}
@@ -101,6 +116,7 @@ func prepClient(rpc *xmlrpc.Client) *Client {
 	client.VLAN = VLANClass{&client}
 	client.SM = SMClass{&client}
 	client.SR = SRClass{&client}
+	client.LVHD = LVHDClass{&client}
 	client.VDI = VDIClass{&client}
 	client.VBD = VBDClass{&client}
 	client.VBDMetrics = VBDMetricsClass{&client}
@@ -119,5 +135,15 @@ func prepClient(rpc *xmlrpc.Client) *Client {
 	client.GPUGroup = GPUGroupClass{&client}
 	client.VGPU = VGPUClass{&client}
 	client.VGPUType = VGPUTypeClass{&client}
+	client.PVSSite = PVSSiteClass{&client}
+	client.PVSServer = PVSServerClass{&client}
+	client.PVSProxy = PVSProxyClass{&client}
+	client.PVSCacheStorage = PVSCacheStorageClass{&client}
+	client.Feature = FeatureClass{&client}
+	client.SDNController = SDNControllerClass{&client}
+	client.VdiNbdServerInfo = VdiNbdServerInfoClass{&client}
+	client.PUSB = PUSBClass{&client}
+	client.USBGroup = USBGroupClass{&client}
+	client.VUSB = VUSBClass{&client}
 	return &client
 }

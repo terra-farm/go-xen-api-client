@@ -50,6 +50,8 @@ type PoolPatchRecord struct {
 	HostPatches []HostPatchRef
   // What the client should do after this patch has been applied.
 	AfterApplyGuidance []AfterApplyGuidance
+  // A reference to the associated pool_update object
+	PoolUpdate PoolUpdateRef
   // additional configuration
 	OtherConfig map[string]string
 }
@@ -293,6 +295,25 @@ func (_class PoolPatchClass) GetOtherConfig(sessionID SessionRef, self PoolPatch
 		return
 	}
 	_retval, _err = convertStringToStringMapToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Get the pool_update field of the given pool_patch.
+func (_class PoolPatchClass) GetPoolUpdate(sessionID SessionRef, self PoolPatchRef) (_retval PoolUpdateRef, _err error) {
+	_method := "pool_patch.get_pool_update"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPoolPatchRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertPoolUpdateRefToGo(_method + " -> ", _result.Value)
 	return
 }
 

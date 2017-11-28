@@ -40,7 +40,7 @@ type PGPURecord struct {
 	PCI PCIRef
   // GPU group the pGPU is contained in
 	GPUGroup GPUGroupRef
-  // Host that own the GPU
+  // Host that owns the GPU
 	Host HostRef
   // Additional configuration
 	OtherConfig map[string]string

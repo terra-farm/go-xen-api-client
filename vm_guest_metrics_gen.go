@@ -20,19 +20,26 @@ var _ = reflect.TypeOf
 var _ = strconv.Atoi
 var _ = time.UTC
 
+type TristateType string
+
+const (
+  // Known to be true
+	TristateTypeYes TristateType = "yes"
+  // Known to be false
+	TristateTypeNo TristateType = "no"
+  // Unknown or unspecified
+	TristateTypeUnspecified TristateType = "unspecified"
+)
+
 type VMGuestMetricsRecord struct {
   // Unique identifier/object reference
 	UUID string
   // version of the OS
-	OsVersion map[string]string
+	OSVersion map[string]string
   // version of the PV drivers
 	PVDriversVersion map[string]string
-  // Logical AND of network_paths_optimized and storage_paths_optimized
+  // Logically equivalent to PV_drivers_detected
 	PVDriversUpToDate bool
-  // True if the network paths are optimized with PV driver
-	NetworkPathsOptimized bool
-  // True if the storage paths are optimized with PV driver
-	StoragePathsOptimized bool
   // This field exists but has no data. Use the memory and memory_internal_free RRD data-sources instead.
 	Memory map[string]string
   // This field exists but has no data.
@@ -47,6 +54,12 @@ type VMGuestMetricsRecord struct {
 	OtherConfig map[string]string
   // True if the guest is sending heartbeat messages via the guest agent
 	Live bool
+  // The guest's statement of whether it supports VBD hotplug, i.e. whether it is capable of responding immediately to instantiation of a new VBD by bringing online a new PV block device. If the guest states that it is not capable, then the VBD plug and unplug operations will not be allowed while the guest is running.
+	CanUseHotplugVbd TristateType
+  // The guest's statement of whether it supports VIF hotplug, i.e. whether it is capable of responding immediately to instantiation of a new VIF by bringing online a new PV network device. If the guest states that it is not capable, then the VIF plug and unplug operations will not be allowed while the guest is running.
+	CanUseHotplugVif TristateType
+  // At least one of the guest's devices has successfully connected to the backend.
+	PVDriversDetected bool
 }
 
 type VMGuestMetricsRef string
@@ -144,6 +157,63 @@ func (_class VMGuestMetricsClass) SetOtherConfig(sessionID SessionRef, self VMGu
 		return
 	}
 	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// Get the PV_drivers_detected field of the given VM_guest_metrics.
+func (_class VMGuestMetricsClass) GetPVDriversDetected(sessionID SessionRef, self VMGuestMetricsRef) (_retval bool, _err error) {
+	_method := "VM_guest_metrics.get_PV_drivers_detected"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVMGuestMetricsRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertBoolToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Get the can_use_hotplug_vif field of the given VM_guest_metrics.
+func (_class VMGuestMetricsClass) GetCanUseHotplugVif(sessionID SessionRef, self VMGuestMetricsRef) (_retval TristateType, _err error) {
+	_method := "VM_guest_metrics.get_can_use_hotplug_vif"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVMGuestMetricsRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertEnumTristateTypeToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Get the can_use_hotplug_vbd field of the given VM_guest_metrics.
+func (_class VMGuestMetricsClass) GetCanUseHotplugVbd(sessionID SessionRef, self VMGuestMetricsRef) (_retval TristateType, _err error) {
+	_method := "VM_guest_metrics.get_can_use_hotplug_vbd"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVMGuestMetricsRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertEnumTristateTypeToGo(_method + " -> ", _result.Value)
 	return
 }
 
@@ -280,44 +350,6 @@ func (_class VMGuestMetricsClass) GetMemory(sessionID SessionRef, self VMGuestMe
 	return
 }
 
-// Get the storage_paths_optimized field of the given VM_guest_metrics.
-func (_class VMGuestMetricsClass) GetStoragePathsOptimized(sessionID SessionRef, self VMGuestMetricsRef) (_retval bool, _err error) {
-	_method := "VM_guest_metrics.get_storage_paths_optimized"
-	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
-	if _err != nil {
-		return
-	}
-	_selfArg, _err := convertVMGuestMetricsRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
-	if _err != nil {
-		return
-	}
-	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
-	if _err != nil {
-		return
-	}
-	_retval, _err = convertBoolToGo(_method + " -> ", _result.Value)
-	return
-}
-
-// Get the network_paths_optimized field of the given VM_guest_metrics.
-func (_class VMGuestMetricsClass) GetNetworkPathsOptimized(sessionID SessionRef, self VMGuestMetricsRef) (_retval bool, _err error) {
-	_method := "VM_guest_metrics.get_network_paths_optimized"
-	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
-	if _err != nil {
-		return
-	}
-	_selfArg, _err := convertVMGuestMetricsRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
-	if _err != nil {
-		return
-	}
-	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
-	if _err != nil {
-		return
-	}
-	_retval, _err = convertBoolToGo(_method + " -> ", _result.Value)
-	return
-}
-
 // Get the PV_drivers_up_to_date field of the given VM_guest_metrics.
 func (_class VMGuestMetricsClass) GetPVDriversUpToDate(sessionID SessionRef, self VMGuestMetricsRef) (_retval bool, _err error) {
 	_method := "VM_guest_metrics.get_PV_drivers_up_to_date"
@@ -357,7 +389,7 @@ func (_class VMGuestMetricsClass) GetPVDriversVersion(sessionID SessionRef, self
 }
 
 // Get the os_version field of the given VM_guest_metrics.
-func (_class VMGuestMetricsClass) GetOsVersion(sessionID SessionRef, self VMGuestMetricsRef) (_retval map[string]string, _err error) {
+func (_class VMGuestMetricsClass) GetOSVersion(sessionID SessionRef, self VMGuestMetricsRef) (_retval map[string]string, _err error) {
 	_method := "VM_guest_metrics.get_os_version"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
 	if _err != nil {

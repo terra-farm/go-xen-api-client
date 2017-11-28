@@ -36,6 +36,15 @@ const (
 	NetworkDefaultLockingModeDisabled NetworkDefaultLockingMode = "disabled"
 )
 
+type NetworkPurpose string
+
+const (
+  // Network Block Device service using TLS
+	NetworkPurposeNbd NetworkPurpose = "nbd"
+  // Network Block Device service without integrity or confidentiality: NOT RECOMMENDED
+	NetworkPurposeInsecureNbd NetworkPurpose = "insecure_nbd"
+)
+
 type NetworkRecord struct {
   // Unique identifier/object reference
 	UUID string
@@ -57,6 +66,8 @@ type NetworkRecord struct {
 	OtherConfig map[string]string
   // name of the bridge corresponding to this network on the local host
 	Bridge string
+  // true if the bridge is managed by xapi
+	Managed bool
   // Binary blobs associated with this network
 	Blobs map[string]BlobRef
   // user-specified tags for categorization purposes
@@ -65,6 +76,8 @@ type NetworkRecord struct {
 	DefaultLockingMode NetworkDefaultLockingMode
   // The IP addresses assigned to VIFs on networks that have active xapi-managed DHCP
 	AssignedIps map[VIFRef]string
+  // Set of purposes for which the server will use this network
+	Purpose []NetworkPurpose
 }
 
 type NetworkRef string
@@ -101,6 +114,47 @@ func (_class NetworkClass) GetAll(sessionID SessionRef) (_retval []NetworkRef, _
 		return
 	}
 	_retval, _err = convertNetworkRefSetToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Remove a purpose from a network (if present)
+func (_class NetworkClass) RemovePurpose(sessionID SessionRef, self NetworkRef, value NetworkPurpose) (_err error) {
+	_method := "network.remove_purpose"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertNetworkRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_valueArg, _err := convertEnumNetworkPurposeToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// Give a network a new purpose (if not present already)
+//
+// Errors:
+//  NETWORK_INCOMPATIBLE_PURPOSES - You tried to add a purpose to a network but the new purpose is not compatible with an existing purpose of the network or other networks.
+func (_class NetworkClass) AddPurpose(sessionID SessionRef, self NetworkRef, value NetworkPurpose) (_err error) {
+	_method := "network.add_purpose"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertNetworkRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_valueArg, _err := convertEnumNetworkPurposeToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
 	return
 }
 
@@ -329,6 +383,25 @@ func (_class NetworkClass) SetNameLabel(sessionID SessionRef, self NetworkRef, v
 	return
 }
 
+// Get the purpose field of the given network.
+func (_class NetworkClass) GetPurpose(sessionID SessionRef, self NetworkRef) (_retval []NetworkPurpose, _err error) {
+	_method := "network.get_purpose"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertNetworkRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertEnumNetworkPurposeSetToGo(_method + " -> ", _result.Value)
+	return
+}
+
 // Get the assigned_ips field of the given network.
 func (_class NetworkClass) GetAssignedIps(sessionID SessionRef, self NetworkRef) (_retval map[VIFRef]string, _err error) {
 	_method := "network.get_assigned_ips"
@@ -402,6 +475,25 @@ func (_class NetworkClass) GetBlobs(sessionID SessionRef, self NetworkRef) (_ret
 		return
 	}
 	_retval, _err = convertStringToBlobRefMapToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Get the managed field of the given network.
+func (_class NetworkClass) GetManaged(sessionID SessionRef, self NetworkRef) (_retval bool, _err error) {
+	_method := "network.get_managed"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertNetworkRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertBoolToGo(_method + " -> ", _result.Value)
 	return
 }
 
@@ -630,7 +722,7 @@ func (_class NetworkClass) Destroy(sessionID SessionRef, self NetworkRef) (_err 
 }
 
 // Create a new network instance, and return its handle.
-// The constructor args are: name_label, name_description, MTU, other_config*, tags (* = non-optional).
+// The constructor args are: name_label, name_description, MTU, other_config*, bridge, managed, tags (* = non-optional).
 func (_class NetworkClass) Create(sessionID SessionRef, args NetworkRecord) (_retval NetworkRef, _err error) {
 	_method := "network.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

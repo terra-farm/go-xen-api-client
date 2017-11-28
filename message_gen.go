@@ -33,6 +33,12 @@ const (
 	ClsPool Cls = "Pool"
   // VMPP
 	ClsVMPP Cls = "VMPP"
+  // VMSS
+	ClsVMSS Cls = "VMSS"
+  // PVS_proxy
+	ClsPVSProxy Cls = "PVS_proxy"
+  // VDI
+	ClsVDI Cls = "VDI"
 )
 
 type MessageRecord struct {

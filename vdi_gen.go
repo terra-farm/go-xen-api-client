@@ -23,8 +23,6 @@ var _ = time.UTC
 type VdiOperations string
 
 const (
-  // Scanning backends for new or deleted VDIs
-	VdiOperationsScan VdiOperations = "scan"
   // Cloning the VDI
 	VdiOperationsClone VdiOperations = "clone"
   // Copying the VDI
@@ -35,6 +33,8 @@ const (
 	VdiOperationsResizeOnline VdiOperations = "resize_online"
   // Snapshotting the VDI
 	VdiOperationsSnapshot VdiOperations = "snapshot"
+  // Mirroring the VDI
+	VdiOperationsMirror VdiOperations = "mirror"
   // Destroying the VDI
 	VdiOperationsDestroy VdiOperations = "destroy"
   // Forget about the VDI
@@ -45,6 +45,16 @@ const (
 	VdiOperationsForceUnlock VdiOperations = "force_unlock"
   // Generating static configuration
 	VdiOperationsGenerateConfig VdiOperations = "generate_config"
+  // Enabling changed block tracking for a VDI
+	VdiOperationsEnableCbt VdiOperations = "enable_cbt"
+  // Disabling changed block tracking for a VDI
+	VdiOperationsDisableCbt VdiOperations = "disable_cbt"
+  // Deleting the data of the VDI
+	VdiOperationsDataDestroy VdiOperations = "data_destroy"
+  // Exporting a bitmap that shows the changed blocks between two VDIs
+	VdiOperationsListChangedBlocks VdiOperations = "list_changed_blocks"
+  // Setting the on_boot field of the VDI
+	VdiOperationsSetOnBoot VdiOperations = "set_on_boot"
   // Operations on this VDI are temporarily blocked
 	VdiOperationsBlocked VdiOperations = "blocked"
 )
@@ -70,6 +80,10 @@ const (
 	VdiTypeRedoLog VdiType = "redo_log"
   // a disk that stores SR-level RRDs
 	VdiTypeRrd VdiType = "rrd"
+  // a disk that stores PVS cache data
+	VdiTypePvsCache VdiType = "pvs_cache"
+  // Metadata about a snapshot VDI that has been deleted: the set of blocks that changed between some previous version of the disk and the version tracked by the snapshot.
+	VdiTypeCbtMetadata VdiType = "cbt_metadata"
 )
 
 type OnBoot string
@@ -118,7 +132,7 @@ type VDIRecord struct {
 	Managed bool
   // true if SR scan operation reported this VDI as not present on disk
 	Missing bool
-  // References the parent disk, if this VDI is part of a chain
+  // This field is always null. Deprecated
 	Parent VDIRef
   // data to be inserted into the xenstore tree (/local/domain/0/backend/vbd/<domid>/<device-id>/sm-data) after the VDI is attached. This is generally set by the SM backends on vdi_attach.
 	XenstoreData map[string]string
@@ -142,6 +156,10 @@ type VDIRecord struct {
 	MetadataOfPool PoolRef
   // Whether this VDI contains the latest known accessible metadata for the pool
 	MetadataLatest bool
+  // Whether this VDI is a Tools ISO
+	IsToolsIso bool
+  // True if changed blocks are tracked for this VDI
+	CbtEnabled bool
 }
 
 type VDIRef string
@@ -178,6 +196,132 @@ func (_class VDIClass) GetAll(sessionID SessionRef) (_retval []VDIRef, _err erro
 		return
 	}
 	_retval, _err = convertVDIRefSetToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Get details specifying how to access this VDI via a Network Block Device server. For each of a set of NBD server addresses on which the VDI is available, the return value set contains a vdi_nbd_server_info object that contains an exportname to request once the NBD connection is established, and connection details for the address. An empty list is returned if there is no network that has a PIF on a host with access to the relevant SR, or if no such network has been assigned an NBD-related purpose in its purpose field. To access the given VDI, any of the vdi_nbd_server_info objects can be used to make a connection to a server, and then the VDI will be available by requesting the exportname.
+//
+// Errors:
+//  VDI_INCOMPATIBLE_TYPE - This operation cannot be performed because the specified VDI is of an incompatible type (eg: an HA statefile cannot be attached to a guest)
+func (_class VDIClass) GetNbdInfo(sessionID SessionRef, self VDIRef) (_retval []VdiNbdServerInfoRecord, _err error) {
+	_method := "VDI.get_nbd_info"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVDIRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertVdiNbdServerInfoRecordSetToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Compare two VDIs in 64k block increments and report which blocks differ. This operation is not allowed when vdi_to is attached to a VM.
+//
+// Errors:
+//  SR_OPERATION_NOT_SUPPORTED - The SR backend does not support the operation (check the SR's allowed operations)
+//  VDI_MISSING - This operation cannot be performed because the specified VDI could not be found on the storage substrate
+//  SR_NOT_ATTACHED - The SR is not attached.
+//  SR_HAS_NO_PBDS - The SR has no attached PBDs
+//  VDI_IN_USE - This operation cannot be performed because this VDI is in use by some other operation
+func (_class VDIClass) ListChangedBlocks(sessionID SessionRef, vdiFrom VDIRef, vdiTo VDIRef) (_retval string, _err error) {
+	_method := "VDI.list_changed_blocks"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_vdiFromArg, _err := convertVDIRefToXen(fmt.Sprintf("%s(%s)", _method, "vdi_from"), vdiFrom)
+	if _err != nil {
+		return
+	}
+	_vdiToArg, _err := convertVDIRefToXen(fmt.Sprintf("%s(%s)", _method, "vdi_to"), vdiTo)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _vdiFromArg, _vdiToArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertStringToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Delete the data of the snapshot VDI, but keep its changed block tracking metadata. When successful, this call changes the type of the VDI to cbt_metadata. This operation is idempotent: calling it on a VDI of type cbt_metadata results in a no-op, and no error will be thrown.
+//
+// Errors:
+//  SR_OPERATION_NOT_SUPPORTED - The SR backend does not support the operation (check the SR's allowed operations)
+//  VDI_MISSING - This operation cannot be performed because the specified VDI could not be found on the storage substrate
+//  SR_NOT_ATTACHED - The SR is not attached.
+//  SR_HAS_NO_PBDS - The SR has no attached PBDs
+//  OPERATION_NOT_ALLOWED - You attempted an operation that was not allowed.
+//  VDI_INCOMPATIBLE_TYPE - This operation cannot be performed because the specified VDI is of an incompatible type (eg: an HA statefile cannot be attached to a guest)
+//  VDI_NO_CBT_METADATA - The requested operation is not allowed because the specified VDI does not have changed block tracking metadata.
+//  VDI_IN_USE - This operation cannot be performed because this VDI is in use by some other operation
+//  VDI_IS_A_PHYSICAL_DEVICE - The operation cannot be performed on physical device
+func (_class VDIClass) DataDestroy(sessionID SessionRef, self VDIRef) (_err error) {
+	_method := "VDI.data_destroy"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVDIRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	return
+}
+
+// Disable changed block tracking for the VDI. This call is only allowed on VDIs that support enabling CBT. It is an idempotent operation - disabling CBT for a VDI for which CBT is not enabled results in a no-op, and no error will be thrown.
+//
+// Errors:
+//  SR_OPERATION_NOT_SUPPORTED - The SR backend does not support the operation (check the SR's allowed operations)
+//  VDI_MISSING - This operation cannot be performed because the specified VDI could not be found on the storage substrate
+//  SR_NOT_ATTACHED - The SR is not attached.
+//  SR_HAS_NO_PBDS - The SR has no attached PBDs
+//  OPERATION_NOT_ALLOWED - You attempted an operation that was not allowed.
+//  VDI_INCOMPATIBLE_TYPE - This operation cannot be performed because the specified VDI is of an incompatible type (eg: an HA statefile cannot be attached to a guest)
+//  VDI_ON_BOOT_MODE_INCOMPATIBLE_WITH_OPERATION - This operation is not permitted on VDIs in the 'on-boot=reset' mode, or on VMs having such VDIs.
+func (_class VDIClass) DisableCbt(sessionID SessionRef, self VDIRef) (_err error) {
+	_method := "VDI.disable_cbt"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVDIRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	return
+}
+
+// Enable changed block tracking for the VDI. This call is idempotent - enabling CBT for a VDI for which CBT is already enabled results in a no-op, and no error will be thrown.
+//
+// Errors:
+//  SR_OPERATION_NOT_SUPPORTED - The SR backend does not support the operation (check the SR's allowed operations)
+//  VDI_MISSING - This operation cannot be performed because the specified VDI could not be found on the storage substrate
+//  SR_NOT_ATTACHED - The SR is not attached.
+//  SR_HAS_NO_PBDS - The SR has no attached PBDs
+//  OPERATION_NOT_ALLOWED - You attempted an operation that was not allowed.
+//  VDI_INCOMPATIBLE_TYPE - This operation cannot be performed because the specified VDI is of an incompatible type (eg: an HA statefile cannot be attached to a guest)
+//  VDI_ON_BOOT_MODE_INCOMPATIBLE_WITH_OPERATION - This operation is not permitted on VDIs in the 'on-boot=reset' mode, or on VMs having such VDIs.
+func (_class VDIClass) EnableCbt(sessionID SessionRef, self VDIRef) (_err error) {
+	_method := "VDI.enable_cbt"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVDIRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg)
 	return
 }
 
@@ -597,7 +741,7 @@ func (_class VDIClass) DbForget(sessionID SessionRef, vdi VDIRef) (_err error) {
 }
 
 // Create a new VDI record in the database only
-func (_class VDIClass) DbIntroduce(sessionID SessionRef, uuid string, nameLabel string, nameDescription string, sr SRRef, atype VdiType, sharable bool, readOnly bool, otherConfig map[string]string, location string, xenstoreData map[string]string, smConfig map[string]string, managed bool, virtualSize int, physicalUtilisation int, metadataOfPool PoolRef, isASnapshot bool, snapshotTime time.Time, snapshotOf VDIRef) (_retval VDIRef, _err error) {
+func (_class VDIClass) DbIntroduce(sessionID SessionRef, uuid string, nameLabel string, nameDescription string, sr SRRef, atype VdiType, sharable bool, readOnly bool, otherConfig map[string]string, location string, xenstoreData map[string]string, smConfig map[string]string, managed bool, virtualSize int, physicalUtilisation int, metadataOfPool PoolRef, isASnapshot bool, snapshotTime time.Time, snapshotOf VDIRef, cbtEnabled bool) (_retval VDIRef, _err error) {
 	_method := "VDI.db_introduce"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
 	if _err != nil {
@@ -675,7 +819,11 @@ func (_class VDIClass) DbIntroduce(sessionID SessionRef, uuid string, nameLabel 
 	if _err != nil {
 		return
 	}
-	_result, _err := _class.client.APICall(_method, _sessionIDArg, _uuidArg, _nameLabelArg, _nameDescriptionArg, _srArg, _atypeArg, _sharableArg, _readOnlyArg, _otherConfigArg, _locationArg, _xenstoreDataArg, _smConfigArg, _managedArg, _virtualSizeArg, _physicalUtilisationArg, _metadataOfPoolArg, _isASnapshotArg, _snapshotTimeArg, _snapshotOfArg)
+	_cbtEnabledArg, _err := convertBoolToXen(fmt.Sprintf("%s(%s)", _method, "cbt_enabled"), cbtEnabled)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _uuidArg, _nameLabelArg, _nameDescriptionArg, _srArg, _atypeArg, _sharableArg, _readOnlyArg, _otherConfigArg, _locationArg, _xenstoreDataArg, _smConfigArg, _managedArg, _virtualSizeArg, _physicalUtilisationArg, _metadataOfPoolArg, _isASnapshotArg, _snapshotTimeArg, _snapshotOfArg, _cbtEnabledArg)
 	if _err != nil {
 		return
 	}
@@ -1094,6 +1242,44 @@ func (_class VDIClass) SetOtherConfig(sessionID SessionRef, self VDIRef, value m
 		return
 	}
 	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// Get the cbt_enabled field of the given VDI.
+func (_class VDIClass) GetCbtEnabled(sessionID SessionRef, self VDIRef) (_retval bool, _err error) {
+	_method := "VDI.get_cbt_enabled"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVDIRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertBoolToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Get the is_tools_iso field of the given VDI.
+func (_class VDIClass) GetIsToolsIso(sessionID SessionRef, self VDIRef) (_retval bool, _err error) {
+	_method := "VDI.get_is_tools_iso"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVDIRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertBoolToGo(_method + " -> ", _result.Value)
 	return
 }
 

@@ -44,6 +44,24 @@ const (
 	VifLockingModeDisabled VifLockingMode = "disabled"
 )
 
+type VifIpv4ConfigurationMode string
+
+const (
+  // Follow the default IPv4 configuration of the guest (this is guest-dependent)
+	VifIpv4ConfigurationModeNone VifIpv4ConfigurationMode = "None"
+  // Static IPv4 address configuration
+	VifIpv4ConfigurationModeStatic VifIpv4ConfigurationMode = "Static"
+)
+
+type VifIpv6ConfigurationMode string
+
+const (
+  // Follow the default IPv6 configuration of the guest (this is guest-dependent)
+	VifIpv6ConfigurationModeNone VifIpv6ConfigurationMode = "None"
+  // Static IPv6 address configuration
+	VifIpv6ConfigurationModeStatic VifIpv6ConfigurationMode = "Static"
+)
+
 type VIFRecord struct {
   // Unique identifier/object reference
 	UUID string
@@ -87,6 +105,18 @@ type VIFRecord struct {
 	Ipv4Allowed []string
   // A list of IPv6 addresses which can be used to filter traffic passing through this VIF
 	Ipv6Allowed []string
+  // Determines whether IPv4 addresses are configured on the VIF
+	Ipv4ConfigurationMode VifIpv4ConfigurationMode
+  // IPv4 addresses in CIDR format
+	Ipv4Addresses []string
+  // IPv4 gateway (the empty string means that no gateway is set)
+	Ipv4Gateway string
+  // Determines whether IPv6 addresses are configured on the VIF
+	Ipv6ConfigurationMode VifIpv6ConfigurationMode
+  // IPv6 addresses in CIDR format
+	Ipv6Addresses []string
+  // IPv6 gateway (the empty string means that no gateway is set)
+	Ipv6Gateway string
 }
 
 type VIFRef string
@@ -123,6 +153,60 @@ func (_class VIFClass) GetAll(sessionID SessionRef) (_retval []VIFRef, _err erro
 		return
 	}
 	_retval, _err = convertVIFRefSetToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Configure IPv6 settings for this virtual interface
+func (_class VIFClass) ConfigureIpv6(sessionID SessionRef, self VIFRef, mode VifIpv6ConfigurationMode, address string, gateway string) (_err error) {
+	_method := "VIF.configure_ipv6"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVIFRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_modeArg, _err := convertEnumVifIpv6ConfigurationModeToXen(fmt.Sprintf("%s(%s)", _method, "mode"), mode)
+	if _err != nil {
+		return
+	}
+	_addressArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "address"), address)
+	if _err != nil {
+		return
+	}
+	_gatewayArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "gateway"), gateway)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _modeArg, _addressArg, _gatewayArg)
+	return
+}
+
+// Configure IPv4 settings for this virtual interface
+func (_class VIFClass) ConfigureIpv4(sessionID SessionRef, self VIFRef, mode VifIpv4ConfigurationMode, address string, gateway string) (_err error) {
+	_method := "VIF.configure_ipv4"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVIFRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_modeArg, _err := convertEnumVifIpv4ConfigurationModeToXen(fmt.Sprintf("%s(%s)", _method, "mode"), mode)
+	if _err != nil {
+		return
+	}
+	_addressArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "address"), address)
+	if _err != nil {
+		return
+	}
+	_gatewayArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "gateway"), gateway)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _modeArg, _addressArg, _gatewayArg)
 	return
 }
 
@@ -256,6 +340,25 @@ func (_class VIFClass) SetLockingMode(sessionID SessionRef, self VIFRef, value V
 		return
 	}
 	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// Move the specified VIF to the specified network, even while the VM is running
+func (_class VIFClass) Move(sessionID SessionRef, self VIFRef, network NetworkRef) (_err error) {
+	_method := "VIF.move"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVIFRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_networkArg, _err := convertNetworkRefToXen(fmt.Sprintf("%s(%s)", _method, "network"), network)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _networkArg)
 	return
 }
 
@@ -442,6 +545,120 @@ func (_class VIFClass) SetOtherConfig(sessionID SessionRef, self VIFRef, value m
 		return
 	}
 	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// Get the ipv6_gateway field of the given VIF.
+func (_class VIFClass) GetIpv6Gateway(sessionID SessionRef, self VIFRef) (_retval string, _err error) {
+	_method := "VIF.get_ipv6_gateway"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVIFRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertStringToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Get the ipv6_addresses field of the given VIF.
+func (_class VIFClass) GetIpv6Addresses(sessionID SessionRef, self VIFRef) (_retval []string, _err error) {
+	_method := "VIF.get_ipv6_addresses"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVIFRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertStringSetToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Get the ipv6_configuration_mode field of the given VIF.
+func (_class VIFClass) GetIpv6ConfigurationMode(sessionID SessionRef, self VIFRef) (_retval VifIpv6ConfigurationMode, _err error) {
+	_method := "VIF.get_ipv6_configuration_mode"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVIFRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertEnumVifIpv6ConfigurationModeToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Get the ipv4_gateway field of the given VIF.
+func (_class VIFClass) GetIpv4Gateway(sessionID SessionRef, self VIFRef) (_retval string, _err error) {
+	_method := "VIF.get_ipv4_gateway"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVIFRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertStringToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Get the ipv4_addresses field of the given VIF.
+func (_class VIFClass) GetIpv4Addresses(sessionID SessionRef, self VIFRef) (_retval []string, _err error) {
+	_method := "VIF.get_ipv4_addresses"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVIFRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertStringSetToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Get the ipv4_configuration_mode field of the given VIF.
+func (_class VIFClass) GetIpv4ConfigurationMode(sessionID SessionRef, self VIFRef) (_retval VifIpv4ConfigurationMode, _err error) {
+	_method := "VIF.get_ipv4_configuration_mode"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVIFRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertEnumVifIpv4ConfigurationModeToGo(_method + " -> ", _result.Value)
 	return
 }
 
