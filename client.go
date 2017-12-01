@@ -5,8 +5,9 @@ package xenAPI
 import (
 	"crypto/tls"
 	"fmt"
-	"github.com/ringods/go-xmlrpc-client"
 	"net/http"
+
+	"github.com/amfranz/go-xmlrpc-client"
 )
 
 type APIResult struct {
