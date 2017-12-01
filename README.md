@@ -18,7 +18,7 @@ package main
 
 import (
     "fmt"
-    "github.com/amfranz/go-xen-api-client"
+    "github.com/ringods/go-xen-api-client"
 )
 
 const XEN_API_URL string = "https://IP.OF.XEN.SERVER"
