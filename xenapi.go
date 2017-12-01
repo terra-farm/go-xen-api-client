@@ -6,13 +6,14 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/serenize/snaker"
 	"io/ioutil"
 	"os"
 	"regexp"
 	"sort"
 	"strings"
 	"text/template"
+
+	"github.com/serenize/snaker"
 )
 
 var (
@@ -255,7 +256,7 @@ package xenAPI
 
 import (
 	"fmt"
-	"github.com/ringods/go-xmlrpc-client"
+	"github.com/amfranz/go-xmlrpc-client"
 	"reflect"
 	"strconv"
 	"time"
