@@ -3,10 +3,11 @@
 This is a client library for the Xapi toolstack
 (http://xapi-project.github.io/).
 
-This library covers the entire XenAPI and I have successfully used it to
-implement a Terraform plugin that interfaces Citrix XenServer. That being said,
-this library is not production-ready yet. Use it at your own risk, and don't
-expect everything in this library to work out of the box.
+This library covers the entire [XenAPI](https://xapi-project.github.io/xen-api/)
+and I have successfully used it to implement a Terraform plugin that interfaces
+Citrix XenServer. That being said, this library is not production-ready yet.
+Use it at your own risk, and don't expect everything in this library to work
+out of the box.
 
 ## Usage example
 
@@ -68,11 +69,11 @@ func main() {
 
 The most important missing pieces before this library is production-ready are:
 
-  - A strategy how to handle the differences in the XenAPI versions.
-  - Tests, at least for the various data type conversions.
-  - Embed XenAPI documentation as GoDoc in the generated code.
-  - Better error messages.
-  - Usage examples.
+- A strategy how to handle the differences in the XenAPI versions.
+- Tests, at least for the various data type conversions.
+- Embed XenAPI documentation as GoDoc in the generated code.
+- Better error messages.
+- Usage examples.
 
 Contributions welcome!
 
@@ -87,9 +88,14 @@ Most of the code in this library is generated from a description of the XenAPI.
 This description is the file `xenapi.json`, the source of which is the XenAPI
 documentation at http://xapi-project.github.io/:
 
-  - https://github.com/xapi-project/xapi-project.github.io/tree/master/_data
+- https://github.com/xapi-project/xapi-project.github.io/tree/master/_data
 
 The list of error code constants in `error.go` is borrowed from xapi-projects
 OCaml client:
 
-  - https://github.com/xapi-project/xen-api/blob/master/ocaml/idl/api_errors.ml
+- https://github.com/xapi-project/xen-api/blob/master/ocaml/idl/api_errors.ml
+
+The JSON file contains the lifecycle of published classes, fields and messages.
+Each of the release names can be mapped back to a version listed here:
+
+- https://xapi-project.github.io/xen-api/releases.html
