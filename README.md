@@ -99,3 +99,9 @@ The JSON file contains the lifecycle of published classes, fields and messages.
 Each of the release names can be mapped back to a version listed here:
 
 - https://xapi-project.github.io/xen-api/releases.html
+
+## Regenerating API after xenapi.json update
+If XenAPI was updated, it is required to regenerate all of files with a new API description. In order to do that one needs to follow these steps:
+- Get newest `xenapi.json` from the link above.
+- Delete old generated APIs using `rm *_gen.go`
+- Generate new API with `go generate`
