@@ -27,6 +27,8 @@ const (
 	PoolAllowedOperationsHaEnable PoolAllowedOperations = "ha_enable"
   // Indicates this pool is in the process of disabling HA
 	PoolAllowedOperationsHaDisable PoolAllowedOperations = "ha_disable"
+  // Indicates this pool is in the process of creating a cluster
+	PoolAllowedOperationsClusterCreate PoolAllowedOperations = "cluster_create"
 )
 
 type PoolRecord struct {

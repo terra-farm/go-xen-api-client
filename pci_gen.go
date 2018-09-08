@@ -41,6 +41,8 @@ type PCIRecord struct {
 	SubsystemVendorName string
   // Subsystem device name
 	SubsystemDeviceName string
+  // Driver name
+	DriverName string
 }
 
 type PCIRef string
@@ -138,6 +140,25 @@ func (_class PCIClass) SetOtherConfig(sessionID SessionRef, self PCIRef, value m
 		return
 	}
 	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// Get the driver_name field of the given PCI.
+func (_class PCIClass) GetDriverName(sessionID SessionRef, self PCIRef) (_retval string, _err error) {
+	_method := "PCI.get_driver_name"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPCIRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertStringToGo(_method + " -> ", _result.Value)
 	return
 }
 

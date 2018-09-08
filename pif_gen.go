@@ -129,6 +129,12 @@ type PIFRecord struct {
 	Capabilities []string
   // The IGMP snooping status of the corresponding network bridge
 	IgmpSnoopingStatus PifIgmpStatus
+  // Indicates which network_sriov this interface is physical of
+	SriovPhysicalPIFOf []NetworkSriovRef
+  // Indicates which network_sriov this interface is logical of
+	SriovLogicalPIFOf []NetworkSriovRef
+  // Link to underlying PCI device
+	PCI PCIRef
 }
 
 type PIFRef string
@@ -332,6 +338,12 @@ func (_class PIFClass) Plug(sessionID SessionRef, self PIFRef) (_err error) {
 }
 
 // Attempt to bring down a physical interface
+//
+// Errors:
+//  HA_OPERATION_WOULD_BREAK_FAILOVER_PLAN - This operation cannot be performed because it would invalidate VM failover planning such that the system would be unable to guarantee to restart protected VMs after a Host failure.
+//  VIF_IN_USE - Network has active VIFs
+//  PIF_DOES_NOT_ALLOW_UNPLUG - The operation you requested cannot be performed because the specified PIF does not allow unplug.
+//  PIF_HAS_FCOE_SR_IN_USE - The operation you requested cannot be performed because the specified PIF has FCoE SR in use.
 func (_class PIFClass) Unplug(sessionID SessionRef, self PIFRef) (_err error) {
 	_method := "PIF.unplug"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -624,6 +636,63 @@ func (_class PIFClass) SetOtherConfig(sessionID SessionRef, self PIFRef, value m
 		return
 	}
 	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// Get the PCI field of the given PIF.
+func (_class PIFClass) GetPCI(sessionID SessionRef, self PIFRef) (_retval PCIRef, _err error) {
+	_method := "PIF.get_PCI"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPIFRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertPCIRefToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Get the sriov_logical_PIF_of field of the given PIF.
+func (_class PIFClass) GetSriovLogicalPIFOf(sessionID SessionRef, self PIFRef) (_retval []NetworkSriovRef, _err error) {
+	_method := "PIF.get_sriov_logical_PIF_of"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPIFRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertNetworkSriovRefSetToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Get the sriov_physical_PIF_of field of the given PIF.
+func (_class PIFClass) GetSriovPhysicalPIFOf(sessionID SessionRef, self PIFRef) (_retval []NetworkSriovRef, _err error) {
+	_method := "PIF.get_sriov_physical_PIF_of"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPIFRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertNetworkSriovRefSetToGo(_method + " -> ", _result.Value)
 	return
 }
 

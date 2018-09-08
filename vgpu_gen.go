@@ -37,6 +37,10 @@ type VGPURecord struct {
 	Type VGPUTypeRef
   // The PGPU on which this VGPU is running
 	ResidentOn PGPURef
+  // The PGPU on which this VGPU is scheduled to run
+	ScheduledToBeResidentOn PGPURef
+  // VGPU metadata to determine whether a VGPU can migrate between two PGPUs
+	CompatibilityMetadata map[string]string
 }
 
 type VGPURef string
@@ -184,6 +188,44 @@ func (_class VGPUClass) SetOtherConfig(sessionID SessionRef, self VGPURef, value
 		return
 	}
 	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// Get the compatibility_metadata field of the given VGPU.
+func (_class VGPUClass) GetCompatibilityMetadata(sessionID SessionRef, self VGPURef) (_retval map[string]string, _err error) {
+	_method := "VGPU.get_compatibility_metadata"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVGPURefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertStringToStringMapToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Get the scheduled_to_be_resident_on field of the given VGPU.
+func (_class VGPUClass) GetScheduledToBeResidentOn(sessionID SessionRef, self VGPURef) (_retval PGPURef, _err error) {
+	_method := "VGPU.get_scheduled_to_be_resident_on"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVGPURefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertPGPURefToGo(_method + " -> ", _result.Value)
 	return
 }
 

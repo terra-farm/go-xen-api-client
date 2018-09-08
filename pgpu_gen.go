@@ -56,6 +56,8 @@ type PGPURecord struct {
 	Dom0Access PgpuDom0Access
   // Is this device the system display device
 	IsSystemDisplayDevice bool
+  // PGPU metadata to determine whether a VGPU can migrate between two PGPUs
+	CompatibilityMetadata map[string]string
 }
 
 type PGPURef string
@@ -290,6 +292,25 @@ func (_class PGPUClass) SetOtherConfig(sessionID SessionRef, self PGPURef, value
 		return
 	}
 	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// Get the compatibility_metadata field of the given PGPU.
+func (_class PGPUClass) GetCompatibilityMetadata(sessionID SessionRef, self PGPURef) (_retval map[string]string, _err error) {
+	_method := "PGPU.get_compatibility_metadata"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPGPURefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertStringToStringMapToGo(_method + " -> ", _result.Value)
 	return
 }
 

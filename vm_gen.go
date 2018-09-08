@@ -42,23 +42,6 @@ const (
 	OnNormalExitRestart OnNormalExit = "restart"
 )
 
-type OnCrashBehaviour string
-
-const (
-  // destroy the VM state
-	OnCrashBehaviourDestroy OnCrashBehaviour = "destroy"
-  // record a coredump and then destroy the VM state
-	OnCrashBehaviourCoredumpAndDestroy OnCrashBehaviour = "coredump_and_destroy"
-  // restart the VM
-	OnCrashBehaviourRestart OnCrashBehaviour = "restart"
-  // record a coredump and then restart the VM
-	OnCrashBehaviourCoredumpAndRestart OnCrashBehaviour = "coredump_and_restart"
-  // leave the crashed VM paused
-	OnCrashBehaviourPreserve OnCrashBehaviour = "preserve"
-  // rename the crashed VM and start a new copy
-	OnCrashBehaviourRenameRestart OnCrashBehaviour = "rename_restart"
-)
-
 type VMOperations string
 
 const (
@@ -156,6 +139,36 @@ const (
 	VMOperationsReverting VMOperations = "reverting"
   // refers to the act of uninstalling the VM
 	VMOperationsDestroy VMOperations = "destroy"
+)
+
+type OnCrashBehaviour string
+
+const (
+  // destroy the VM state
+	OnCrashBehaviourDestroy OnCrashBehaviour = "destroy"
+  // record a coredump and then destroy the VM state
+	OnCrashBehaviourCoredumpAndDestroy OnCrashBehaviour = "coredump_and_destroy"
+  // restart the VM
+	OnCrashBehaviourRestart OnCrashBehaviour = "restart"
+  // record a coredump and then restart the VM
+	OnCrashBehaviourCoredumpAndRestart OnCrashBehaviour = "coredump_and_restart"
+  // leave the crashed VM paused
+	OnCrashBehaviourPreserve OnCrashBehaviour = "preserve"
+  // rename the crashed VM and start a new copy
+	OnCrashBehaviourRenameRestart OnCrashBehaviour = "rename_restart"
+)
+
+type DomainType string
+
+const (
+  // HVM; Fully Virtualised
+	DomainTypeHvm DomainType = "hvm"
+  // PV: Paravirtualised
+	DomainTypePv DomainType = "pv"
+  // PV inside a PVH container
+	DomainTypePvInPvh DomainType = "pv_in_pvh"
+  // Not specified or unknown domain type
+	DomainTypeUnspecified DomainType = "unspecified"
 )
 
 type VMRecord struct {
@@ -325,6 +338,8 @@ type VMRecord struct {
 	RequiresReboot bool
   // Textual reference to the template used to create a VM. This can be used by clients in need of an immutable reference to the template since the latter's uuid and name_label may change, for example, after a package installation or upgrade.
 	ReferenceLabel string
+  // The type of domain that will be created when the VM is started
+	DomainType DomainType
 }
 
 type VMRef string
@@ -361,6 +376,63 @@ func (_class VMClass) GetAll(sessionID SessionRef) (_retval []VMRef, _err error)
 		return
 	}
 	_retval, _err = convertVMRefSetToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Set the VM.HVM_boot_policy field of the given VM, which will take effect when it is next started
+func (_class VMClass) SetHVMBootPolicy(sessionID SessionRef, self VMRef, value string) (_err error) {
+	_method := "VM.set_HVM_boot_policy"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVMRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_valueArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// Set the VM.domain_type field of the given VM, which will take effect when it is next started
+func (_class VMClass) SetDomainType(sessionID SessionRef, self VMRef, value DomainType) (_err error) {
+	_method := "VM.set_domain_type"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVMRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_valueArg, _err := convertEnumDomainTypeToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// Sets the actions_after_crash parameter
+func (_class VMClass) SetActionsAfterCrash(sessionID SessionRef, self VMRef, value OnCrashBehaviour) (_err error) {
+	_method := "VM.set_actions_after_crash"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVMRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_valueArg, _err := convertEnumOnCrashBehaviourToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
 	return
 }
 
@@ -1023,7 +1095,7 @@ func (_class VMClass) GetBootRecord(sessionID SessionRef, self VMRef) (_retval V
 //
 // Errors:
 //  LICENCE_RESTRICTION - This operation is not allowed because your license lacks a needed feature.  Please contact your support representative.
-func (_class VMClass) AssertCanMigrate(sessionID SessionRef, vm VMRef, dest map[string]string, live bool, vdiMap map[VDIRef]SRRef, vifMap map[VIFRef]NetworkRef, options map[string]string) (_err error) {
+func (_class VMClass) AssertCanMigrate(sessionID SessionRef, vm VMRef, dest map[string]string, live bool, vdiMap map[VDIRef]SRRef, vifMap map[VIFRef]NetworkRef, options map[string]string, vgpuMap map[VGPURef]GPUGroupRef) (_err error) {
 	_method := "VM.assert_can_migrate"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
 	if _err != nil {
@@ -1053,7 +1125,11 @@ func (_class VMClass) AssertCanMigrate(sessionID SessionRef, vm VMRef, dest map[
 	if _err != nil {
 		return
 	}
-	_, _err =  _class.client.APICall(_method, _sessionIDArg, _vmArg, _destArg, _liveArg, _vdiMapArg, _vifMapArg, _optionsArg)
+	_vgpuMapArg, _err := convertVGPURefToGPUGroupRefMapToXen(fmt.Sprintf("%s(%s)", _method, "vgpu_map"), vgpuMap)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _vmArg, _destArg, _liveArg, _vdiMapArg, _vifMapArg, _optionsArg, _vgpuMapArg)
 	return
 }
 
@@ -1062,7 +1138,7 @@ func (_class VMClass) AssertCanMigrate(sessionID SessionRef, vm VMRef, dest map[
 // Errors:
 //  VM_BAD_POWER_STATE - You attempted an operation on a VM that was not in an appropriate power state at the time; for example, you attempted to start a VM that was already running.  The parameters returned are the VM's handle, and the expected and actual VM state at the time of the call.
 //  LICENCE_RESTRICTION - This operation is not allowed because your license lacks a needed feature.  Please contact your support representative.
-func (_class VMClass) MigrateSend(sessionID SessionRef, vm VMRef, dest map[string]string, live bool, vdiMap map[VDIRef]SRRef, vifMap map[VIFRef]NetworkRef, options map[string]string) (_retval VMRef, _err error) {
+func (_class VMClass) MigrateSend(sessionID SessionRef, vm VMRef, dest map[string]string, live bool, vdiMap map[VDIRef]SRRef, vifMap map[VIFRef]NetworkRef, options map[string]string, vgpuMap map[VGPURef]GPUGroupRef) (_retval VMRef, _err error) {
 	_method := "VM.migrate_send"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
 	if _err != nil {
@@ -1092,7 +1168,11 @@ func (_class VMClass) MigrateSend(sessionID SessionRef, vm VMRef, dest map[strin
 	if _err != nil {
 		return
 	}
-	_result, _err := _class.client.APICall(_method, _sessionIDArg, _vmArg, _destArg, _liveArg, _vdiMapArg, _vifMapArg, _optionsArg)
+	_vgpuMapArg, _err := convertVGPURefToGPUGroupRefMapToXen(fmt.Sprintf("%s(%s)", _method, "vgpu_map"), vgpuMap)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _vmArg, _destArg, _liveArg, _vdiMapArg, _vifMapArg, _optionsArg, _vgpuMapArg)
 	if _err != nil {
 		return
 	}
@@ -2551,25 +2631,6 @@ func (_class VMClass) SetHVMBootParams(sessionID SessionRef, self VMRef, value m
 	return
 }
 
-// Set the HVM/boot_policy field of the given VM.
-func (_class VMClass) SetHVMBootPolicy(sessionID SessionRef, self VMRef, value string) (_err error) {
-	_method := "VM.set_HVM_boot_policy"
-	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
-	if _err != nil {
-		return
-	}
-	_selfArg, _err := convertVMRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
-	if _err != nil {
-		return
-	}
-	_valueArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
-	if _err != nil {
-		return
-	}
-	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
-	return
-}
-
 // Set the PV/legacy_args field of the given VM.
 func (_class VMClass) SetPVLegacyArgs(sessionID SessionRef, self VMRef, value string) (_err error) {
 	_method := "VM.set_PV_legacy_args"
@@ -2677,25 +2738,6 @@ func (_class VMClass) SetPVBootloader(sessionID SessionRef, self VMRef, value st
 		return
 	}
 	_valueArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
-	if _err != nil {
-		return
-	}
-	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
-	return
-}
-
-// Set the actions/after_crash field of the given VM.
-func (_class VMClass) SetActionsAfterCrash(sessionID SessionRef, self VMRef, value OnCrashBehaviour) (_err error) {
-	_method := "VM.set_actions_after_crash"
-	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
-	if _err != nil {
-		return
-	}
-	_selfArg, _err := convertVMRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
-	if _err != nil {
-		return
-	}
-	_valueArg, _err := convertEnumOnCrashBehaviourToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
 	if _err != nil {
 		return
 	}
@@ -2894,6 +2936,25 @@ func (_class VMClass) SetNameLabel(sessionID SessionRef, self VMRef, value strin
 		return
 	}
 	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// Get the domain_type field of the given VM.
+func (_class VMClass) GetDomainType(sessionID SessionRef, self VMRef) (_retval DomainType, _err error) {
+	_method := "VM.get_domain_type"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVMRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertEnumDomainTypeToGo(_method + " -> ", _result.Value)
 	return
 }
 
@@ -4509,7 +4570,7 @@ func (_class VMClass) Destroy(sessionID SessionRef, self VMRef) (_err error) {
 }
 
 // NOT RECOMMENDED! VM.clone or VM.copy (or VM.import) is a better choice in almost all situations. The standard way to obtain a new VM is to call VM.clone on a template VM, then call VM.provision on the new clone. Caution: if VM.create is used and then the new VM is attached to a virtual disc that has an operating system already installed, then there is no guarantee that the operating system will boot and run. Any software that calls VM.create on a future version of this API may fail or give unexpected results. For example this could happen if an additional parameter were added to VM.create. VM.create is intended only for use in the automatic creation of the system VM templates. It creates a new VM instance, and returns its handle.
-// The constructor args are: name_label, name_description, user_version*, is_a_template*, affinity*, memory_target, memory_static_max*, memory_dynamic_max*, memory_dynamic_min*, memory_static_min*, VCPUs_params*, VCPUs_max*, VCPUs_at_startup*, actions_after_shutdown*, actions_after_reboot*, actions_after_crash*, PV_bootloader*, PV_kernel*, PV_ramdisk*, PV_args*, PV_bootloader_args*, PV_legacy_args*, HVM_boot_policy*, HVM_boot_params*, HVM_shadow_multiplier, platform*, PCI_bus*, other_config*, recommendations*, xenstore_data, ha_always_run, ha_restart_priority, tags, blocked_operations, protection_policy, is_snapshot_from_vmpp, snapshot_schedule, is_vmss_snapshot, appliance, start_delay, shutdown_delay, order, suspend_SR, version, generation_id, hardware_platform_version, has_vendor_device, reference_label (* = non-optional).
+// The constructor args are: name_label, name_description, user_version*, is_a_template*, affinity*, memory_target, memory_static_max*, memory_dynamic_max*, memory_dynamic_min*, memory_static_min*, VCPUs_params*, VCPUs_max*, VCPUs_at_startup*, actions_after_shutdown*, actions_after_reboot*, actions_after_crash*, PV_bootloader*, PV_kernel*, PV_ramdisk*, PV_args*, PV_bootloader_args*, PV_legacy_args*, HVM_boot_policy*, HVM_boot_params*, HVM_shadow_multiplier, platform*, PCI_bus*, other_config*, recommendations*, xenstore_data, ha_always_run, ha_restart_priority, tags, blocked_operations, protection_policy, is_snapshot_from_vmpp, snapshot_schedule, is_vmss_snapshot, appliance, start_delay, shutdown_delay, order, suspend_SR, version, generation_id, hardware_platform_version, has_vendor_device, reference_label, domain_type (* = non-optional).
 func (_class VMClass) Create(sessionID SessionRef, args VMRecord) (_retval VMRef, _err error) {
 	_method := "VM.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
