@@ -66,6 +66,7 @@ type Client struct {
 	Message MessageClass
 	Secret SecretClass
 	Tunnel TunnelClass
+	NetworkSriov NetworkSriovClass
 	PCI PCIClass
 	PGPU PGPUClass
 	GPUGroup GPUGroupClass
@@ -81,6 +82,8 @@ type Client struct {
 	PUSB PUSBClass
 	USBGroup USBGroupClass
 	VUSB VUSBClass
+	Cluster ClusterClass
+	ClusterHost ClusterHostClass
 }
 
 func prepClient(rpc *xmlrpc.Client) *Client {
@@ -130,6 +133,7 @@ func prepClient(rpc *xmlrpc.Client) *Client {
 	client.Message = MessageClass{&client}
 	client.Secret = SecretClass{&client}
 	client.Tunnel = TunnelClass{&client}
+	client.NetworkSriov = NetworkSriovClass{&client}
 	client.PCI = PCIClass{&client}
 	client.PGPU = PGPUClass{&client}
 	client.GPUGroup = GPUGroupClass{&client}
@@ -145,5 +149,7 @@ func prepClient(rpc *xmlrpc.Client) *Client {
 	client.PUSB = PUSBClass{&client}
 	client.USBGroup = USBGroupClass{&client}
 	client.VUSB = VUSBClass{&client}
+	client.Cluster = ClusterClass{&client}
+	client.ClusterHost = ClusterHostClass{&client}
 	return &client
 }

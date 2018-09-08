@@ -41,15 +41,6 @@ const (
 	VbdOperationsUnpause VbdOperations = "unpause"
 )
 
-type VbdMode string
-
-const (
-  // only read-only access will be allowed
-	VbdModeRO VbdMode = "RO"
-  // read-write access will be allowed
-	VbdModeRW VbdMode = "RW"
-)
-
 type VbdType string
 
 const (
@@ -59,6 +50,15 @@ const (
 	VbdTypeDisk VbdType = "Disk"
   // VBD will appear as a floppy
 	VbdTypeFloppy VbdType = "Floppy"
+)
+
+type VbdMode string
+
+const (
+  // only read-only access will be allowed
+	VbdModeRO VbdMode = "RO"
+  // read-write access will be allowed
+	VbdModeRW VbdMode = "RW"
 )
 
 type VBDRecord struct {
@@ -142,6 +142,25 @@ func (_class VBDClass) GetAll(sessionID SessionRef) (_retval []VBDRef, _err erro
 		return
 	}
 	_retval, _err = convertVBDRefSetToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Sets the mode of the VBD. The power_state of the VM must be halted.
+func (_class VBDClass) SetMode(sessionID SessionRef, self VBDRef, value VbdMode) (_err error) {
+	_method := "VBD.set_mode"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVBDRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_valueArg, _err := convertEnumVbdModeToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
 	return
 }
 
@@ -423,25 +442,6 @@ func (_class VBDClass) SetType(sessionID SessionRef, self VBDRef, value VbdType)
 		return
 	}
 	_valueArg, _err := convertEnumVbdTypeToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
-	if _err != nil {
-		return
-	}
-	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
-	return
-}
-
-// Set the mode field of the given VBD.
-func (_class VBDClass) SetMode(sessionID SessionRef, self VBDRef, value VbdMode) (_err error) {
-	_method := "VBD.set_mode"
-	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
-	if _err != nil {
-		return
-	}
-	_selfArg, _err := convertVBDRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
-	if _err != nil {
-		return
-	}
-	_valueArg, _err := convertEnumVbdModeToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
 	if _err != nil {
 		return
 	}
