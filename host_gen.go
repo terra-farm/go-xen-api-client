@@ -167,6 +167,10 @@ type HostRecord struct {
 	UpdatesRequiringReboot []PoolUpdateRef
   // List of features available on this host
 	Features []FeatureRef
+  // The initiator IQN for the host
+	IscsiIqn string
+  // Specifies whether multipathing is enabled
+	Multipathing bool
 }
 
 type HostRef string
@@ -203,6 +207,44 @@ func (_class HostClass) GetAll(sessionID SessionRef) (_retval []HostRef, _err er
 		return
 	}
 	_retval, _err = convertHostRefSetToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Specifies whether multipathing is enabled
+func (_class HostClass) SetMultipathing(sessionID SessionRef, host HostRef, value bool) (_err error) {
+	_method := "host.set_multipathing"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_hostArg, _err := convertHostRefToXen(fmt.Sprintf("%s(%s)", _method, "host"), host)
+	if _err != nil {
+		return
+	}
+	_valueArg, _err := convertBoolToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _hostArg, _valueArg)
+	return
+}
+
+// Sets the initiator IQN for the host
+func (_class HostClass) SetIscsiIqn(sessionID SessionRef, host HostRef, value string) (_err error) {
+	_method := "host.set_iscsi_iqn"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_hostArg, _err := convertHostRefToXen(fmt.Sprintf("%s(%s)", _method, "host"), host)
+	if _err != nil {
+		return
+	}
+	_valueArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _hostArg, _valueArg)
 	return
 }
 
@@ -1735,6 +1777,44 @@ func (_class HostClass) SetNameLabel(sessionID SessionRef, self HostRef, value s
 		return
 	}
 	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// Get the multipathing field of the given host.
+func (_class HostClass) GetMultipathing(sessionID SessionRef, self HostRef) (_retval bool, _err error) {
+	_method := "host.get_multipathing"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertHostRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertBoolToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// Get the iscsi_iqn field of the given host.
+func (_class HostClass) GetIscsiIqn(sessionID SessionRef, self HostRef) (_retval string, _err error) {
+	_method := "host.get_iscsi_iqn"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertHostRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertStringToGo(_method + " -> ", _result.Value)
 	return
 }
 
