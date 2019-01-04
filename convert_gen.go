@@ -6184,13 +6184,6 @@ func convertVMRecordToGo(context string, input interface{}) (record VMRecord, er
 			return
 		}
 	}
-  domainTypeValue, ok := rpcStruct["domain_type"]
-	if ok && domainTypeValue != nil {
-  	record.DomainType, err = convertEnumDomainTypeToGo(fmt.Sprintf("%s.%s", context, "domain_type"), domainTypeValue)
-		if err != nil {
-			return
-		}
-	}
 	return
 }
 
@@ -6525,10 +6518,6 @@ func convertVMRecordToXen(context string, record VMRecord) (rpcStruct xmlrpc.Str
 		return
 	}
   rpcStruct["reference_label"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "reference_label"), record.ReferenceLabel)
-  if err != nil {
-		return
-	}
-  rpcStruct["domain_type"], err = convertEnumDomainTypeToXen(fmt.Sprintf("%s.%s", context, "domain_type"), record.DomainType)
   if err != nil {
 		return
 	}
@@ -7364,13 +7353,6 @@ func convertVMMetricsRecordToGo(context string, input interface{}) (record VMMet
 			return
 		}
 	}
-  currentDomainTypeValue, ok := rpcStruct["current_domain_type"]
-	if ok && currentDomainTypeValue != nil {
-  	record.CurrentDomainType, err = convertEnumDomainTypeToGo(fmt.Sprintf("%s.%s", context, "current_domain_type"), currentDomainTypeValue)
-		if err != nil {
-			return
-		}
-	}
 	return
 }
 
@@ -8131,30 +8113,6 @@ func convertEnumConsoleProtocolToGo(context string, input interface{}) (value Co
 }
 
 func convertEnumConsoleProtocolToXen(context string, value ConsoleProtocol) (string, error) {
-	return string(value), nil
-}
-
-func convertEnumDomainTypeToGo(context string, input interface{}) (value DomainType, err error) {
-	strValue, err := convertStringToGo(context, input)
-	if err != nil {
-		return
-	}
-  switch strValue {
-    case "hvm":
-      value = DomainTypeHvm
-    case "pv":
-      value = DomainTypePv
-    case "pv_in_pvh":
-      value = DomainTypePvInPvh
-    case "unspecified":
-      value = DomainTypeUnspecified
-    default:
-      err = fmt.Errorf("Unable to parse XenAPI response: got value %q for enum %s at %s, but this is not any of the known values", strValue, "DomainType", context)
-	}
-	return
-}
-
-func convertEnumDomainTypeToXen(context string, value DomainType) (string, error) {
 	return string(value), nil
 }
 
@@ -10045,20 +10003,6 @@ func convertHostRecordToGo(context string, input interface{}) (record HostRecord
   featuresValue, ok := rpcStruct["features"]
 	if ok && featuresValue != nil {
   	record.Features, err = convertFeatureRefSetToGo(fmt.Sprintf("%s.%s", context, "features"), featuresValue)
-		if err != nil {
-			return
-		}
-	}
-  iscsiIqnValue, ok := rpcStruct["iscsi_iqn"]
-	if ok && iscsiIqnValue != nil {
-  	record.IscsiIqn, err = convertStringToGo(fmt.Sprintf("%s.%s", context, "iscsi_iqn"), iscsiIqnValue)
-		if err != nil {
-			return
-		}
-	}
-  multipathingValue, ok := rpcStruct["multipathing"]
-	if ok && multipathingValue != nil {
-  	record.Multipathing, err = convertBoolToGo(fmt.Sprintf("%s.%s", context, "multipathing"), multipathingValue)
 		if err != nil {
 			return
 		}
