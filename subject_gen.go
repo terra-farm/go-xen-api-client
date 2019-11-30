@@ -38,7 +38,7 @@ type SubjectClass struct {
 	client *Client
 }
 
-// Return a map of subject references to subject records for all subjects known to the system.
+// GetAllRecords Return a map of subject references to subject records for all subjects known to the system.
 func (_class SubjectClass) GetAllRecords(sessionID SessionRef) (_retval map[SubjectRef]SubjectRecord, _err error) {
 	_method := "subject.get_all_records"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -53,7 +53,7 @@ func (_class SubjectClass) GetAllRecords(sessionID SessionRef) (_retval map[Subj
 	return
 }
 
-// Return a list of all the subjects known to the system.
+// GetAll Return a list of all the subjects known to the system.
 func (_class SubjectClass) GetAll(sessionID SessionRef) (_retval []SubjectRef, _err error) {
 	_method := "subject.get_all"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -68,7 +68,7 @@ func (_class SubjectClass) GetAll(sessionID SessionRef) (_retval []SubjectRef, _
 	return
 }
 
-// This call returns a list of permission names given a subject
+// GetPermissionsNameLabel This call returns a list of permission names given a subject
 func (_class SubjectClass) GetPermissionsNameLabel(sessionID SessionRef, self SubjectRef) (_retval []string, _err error) {
 	_method := "subject.get_permissions_name_label"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -87,7 +87,7 @@ func (_class SubjectClass) GetPermissionsNameLabel(sessionID SessionRef, self Su
 	return
 }
 
-// This call removes a role from a subject
+// RemoveFromRoles This call removes a role from a subject
 func (_class SubjectClass) RemoveFromRoles(sessionID SessionRef, self SubjectRef, role RoleRef) (_err error) {
 	_method := "subject.remove_from_roles"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -106,7 +106,7 @@ func (_class SubjectClass) RemoveFromRoles(sessionID SessionRef, self SubjectRef
 	return
 }
 
-// This call adds a new role to a subject
+// AddToRoles This call adds a new role to a subject
 func (_class SubjectClass) AddToRoles(sessionID SessionRef, self SubjectRef, role RoleRef) (_err error) {
 	_method := "subject.add_to_roles"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -125,7 +125,7 @@ func (_class SubjectClass) AddToRoles(sessionID SessionRef, self SubjectRef, rol
 	return
 }
 
-// Get the roles field of the given subject.
+// GetRoles Get the roles field of the given subject.
 func (_class SubjectClass) GetRoles(sessionID SessionRef, self SubjectRef) (_retval []RoleRef, _err error) {
 	_method := "subject.get_roles"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -144,7 +144,7 @@ func (_class SubjectClass) GetRoles(sessionID SessionRef, self SubjectRef) (_ret
 	return
 }
 
-// Get the other_config field of the given subject.
+// GetOtherConfig Get the other_config field of the given subject.
 func (_class SubjectClass) GetOtherConfig(sessionID SessionRef, self SubjectRef) (_retval map[string]string, _err error) {
 	_method := "subject.get_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -163,7 +163,7 @@ func (_class SubjectClass) GetOtherConfig(sessionID SessionRef, self SubjectRef)
 	return
 }
 
-// Get the subject_identifier field of the given subject.
+// GetSubjectIdentifier Get the subject_identifier field of the given subject.
 func (_class SubjectClass) GetSubjectIdentifier(sessionID SessionRef, self SubjectRef) (_retval string, _err error) {
 	_method := "subject.get_subject_identifier"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -182,7 +182,7 @@ func (_class SubjectClass) GetSubjectIdentifier(sessionID SessionRef, self Subje
 	return
 }
 
-// Get the uuid field of the given subject.
+// GetUUID Get the uuid field of the given subject.
 func (_class SubjectClass) GetUUID(sessionID SessionRef, self SubjectRef) (_retval string, _err error) {
 	_method := "subject.get_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -201,7 +201,7 @@ func (_class SubjectClass) GetUUID(sessionID SessionRef, self SubjectRef) (_retv
 	return
 }
 
-// Destroy the specified subject instance.
+// Destroy Destroy the specified subject instance.
 func (_class SubjectClass) Destroy(sessionID SessionRef, self SubjectRef) (_err error) {
 	_method := "subject.destroy"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -216,8 +216,8 @@ func (_class SubjectClass) Destroy(sessionID SessionRef, self SubjectRef) (_err 
 	return
 }
 
-// Create a new subject instance, and return its handle.
-// The constructor args are: subject_identifier, other_config (* = non-optional).
+// Create Create a new subject instance, and return its handle.
+The constructor args are: subject_identifier, other_config (* = non-optional).
 func (_class SubjectClass) Create(sessionID SessionRef, args SubjectRecord) (_retval SubjectRef, _err error) {
 	_method := "subject.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -236,7 +236,7 @@ func (_class SubjectClass) Create(sessionID SessionRef, args SubjectRecord) (_re
 	return
 }
 
-// Get a reference to the subject instance with the specified UUID.
+// GetByUUID Get a reference to the subject instance with the specified UUID.
 func (_class SubjectClass) GetByUUID(sessionID SessionRef, uuid string) (_retval SubjectRef, _err error) {
 	_method := "subject.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -255,7 +255,7 @@ func (_class SubjectClass) GetByUUID(sessionID SessionRef, uuid string) (_retval
 	return
 }
 
-// Get a record containing the current state of the given subject.
+// GetRecord Get a record containing the current state of the given subject.
 func (_class SubjectClass) GetRecord(sessionID SessionRef, self SubjectRef) (_retval SubjectRecord, _err error) {
 	_method := "subject.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

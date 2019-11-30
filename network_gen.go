@@ -87,7 +87,7 @@ type NetworkClass struct {
 	client *Client
 }
 
-// Return a map of network references to network records for all networks known to the system.
+// GetAllRecords Return a map of network references to network records for all networks known to the system.
 func (_class NetworkClass) GetAllRecords(sessionID SessionRef) (_retval map[NetworkRef]NetworkRecord, _err error) {
 	_method := "network.get_all_records"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -102,7 +102,7 @@ func (_class NetworkClass) GetAllRecords(sessionID SessionRef) (_retval map[Netw
 	return
 }
 
-// Return a list of all the networks known to the system.
+// GetAll Return a list of all the networks known to the system.
 func (_class NetworkClass) GetAll(sessionID SessionRef) (_retval []NetworkRef, _err error) {
 	_method := "network.get_all"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -117,7 +117,7 @@ func (_class NetworkClass) GetAll(sessionID SessionRef) (_retval []NetworkRef, _
 	return
 }
 
-// Remove a purpose from a network (if present)
+// RemovePurpose Remove a purpose from a network (if present)
 func (_class NetworkClass) RemovePurpose(sessionID SessionRef, self NetworkRef, value NetworkPurpose) (_err error) {
 	_method := "network.remove_purpose"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -136,7 +136,7 @@ func (_class NetworkClass) RemovePurpose(sessionID SessionRef, self NetworkRef, 
 	return
 }
 
-// Give a network a new purpose (if not present already)
+// AddPurpose Give a network a new purpose (if not present already)
 //
 // Errors:
 //  NETWORK_INCOMPATIBLE_PURPOSES - You tried to add a purpose to a network but the new purpose is not compatible with an existing purpose of the network or other networks.
@@ -158,7 +158,7 @@ func (_class NetworkClass) AddPurpose(sessionID SessionRef, self NetworkRef, val
 	return
 }
 
-// Set the default locking mode for VIFs attached to this network
+// SetDefaultLockingMode Set the default locking mode for VIFs attached to this network
 func (_class NetworkClass) SetDefaultLockingMode(sessionID SessionRef, network NetworkRef, value NetworkDefaultLockingMode) (_err error) {
 	_method := "network.set_default_locking_mode"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -177,7 +177,7 @@ func (_class NetworkClass) SetDefaultLockingMode(sessionID SessionRef, network N
 	return
 }
 
-// Create a placeholder for a named binary blob of data that is associated with this pool
+// CreateNewBlob Create a placeholder for a named binary blob of data that is associated with this pool
 func (_class NetworkClass) CreateNewBlob(sessionID SessionRef, network NetworkRef, name string, mimeType string, public bool) (_retval BlobRef, _err error) {
 	_method := "network.create_new_blob"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -208,7 +208,7 @@ func (_class NetworkClass) CreateNewBlob(sessionID SessionRef, network NetworkRe
 	return
 }
 
-// Remove the given value from the tags field of the given network.  If the value is not in that Set, then do nothing.
+// RemoveTags Remove the given value from the tags field of the given network.  If the value is not in that Set, then do nothing.
 func (_class NetworkClass) RemoveTags(sessionID SessionRef, self NetworkRef, value string) (_err error) {
 	_method := "network.remove_tags"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -227,7 +227,7 @@ func (_class NetworkClass) RemoveTags(sessionID SessionRef, self NetworkRef, val
 	return
 }
 
-// Add the given value to the tags field of the given network.  If the value is already in that Set, then do nothing.
+// AddTags Add the given value to the tags field of the given network.  If the value is already in that Set, then do nothing.
 func (_class NetworkClass) AddTags(sessionID SessionRef, self NetworkRef, value string) (_err error) {
 	_method := "network.add_tags"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -246,7 +246,7 @@ func (_class NetworkClass) AddTags(sessionID SessionRef, self NetworkRef, value 
 	return
 }
 
-// Set the tags field of the given network.
+// SetTags Set the tags field of the given network.
 func (_class NetworkClass) SetTags(sessionID SessionRef, self NetworkRef, value []string) (_err error) {
 	_method := "network.set_tags"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -265,7 +265,7 @@ func (_class NetworkClass) SetTags(sessionID SessionRef, self NetworkRef, value 
 	return
 }
 
-// Remove the given key and its corresponding value from the other_config field of the given network.  If the key is not in that Map, then do nothing.
+// RemoveFromOtherConfig Remove the given key and its corresponding value from the other_config field of the given network.  If the key is not in that Map, then do nothing.
 func (_class NetworkClass) RemoveFromOtherConfig(sessionID SessionRef, self NetworkRef, key string) (_err error) {
 	_method := "network.remove_from_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -284,7 +284,7 @@ func (_class NetworkClass) RemoveFromOtherConfig(sessionID SessionRef, self Netw
 	return
 }
 
-// Add the given key-value pair to the other_config field of the given network.
+// AddToOtherConfig Add the given key-value pair to the other_config field of the given network.
 func (_class NetworkClass) AddToOtherConfig(sessionID SessionRef, self NetworkRef, key string, value string) (_err error) {
 	_method := "network.add_to_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -307,7 +307,7 @@ func (_class NetworkClass) AddToOtherConfig(sessionID SessionRef, self NetworkRe
 	return
 }
 
-// Set the other_config field of the given network.
+// SetOtherConfig Set the other_config field of the given network.
 func (_class NetworkClass) SetOtherConfig(sessionID SessionRef, self NetworkRef, value map[string]string) (_err error) {
 	_method := "network.set_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -326,7 +326,7 @@ func (_class NetworkClass) SetOtherConfig(sessionID SessionRef, self NetworkRef,
 	return
 }
 
-// Set the MTU field of the given network.
+// SetMTU Set the MTU field of the given network.
 func (_class NetworkClass) SetMTU(sessionID SessionRef, self NetworkRef, value int) (_err error) {
 	_method := "network.set_MTU"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -345,7 +345,7 @@ func (_class NetworkClass) SetMTU(sessionID SessionRef, self NetworkRef, value i
 	return
 }
 
-// Set the name/description field of the given network.
+// SetNameDescription Set the name/description field of the given network.
 func (_class NetworkClass) SetNameDescription(sessionID SessionRef, self NetworkRef, value string) (_err error) {
 	_method := "network.set_name_description"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -364,7 +364,7 @@ func (_class NetworkClass) SetNameDescription(sessionID SessionRef, self Network
 	return
 }
 
-// Set the name/label field of the given network.
+// SetNameLabel Set the name/label field of the given network.
 func (_class NetworkClass) SetNameLabel(sessionID SessionRef, self NetworkRef, value string) (_err error) {
 	_method := "network.set_name_label"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -383,7 +383,7 @@ func (_class NetworkClass) SetNameLabel(sessionID SessionRef, self NetworkRef, v
 	return
 }
 
-// Get the purpose field of the given network.
+// GetPurpose Get the purpose field of the given network.
 func (_class NetworkClass) GetPurpose(sessionID SessionRef, self NetworkRef) (_retval []NetworkPurpose, _err error) {
 	_method := "network.get_purpose"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -402,7 +402,7 @@ func (_class NetworkClass) GetPurpose(sessionID SessionRef, self NetworkRef) (_r
 	return
 }
 
-// Get the assigned_ips field of the given network.
+// GetAssignedIps Get the assigned_ips field of the given network.
 func (_class NetworkClass) GetAssignedIps(sessionID SessionRef, self NetworkRef) (_retval map[VIFRef]string, _err error) {
 	_method := "network.get_assigned_ips"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -421,7 +421,7 @@ func (_class NetworkClass) GetAssignedIps(sessionID SessionRef, self NetworkRef)
 	return
 }
 
-// Get the default_locking_mode field of the given network.
+// GetDefaultLockingMode Get the default_locking_mode field of the given network.
 func (_class NetworkClass) GetDefaultLockingMode(sessionID SessionRef, self NetworkRef) (_retval NetworkDefaultLockingMode, _err error) {
 	_method := "network.get_default_locking_mode"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -440,7 +440,7 @@ func (_class NetworkClass) GetDefaultLockingMode(sessionID SessionRef, self Netw
 	return
 }
 
-// Get the tags field of the given network.
+// GetTags Get the tags field of the given network.
 func (_class NetworkClass) GetTags(sessionID SessionRef, self NetworkRef) (_retval []string, _err error) {
 	_method := "network.get_tags"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -459,7 +459,7 @@ func (_class NetworkClass) GetTags(sessionID SessionRef, self NetworkRef) (_retv
 	return
 }
 
-// Get the blobs field of the given network.
+// GetBlobs Get the blobs field of the given network.
 func (_class NetworkClass) GetBlobs(sessionID SessionRef, self NetworkRef) (_retval map[string]BlobRef, _err error) {
 	_method := "network.get_blobs"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -478,7 +478,7 @@ func (_class NetworkClass) GetBlobs(sessionID SessionRef, self NetworkRef) (_ret
 	return
 }
 
-// Get the managed field of the given network.
+// GetManaged Get the managed field of the given network.
 func (_class NetworkClass) GetManaged(sessionID SessionRef, self NetworkRef) (_retval bool, _err error) {
 	_method := "network.get_managed"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -497,7 +497,7 @@ func (_class NetworkClass) GetManaged(sessionID SessionRef, self NetworkRef) (_r
 	return
 }
 
-// Get the bridge field of the given network.
+// GetBridge Get the bridge field of the given network.
 func (_class NetworkClass) GetBridge(sessionID SessionRef, self NetworkRef) (_retval string, _err error) {
 	_method := "network.get_bridge"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -516,7 +516,7 @@ func (_class NetworkClass) GetBridge(sessionID SessionRef, self NetworkRef) (_re
 	return
 }
 
-// Get the other_config field of the given network.
+// GetOtherConfig Get the other_config field of the given network.
 func (_class NetworkClass) GetOtherConfig(sessionID SessionRef, self NetworkRef) (_retval map[string]string, _err error) {
 	_method := "network.get_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -535,7 +535,7 @@ func (_class NetworkClass) GetOtherConfig(sessionID SessionRef, self NetworkRef)
 	return
 }
 
-// Get the MTU field of the given network.
+// GetMTU Get the MTU field of the given network.
 func (_class NetworkClass) GetMTU(sessionID SessionRef, self NetworkRef) (_retval int, _err error) {
 	_method := "network.get_MTU"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -554,7 +554,7 @@ func (_class NetworkClass) GetMTU(sessionID SessionRef, self NetworkRef) (_retva
 	return
 }
 
-// Get the PIFs field of the given network.
+// GetPIFs Get the PIFs field of the given network.
 func (_class NetworkClass) GetPIFs(sessionID SessionRef, self NetworkRef) (_retval []PIFRef, _err error) {
 	_method := "network.get_PIFs"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -573,7 +573,7 @@ func (_class NetworkClass) GetPIFs(sessionID SessionRef, self NetworkRef) (_retv
 	return
 }
 
-// Get the VIFs field of the given network.
+// GetVIFs Get the VIFs field of the given network.
 func (_class NetworkClass) GetVIFs(sessionID SessionRef, self NetworkRef) (_retval []VIFRef, _err error) {
 	_method := "network.get_VIFs"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -592,7 +592,7 @@ func (_class NetworkClass) GetVIFs(sessionID SessionRef, self NetworkRef) (_retv
 	return
 }
 
-// Get the current_operations field of the given network.
+// GetCurrentOperations Get the current_operations field of the given network.
 func (_class NetworkClass) GetCurrentOperations(sessionID SessionRef, self NetworkRef) (_retval map[string]NetworkOperations, _err error) {
 	_method := "network.get_current_operations"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -611,7 +611,7 @@ func (_class NetworkClass) GetCurrentOperations(sessionID SessionRef, self Netwo
 	return
 }
 
-// Get the allowed_operations field of the given network.
+// GetAllowedOperations Get the allowed_operations field of the given network.
 func (_class NetworkClass) GetAllowedOperations(sessionID SessionRef, self NetworkRef) (_retval []NetworkOperations, _err error) {
 	_method := "network.get_allowed_operations"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -630,7 +630,7 @@ func (_class NetworkClass) GetAllowedOperations(sessionID SessionRef, self Netwo
 	return
 }
 
-// Get the name/description field of the given network.
+// GetNameDescription Get the name/description field of the given network.
 func (_class NetworkClass) GetNameDescription(sessionID SessionRef, self NetworkRef) (_retval string, _err error) {
 	_method := "network.get_name_description"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -649,7 +649,7 @@ func (_class NetworkClass) GetNameDescription(sessionID SessionRef, self Network
 	return
 }
 
-// Get the name/label field of the given network.
+// GetNameLabel Get the name/label field of the given network.
 func (_class NetworkClass) GetNameLabel(sessionID SessionRef, self NetworkRef) (_retval string, _err error) {
 	_method := "network.get_name_label"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -668,7 +668,7 @@ func (_class NetworkClass) GetNameLabel(sessionID SessionRef, self NetworkRef) (
 	return
 }
 
-// Get the uuid field of the given network.
+// GetUUID Get the uuid field of the given network.
 func (_class NetworkClass) GetUUID(sessionID SessionRef, self NetworkRef) (_retval string, _err error) {
 	_method := "network.get_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -687,7 +687,7 @@ func (_class NetworkClass) GetUUID(sessionID SessionRef, self NetworkRef) (_retv
 	return
 }
 
-// Get all the network instances with the given label.
+// GetByNameLabel Get all the network instances with the given label.
 func (_class NetworkClass) GetByNameLabel(sessionID SessionRef, label string) (_retval []NetworkRef, _err error) {
 	_method := "network.get_by_name_label"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -706,7 +706,7 @@ func (_class NetworkClass) GetByNameLabel(sessionID SessionRef, label string) (_
 	return
 }
 
-// Destroy the specified network instance.
+// Destroy Destroy the specified network instance.
 func (_class NetworkClass) Destroy(sessionID SessionRef, self NetworkRef) (_err error) {
 	_method := "network.destroy"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -721,8 +721,8 @@ func (_class NetworkClass) Destroy(sessionID SessionRef, self NetworkRef) (_err 
 	return
 }
 
-// Create a new network instance, and return its handle.
-// The constructor args are: name_label, name_description, MTU, other_config*, bridge, managed, tags (* = non-optional).
+// Create Create a new network instance, and return its handle.
+The constructor args are: name_label, name_description, MTU, other_config*, bridge, managed, tags (* = non-optional).
 func (_class NetworkClass) Create(sessionID SessionRef, args NetworkRecord) (_retval NetworkRef, _err error) {
 	_method := "network.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -741,7 +741,7 @@ func (_class NetworkClass) Create(sessionID SessionRef, args NetworkRecord) (_re
 	return
 }
 
-// Get a reference to the network instance with the specified UUID.
+// GetByUUID Get a reference to the network instance with the specified UUID.
 func (_class NetworkClass) GetByUUID(sessionID SessionRef, uuid string) (_retval NetworkRef, _err error) {
 	_method := "network.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -760,7 +760,7 @@ func (_class NetworkClass) GetByUUID(sessionID SessionRef, uuid string) (_retval
 	return
 }
 
-// Get a record containing the current state of the given network.
+// GetRecord Get a record containing the current state of the given network.
 func (_class NetworkClass) GetRecord(sessionID SessionRef, self NetworkRef) (_retval NetworkRecord, _err error) {
 	_method := "network.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

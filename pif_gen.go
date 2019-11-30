@@ -138,7 +138,7 @@ type PIFClass struct {
 	client *Client
 }
 
-// Return a map of PIF references to PIF records for all PIFs known to the system.
+// GetAllRecords Return a map of PIF references to PIF records for all PIFs known to the system.
 func (_class PIFClass) GetAllRecords(sessionID SessionRef) (_retval map[PIFRef]PIFRecord, _err error) {
 	_method := "PIF.get_all_records"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -153,7 +153,7 @@ func (_class PIFClass) GetAllRecords(sessionID SessionRef) (_retval map[PIFRef]P
 	return
 }
 
-// Return a list of all the PIFs known to the system.
+// GetAll Return a list of all the PIFs known to the system.
 func (_class PIFClass) GetAll(sessionID SessionRef) (_retval []PIFRef, _err error) {
 	_method := "PIF.get_all"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -168,7 +168,7 @@ func (_class PIFClass) GetAll(sessionID SessionRef) (_retval []PIFRef, _err erro
 	return
 }
 
-// Set the value of a property of the PIF
+// SetProperty Set the value of a property of the PIF
 func (_class PIFClass) SetProperty(sessionID SessionRef, self PIFRef, name string, value string) (_err error) {
 	_method := "PIF.set_property"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -191,7 +191,7 @@ func (_class PIFClass) SetProperty(sessionID SessionRef, self PIFRef, name strin
 	return
 }
 
-// Destroy a PIF database record.
+// DbForget Destroy a PIF database record.
 func (_class PIFClass) DbForget(sessionID SessionRef, self PIFRef) (_err error) {
 	_method := "PIF.db_forget"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -206,7 +206,7 @@ func (_class PIFClass) DbForget(sessionID SessionRef, self PIFRef) (_err error) 
 	return
 }
 
-// Create a new PIF record in the database only
+// DbIntroduce Create a new PIF record in the database only
 func (_class PIFClass) DbIntroduce(sessionID SessionRef, device string, network NetworkRef, host HostRef, mac string, mtu int, vlan int, physical bool, ipConfigurationMode IPConfigurationMode, ip string, netmask string, gateway string, dns string, bondSlaveOf BondRef, vlanMasterOf VLANRef, management bool, otherConfig map[string]string, disallowUnplug bool, ipv6ConfigurationMode Ipv6ConfigurationMode, ipv6 []string, ipv6Gateway string, primaryAddressType PrimaryAddressType, managed bool, properties map[string]string) (_retval PIFRef, _err error) {
 	_method := "PIF.db_introduce"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -313,7 +313,7 @@ func (_class PIFClass) DbIntroduce(sessionID SessionRef, device string, network 
 	return
 }
 
-// Attempt to bring up a physical interface
+// Plug Attempt to bring up a physical interface
 //
 // Errors:
 //  TRANSPORT_PIF_NOT_CONFIGURED - The tunnel transport PIF has no IP configuration set.
@@ -331,7 +331,7 @@ func (_class PIFClass) Plug(sessionID SessionRef, self PIFRef) (_err error) {
 	return
 }
 
-// Attempt to bring down a physical interface
+// Unplug Attempt to bring down a physical interface
 //
 // Errors:
 //  HA_OPERATION_WOULD_BREAK_FAILOVER_PLAN - This operation cannot be performed because it would invalidate VM failover planning such that the system would be unable to guarantee to restart protected VMs after a Host failure.
@@ -352,7 +352,7 @@ func (_class PIFClass) Unplug(sessionID SessionRef, self PIFRef) (_err error) {
 	return
 }
 
-// Destroy the PIF object matching a particular network interface
+// Forget Destroy the PIF object matching a particular network interface
 //
 // Errors:
 //  PIF_TUNNEL_STILL_EXISTS - Operation cannot proceed while a tunnel exists on this interface.
@@ -370,7 +370,7 @@ func (_class PIFClass) Forget(sessionID SessionRef, self PIFRef) (_err error) {
 	return
 }
 
-// Create a PIF object matching a particular network interface
+// Introduce Create a PIF object matching a particular network interface
 func (_class PIFClass) Introduce(sessionID SessionRef, host HostRef, mac string, device string, managed bool) (_retval PIFRef, _err error) {
 	_method := "PIF.introduce"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -401,7 +401,7 @@ func (_class PIFClass) Introduce(sessionID SessionRef, host HostRef, mac string,
 	return
 }
 
-// Scan for physical interfaces on a host and create PIF objects to represent them
+// Scan Scan for physical interfaces on a host and create PIF objects to represent them
 func (_class PIFClass) Scan(sessionID SessionRef, host HostRef) (_err error) {
 	_method := "PIF.scan"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -416,7 +416,7 @@ func (_class PIFClass) Scan(sessionID SessionRef, host HostRef) (_err error) {
 	return
 }
 
-// Change the primary address type used by this PIF
+// SetPrimaryAddressType Change the primary address type used by this PIF
 func (_class PIFClass) SetPrimaryAddressType(sessionID SessionRef, self PIFRef, primaryAddressType PrimaryAddressType) (_err error) {
 	_method := "PIF.set_primary_address_type"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -435,7 +435,7 @@ func (_class PIFClass) SetPrimaryAddressType(sessionID SessionRef, self PIFRef, 
 	return
 }
 
-// Reconfigure the IPv6 address settings for this interface
+// ReconfigureIpv6 Reconfigure the IPv6 address settings for this interface
 func (_class PIFClass) ReconfigureIpv6(sessionID SessionRef, self PIFRef, mode Ipv6ConfigurationMode, ipv6 string, gateway string, dns string) (_err error) {
 	_method := "PIF.reconfigure_ipv6"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -466,7 +466,7 @@ func (_class PIFClass) ReconfigureIpv6(sessionID SessionRef, self PIFRef, mode I
 	return
 }
 
-// Reconfigure the IP address settings for this interface
+// ReconfigureIP Reconfigure the IP address settings for this interface
 func (_class PIFClass) ReconfigureIP(sessionID SessionRef, self PIFRef, mode IPConfigurationMode, ip string, netmask string, gateway string, dns string) (_err error) {
 	_method := "PIF.reconfigure_ip"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -501,7 +501,7 @@ func (_class PIFClass) ReconfigureIP(sessionID SessionRef, self PIFRef, mode IPC
 	return
 }
 
-// Destroy the PIF object (provided it is a VLAN interface). This call is deprecated: use VLAN.destroy or Bond.destroy instead
+// Destroy Destroy the PIF object (provided it is a VLAN interface). This call is deprecated: use VLAN.destroy or Bond.destroy instead
 //
 // Errors:
 //  PIF_IS_PHYSICAL - You tried to destroy a PIF, but it represents an aspect of the physical host configuration, and so cannot be destroyed.  The parameter echoes the PIF handle you gave.
@@ -519,7 +519,7 @@ func (_class PIFClass) Destroy(sessionID SessionRef, self PIFRef) (_err error) {
 	return
 }
 
-// Create a VLAN interface from an existing physical interface. This call is deprecated: use VLAN.create instead
+// CreateVLAN Create a VLAN interface from an existing physical interface. This call is deprecated: use VLAN.create instead
 //
 // Errors:
 //  VLAN_TAG_INVALID - You tried to create a VLAN, but the tag you gave was invalid -- it must be between 0 and 4094.  The parameter echoes the VLAN tag you gave.
@@ -553,7 +553,7 @@ func (_class PIFClass) CreateVLAN(sessionID SessionRef, device string, network N
 	return
 }
 
-// Set the disallow_unplug field of the given PIF.
+// SetDisallowUnplug Set the disallow_unplug field of the given PIF.
 func (_class PIFClass) SetDisallowUnplug(sessionID SessionRef, self PIFRef, value bool) (_err error) {
 	_method := "PIF.set_disallow_unplug"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -572,7 +572,7 @@ func (_class PIFClass) SetDisallowUnplug(sessionID SessionRef, self PIFRef, valu
 	return
 }
 
-// Remove the given key and its corresponding value from the other_config field of the given PIF.  If the key is not in that Map, then do nothing.
+// RemoveFromOtherConfig Remove the given key and its corresponding value from the other_config field of the given PIF.  If the key is not in that Map, then do nothing.
 func (_class PIFClass) RemoveFromOtherConfig(sessionID SessionRef, self PIFRef, key string) (_err error) {
 	_method := "PIF.remove_from_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -591,7 +591,7 @@ func (_class PIFClass) RemoveFromOtherConfig(sessionID SessionRef, self PIFRef, 
 	return
 }
 
-// Add the given key-value pair to the other_config field of the given PIF.
+// AddToOtherConfig Add the given key-value pair to the other_config field of the given PIF.
 func (_class PIFClass) AddToOtherConfig(sessionID SessionRef, self PIFRef, key string, value string) (_err error) {
 	_method := "PIF.add_to_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -614,7 +614,7 @@ func (_class PIFClass) AddToOtherConfig(sessionID SessionRef, self PIFRef, key s
 	return
 }
 
-// Set the other_config field of the given PIF.
+// SetOtherConfig Set the other_config field of the given PIF.
 func (_class PIFClass) SetOtherConfig(sessionID SessionRef, self PIFRef, value map[string]string) (_err error) {
 	_method := "PIF.set_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -633,7 +633,7 @@ func (_class PIFClass) SetOtherConfig(sessionID SessionRef, self PIFRef, value m
 	return
 }
 
-// Get the igmp_snooping_status field of the given PIF.
+// GetIgmpSnoopingStatus Get the igmp_snooping_status field of the given PIF.
 func (_class PIFClass) GetIgmpSnoopingStatus(sessionID SessionRef, self PIFRef) (_retval PifIgmpStatus, _err error) {
 	_method := "PIF.get_igmp_snooping_status"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -652,7 +652,7 @@ func (_class PIFClass) GetIgmpSnoopingStatus(sessionID SessionRef, self PIFRef) 
 	return
 }
 
-// Get the capabilities field of the given PIF.
+// GetCapabilities Get the capabilities field of the given PIF.
 func (_class PIFClass) GetCapabilities(sessionID SessionRef, self PIFRef) (_retval []string, _err error) {
 	_method := "PIF.get_capabilities"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -671,7 +671,7 @@ func (_class PIFClass) GetCapabilities(sessionID SessionRef, self PIFRef) (_retv
 	return
 }
 
-// Get the properties field of the given PIF.
+// GetProperties Get the properties field of the given PIF.
 func (_class PIFClass) GetProperties(sessionID SessionRef, self PIFRef) (_retval map[string]string, _err error) {
 	_method := "PIF.get_properties"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -690,7 +690,7 @@ func (_class PIFClass) GetProperties(sessionID SessionRef, self PIFRef) (_retval
 	return
 }
 
-// Get the managed field of the given PIF.
+// GetManaged Get the managed field of the given PIF.
 func (_class PIFClass) GetManaged(sessionID SessionRef, self PIFRef) (_retval bool, _err error) {
 	_method := "PIF.get_managed"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -709,7 +709,7 @@ func (_class PIFClass) GetManaged(sessionID SessionRef, self PIFRef) (_retval bo
 	return
 }
 
-// Get the primary_address_type field of the given PIF.
+// GetPrimaryAddressType Get the primary_address_type field of the given PIF.
 func (_class PIFClass) GetPrimaryAddressType(sessionID SessionRef, self PIFRef) (_retval PrimaryAddressType, _err error) {
 	_method := "PIF.get_primary_address_type"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -728,7 +728,7 @@ func (_class PIFClass) GetPrimaryAddressType(sessionID SessionRef, self PIFRef) 
 	return
 }
 
-// Get the ipv6_gateway field of the given PIF.
+// GetIpv6Gateway Get the ipv6_gateway field of the given PIF.
 func (_class PIFClass) GetIpv6Gateway(sessionID SessionRef, self PIFRef) (_retval string, _err error) {
 	_method := "PIF.get_ipv6_gateway"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -747,7 +747,7 @@ func (_class PIFClass) GetIpv6Gateway(sessionID SessionRef, self PIFRef) (_retva
 	return
 }
 
-// Get the IPv6 field of the given PIF.
+// GetIPv6 Get the IPv6 field of the given PIF.
 func (_class PIFClass) GetIPv6(sessionID SessionRef, self PIFRef) (_retval []string, _err error) {
 	_method := "PIF.get_IPv6"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -766,7 +766,7 @@ func (_class PIFClass) GetIPv6(sessionID SessionRef, self PIFRef) (_retval []str
 	return
 }
 
-// Get the ipv6_configuration_mode field of the given PIF.
+// GetIpv6ConfigurationMode Get the ipv6_configuration_mode field of the given PIF.
 func (_class PIFClass) GetIpv6ConfigurationMode(sessionID SessionRef, self PIFRef) (_retval Ipv6ConfigurationMode, _err error) {
 	_method := "PIF.get_ipv6_configuration_mode"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -785,7 +785,7 @@ func (_class PIFClass) GetIpv6ConfigurationMode(sessionID SessionRef, self PIFRe
 	return
 }
 
-// Get the tunnel_transport_PIF_of field of the given PIF.
+// GetTunnelTransportPIFOf Get the tunnel_transport_PIF_of field of the given PIF.
 func (_class PIFClass) GetTunnelTransportPIFOf(sessionID SessionRef, self PIFRef) (_retval []TunnelRef, _err error) {
 	_method := "PIF.get_tunnel_transport_PIF_of"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -804,7 +804,7 @@ func (_class PIFClass) GetTunnelTransportPIFOf(sessionID SessionRef, self PIFRef
 	return
 }
 
-// Get the tunnel_access_PIF_of field of the given PIF.
+// GetTunnelAccessPIFOf Get the tunnel_access_PIF_of field of the given PIF.
 func (_class PIFClass) GetTunnelAccessPIFOf(sessionID SessionRef, self PIFRef) (_retval []TunnelRef, _err error) {
 	_method := "PIF.get_tunnel_access_PIF_of"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -823,7 +823,7 @@ func (_class PIFClass) GetTunnelAccessPIFOf(sessionID SessionRef, self PIFRef) (
 	return
 }
 
-// Get the disallow_unplug field of the given PIF.
+// GetDisallowUnplug Get the disallow_unplug field of the given PIF.
 func (_class PIFClass) GetDisallowUnplug(sessionID SessionRef, self PIFRef) (_retval bool, _err error) {
 	_method := "PIF.get_disallow_unplug"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -842,7 +842,7 @@ func (_class PIFClass) GetDisallowUnplug(sessionID SessionRef, self PIFRef) (_re
 	return
 }
 
-// Get the other_config field of the given PIF.
+// GetOtherConfig Get the other_config field of the given PIF.
 func (_class PIFClass) GetOtherConfig(sessionID SessionRef, self PIFRef) (_retval map[string]string, _err error) {
 	_method := "PIF.get_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -861,7 +861,7 @@ func (_class PIFClass) GetOtherConfig(sessionID SessionRef, self PIFRef) (_retva
 	return
 }
 
-// Get the management field of the given PIF.
+// GetManagement Get the management field of the given PIF.
 func (_class PIFClass) GetManagement(sessionID SessionRef, self PIFRef) (_retval bool, _err error) {
 	_method := "PIF.get_management"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -880,7 +880,7 @@ func (_class PIFClass) GetManagement(sessionID SessionRef, self PIFRef) (_retval
 	return
 }
 
-// Get the VLAN_slave_of field of the given PIF.
+// GetVLANSlaveOf Get the VLAN_slave_of field of the given PIF.
 func (_class PIFClass) GetVLANSlaveOf(sessionID SessionRef, self PIFRef) (_retval []VLANRef, _err error) {
 	_method := "PIF.get_VLAN_slave_of"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -899,7 +899,7 @@ func (_class PIFClass) GetVLANSlaveOf(sessionID SessionRef, self PIFRef) (_retva
 	return
 }
 
-// Get the VLAN_master_of field of the given PIF.
+// GetVLANMasterOf Get the VLAN_master_of field of the given PIF.
 func (_class PIFClass) GetVLANMasterOf(sessionID SessionRef, self PIFRef) (_retval VLANRef, _err error) {
 	_method := "PIF.get_VLAN_master_of"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -918,7 +918,7 @@ func (_class PIFClass) GetVLANMasterOf(sessionID SessionRef, self PIFRef) (_retv
 	return
 }
 
-// Get the bond_master_of field of the given PIF.
+// GetBondMasterOf Get the bond_master_of field of the given PIF.
 func (_class PIFClass) GetBondMasterOf(sessionID SessionRef, self PIFRef) (_retval []BondRef, _err error) {
 	_method := "PIF.get_bond_master_of"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -937,7 +937,7 @@ func (_class PIFClass) GetBondMasterOf(sessionID SessionRef, self PIFRef) (_retv
 	return
 }
 
-// Get the bond_slave_of field of the given PIF.
+// GetBondSlaveOf Get the bond_slave_of field of the given PIF.
 func (_class PIFClass) GetBondSlaveOf(sessionID SessionRef, self PIFRef) (_retval BondRef, _err error) {
 	_method := "PIF.get_bond_slave_of"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -956,7 +956,7 @@ func (_class PIFClass) GetBondSlaveOf(sessionID SessionRef, self PIFRef) (_retva
 	return
 }
 
-// Get the DNS field of the given PIF.
+// GetDNS Get the DNS field of the given PIF.
 func (_class PIFClass) GetDNS(sessionID SessionRef, self PIFRef) (_retval string, _err error) {
 	_method := "PIF.get_DNS"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -975,7 +975,7 @@ func (_class PIFClass) GetDNS(sessionID SessionRef, self PIFRef) (_retval string
 	return
 }
 
-// Get the gateway field of the given PIF.
+// GetGateway Get the gateway field of the given PIF.
 func (_class PIFClass) GetGateway(sessionID SessionRef, self PIFRef) (_retval string, _err error) {
 	_method := "PIF.get_gateway"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -994,7 +994,7 @@ func (_class PIFClass) GetGateway(sessionID SessionRef, self PIFRef) (_retval st
 	return
 }
 
-// Get the netmask field of the given PIF.
+// GetNetmask Get the netmask field of the given PIF.
 func (_class PIFClass) GetNetmask(sessionID SessionRef, self PIFRef) (_retval string, _err error) {
 	_method := "PIF.get_netmask"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1013,7 +1013,7 @@ func (_class PIFClass) GetNetmask(sessionID SessionRef, self PIFRef) (_retval st
 	return
 }
 
-// Get the IP field of the given PIF.
+// GetIP Get the IP field of the given PIF.
 func (_class PIFClass) GetIP(sessionID SessionRef, self PIFRef) (_retval string, _err error) {
 	_method := "PIF.get_IP"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1032,7 +1032,7 @@ func (_class PIFClass) GetIP(sessionID SessionRef, self PIFRef) (_retval string,
 	return
 }
 
-// Get the ip_configuration_mode field of the given PIF.
+// GetIPConfigurationMode Get the ip_configuration_mode field of the given PIF.
 func (_class PIFClass) GetIPConfigurationMode(sessionID SessionRef, self PIFRef) (_retval IPConfigurationMode, _err error) {
 	_method := "PIF.get_ip_configuration_mode"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1051,7 +1051,7 @@ func (_class PIFClass) GetIPConfigurationMode(sessionID SessionRef, self PIFRef)
 	return
 }
 
-// Get the currently_attached field of the given PIF.
+// GetCurrentlyAttached Get the currently_attached field of the given PIF.
 func (_class PIFClass) GetCurrentlyAttached(sessionID SessionRef, self PIFRef) (_retval bool, _err error) {
 	_method := "PIF.get_currently_attached"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1070,7 +1070,7 @@ func (_class PIFClass) GetCurrentlyAttached(sessionID SessionRef, self PIFRef) (
 	return
 }
 
-// Get the physical field of the given PIF.
+// GetPhysical Get the physical field of the given PIF.
 func (_class PIFClass) GetPhysical(sessionID SessionRef, self PIFRef) (_retval bool, _err error) {
 	_method := "PIF.get_physical"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1089,7 +1089,7 @@ func (_class PIFClass) GetPhysical(sessionID SessionRef, self PIFRef) (_retval b
 	return
 }
 
-// Get the metrics field of the given PIF.
+// GetMetrics Get the metrics field of the given PIF.
 func (_class PIFClass) GetMetrics(sessionID SessionRef, self PIFRef) (_retval PIFMetricsRef, _err error) {
 	_method := "PIF.get_metrics"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1108,7 +1108,7 @@ func (_class PIFClass) GetMetrics(sessionID SessionRef, self PIFRef) (_retval PI
 	return
 }
 
-// Get the VLAN field of the given PIF.
+// GetVLAN Get the VLAN field of the given PIF.
 func (_class PIFClass) GetVLAN(sessionID SessionRef, self PIFRef) (_retval int, _err error) {
 	_method := "PIF.get_VLAN"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1127,7 +1127,7 @@ func (_class PIFClass) GetVLAN(sessionID SessionRef, self PIFRef) (_retval int, 
 	return
 }
 
-// Get the MTU field of the given PIF.
+// GetMTU Get the MTU field of the given PIF.
 func (_class PIFClass) GetMTU(sessionID SessionRef, self PIFRef) (_retval int, _err error) {
 	_method := "PIF.get_MTU"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1146,7 +1146,7 @@ func (_class PIFClass) GetMTU(sessionID SessionRef, self PIFRef) (_retval int, _
 	return
 }
 
-// Get the MAC field of the given PIF.
+// GetMAC Get the MAC field of the given PIF.
 func (_class PIFClass) GetMAC(sessionID SessionRef, self PIFRef) (_retval string, _err error) {
 	_method := "PIF.get_MAC"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1165,7 +1165,7 @@ func (_class PIFClass) GetMAC(sessionID SessionRef, self PIFRef) (_retval string
 	return
 }
 
-// Get the host field of the given PIF.
+// GetHost Get the host field of the given PIF.
 func (_class PIFClass) GetHost(sessionID SessionRef, self PIFRef) (_retval HostRef, _err error) {
 	_method := "PIF.get_host"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1184,7 +1184,7 @@ func (_class PIFClass) GetHost(sessionID SessionRef, self PIFRef) (_retval HostR
 	return
 }
 
-// Get the network field of the given PIF.
+// GetNetwork Get the network field of the given PIF.
 func (_class PIFClass) GetNetwork(sessionID SessionRef, self PIFRef) (_retval NetworkRef, _err error) {
 	_method := "PIF.get_network"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1203,7 +1203,7 @@ func (_class PIFClass) GetNetwork(sessionID SessionRef, self PIFRef) (_retval Ne
 	return
 }
 
-// Get the device field of the given PIF.
+// GetDevice Get the device field of the given PIF.
 func (_class PIFClass) GetDevice(sessionID SessionRef, self PIFRef) (_retval string, _err error) {
 	_method := "PIF.get_device"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1222,7 +1222,7 @@ func (_class PIFClass) GetDevice(sessionID SessionRef, self PIFRef) (_retval str
 	return
 }
 
-// Get the uuid field of the given PIF.
+// GetUUID Get the uuid field of the given PIF.
 func (_class PIFClass) GetUUID(sessionID SessionRef, self PIFRef) (_retval string, _err error) {
 	_method := "PIF.get_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1241,7 +1241,7 @@ func (_class PIFClass) GetUUID(sessionID SessionRef, self PIFRef) (_retval strin
 	return
 }
 
-// Get a reference to the PIF instance with the specified UUID.
+// GetByUUID Get a reference to the PIF instance with the specified UUID.
 func (_class PIFClass) GetByUUID(sessionID SessionRef, uuid string) (_retval PIFRef, _err error) {
 	_method := "PIF.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1260,7 +1260,7 @@ func (_class PIFClass) GetByUUID(sessionID SessionRef, uuid string) (_retval PIF
 	return
 }
 
-// Get a record containing the current state of the given PIF.
+// GetRecord Get a record containing the current state of the given PIF.
 func (_class PIFClass) GetRecord(sessionID SessionRef, self PIFRef) (_retval PIFRecord, _err error) {
 	_method := "PIF.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

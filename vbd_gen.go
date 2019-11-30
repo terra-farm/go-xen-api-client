@@ -115,7 +115,7 @@ type VBDClass struct {
 	client *Client
 }
 
-// Return a map of VBD references to VBD records for all VBDs known to the system.
+// GetAllRecords Return a map of VBD references to VBD records for all VBDs known to the system.
 func (_class VBDClass) GetAllRecords(sessionID SessionRef) (_retval map[VBDRef]VBDRecord, _err error) {
 	_method := "VBD.get_all_records"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -130,7 +130,7 @@ func (_class VBDClass) GetAllRecords(sessionID SessionRef) (_retval map[VBDRef]V
 	return
 }
 
-// Return a list of all the VBDs known to the system.
+// GetAll Return a list of all the VBDs known to the system.
 func (_class VBDClass) GetAll(sessionID SessionRef) (_retval []VBDRef, _err error) {
 	_method := "VBD.get_all"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -145,7 +145,7 @@ func (_class VBDClass) GetAll(sessionID SessionRef) (_retval []VBDRef, _err erro
 	return
 }
 
-// Sets the mode of the VBD. The power_state of the VM must be halted.
+// SetMode Sets the mode of the VBD. The power_state of the VM must be halted.
 func (_class VBDClass) SetMode(sessionID SessionRef, self VBDRef, value VbdMode) (_err error) {
 	_method := "VBD.set_mode"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -164,7 +164,7 @@ func (_class VBDClass) SetMode(sessionID SessionRef, self VBDRef, value VbdMode)
 	return
 }
 
-// Throws an error if this VBD could not be attached to this VM if the VM were running. Intended for debugging.
+// AssertAttachable Throws an error if this VBD could not be attached to this VM if the VM were running. Intended for debugging.
 func (_class VBDClass) AssertAttachable(sessionID SessionRef, self VBDRef) (_err error) {
 	_method := "VBD.assert_attachable"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -179,7 +179,7 @@ func (_class VBDClass) AssertAttachable(sessionID SessionRef, self VBDRef) (_err
 	return
 }
 
-// Forcibly unplug the specified VBD
+// UnplugForce Forcibly unplug the specified VBD
 func (_class VBDClass) UnplugForce(sessionID SessionRef, self VBDRef) (_err error) {
 	_method := "VBD.unplug_force"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -194,7 +194,7 @@ func (_class VBDClass) UnplugForce(sessionID SessionRef, self VBDRef) (_err erro
 	return
 }
 
-// Hot-unplug the specified VBD, dynamically unattaching it from the running VM
+// Unplug Hot-unplug the specified VBD, dynamically unattaching it from the running VM
 //
 // Errors:
 //  DEVICE_DETACH_REJECTED - The VM rejected the attempt to detach the device.
@@ -213,7 +213,7 @@ func (_class VBDClass) Unplug(sessionID SessionRef, self VBDRef) (_err error) {
 	return
 }
 
-// Hotplug the specified VBD, dynamically attaching it to the running VM
+// Plug Hotplug the specified VBD, dynamically attaching it to the running VM
 func (_class VBDClass) Plug(sessionID SessionRef, self VBDRef) (_err error) {
 	_method := "VBD.plug"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -228,7 +228,7 @@ func (_class VBDClass) Plug(sessionID SessionRef, self VBDRef) (_err error) {
 	return
 }
 
-// Insert new media into the device
+// Insert Insert new media into the device
 //
 // Errors:
 //  VBD_NOT_REMOVABLE_MEDIA - Media could not be ejected because it is not removable
@@ -251,7 +251,7 @@ func (_class VBDClass) Insert(sessionID SessionRef, vbd VBDRef, vdi VDIRef) (_er
 	return
 }
 
-// Remove the media from the device and leave it empty
+// Eject Remove the media from the device and leave it empty
 //
 // Errors:
 //  VBD_NOT_REMOVABLE_MEDIA - Media could not be ejected because it is not removable
@@ -270,7 +270,7 @@ func (_class VBDClass) Eject(sessionID SessionRef, vbd VBDRef) (_err error) {
 	return
 }
 
-// Remove the given key and its corresponding value from the qos/algorithm_params field of the given VBD.  If the key is not in that Map, then do nothing.
+// RemoveFromQosAlgorithmParams Remove the given key and its corresponding value from the qos/algorithm_params field of the given VBD.  If the key is not in that Map, then do nothing.
 func (_class VBDClass) RemoveFromQosAlgorithmParams(sessionID SessionRef, self VBDRef, key string) (_err error) {
 	_method := "VBD.remove_from_qos_algorithm_params"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -289,7 +289,7 @@ func (_class VBDClass) RemoveFromQosAlgorithmParams(sessionID SessionRef, self V
 	return
 }
 
-// Add the given key-value pair to the qos/algorithm_params field of the given VBD.
+// AddToQosAlgorithmParams Add the given key-value pair to the qos/algorithm_params field of the given VBD.
 func (_class VBDClass) AddToQosAlgorithmParams(sessionID SessionRef, self VBDRef, key string, value string) (_err error) {
 	_method := "VBD.add_to_qos_algorithm_params"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -312,7 +312,7 @@ func (_class VBDClass) AddToQosAlgorithmParams(sessionID SessionRef, self VBDRef
 	return
 }
 
-// Set the qos/algorithm_params field of the given VBD.
+// SetQosAlgorithmParams Set the qos/algorithm_params field of the given VBD.
 func (_class VBDClass) SetQosAlgorithmParams(sessionID SessionRef, self VBDRef, value map[string]string) (_err error) {
 	_method := "VBD.set_qos_algorithm_params"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -331,7 +331,7 @@ func (_class VBDClass) SetQosAlgorithmParams(sessionID SessionRef, self VBDRef, 
 	return
 }
 
-// Set the qos/algorithm_type field of the given VBD.
+// SetQosAlgorithmType Set the qos/algorithm_type field of the given VBD.
 func (_class VBDClass) SetQosAlgorithmType(sessionID SessionRef, self VBDRef, value string) (_err error) {
 	_method := "VBD.set_qos_algorithm_type"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -350,7 +350,7 @@ func (_class VBDClass) SetQosAlgorithmType(sessionID SessionRef, self VBDRef, va
 	return
 }
 
-// Remove the given key and its corresponding value from the other_config field of the given VBD.  If the key is not in that Map, then do nothing.
+// RemoveFromOtherConfig Remove the given key and its corresponding value from the other_config field of the given VBD.  If the key is not in that Map, then do nothing.
 func (_class VBDClass) RemoveFromOtherConfig(sessionID SessionRef, self VBDRef, key string) (_err error) {
 	_method := "VBD.remove_from_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -369,7 +369,7 @@ func (_class VBDClass) RemoveFromOtherConfig(sessionID SessionRef, self VBDRef, 
 	return
 }
 
-// Add the given key-value pair to the other_config field of the given VBD.
+// AddToOtherConfig Add the given key-value pair to the other_config field of the given VBD.
 func (_class VBDClass) AddToOtherConfig(sessionID SessionRef, self VBDRef, key string, value string) (_err error) {
 	_method := "VBD.add_to_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -392,7 +392,7 @@ func (_class VBDClass) AddToOtherConfig(sessionID SessionRef, self VBDRef, key s
 	return
 }
 
-// Set the other_config field of the given VBD.
+// SetOtherConfig Set the other_config field of the given VBD.
 func (_class VBDClass) SetOtherConfig(sessionID SessionRef, self VBDRef, value map[string]string) (_err error) {
 	_method := "VBD.set_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -411,7 +411,7 @@ func (_class VBDClass) SetOtherConfig(sessionID SessionRef, self VBDRef, value m
 	return
 }
 
-// Set the unpluggable field of the given VBD.
+// SetUnpluggable Set the unpluggable field of the given VBD.
 func (_class VBDClass) SetUnpluggable(sessionID SessionRef, self VBDRef, value bool) (_err error) {
 	_method := "VBD.set_unpluggable"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -430,7 +430,7 @@ func (_class VBDClass) SetUnpluggable(sessionID SessionRef, self VBDRef, value b
 	return
 }
 
-// Set the type field of the given VBD.
+// SetType Set the type field of the given VBD.
 func (_class VBDClass) SetType(sessionID SessionRef, self VBDRef, value VbdType) (_err error) {
 	_method := "VBD.set_type"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -449,7 +449,7 @@ func (_class VBDClass) SetType(sessionID SessionRef, self VBDRef, value VbdType)
 	return
 }
 
-// Set the bootable field of the given VBD.
+// SetBootable Set the bootable field of the given VBD.
 func (_class VBDClass) SetBootable(sessionID SessionRef, self VBDRef, value bool) (_err error) {
 	_method := "VBD.set_bootable"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -468,7 +468,7 @@ func (_class VBDClass) SetBootable(sessionID SessionRef, self VBDRef, value bool
 	return
 }
 
-// Set the userdevice field of the given VBD.
+// SetUserdevice Set the userdevice field of the given VBD.
 func (_class VBDClass) SetUserdevice(sessionID SessionRef, self VBDRef, value string) (_err error) {
 	_method := "VBD.set_userdevice"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -487,7 +487,7 @@ func (_class VBDClass) SetUserdevice(sessionID SessionRef, self VBDRef, value st
 	return
 }
 
-// Get the metrics field of the given VBD.
+// GetMetrics Get the metrics field of the given VBD.
 func (_class VBDClass) GetMetrics(sessionID SessionRef, self VBDRef) (_retval VBDMetricsRef, _err error) {
 	_method := "VBD.get_metrics"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -506,7 +506,7 @@ func (_class VBDClass) GetMetrics(sessionID SessionRef, self VBDRef) (_retval VB
 	return
 }
 
-// Get the qos/supported_algorithms field of the given VBD.
+// GetQosSupportedAlgorithms Get the qos/supported_algorithms field of the given VBD.
 func (_class VBDClass) GetQosSupportedAlgorithms(sessionID SessionRef, self VBDRef) (_retval []string, _err error) {
 	_method := "VBD.get_qos_supported_algorithms"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -525,7 +525,7 @@ func (_class VBDClass) GetQosSupportedAlgorithms(sessionID SessionRef, self VBDR
 	return
 }
 
-// Get the qos/algorithm_params field of the given VBD.
+// GetQosAlgorithmParams Get the qos/algorithm_params field of the given VBD.
 func (_class VBDClass) GetQosAlgorithmParams(sessionID SessionRef, self VBDRef) (_retval map[string]string, _err error) {
 	_method := "VBD.get_qos_algorithm_params"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -544,7 +544,7 @@ func (_class VBDClass) GetQosAlgorithmParams(sessionID SessionRef, self VBDRef) 
 	return
 }
 
-// Get the qos/algorithm_type field of the given VBD.
+// GetQosAlgorithmType Get the qos/algorithm_type field of the given VBD.
 func (_class VBDClass) GetQosAlgorithmType(sessionID SessionRef, self VBDRef) (_retval string, _err error) {
 	_method := "VBD.get_qos_algorithm_type"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -563,7 +563,7 @@ func (_class VBDClass) GetQosAlgorithmType(sessionID SessionRef, self VBDRef) (_
 	return
 }
 
-// Get the runtime_properties field of the given VBD.
+// GetRuntimeProperties Get the runtime_properties field of the given VBD.
 func (_class VBDClass) GetRuntimeProperties(sessionID SessionRef, self VBDRef) (_retval map[string]string, _err error) {
 	_method := "VBD.get_runtime_properties"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -582,7 +582,7 @@ func (_class VBDClass) GetRuntimeProperties(sessionID SessionRef, self VBDRef) (
 	return
 }
 
-// Get the status_detail field of the given VBD.
+// GetStatusDetail Get the status_detail field of the given VBD.
 func (_class VBDClass) GetStatusDetail(sessionID SessionRef, self VBDRef) (_retval string, _err error) {
 	_method := "VBD.get_status_detail"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -601,7 +601,7 @@ func (_class VBDClass) GetStatusDetail(sessionID SessionRef, self VBDRef) (_retv
 	return
 }
 
-// Get the status_code field of the given VBD.
+// GetStatusCode Get the status_code field of the given VBD.
 func (_class VBDClass) GetStatusCode(sessionID SessionRef, self VBDRef) (_retval int, _err error) {
 	_method := "VBD.get_status_code"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -620,7 +620,7 @@ func (_class VBDClass) GetStatusCode(sessionID SessionRef, self VBDRef) (_retval
 	return
 }
 
-// Get the currently_attached field of the given VBD.
+// GetCurrentlyAttached Get the currently_attached field of the given VBD.
 func (_class VBDClass) GetCurrentlyAttached(sessionID SessionRef, self VBDRef) (_retval bool, _err error) {
 	_method := "VBD.get_currently_attached"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -639,7 +639,7 @@ func (_class VBDClass) GetCurrentlyAttached(sessionID SessionRef, self VBDRef) (
 	return
 }
 
-// Get the other_config field of the given VBD.
+// GetOtherConfig Get the other_config field of the given VBD.
 func (_class VBDClass) GetOtherConfig(sessionID SessionRef, self VBDRef) (_retval map[string]string, _err error) {
 	_method := "VBD.get_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -658,7 +658,7 @@ func (_class VBDClass) GetOtherConfig(sessionID SessionRef, self VBDRef) (_retva
 	return
 }
 
-// Get the empty field of the given VBD.
+// GetEmpty Get the empty field of the given VBD.
 func (_class VBDClass) GetEmpty(sessionID SessionRef, self VBDRef) (_retval bool, _err error) {
 	_method := "VBD.get_empty"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -677,7 +677,7 @@ func (_class VBDClass) GetEmpty(sessionID SessionRef, self VBDRef) (_retval bool
 	return
 }
 
-// Get the storage_lock field of the given VBD.
+// GetStorageLock Get the storage_lock field of the given VBD.
 func (_class VBDClass) GetStorageLock(sessionID SessionRef, self VBDRef) (_retval bool, _err error) {
 	_method := "VBD.get_storage_lock"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -696,7 +696,7 @@ func (_class VBDClass) GetStorageLock(sessionID SessionRef, self VBDRef) (_retva
 	return
 }
 
-// Get the unpluggable field of the given VBD.
+// GetUnpluggable Get the unpluggable field of the given VBD.
 func (_class VBDClass) GetUnpluggable(sessionID SessionRef, self VBDRef) (_retval bool, _err error) {
 	_method := "VBD.get_unpluggable"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -715,7 +715,7 @@ func (_class VBDClass) GetUnpluggable(sessionID SessionRef, self VBDRef) (_retva
 	return
 }
 
-// Get the type field of the given VBD.
+// GetType Get the type field of the given VBD.
 func (_class VBDClass) GetType(sessionID SessionRef, self VBDRef) (_retval VbdType, _err error) {
 	_method := "VBD.get_type"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -734,7 +734,7 @@ func (_class VBDClass) GetType(sessionID SessionRef, self VBDRef) (_retval VbdTy
 	return
 }
 
-// Get the mode field of the given VBD.
+// GetMode Get the mode field of the given VBD.
 func (_class VBDClass) GetMode(sessionID SessionRef, self VBDRef) (_retval VbdMode, _err error) {
 	_method := "VBD.get_mode"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -753,7 +753,7 @@ func (_class VBDClass) GetMode(sessionID SessionRef, self VBDRef) (_retval VbdMo
 	return
 }
 
-// Get the bootable field of the given VBD.
+// GetBootable Get the bootable field of the given VBD.
 func (_class VBDClass) GetBootable(sessionID SessionRef, self VBDRef) (_retval bool, _err error) {
 	_method := "VBD.get_bootable"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -772,7 +772,7 @@ func (_class VBDClass) GetBootable(sessionID SessionRef, self VBDRef) (_retval b
 	return
 }
 
-// Get the userdevice field of the given VBD.
+// GetUserdevice Get the userdevice field of the given VBD.
 func (_class VBDClass) GetUserdevice(sessionID SessionRef, self VBDRef) (_retval string, _err error) {
 	_method := "VBD.get_userdevice"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -791,7 +791,7 @@ func (_class VBDClass) GetUserdevice(sessionID SessionRef, self VBDRef) (_retval
 	return
 }
 
-// Get the device field of the given VBD.
+// GetDevice Get the device field of the given VBD.
 func (_class VBDClass) GetDevice(sessionID SessionRef, self VBDRef) (_retval string, _err error) {
 	_method := "VBD.get_device"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -810,7 +810,7 @@ func (_class VBDClass) GetDevice(sessionID SessionRef, self VBDRef) (_retval str
 	return
 }
 
-// Get the VDI field of the given VBD.
+// GetVDI Get the VDI field of the given VBD.
 func (_class VBDClass) GetVDI(sessionID SessionRef, self VBDRef) (_retval VDIRef, _err error) {
 	_method := "VBD.get_VDI"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -829,7 +829,7 @@ func (_class VBDClass) GetVDI(sessionID SessionRef, self VBDRef) (_retval VDIRef
 	return
 }
 
-// Get the VM field of the given VBD.
+// GetVM Get the VM field of the given VBD.
 func (_class VBDClass) GetVM(sessionID SessionRef, self VBDRef) (_retval VMRef, _err error) {
 	_method := "VBD.get_VM"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -848,7 +848,7 @@ func (_class VBDClass) GetVM(sessionID SessionRef, self VBDRef) (_retval VMRef, 
 	return
 }
 
-// Get the current_operations field of the given VBD.
+// GetCurrentOperations Get the current_operations field of the given VBD.
 func (_class VBDClass) GetCurrentOperations(sessionID SessionRef, self VBDRef) (_retval map[string]VbdOperations, _err error) {
 	_method := "VBD.get_current_operations"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -867,7 +867,7 @@ func (_class VBDClass) GetCurrentOperations(sessionID SessionRef, self VBDRef) (
 	return
 }
 
-// Get the allowed_operations field of the given VBD.
+// GetAllowedOperations Get the allowed_operations field of the given VBD.
 func (_class VBDClass) GetAllowedOperations(sessionID SessionRef, self VBDRef) (_retval []VbdOperations, _err error) {
 	_method := "VBD.get_allowed_operations"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -886,7 +886,7 @@ func (_class VBDClass) GetAllowedOperations(sessionID SessionRef, self VBDRef) (
 	return
 }
 
-// Get the uuid field of the given VBD.
+// GetUUID Get the uuid field of the given VBD.
 func (_class VBDClass) GetUUID(sessionID SessionRef, self VBDRef) (_retval string, _err error) {
 	_method := "VBD.get_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -905,7 +905,7 @@ func (_class VBDClass) GetUUID(sessionID SessionRef, self VBDRef) (_retval strin
 	return
 }
 
-// Destroy the specified VBD instance.
+// Destroy Destroy the specified VBD instance.
 func (_class VBDClass) Destroy(sessionID SessionRef, self VBDRef) (_err error) {
 	_method := "VBD.destroy"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -920,8 +920,8 @@ func (_class VBDClass) Destroy(sessionID SessionRef, self VBDRef) (_err error) {
 	return
 }
 
-// Create a new VBD instance, and return its handle.
-// The constructor args are: VM*, VDI*, userdevice*, bootable*, mode*, type*, unpluggable, empty*, other_config*, qos_algorithm_type*, qos_algorithm_params* (* = non-optional).
+// Create Create a new VBD instance, and return its handle.
+The constructor args are: VM*, VDI*, userdevice*, bootable*, mode*, type*, unpluggable, empty*, other_config*, qos_algorithm_type*, qos_algorithm_params* (* = non-optional).
 func (_class VBDClass) Create(sessionID SessionRef, args VBDRecord) (_retval VBDRef, _err error) {
 	_method := "VBD.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -940,7 +940,7 @@ func (_class VBDClass) Create(sessionID SessionRef, args VBDRecord) (_retval VBD
 	return
 }
 
-// Get a reference to the VBD instance with the specified UUID.
+// GetByUUID Get a reference to the VBD instance with the specified UUID.
 func (_class VBDClass) GetByUUID(sessionID SessionRef, uuid string) (_retval VBDRef, _err error) {
 	_method := "VBD.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -959,7 +959,7 @@ func (_class VBDClass) GetByUUID(sessionID SessionRef, uuid string) (_retval VBD
 	return
 }
 
-// Get a record containing the current state of the given VBD.
+// GetRecord Get a record containing the current state of the given VBD.
 func (_class VBDClass) GetRecord(sessionID SessionRef, self VBDRef) (_retval VBDRecord, _err error) {
 	_method := "VBD.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

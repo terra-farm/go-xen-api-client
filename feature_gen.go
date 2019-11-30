@@ -44,7 +44,7 @@ type FeatureClass struct {
 	client *Client
 }
 
-// Return a map of Feature references to Feature records for all Features known to the system.
+// GetAllRecords Return a map of Feature references to Feature records for all Features known to the system.
 func (_class FeatureClass) GetAllRecords(sessionID SessionRef) (_retval map[FeatureRef]FeatureRecord, _err error) {
 	_method := "Feature.get_all_records"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -59,7 +59,7 @@ func (_class FeatureClass) GetAllRecords(sessionID SessionRef) (_retval map[Feat
 	return
 }
 
-// Return a list of all the Features known to the system.
+// GetAll Return a list of all the Features known to the system.
 func (_class FeatureClass) GetAll(sessionID SessionRef) (_retval []FeatureRef, _err error) {
 	_method := "Feature.get_all"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -74,7 +74,7 @@ func (_class FeatureClass) GetAll(sessionID SessionRef) (_retval []FeatureRef, _
 	return
 }
 
-// Get the host field of the given Feature.
+// GetHost Get the host field of the given Feature.
 func (_class FeatureClass) GetHost(sessionID SessionRef, self FeatureRef) (_retval HostRef, _err error) {
 	_method := "Feature.get_host"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -93,7 +93,7 @@ func (_class FeatureClass) GetHost(sessionID SessionRef, self FeatureRef) (_retv
 	return
 }
 
-// Get the version field of the given Feature.
+// GetVersion Get the version field of the given Feature.
 func (_class FeatureClass) GetVersion(sessionID SessionRef, self FeatureRef) (_retval string, _err error) {
 	_method := "Feature.get_version"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -112,7 +112,7 @@ func (_class FeatureClass) GetVersion(sessionID SessionRef, self FeatureRef) (_r
 	return
 }
 
-// Get the experimental field of the given Feature.
+// GetExperimental Get the experimental field of the given Feature.
 func (_class FeatureClass) GetExperimental(sessionID SessionRef, self FeatureRef) (_retval bool, _err error) {
 	_method := "Feature.get_experimental"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -131,7 +131,7 @@ func (_class FeatureClass) GetExperimental(sessionID SessionRef, self FeatureRef
 	return
 }
 
-// Get the enabled field of the given Feature.
+// GetEnabled Get the enabled field of the given Feature.
 func (_class FeatureClass) GetEnabled(sessionID SessionRef, self FeatureRef) (_retval bool, _err error) {
 	_method := "Feature.get_enabled"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -150,7 +150,7 @@ func (_class FeatureClass) GetEnabled(sessionID SessionRef, self FeatureRef) (_r
 	return
 }
 
-// Get the name/description field of the given Feature.
+// GetNameDescription Get the name/description field of the given Feature.
 func (_class FeatureClass) GetNameDescription(sessionID SessionRef, self FeatureRef) (_retval string, _err error) {
 	_method := "Feature.get_name_description"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -169,7 +169,7 @@ func (_class FeatureClass) GetNameDescription(sessionID SessionRef, self Feature
 	return
 }
 
-// Get the name/label field of the given Feature.
+// GetNameLabel Get the name/label field of the given Feature.
 func (_class FeatureClass) GetNameLabel(sessionID SessionRef, self FeatureRef) (_retval string, _err error) {
 	_method := "Feature.get_name_label"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -188,7 +188,7 @@ func (_class FeatureClass) GetNameLabel(sessionID SessionRef, self FeatureRef) (
 	return
 }
 
-// Get the uuid field of the given Feature.
+// GetUUID Get the uuid field of the given Feature.
 func (_class FeatureClass) GetUUID(sessionID SessionRef, self FeatureRef) (_retval string, _err error) {
 	_method := "Feature.get_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -207,7 +207,7 @@ func (_class FeatureClass) GetUUID(sessionID SessionRef, self FeatureRef) (_retv
 	return
 }
 
-// Get all the Feature instances with the given label.
+// GetByNameLabel Get all the Feature instances with the given label.
 func (_class FeatureClass) GetByNameLabel(sessionID SessionRef, label string) (_retval []FeatureRef, _err error) {
 	_method := "Feature.get_by_name_label"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -226,7 +226,7 @@ func (_class FeatureClass) GetByNameLabel(sessionID SessionRef, label string) (_
 	return
 }
 
-// Get a reference to the Feature instance with the specified UUID.
+// GetByUUID Get a reference to the Feature instance with the specified UUID.
 func (_class FeatureClass) GetByUUID(sessionID SessionRef, uuid string) (_retval FeatureRef, _err error) {
 	_method := "Feature.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -245,7 +245,7 @@ func (_class FeatureClass) GetByUUID(sessionID SessionRef, uuid string) (_retval
 	return
 }
 
-// Get a record containing the current state of the given Feature.
+// GetRecord Get a record containing the current state of the given Feature.
 func (_class FeatureClass) GetRecord(sessionID SessionRef, self FeatureRef) (_retval FeatureRecord, _err error) {
 	_method := "Feature.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

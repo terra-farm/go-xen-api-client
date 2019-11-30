@@ -51,7 +51,7 @@ type ConsoleClass struct {
 	client *Client
 }
 
-// Return a map of console references to console records for all consoles known to the system.
+// GetAllRecords Return a map of console references to console records for all consoles known to the system.
 func (_class ConsoleClass) GetAllRecords(sessionID SessionRef) (_retval map[ConsoleRef]ConsoleRecord, _err error) {
 	_method := "console.get_all_records"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -66,7 +66,7 @@ func (_class ConsoleClass) GetAllRecords(sessionID SessionRef) (_retval map[Cons
 	return
 }
 
-// Return a list of all the consoles known to the system.
+// GetAll Return a list of all the consoles known to the system.
 func (_class ConsoleClass) GetAll(sessionID SessionRef) (_retval []ConsoleRef, _err error) {
 	_method := "console.get_all"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -81,7 +81,7 @@ func (_class ConsoleClass) GetAll(sessionID SessionRef) (_retval []ConsoleRef, _
 	return
 }
 
-// Remove the given key and its corresponding value from the other_config field of the given console.  If the key is not in that Map, then do nothing.
+// RemoveFromOtherConfig Remove the given key and its corresponding value from the other_config field of the given console.  If the key is not in that Map, then do nothing.
 func (_class ConsoleClass) RemoveFromOtherConfig(sessionID SessionRef, self ConsoleRef, key string) (_err error) {
 	_method := "console.remove_from_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -100,7 +100,7 @@ func (_class ConsoleClass) RemoveFromOtherConfig(sessionID SessionRef, self Cons
 	return
 }
 
-// Add the given key-value pair to the other_config field of the given console.
+// AddToOtherConfig Add the given key-value pair to the other_config field of the given console.
 func (_class ConsoleClass) AddToOtherConfig(sessionID SessionRef, self ConsoleRef, key string, value string) (_err error) {
 	_method := "console.add_to_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -123,7 +123,7 @@ func (_class ConsoleClass) AddToOtherConfig(sessionID SessionRef, self ConsoleRe
 	return
 }
 
-// Set the other_config field of the given console.
+// SetOtherConfig Set the other_config field of the given console.
 func (_class ConsoleClass) SetOtherConfig(sessionID SessionRef, self ConsoleRef, value map[string]string) (_err error) {
 	_method := "console.set_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -142,7 +142,7 @@ func (_class ConsoleClass) SetOtherConfig(sessionID SessionRef, self ConsoleRef,
 	return
 }
 
-// Get the other_config field of the given console.
+// GetOtherConfig Get the other_config field of the given console.
 func (_class ConsoleClass) GetOtherConfig(sessionID SessionRef, self ConsoleRef) (_retval map[string]string, _err error) {
 	_method := "console.get_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -161,7 +161,7 @@ func (_class ConsoleClass) GetOtherConfig(sessionID SessionRef, self ConsoleRef)
 	return
 }
 
-// Get the VM field of the given console.
+// GetVM Get the VM field of the given console.
 func (_class ConsoleClass) GetVM(sessionID SessionRef, self ConsoleRef) (_retval VMRef, _err error) {
 	_method := "console.get_VM"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -180,7 +180,7 @@ func (_class ConsoleClass) GetVM(sessionID SessionRef, self ConsoleRef) (_retval
 	return
 }
 
-// Get the location field of the given console.
+// GetLocation Get the location field of the given console.
 func (_class ConsoleClass) GetLocation(sessionID SessionRef, self ConsoleRef) (_retval string, _err error) {
 	_method := "console.get_location"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -199,7 +199,7 @@ func (_class ConsoleClass) GetLocation(sessionID SessionRef, self ConsoleRef) (_
 	return
 }
 
-// Get the protocol field of the given console.
+// GetProtocol Get the protocol field of the given console.
 func (_class ConsoleClass) GetProtocol(sessionID SessionRef, self ConsoleRef) (_retval ConsoleProtocol, _err error) {
 	_method := "console.get_protocol"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -218,7 +218,7 @@ func (_class ConsoleClass) GetProtocol(sessionID SessionRef, self ConsoleRef) (_
 	return
 }
 
-// Get the uuid field of the given console.
+// GetUUID Get the uuid field of the given console.
 func (_class ConsoleClass) GetUUID(sessionID SessionRef, self ConsoleRef) (_retval string, _err error) {
 	_method := "console.get_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -237,7 +237,7 @@ func (_class ConsoleClass) GetUUID(sessionID SessionRef, self ConsoleRef) (_retv
 	return
 }
 
-// Destroy the specified console instance.
+// Destroy Destroy the specified console instance.
 func (_class ConsoleClass) Destroy(sessionID SessionRef, self ConsoleRef) (_err error) {
 	_method := "console.destroy"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -252,8 +252,8 @@ func (_class ConsoleClass) Destroy(sessionID SessionRef, self ConsoleRef) (_err 
 	return
 }
 
-// Create a new console instance, and return its handle.
-// The constructor args are: other_config* (* = non-optional).
+// Create Create a new console instance, and return its handle.
+The constructor args are: other_config* (* = non-optional).
 func (_class ConsoleClass) Create(sessionID SessionRef, args ConsoleRecord) (_retval ConsoleRef, _err error) {
 	_method := "console.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -272,7 +272,7 @@ func (_class ConsoleClass) Create(sessionID SessionRef, args ConsoleRecord) (_re
 	return
 }
 
-// Get a reference to the console instance with the specified UUID.
+// GetByUUID Get a reference to the console instance with the specified UUID.
 func (_class ConsoleClass) GetByUUID(sessionID SessionRef, uuid string) (_retval ConsoleRef, _err error) {
 	_method := "console.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -291,7 +291,7 @@ func (_class ConsoleClass) GetByUUID(sessionID SessionRef, uuid string) (_retval
 	return
 }
 
-// Get a record containing the current state of the given console.
+// GetRecord Get a record containing the current state of the given console.
 func (_class ConsoleClass) GetRecord(sessionID SessionRef, self ConsoleRef) (_retval ConsoleRecord, _err error) {
 	_method := "console.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

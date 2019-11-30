@@ -44,7 +44,7 @@ type PVSSiteClass struct {
 	client *Client
 }
 
-// Return a map of PVS_site references to PVS_site records for all PVS_sites known to the system.
+// GetAllRecords Return a map of PVS_site references to PVS_site records for all PVS_sites known to the system.
 func (_class PVSSiteClass) GetAllRecords(sessionID SessionRef) (_retval map[PVSSiteRef]PVSSiteRecord, _err error) {
 	_method := "PVS_site.get_all_records"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -59,7 +59,7 @@ func (_class PVSSiteClass) GetAllRecords(sessionID SessionRef) (_retval map[PVSS
 	return
 }
 
-// Return a list of all the PVS_sites known to the system.
+// GetAll Return a list of all the PVS_sites known to the system.
 func (_class PVSSiteClass) GetAll(sessionID SessionRef) (_retval []PVSSiteRef, _err error) {
 	_method := "PVS_site.get_all"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -74,7 +74,7 @@ func (_class PVSSiteClass) GetAll(sessionID SessionRef) (_retval []PVSSiteRef, _
 	return
 }
 
-// Update the PVS UUID of the PVS site
+// SetPVSUUID Update the PVS UUID of the PVS site
 func (_class PVSSiteClass) SetPVSUUID(sessionID SessionRef, self PVSSiteRef, value string) (_err error) {
 	_method := "PVS_site.set_PVS_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -93,7 +93,7 @@ func (_class PVSSiteClass) SetPVSUUID(sessionID SessionRef, self PVSSiteRef, val
 	return
 }
 
-// Remove a site's meta data
+// Forget Remove a site's meta data
 //
 // Errors:
 //  PVS_SITE_CONTAINS_RUNNING_PROXIES - The PVS site contains running proxies.
@@ -112,7 +112,7 @@ func (_class PVSSiteClass) Forget(sessionID SessionRef, self PVSSiteRef) (_err e
 	return
 }
 
-// Introduce new PVS site
+// Introduce Introduce new PVS site
 func (_class PVSSiteClass) Introduce(sessionID SessionRef, nameLabel string, nameDescription string, pvsUUID string) (_retval PVSSiteRef, _err error) {
 	_method := "PVS_site.introduce"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -139,7 +139,7 @@ func (_class PVSSiteClass) Introduce(sessionID SessionRef, nameLabel string, nam
 	return
 }
 
-// Set the name/description field of the given PVS_site.
+// SetNameDescription Set the name/description field of the given PVS_site.
 func (_class PVSSiteClass) SetNameDescription(sessionID SessionRef, self PVSSiteRef, value string) (_err error) {
 	_method := "PVS_site.set_name_description"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -158,7 +158,7 @@ func (_class PVSSiteClass) SetNameDescription(sessionID SessionRef, self PVSSite
 	return
 }
 
-// Set the name/label field of the given PVS_site.
+// SetNameLabel Set the name/label field of the given PVS_site.
 func (_class PVSSiteClass) SetNameLabel(sessionID SessionRef, self PVSSiteRef, value string) (_err error) {
 	_method := "PVS_site.set_name_label"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -177,7 +177,7 @@ func (_class PVSSiteClass) SetNameLabel(sessionID SessionRef, self PVSSiteRef, v
 	return
 }
 
-// Get the proxies field of the given PVS_site.
+// GetProxies Get the proxies field of the given PVS_site.
 func (_class PVSSiteClass) GetProxies(sessionID SessionRef, self PVSSiteRef) (_retval []PVSProxyRef, _err error) {
 	_method := "PVS_site.get_proxies"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -196,7 +196,7 @@ func (_class PVSSiteClass) GetProxies(sessionID SessionRef, self PVSSiteRef) (_r
 	return
 }
 
-// Get the servers field of the given PVS_site.
+// GetServers Get the servers field of the given PVS_site.
 func (_class PVSSiteClass) GetServers(sessionID SessionRef, self PVSSiteRef) (_retval []PVSServerRef, _err error) {
 	_method := "PVS_site.get_servers"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -215,7 +215,7 @@ func (_class PVSSiteClass) GetServers(sessionID SessionRef, self PVSSiteRef) (_r
 	return
 }
 
-// Get the cache_storage field of the given PVS_site.
+// GetCacheStorage Get the cache_storage field of the given PVS_site.
 func (_class PVSSiteClass) GetCacheStorage(sessionID SessionRef, self PVSSiteRef) (_retval []PVSCacheStorageRef, _err error) {
 	_method := "PVS_site.get_cache_storage"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -234,7 +234,7 @@ func (_class PVSSiteClass) GetCacheStorage(sessionID SessionRef, self PVSSiteRef
 	return
 }
 
-// Get the PVS_uuid field of the given PVS_site.
+// GetPVSUUID Get the PVS_uuid field of the given PVS_site.
 func (_class PVSSiteClass) GetPVSUUID(sessionID SessionRef, self PVSSiteRef) (_retval string, _err error) {
 	_method := "PVS_site.get_PVS_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -253,7 +253,7 @@ func (_class PVSSiteClass) GetPVSUUID(sessionID SessionRef, self PVSSiteRef) (_r
 	return
 }
 
-// Get the name/description field of the given PVS_site.
+// GetNameDescription Get the name/description field of the given PVS_site.
 func (_class PVSSiteClass) GetNameDescription(sessionID SessionRef, self PVSSiteRef) (_retval string, _err error) {
 	_method := "PVS_site.get_name_description"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -272,7 +272,7 @@ func (_class PVSSiteClass) GetNameDescription(sessionID SessionRef, self PVSSite
 	return
 }
 
-// Get the name/label field of the given PVS_site.
+// GetNameLabel Get the name/label field of the given PVS_site.
 func (_class PVSSiteClass) GetNameLabel(sessionID SessionRef, self PVSSiteRef) (_retval string, _err error) {
 	_method := "PVS_site.get_name_label"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -291,7 +291,7 @@ func (_class PVSSiteClass) GetNameLabel(sessionID SessionRef, self PVSSiteRef) (
 	return
 }
 
-// Get the uuid field of the given PVS_site.
+// GetUUID Get the uuid field of the given PVS_site.
 func (_class PVSSiteClass) GetUUID(sessionID SessionRef, self PVSSiteRef) (_retval string, _err error) {
 	_method := "PVS_site.get_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -310,7 +310,7 @@ func (_class PVSSiteClass) GetUUID(sessionID SessionRef, self PVSSiteRef) (_retv
 	return
 }
 
-// Get all the PVS_site instances with the given label.
+// GetByNameLabel Get all the PVS_site instances with the given label.
 func (_class PVSSiteClass) GetByNameLabel(sessionID SessionRef, label string) (_retval []PVSSiteRef, _err error) {
 	_method := "PVS_site.get_by_name_label"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -329,7 +329,7 @@ func (_class PVSSiteClass) GetByNameLabel(sessionID SessionRef, label string) (_
 	return
 }
 
-// Get a reference to the PVS_site instance with the specified UUID.
+// GetByUUID Get a reference to the PVS_site instance with the specified UUID.
 func (_class PVSSiteClass) GetByUUID(sessionID SessionRef, uuid string) (_retval PVSSiteRef, _err error) {
 	_method := "PVS_site.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -348,7 +348,7 @@ func (_class PVSSiteClass) GetByUUID(sessionID SessionRef, uuid string) (_retval
 	return
 }
 
-// Get a record containing the current state of the given PVS_site.
+// GetRecord Get a record containing the current state of the given PVS_site.
 func (_class PVSSiteClass) GetRecord(sessionID SessionRef, self PVSSiteRef) (_retval PVSSiteRecord, _err error) {
 	_method := "PVS_site.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

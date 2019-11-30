@@ -34,7 +34,7 @@ type DRTaskClass struct {
 	client *Client
 }
 
-// Return a map of DR_task references to DR_task records for all DR_tasks known to the system.
+// GetAllRecords Return a map of DR_task references to DR_task records for all DR_tasks known to the system.
 func (_class DRTaskClass) GetAllRecords(sessionID SessionRef) (_retval map[DRTaskRef]DRTaskRecord, _err error) {
 	_method := "DR_task.get_all_records"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -49,7 +49,7 @@ func (_class DRTaskClass) GetAllRecords(sessionID SessionRef) (_retval map[DRTas
 	return
 }
 
-// Return a list of all the DR_tasks known to the system.
+// GetAll Return a list of all the DR_tasks known to the system.
 func (_class DRTaskClass) GetAll(sessionID SessionRef) (_retval []DRTaskRef, _err error) {
 	_method := "DR_task.get_all"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -64,7 +64,7 @@ func (_class DRTaskClass) GetAll(sessionID SessionRef) (_retval []DRTaskRef, _er
 	return
 }
 
-// Destroy the disaster recovery task, detaching and forgetting any SRs introduced which are no longer required
+// Destroy Destroy the disaster recovery task, detaching and forgetting any SRs introduced which are no longer required
 func (_class DRTaskClass) Destroy(sessionID SessionRef, self DRTaskRef) (_err error) {
 	_method := "DR_task.destroy"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -79,7 +79,7 @@ func (_class DRTaskClass) Destroy(sessionID SessionRef, self DRTaskRef) (_err er
 	return
 }
 
-// Create a disaster recovery task which will query the supplied list of devices
+// Create Create a disaster recovery task which will query the supplied list of devices
 func (_class DRTaskClass) Create(sessionID SessionRef, atype string, deviceConfig map[string]string, whitelist []string) (_retval DRTaskRef, _err error) {
 	_method := "DR_task.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -106,7 +106,7 @@ func (_class DRTaskClass) Create(sessionID SessionRef, atype string, deviceConfi
 	return
 }
 
-// Get the introduced_SRs field of the given DR_task.
+// GetIntroducedSRs Get the introduced_SRs field of the given DR_task.
 func (_class DRTaskClass) GetIntroducedSRs(sessionID SessionRef, self DRTaskRef) (_retval []SRRef, _err error) {
 	_method := "DR_task.get_introduced_SRs"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -125,7 +125,7 @@ func (_class DRTaskClass) GetIntroducedSRs(sessionID SessionRef, self DRTaskRef)
 	return
 }
 
-// Get the uuid field of the given DR_task.
+// GetUUID Get the uuid field of the given DR_task.
 func (_class DRTaskClass) GetUUID(sessionID SessionRef, self DRTaskRef) (_retval string, _err error) {
 	_method := "DR_task.get_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -144,7 +144,7 @@ func (_class DRTaskClass) GetUUID(sessionID SessionRef, self DRTaskRef) (_retval
 	return
 }
 
-// Get a reference to the DR_task instance with the specified UUID.
+// GetByUUID Get a reference to the DR_task instance with the specified UUID.
 func (_class DRTaskClass) GetByUUID(sessionID SessionRef, uuid string) (_retval DRTaskRef, _err error) {
 	_method := "DR_task.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -163,7 +163,7 @@ func (_class DRTaskClass) GetByUUID(sessionID SessionRef, uuid string) (_retval 
 	return
 }
 
-// Get a record containing the current state of the given DR_task.
+// GetRecord Get a record containing the current state of the given DR_task.
 func (_class DRTaskClass) GetRecord(sessionID SessionRef, self DRTaskRef) (_retval DRTaskRecord, _err error) {
 	_method := "DR_task.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

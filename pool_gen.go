@@ -111,7 +111,7 @@ type PoolClass struct {
 	client *Client
 }
 
-// Return a map of pool references to pool records for all pools known to the system.
+// GetAllRecords Return a map of pool references to pool records for all pools known to the system.
 func (_class PoolClass) GetAllRecords(sessionID SessionRef) (_retval map[PoolRef]PoolRecord, _err error) {
 	_method := "pool.get_all_records"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -126,7 +126,7 @@ func (_class PoolClass) GetAllRecords(sessionID SessionRef) (_retval map[PoolRef
 	return
 }
 
-// Return a list of all the pools known to the system.
+// GetAll Return a list of all the pools known to the system.
 func (_class PoolClass) GetAll(sessionID SessionRef) (_retval []PoolRef, _err error) {
 	_method := "pool.get_all"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -141,7 +141,7 @@ func (_class PoolClass) GetAll(sessionID SessionRef) (_retval []PoolRef, _err er
 	return
 }
 
-// Remove a key-value pair from the pool-wide guest agent configuration
+// RemoveFromGuestAgentConfig Remove a key-value pair from the pool-wide guest agent configuration
 func (_class PoolClass) RemoveFromGuestAgentConfig(sessionID SessionRef, self PoolRef, key string) (_err error) {
 	_method := "pool.remove_from_guest_agent_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -160,7 +160,7 @@ func (_class PoolClass) RemoveFromGuestAgentConfig(sessionID SessionRef, self Po
 	return
 }
 
-// Add a key-value pair to the pool-wide guest agent configuration
+// AddToGuestAgentConfig Add a key-value pair to the pool-wide guest agent configuration
 func (_class PoolClass) AddToGuestAgentConfig(sessionID SessionRef, self PoolRef, key string, value string) (_err error) {
 	_method := "pool.add_to_guest_agent_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -183,7 +183,7 @@ func (_class PoolClass) AddToGuestAgentConfig(sessionID SessionRef, self PoolRef
 	return
 }
 
-// Return true if the extension is available on the pool
+// HasExtension Return true if the extension is available on the pool
 func (_class PoolClass) HasExtension(sessionID SessionRef, self PoolRef, name string) (_retval bool, _err error) {
 	_method := "pool.has_extension"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -206,7 +206,7 @@ func (_class PoolClass) HasExtension(sessionID SessionRef, self PoolRef, name st
 	return
 }
 
-// Enable or disable IGMP Snooping on the pool.
+// SetIgmpSnoopingEnabled Enable or disable IGMP Snooping on the pool.
 func (_class PoolClass) SetIgmpSnoopingEnabled(sessionID SessionRef, self PoolRef, value bool) (_err error) {
 	_method := "pool.set_igmp_snooping_enabled"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -225,7 +225,7 @@ func (_class PoolClass) SetIgmpSnoopingEnabled(sessionID SessionRef, self PoolRe
 	return
 }
 
-// Sets ssl_legacy true on each host, pool-master last. See Host.ssl_legacy and Host.set_ssl_legacy.
+// DisableSslLegacy Sets ssl_legacy true on each host, pool-master last. See Host.ssl_legacy and Host.set_ssl_legacy.
 func (_class PoolClass) DisableSslLegacy(sessionID SessionRef, self PoolRef) (_err error) {
 	_method := "pool.disable_ssl_legacy"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -240,7 +240,7 @@ func (_class PoolClass) DisableSslLegacy(sessionID SessionRef, self PoolRef) (_e
 	return
 }
 
-// Sets ssl_legacy true on each host, pool-master last. See Host.ssl_legacy and Host.set_ssl_legacy.
+// EnableSslLegacy Sets ssl_legacy true on each host, pool-master last. See Host.ssl_legacy and Host.set_ssl_legacy.
 func (_class PoolClass) EnableSslLegacy(sessionID SessionRef, self PoolRef) (_err error) {
 	_method := "pool.enable_ssl_legacy"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -255,7 +255,7 @@ func (_class PoolClass) EnableSslLegacy(sessionID SessionRef, self PoolRef) (_er
 	return
 }
 
-// Apply an edition to all hosts in the pool
+// ApplyEdition Apply an edition to all hosts in the pool
 func (_class PoolClass) ApplyEdition(sessionID SessionRef, self PoolRef, edition string) (_err error) {
 	_method := "pool.apply_edition"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -274,7 +274,7 @@ func (_class PoolClass) ApplyEdition(sessionID SessionRef, self PoolRef, edition
 	return
 }
 
-// This call returns the license state for the pool
+// GetLicenseState This call returns the license state for the pool
 func (_class PoolClass) GetLicenseState(sessionID SessionRef, self PoolRef) (_retval map[string]string, _err error) {
 	_method := "pool.get_license_state"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -293,7 +293,7 @@ func (_class PoolClass) GetLicenseState(sessionID SessionRef, self PoolRef) (_re
 	return
 }
 
-// This call disables pool-wide local storage caching
+// DisableLocalStorageCaching This call disables pool-wide local storage caching
 func (_class PoolClass) DisableLocalStorageCaching(sessionID SessionRef, self PoolRef) (_err error) {
 	_method := "pool.disable_local_storage_caching"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -308,7 +308,7 @@ func (_class PoolClass) DisableLocalStorageCaching(sessionID SessionRef, self Po
 	return
 }
 
-// This call attempts to enable pool-wide local storage caching
+// EnableLocalStorageCaching This call attempts to enable pool-wide local storage caching
 func (_class PoolClass) EnableLocalStorageCaching(sessionID SessionRef, self PoolRef) (_err error) {
 	_method := "pool.enable_local_storage_caching"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -323,7 +323,7 @@ func (_class PoolClass) EnableLocalStorageCaching(sessionID SessionRef, self Poo
 	return
 }
 
-// This call tests if a location is valid
+// TestArchiveTarget This call tests if a location is valid
 func (_class PoolClass) TestArchiveTarget(sessionID SessionRef, self PoolRef, config map[string]string) (_retval string, _err error) {
 	_method := "pool.test_archive_target"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -346,7 +346,7 @@ func (_class PoolClass) TestArchiveTarget(sessionID SessionRef, self PoolRef, co
 	return
 }
 
-// Set the IP address of the vswitch controller.
+// SetVswitchController Set the IP address of the vswitch controller.
 func (_class PoolClass) SetVswitchController(sessionID SessionRef, address string) (_err error) {
 	_method := "pool.set_vswitch_controller"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -361,7 +361,7 @@ func (_class PoolClass) SetVswitchController(sessionID SessionRef, address strin
 	return
 }
 
-// Disable the redo log if in use, unless HA is enabled.
+// DisableRedoLog Disable the redo log if in use, unless HA is enabled.
 func (_class PoolClass) DisableRedoLog(sessionID SessionRef) (_err error) {
 	_method := "pool.disable_redo_log"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -372,7 +372,7 @@ func (_class PoolClass) DisableRedoLog(sessionID SessionRef) (_err error) {
 	return
 }
 
-// Enable the redo log on the given SR and start using it, unless HA is enabled.
+// EnableRedoLog Enable the redo log on the given SR and start using it, unless HA is enabled.
 func (_class PoolClass) EnableRedoLog(sessionID SessionRef, sr SRRef) (_err error) {
 	_method := "pool.enable_redo_log"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -387,7 +387,7 @@ func (_class PoolClass) EnableRedoLog(sessionID SessionRef, sr SRRef) (_err erro
 	return
 }
 
-// Sync SSL certificates from master to slaves.
+// CertificateSync Sync SSL certificates from master to slaves.
 func (_class PoolClass) CertificateSync(sessionID SessionRef) (_err error) {
 	_method := "pool.certificate_sync"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -398,7 +398,7 @@ func (_class PoolClass) CertificateSync(sessionID SessionRef) (_err error) {
 	return
 }
 
-// List all installed SSL certificate revocation lists.
+// CrlList List all installed SSL certificate revocation lists.
 func (_class PoolClass) CrlList(sessionID SessionRef) (_retval []string, _err error) {
 	_method := "pool.crl_list"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -413,7 +413,7 @@ func (_class PoolClass) CrlList(sessionID SessionRef) (_retval []string, _err er
 	return
 }
 
-// Remove an SSL certificate revocation list.
+// CrlUninstall Remove an SSL certificate revocation list.
 func (_class PoolClass) CrlUninstall(sessionID SessionRef, name string) (_err error) {
 	_method := "pool.crl_uninstall"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -428,7 +428,7 @@ func (_class PoolClass) CrlUninstall(sessionID SessionRef, name string) (_err er
 	return
 }
 
-// Install an SSL certificate revocation list, pool-wide.
+// CrlInstall Install an SSL certificate revocation list, pool-wide.
 func (_class PoolClass) CrlInstall(sessionID SessionRef, name string, cert string) (_err error) {
 	_method := "pool.crl_install"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -447,7 +447,7 @@ func (_class PoolClass) CrlInstall(sessionID SessionRef, name string, cert strin
 	return
 }
 
-// List all installed SSL certificates.
+// CertificateList List all installed SSL certificates.
 func (_class PoolClass) CertificateList(sessionID SessionRef) (_retval []string, _err error) {
 	_method := "pool.certificate_list"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -462,7 +462,7 @@ func (_class PoolClass) CertificateList(sessionID SessionRef) (_retval []string,
 	return
 }
 
-// Remove an SSL certificate.
+// CertificateUninstall Remove an SSL certificate.
 func (_class PoolClass) CertificateUninstall(sessionID SessionRef, name string) (_err error) {
 	_method := "pool.certificate_uninstall"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -477,7 +477,7 @@ func (_class PoolClass) CertificateUninstall(sessionID SessionRef, name string) 
 	return
 }
 
-// Install an SSL certificate pool-wide.
+// CertificateInstall Install an SSL certificate pool-wide.
 func (_class PoolClass) CertificateInstall(sessionID SessionRef, name string, cert string) (_err error) {
 	_method := "pool.certificate_install"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -496,7 +496,7 @@ func (_class PoolClass) CertificateInstall(sessionID SessionRef, name string, ce
 	return
 }
 
-// Send the given body to the given host and port, using HTTPS, and print the response.  This is used for debugging the SSL layer.
+// SendTestPost Send the given body to the given host and port, using HTTPS, and print the response.  This is used for debugging the SSL layer.
 func (_class PoolClass) SendTestPost(sessionID SessionRef, host string, port int, body string) (_retval string, _err error) {
 	_method := "pool.send_test_post"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -523,7 +523,7 @@ func (_class PoolClass) SendTestPost(sessionID SessionRef, host string, port int
 	return
 }
 
-// Retrieves vm migrate recommendations for the pool from the workload balancing server
+// RetrieveWlbRecommendations Retrieves vm migrate recommendations for the pool from the workload balancing server
 func (_class PoolClass) RetrieveWlbRecommendations(sessionID SessionRef) (_retval map[VMRef][]string, _err error) {
 	_method := "pool.retrieve_wlb_recommendations"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -538,7 +538,7 @@ func (_class PoolClass) RetrieveWlbRecommendations(sessionID SessionRef) (_retva
 	return
 }
 
-// Retrieves the pool optimization criteria from the workload balancing server
+// RetrieveWlbConfiguration Retrieves the pool optimization criteria from the workload balancing server
 func (_class PoolClass) RetrieveWlbConfiguration(sessionID SessionRef) (_retval map[string]string, _err error) {
 	_method := "pool.retrieve_wlb_configuration"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -553,7 +553,7 @@ func (_class PoolClass) RetrieveWlbConfiguration(sessionID SessionRef) (_retval 
 	return
 }
 
-// Sets the pool optimization criteria for the workload balancing server
+// SendWlbConfiguration Sets the pool optimization criteria for the workload balancing server
 func (_class PoolClass) SendWlbConfiguration(sessionID SessionRef, config map[string]string) (_err error) {
 	_method := "pool.send_wlb_configuration"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -568,7 +568,7 @@ func (_class PoolClass) SendWlbConfiguration(sessionID SessionRef, config map[st
 	return
 }
 
-// Permanently deconfigures workload balancing monitoring on this pool
+// DeconfigureWlb Permanently deconfigures workload balancing monitoring on this pool
 func (_class PoolClass) DeconfigureWlb(sessionID SessionRef) (_err error) {
 	_method := "pool.deconfigure_wlb"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -579,7 +579,7 @@ func (_class PoolClass) DeconfigureWlb(sessionID SessionRef) (_err error) {
 	return
 }
 
-// Initializes workload balancing monitoring on this pool with the specified wlb server
+// InitializeWlb Initializes workload balancing monitoring on this pool with the specified wlb server
 func (_class PoolClass) InitializeWlb(sessionID SessionRef, wlbURL string, wlbUsername string, wlbPassword string, xenserverUsername string, xenserverPassword string) (_err error) {
 	_method := "pool.initialize_wlb"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -610,7 +610,7 @@ func (_class PoolClass) InitializeWlb(sessionID SessionRef, wlbURL string, wlbUs
 	return
 }
 
-// This call asynchronously detects if the external authentication configuration in any slave is different from that in the master and raises appropriate alerts
+// DetectNonhomogeneousExternalAuth This call asynchronously detects if the external authentication configuration in any slave is different from that in the master and raises appropriate alerts
 func (_class PoolClass) DetectNonhomogeneousExternalAuth(sessionID SessionRef, pool PoolRef) (_err error) {
 	_method := "pool.detect_nonhomogeneous_external_auth"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -625,7 +625,7 @@ func (_class PoolClass) DetectNonhomogeneousExternalAuth(sessionID SessionRef, p
 	return
 }
 
-// This call disables external authentication on all the hosts of the pool
+// DisableExternalAuth This call disables external authentication on all the hosts of the pool
 func (_class PoolClass) DisableExternalAuth(sessionID SessionRef, pool PoolRef, config map[string]string) (_err error) {
 	_method := "pool.disable_external_auth"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -644,7 +644,7 @@ func (_class PoolClass) DisableExternalAuth(sessionID SessionRef, pool PoolRef, 
 	return
 }
 
-// This call enables external authentication on all the hosts of the pool
+// EnableExternalAuth This call enables external authentication on all the hosts of the pool
 func (_class PoolClass) EnableExternalAuth(sessionID SessionRef, pool PoolRef, config map[string]string, serviceName string, authType string) (_err error) {
 	_method := "pool.enable_external_auth"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -671,7 +671,7 @@ func (_class PoolClass) EnableExternalAuth(sessionID SessionRef, pool PoolRef, c
 	return
 }
 
-// Create a placeholder for a named binary blob of data that is associated with this pool
+// CreateNewBlob Create a placeholder for a named binary blob of data that is associated with this pool
 func (_class PoolClass) CreateNewBlob(sessionID SessionRef, pool PoolRef, name string, mimeType string, public bool) (_retval BlobRef, _err error) {
 	_method := "pool.create_new_blob"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -702,7 +702,7 @@ func (_class PoolClass) CreateNewBlob(sessionID SessionRef, pool PoolRef, name s
 	return
 }
 
-// Set the maximum number of host failures to consider in the HA VM restart planner
+// SetHaHostFailuresToTolerate Set the maximum number of host failures to consider in the HA VM restart planner
 func (_class PoolClass) SetHaHostFailuresToTolerate(sessionID SessionRef, self PoolRef, value int) (_err error) {
 	_method := "pool.set_ha_host_failures_to_tolerate"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -721,7 +721,7 @@ func (_class PoolClass) SetHaHostFailuresToTolerate(sessionID SessionRef, self P
 	return
 }
 
-// Return a VM failover plan assuming a given subset of hosts fail
+// HaComputeVMFailoverPlan Return a VM failover plan assuming a given subset of hosts fail
 func (_class PoolClass) HaComputeVMFailoverPlan(sessionID SessionRef, failedHosts []HostRef, failedVms []VMRef) (_retval map[VMRef]map[string]string, _err error) {
 	_method := "pool.ha_compute_vm_failover_plan"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -744,7 +744,7 @@ func (_class PoolClass) HaComputeVMFailoverPlan(sessionID SessionRef, failedHost
 	return
 }
 
-// Returns the maximum number of host failures we could tolerate before we would be unable to restart the provided VMs
+// HaComputeHypotheticalMaxHostFailuresToTolerate Returns the maximum number of host failures we could tolerate before we would be unable to restart the provided VMs
 func (_class PoolClass) HaComputeHypotheticalMaxHostFailuresToTolerate(sessionID SessionRef, configuration map[VMRef]string) (_retval int, _err error) {
 	_method := "pool.ha_compute_hypothetical_max_host_failures_to_tolerate"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -763,7 +763,7 @@ func (_class PoolClass) HaComputeHypotheticalMaxHostFailuresToTolerate(sessionID
 	return
 }
 
-// Returns the maximum number of host failures we could tolerate before we would be unable to restart configured VMs
+// HaComputeMaxHostFailuresToTolerate Returns the maximum number of host failures we could tolerate before we would be unable to restart configured VMs
 func (_class PoolClass) HaComputeMaxHostFailuresToTolerate(sessionID SessionRef) (_retval int, _err error) {
 	_method := "pool.ha_compute_max_host_failures_to_tolerate"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -778,7 +778,7 @@ func (_class PoolClass) HaComputeMaxHostFailuresToTolerate(sessionID SessionRef)
 	return
 }
 
-// Returns true if a VM failover plan exists for up to 'n' host failures
+// HaFailoverPlanExists Returns true if a VM failover plan exists for up to 'n' host failures
 func (_class PoolClass) HaFailoverPlanExists(sessionID SessionRef, n int) (_retval bool, _err error) {
 	_method := "pool.ha_failover_plan_exists"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -797,7 +797,7 @@ func (_class PoolClass) HaFailoverPlanExists(sessionID SessionRef, n int) (_retv
 	return
 }
 
-// When this call returns the VM restart logic will not run for the requested number of seconds. If the argument is zero then the restart thread is immediately unblocked
+// HaPreventRestartsFor When this call returns the VM restart logic will not run for the requested number of seconds. If the argument is zero then the restart thread is immediately unblocked
 func (_class PoolClass) HaPreventRestartsFor(sessionID SessionRef, seconds int) (_err error) {
 	_method := "pool.ha_prevent_restarts_for"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -812,7 +812,7 @@ func (_class PoolClass) HaPreventRestartsFor(sessionID SessionRef, seconds int) 
 	return
 }
 
-// Perform an orderly handover of the role of master to the referenced host.
+// DesignateNewMaster Perform an orderly handover of the role of master to the referenced host.
 func (_class PoolClass) DesignateNewMaster(sessionID SessionRef, host HostRef) (_err error) {
 	_method := "pool.designate_new_master"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -827,7 +827,7 @@ func (_class PoolClass) DesignateNewMaster(sessionID SessionRef, host HostRef) (
 	return
 }
 
-// Forcibly synchronise the database now
+// SyncDatabase Forcibly synchronise the database now
 func (_class PoolClass) SyncDatabase(sessionID SessionRef) (_err error) {
 	_method := "pool.sync_database"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -838,7 +838,7 @@ func (_class PoolClass) SyncDatabase(sessionID SessionRef) (_err error) {
 	return
 }
 
-// Turn off High Availability mode
+// DisableHa Turn off High Availability mode
 func (_class PoolClass) DisableHa(sessionID SessionRef) (_err error) {
 	_method := "pool.disable_ha"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -849,7 +849,7 @@ func (_class PoolClass) DisableHa(sessionID SessionRef) (_err error) {
 	return
 }
 
-// Turn on High Availability mode
+// EnableHa Turn on High Availability mode
 func (_class PoolClass) EnableHa(sessionID SessionRef, heartbeatSrs []SRRef, configuration map[string]string) (_err error) {
 	_method := "pool.enable_ha"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -868,7 +868,7 @@ func (_class PoolClass) EnableHa(sessionID SessionRef, heartbeatSrs []SRRef, con
 	return
 }
 
-// Create a pool-wide VLAN by taking the PIF.
+// CreateVLANFromPIF Create a pool-wide VLAN by taking the PIF.
 //
 // Errors:
 //  VLAN_TAG_INVALID - You tried to create a VLAN, but the tag you gave was invalid -- it must be between 0 and 4094.  The parameter echoes the VLAN tag you gave.
@@ -898,7 +898,7 @@ func (_class PoolClass) CreateVLANFromPIF(sessionID SessionRef, pif PIFRef, netw
 	return
 }
 
-// Reconfigure the management network interface for all Hosts in the Pool
+// ManagementReconfigure Reconfigure the management network interface for all Hosts in the Pool
 //
 // Errors:
 //  HA_IS_ENABLED - The operation could not be performed because HA is enabled on the Pool
@@ -921,7 +921,7 @@ func (_class PoolClass) ManagementReconfigure(sessionID SessionRef, network Netw
 	return
 }
 
-// Create PIFs, mapping a network to the same physical interface/VLAN on each host. This call is deprecated: use Pool.create_VLAN_from_PIF instead.
+// CreateVLAN Create PIFs, mapping a network to the same physical interface/VLAN on each host. This call is deprecated: use Pool.create_VLAN_from_PIF instead.
 //
 // Errors:
 //  VLAN_TAG_INVALID - You tried to create a VLAN, but the tag you gave was invalid -- it must be between 0 and 4094.  The parameter echoes the VLAN tag you gave.
@@ -951,7 +951,7 @@ func (_class PoolClass) CreateVLAN(sessionID SessionRef, device string, network 
 	return
 }
 
-// Instruct a pool master, M, to try and contact its slaves and, if slaves are in emergency mode, reset their master address to M.
+// RecoverSlaves Instruct a pool master, M, to try and contact its slaves and, if slaves are in emergency mode, reset their master address to M.
 func (_class PoolClass) RecoverSlaves(sessionID SessionRef) (_retval []HostRef, _err error) {
 	_method := "pool.recover_slaves"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -966,7 +966,7 @@ func (_class PoolClass) RecoverSlaves(sessionID SessionRef) (_retval []HostRef, 
 	return
 }
 
-// Instruct a slave already in a pool that the master has changed
+// EmergencyResetMaster Instruct a slave already in a pool that the master has changed
 func (_class PoolClass) EmergencyResetMaster(sessionID SessionRef, masterAddress string) (_err error) {
 	_method := "pool.emergency_reset_master"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -981,7 +981,7 @@ func (_class PoolClass) EmergencyResetMaster(sessionID SessionRef, masterAddress
 	return
 }
 
-// Instruct host that's currently a slave to transition to being master
+// EmergencyTransitionToMaster Instruct host that's currently a slave to transition to being master
 func (_class PoolClass) EmergencyTransitionToMaster(sessionID SessionRef) (_err error) {
 	_method := "pool.emergency_transition_to_master"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -992,7 +992,7 @@ func (_class PoolClass) EmergencyTransitionToMaster(sessionID SessionRef) (_err 
 	return
 }
 
-// Instruct a pool master to eject a host from the pool
+// Eject Instruct a pool master to eject a host from the pool
 func (_class PoolClass) Eject(sessionID SessionRef, host HostRef) (_err error) {
 	_method := "pool.eject"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1007,7 +1007,7 @@ func (_class PoolClass) Eject(sessionID SessionRef, host HostRef) (_err error) {
 	return
 }
 
-// Instruct host to join a new pool
+// JoinForce Instruct host to join a new pool
 func (_class PoolClass) JoinForce(sessionID SessionRef, masterAddress string, masterUsername string, masterPassword string) (_err error) {
 	_method := "pool.join_force"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1030,7 +1030,7 @@ func (_class PoolClass) JoinForce(sessionID SessionRef, masterAddress string, ma
 	return
 }
 
-// Instruct host to join a new pool
+// Join Instruct host to join a new pool
 //
 // Errors:
 //  JOINING_HOST_CANNOT_CONTAIN_SHARED_SRS - The host joining the pool cannot contain any shared storage.
@@ -1056,7 +1056,7 @@ func (_class PoolClass) Join(sessionID SessionRef, masterAddress string, masterU
 	return
 }
 
-// Set the live_patching_disabled field of the given pool.
+// SetLivePatchingDisabled Set the live_patching_disabled field of the given pool.
 func (_class PoolClass) SetLivePatchingDisabled(sessionID SessionRef, self PoolRef, value bool) (_err error) {
 	_method := "pool.set_live_patching_disabled"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1075,7 +1075,7 @@ func (_class PoolClass) SetLivePatchingDisabled(sessionID SessionRef, self PoolR
 	return
 }
 
-// Set the policy_no_vendor_device field of the given pool.
+// SetPolicyNoVendorDevice Set the policy_no_vendor_device field of the given pool.
 func (_class PoolClass) SetPolicyNoVendorDevice(sessionID SessionRef, self PoolRef, value bool) (_err error) {
 	_method := "pool.set_policy_no_vendor_device"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1094,7 +1094,7 @@ func (_class PoolClass) SetPolicyNoVendorDevice(sessionID SessionRef, self PoolR
 	return
 }
 
-// Set the wlb_verify_cert field of the given pool.
+// SetWlbVerifyCert Set the wlb_verify_cert field of the given pool.
 func (_class PoolClass) SetWlbVerifyCert(sessionID SessionRef, self PoolRef, value bool) (_err error) {
 	_method := "pool.set_wlb_verify_cert"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1113,7 +1113,7 @@ func (_class PoolClass) SetWlbVerifyCert(sessionID SessionRef, self PoolRef, val
 	return
 }
 
-// Set the wlb_enabled field of the given pool.
+// SetWlbEnabled Set the wlb_enabled field of the given pool.
 func (_class PoolClass) SetWlbEnabled(sessionID SessionRef, self PoolRef, value bool) (_err error) {
 	_method := "pool.set_wlb_enabled"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1132,7 +1132,7 @@ func (_class PoolClass) SetWlbEnabled(sessionID SessionRef, self PoolRef, value 
 	return
 }
 
-// Remove the given key and its corresponding value from the health_check_config field of the given pool.  If the key is not in that Map, then do nothing.
+// RemoveFromHealthCheckConfig Remove the given key and its corresponding value from the health_check_config field of the given pool.  If the key is not in that Map, then do nothing.
 func (_class PoolClass) RemoveFromHealthCheckConfig(sessionID SessionRef, self PoolRef, key string) (_err error) {
 	_method := "pool.remove_from_health_check_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1151,7 +1151,7 @@ func (_class PoolClass) RemoveFromHealthCheckConfig(sessionID SessionRef, self P
 	return
 }
 
-// Add the given key-value pair to the health_check_config field of the given pool.
+// AddToHealthCheckConfig Add the given key-value pair to the health_check_config field of the given pool.
 func (_class PoolClass) AddToHealthCheckConfig(sessionID SessionRef, self PoolRef, key string, value string) (_err error) {
 	_method := "pool.add_to_health_check_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1174,7 +1174,7 @@ func (_class PoolClass) AddToHealthCheckConfig(sessionID SessionRef, self PoolRe
 	return
 }
 
-// Set the health_check_config field of the given pool.
+// SetHealthCheckConfig Set the health_check_config field of the given pool.
 func (_class PoolClass) SetHealthCheckConfig(sessionID SessionRef, self PoolRef, value map[string]string) (_err error) {
 	_method := "pool.set_health_check_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1193,7 +1193,7 @@ func (_class PoolClass) SetHealthCheckConfig(sessionID SessionRef, self PoolRef,
 	return
 }
 
-// Remove the given key and its corresponding value from the gui_config field of the given pool.  If the key is not in that Map, then do nothing.
+// RemoveFromGuiConfig Remove the given key and its corresponding value from the gui_config field of the given pool.  If the key is not in that Map, then do nothing.
 func (_class PoolClass) RemoveFromGuiConfig(sessionID SessionRef, self PoolRef, key string) (_err error) {
 	_method := "pool.remove_from_gui_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1212,7 +1212,7 @@ func (_class PoolClass) RemoveFromGuiConfig(sessionID SessionRef, self PoolRef, 
 	return
 }
 
-// Add the given key-value pair to the gui_config field of the given pool.
+// AddToGuiConfig Add the given key-value pair to the gui_config field of the given pool.
 func (_class PoolClass) AddToGuiConfig(sessionID SessionRef, self PoolRef, key string, value string) (_err error) {
 	_method := "pool.add_to_gui_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1235,7 +1235,7 @@ func (_class PoolClass) AddToGuiConfig(sessionID SessionRef, self PoolRef, key s
 	return
 }
 
-// Set the gui_config field of the given pool.
+// SetGuiConfig Set the gui_config field of the given pool.
 func (_class PoolClass) SetGuiConfig(sessionID SessionRef, self PoolRef, value map[string]string) (_err error) {
 	_method := "pool.set_gui_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1254,7 +1254,7 @@ func (_class PoolClass) SetGuiConfig(sessionID SessionRef, self PoolRef, value m
 	return
 }
 
-// Remove the given value from the tags field of the given pool.  If the value is not in that Set, then do nothing.
+// RemoveTags Remove the given value from the tags field of the given pool.  If the value is not in that Set, then do nothing.
 func (_class PoolClass) RemoveTags(sessionID SessionRef, self PoolRef, value string) (_err error) {
 	_method := "pool.remove_tags"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1273,7 +1273,7 @@ func (_class PoolClass) RemoveTags(sessionID SessionRef, self PoolRef, value str
 	return
 }
 
-// Add the given value to the tags field of the given pool.  If the value is already in that Set, then do nothing.
+// AddTags Add the given value to the tags field of the given pool.  If the value is already in that Set, then do nothing.
 func (_class PoolClass) AddTags(sessionID SessionRef, self PoolRef, value string) (_err error) {
 	_method := "pool.add_tags"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1292,7 +1292,7 @@ func (_class PoolClass) AddTags(sessionID SessionRef, self PoolRef, value string
 	return
 }
 
-// Set the tags field of the given pool.
+// SetTags Set the tags field of the given pool.
 func (_class PoolClass) SetTags(sessionID SessionRef, self PoolRef, value []string) (_err error) {
 	_method := "pool.set_tags"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1311,7 +1311,7 @@ func (_class PoolClass) SetTags(sessionID SessionRef, self PoolRef, value []stri
 	return
 }
 
-// Set the ha_allow_overcommit field of the given pool.
+// SetHaAllowOvercommit Set the ha_allow_overcommit field of the given pool.
 func (_class PoolClass) SetHaAllowOvercommit(sessionID SessionRef, self PoolRef, value bool) (_err error) {
 	_method := "pool.set_ha_allow_overcommit"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1330,7 +1330,7 @@ func (_class PoolClass) SetHaAllowOvercommit(sessionID SessionRef, self PoolRef,
 	return
 }
 
-// Remove the given key and its corresponding value from the other_config field of the given pool.  If the key is not in that Map, then do nothing.
+// RemoveFromOtherConfig Remove the given key and its corresponding value from the other_config field of the given pool.  If the key is not in that Map, then do nothing.
 func (_class PoolClass) RemoveFromOtherConfig(sessionID SessionRef, self PoolRef, key string) (_err error) {
 	_method := "pool.remove_from_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1349,7 +1349,7 @@ func (_class PoolClass) RemoveFromOtherConfig(sessionID SessionRef, self PoolRef
 	return
 }
 
-// Add the given key-value pair to the other_config field of the given pool.
+// AddToOtherConfig Add the given key-value pair to the other_config field of the given pool.
 func (_class PoolClass) AddToOtherConfig(sessionID SessionRef, self PoolRef, key string, value string) (_err error) {
 	_method := "pool.add_to_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1372,7 +1372,7 @@ func (_class PoolClass) AddToOtherConfig(sessionID SessionRef, self PoolRef, key
 	return
 }
 
-// Set the other_config field of the given pool.
+// SetOtherConfig Set the other_config field of the given pool.
 func (_class PoolClass) SetOtherConfig(sessionID SessionRef, self PoolRef, value map[string]string) (_err error) {
 	_method := "pool.set_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1391,7 +1391,7 @@ func (_class PoolClass) SetOtherConfig(sessionID SessionRef, self PoolRef, value
 	return
 }
 
-// Set the crash_dump_SR field of the given pool.
+// SetCrashDumpSR Set the crash_dump_SR field of the given pool.
 func (_class PoolClass) SetCrashDumpSR(sessionID SessionRef, self PoolRef, value SRRef) (_err error) {
 	_method := "pool.set_crash_dump_SR"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1410,7 +1410,7 @@ func (_class PoolClass) SetCrashDumpSR(sessionID SessionRef, self PoolRef, value
 	return
 }
 
-// Set the suspend_image_SR field of the given pool.
+// SetSuspendImageSR Set the suspend_image_SR field of the given pool.
 func (_class PoolClass) SetSuspendImageSR(sessionID SessionRef, self PoolRef, value SRRef) (_err error) {
 	_method := "pool.set_suspend_image_SR"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1429,7 +1429,7 @@ func (_class PoolClass) SetSuspendImageSR(sessionID SessionRef, self PoolRef, va
 	return
 }
 
-// Set the default_SR field of the given pool.
+// SetDefaultSR Set the default_SR field of the given pool.
 func (_class PoolClass) SetDefaultSR(sessionID SessionRef, self PoolRef, value SRRef) (_err error) {
 	_method := "pool.set_default_SR"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1448,7 +1448,7 @@ func (_class PoolClass) SetDefaultSR(sessionID SessionRef, self PoolRef, value S
 	return
 }
 
-// Set the name_description field of the given pool.
+// SetNameDescription Set the name_description field of the given pool.
 func (_class PoolClass) SetNameDescription(sessionID SessionRef, self PoolRef, value string) (_err error) {
 	_method := "pool.set_name_description"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1467,7 +1467,7 @@ func (_class PoolClass) SetNameDescription(sessionID SessionRef, self PoolRef, v
 	return
 }
 
-// Set the name_label field of the given pool.
+// SetNameLabel Set the name_label field of the given pool.
 func (_class PoolClass) SetNameLabel(sessionID SessionRef, self PoolRef, value string) (_err error) {
 	_method := "pool.set_name_label"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1486,7 +1486,7 @@ func (_class PoolClass) SetNameLabel(sessionID SessionRef, self PoolRef, value s
 	return
 }
 
-// Get the igmp_snooping_enabled field of the given pool.
+// GetIgmpSnoopingEnabled Get the igmp_snooping_enabled field of the given pool.
 func (_class PoolClass) GetIgmpSnoopingEnabled(sessionID SessionRef, self PoolRef) (_retval bool, _err error) {
 	_method := "pool.get_igmp_snooping_enabled"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1505,7 +1505,7 @@ func (_class PoolClass) GetIgmpSnoopingEnabled(sessionID SessionRef, self PoolRe
 	return
 }
 
-// Get the live_patching_disabled field of the given pool.
+// GetLivePatchingDisabled Get the live_patching_disabled field of the given pool.
 func (_class PoolClass) GetLivePatchingDisabled(sessionID SessionRef, self PoolRef) (_retval bool, _err error) {
 	_method := "pool.get_live_patching_disabled"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1524,7 +1524,7 @@ func (_class PoolClass) GetLivePatchingDisabled(sessionID SessionRef, self PoolR
 	return
 }
 
-// Get the policy_no_vendor_device field of the given pool.
+// GetPolicyNoVendorDevice Get the policy_no_vendor_device field of the given pool.
 func (_class PoolClass) GetPolicyNoVendorDevice(sessionID SessionRef, self PoolRef) (_retval bool, _err error) {
 	_method := "pool.get_policy_no_vendor_device"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1543,7 +1543,7 @@ func (_class PoolClass) GetPolicyNoVendorDevice(sessionID SessionRef, self PoolR
 	return
 }
 
-// Get the cpu_info field of the given pool.
+// GetCPUInfo Get the cpu_info field of the given pool.
 func (_class PoolClass) GetCPUInfo(sessionID SessionRef, self PoolRef) (_retval map[string]string, _err error) {
 	_method := "pool.get_cpu_info"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1562,7 +1562,7 @@ func (_class PoolClass) GetCPUInfo(sessionID SessionRef, self PoolRef) (_retval 
 	return
 }
 
-// Get the guest_agent_config field of the given pool.
+// GetGuestAgentConfig Get the guest_agent_config field of the given pool.
 func (_class PoolClass) GetGuestAgentConfig(sessionID SessionRef, self PoolRef) (_retval map[string]string, _err error) {
 	_method := "pool.get_guest_agent_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1581,7 +1581,7 @@ func (_class PoolClass) GetGuestAgentConfig(sessionID SessionRef, self PoolRef) 
 	return
 }
 
-// Get the current_operations field of the given pool.
+// GetCurrentOperations Get the current_operations field of the given pool.
 func (_class PoolClass) GetCurrentOperations(sessionID SessionRef, self PoolRef) (_retval map[string]PoolAllowedOperations, _err error) {
 	_method := "pool.get_current_operations"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1600,7 +1600,7 @@ func (_class PoolClass) GetCurrentOperations(sessionID SessionRef, self PoolRef)
 	return
 }
 
-// Get the allowed_operations field of the given pool.
+// GetAllowedOperations Get the allowed_operations field of the given pool.
 func (_class PoolClass) GetAllowedOperations(sessionID SessionRef, self PoolRef) (_retval []PoolAllowedOperations, _err error) {
 	_method := "pool.get_allowed_operations"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1619,7 +1619,7 @@ func (_class PoolClass) GetAllowedOperations(sessionID SessionRef, self PoolRef)
 	return
 }
 
-// Get the ha_cluster_stack field of the given pool.
+// GetHaClusterStack Get the ha_cluster_stack field of the given pool.
 func (_class PoolClass) GetHaClusterStack(sessionID SessionRef, self PoolRef) (_retval string, _err error) {
 	_method := "pool.get_ha_cluster_stack"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1638,7 +1638,7 @@ func (_class PoolClass) GetHaClusterStack(sessionID SessionRef, self PoolRef) (_
 	return
 }
 
-// Get the metadata_VDIs field of the given pool.
+// GetMetadataVDIs Get the metadata_VDIs field of the given pool.
 func (_class PoolClass) GetMetadataVDIs(sessionID SessionRef, self PoolRef) (_retval []VDIRef, _err error) {
 	_method := "pool.get_metadata_VDIs"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1657,7 +1657,7 @@ func (_class PoolClass) GetMetadataVDIs(sessionID SessionRef, self PoolRef) (_re
 	return
 }
 
-// Get the restrictions field of the given pool.
+// GetRestrictions Get the restrictions field of the given pool.
 func (_class PoolClass) GetRestrictions(sessionID SessionRef, self PoolRef) (_retval map[string]string, _err error) {
 	_method := "pool.get_restrictions"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1676,7 +1676,7 @@ func (_class PoolClass) GetRestrictions(sessionID SessionRef, self PoolRef) (_re
 	return
 }
 
-// Get the vswitch_controller field of the given pool.
+// GetVswitchController Get the vswitch_controller field of the given pool.
 func (_class PoolClass) GetVswitchController(sessionID SessionRef, self PoolRef) (_retval string, _err error) {
 	_method := "pool.get_vswitch_controller"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1695,7 +1695,7 @@ func (_class PoolClass) GetVswitchController(sessionID SessionRef, self PoolRef)
 	return
 }
 
-// Get the redo_log_vdi field of the given pool.
+// GetRedoLogVdi Get the redo_log_vdi field of the given pool.
 func (_class PoolClass) GetRedoLogVdi(sessionID SessionRef, self PoolRef) (_retval VDIRef, _err error) {
 	_method := "pool.get_redo_log_vdi"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1714,7 +1714,7 @@ func (_class PoolClass) GetRedoLogVdi(sessionID SessionRef, self PoolRef) (_retv
 	return
 }
 
-// Get the redo_log_enabled field of the given pool.
+// GetRedoLogEnabled Get the redo_log_enabled field of the given pool.
 func (_class PoolClass) GetRedoLogEnabled(sessionID SessionRef, self PoolRef) (_retval bool, _err error) {
 	_method := "pool.get_redo_log_enabled"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1733,7 +1733,7 @@ func (_class PoolClass) GetRedoLogEnabled(sessionID SessionRef, self PoolRef) (_
 	return
 }
 
-// Get the wlb_verify_cert field of the given pool.
+// GetWlbVerifyCert Get the wlb_verify_cert field of the given pool.
 func (_class PoolClass) GetWlbVerifyCert(sessionID SessionRef, self PoolRef) (_retval bool, _err error) {
 	_method := "pool.get_wlb_verify_cert"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1752,7 +1752,7 @@ func (_class PoolClass) GetWlbVerifyCert(sessionID SessionRef, self PoolRef) (_r
 	return
 }
 
-// Get the wlb_enabled field of the given pool.
+// GetWlbEnabled Get the wlb_enabled field of the given pool.
 func (_class PoolClass) GetWlbEnabled(sessionID SessionRef, self PoolRef) (_retval bool, _err error) {
 	_method := "pool.get_wlb_enabled"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1771,7 +1771,7 @@ func (_class PoolClass) GetWlbEnabled(sessionID SessionRef, self PoolRef) (_retv
 	return
 }
 
-// Get the wlb_username field of the given pool.
+// GetWlbUsername Get the wlb_username field of the given pool.
 func (_class PoolClass) GetWlbUsername(sessionID SessionRef, self PoolRef) (_retval string, _err error) {
 	_method := "pool.get_wlb_username"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1790,7 +1790,7 @@ func (_class PoolClass) GetWlbUsername(sessionID SessionRef, self PoolRef) (_ret
 	return
 }
 
-// Get the wlb_url field of the given pool.
+// GetWlbURL Get the wlb_url field of the given pool.
 func (_class PoolClass) GetWlbURL(sessionID SessionRef, self PoolRef) (_retval string, _err error) {
 	_method := "pool.get_wlb_url"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1809,7 +1809,7 @@ func (_class PoolClass) GetWlbURL(sessionID SessionRef, self PoolRef) (_retval s
 	return
 }
 
-// Get the health_check_config field of the given pool.
+// GetHealthCheckConfig Get the health_check_config field of the given pool.
 func (_class PoolClass) GetHealthCheckConfig(sessionID SessionRef, self PoolRef) (_retval map[string]string, _err error) {
 	_method := "pool.get_health_check_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1828,7 +1828,7 @@ func (_class PoolClass) GetHealthCheckConfig(sessionID SessionRef, self PoolRef)
 	return
 }
 
-// Get the gui_config field of the given pool.
+// GetGuiConfig Get the gui_config field of the given pool.
 func (_class PoolClass) GetGuiConfig(sessionID SessionRef, self PoolRef) (_retval map[string]string, _err error) {
 	_method := "pool.get_gui_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1847,7 +1847,7 @@ func (_class PoolClass) GetGuiConfig(sessionID SessionRef, self PoolRef) (_retva
 	return
 }
 
-// Get the tags field of the given pool.
+// GetTags Get the tags field of the given pool.
 func (_class PoolClass) GetTags(sessionID SessionRef, self PoolRef) (_retval []string, _err error) {
 	_method := "pool.get_tags"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1866,7 +1866,7 @@ func (_class PoolClass) GetTags(sessionID SessionRef, self PoolRef) (_retval []s
 	return
 }
 
-// Get the blobs field of the given pool.
+// GetBlobs Get the blobs field of the given pool.
 func (_class PoolClass) GetBlobs(sessionID SessionRef, self PoolRef) (_retval map[string]BlobRef, _err error) {
 	_method := "pool.get_blobs"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1885,7 +1885,7 @@ func (_class PoolClass) GetBlobs(sessionID SessionRef, self PoolRef) (_retval ma
 	return
 }
 
-// Get the ha_overcommitted field of the given pool.
+// GetHaOvercommitted Get the ha_overcommitted field of the given pool.
 func (_class PoolClass) GetHaOvercommitted(sessionID SessionRef, self PoolRef) (_retval bool, _err error) {
 	_method := "pool.get_ha_overcommitted"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1904,7 +1904,7 @@ func (_class PoolClass) GetHaOvercommitted(sessionID SessionRef, self PoolRef) (
 	return
 }
 
-// Get the ha_allow_overcommit field of the given pool.
+// GetHaAllowOvercommit Get the ha_allow_overcommit field of the given pool.
 func (_class PoolClass) GetHaAllowOvercommit(sessionID SessionRef, self PoolRef) (_retval bool, _err error) {
 	_method := "pool.get_ha_allow_overcommit"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1923,7 +1923,7 @@ func (_class PoolClass) GetHaAllowOvercommit(sessionID SessionRef, self PoolRef)
 	return
 }
 
-// Get the ha_plan_exists_for field of the given pool.
+// GetHaPlanExistsFor Get the ha_plan_exists_for field of the given pool.
 func (_class PoolClass) GetHaPlanExistsFor(sessionID SessionRef, self PoolRef) (_retval int, _err error) {
 	_method := "pool.get_ha_plan_exists_for"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1942,7 +1942,7 @@ func (_class PoolClass) GetHaPlanExistsFor(sessionID SessionRef, self PoolRef) (
 	return
 }
 
-// Get the ha_host_failures_to_tolerate field of the given pool.
+// GetHaHostFailuresToTolerate Get the ha_host_failures_to_tolerate field of the given pool.
 func (_class PoolClass) GetHaHostFailuresToTolerate(sessionID SessionRef, self PoolRef) (_retval int, _err error) {
 	_method := "pool.get_ha_host_failures_to_tolerate"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1961,7 +1961,7 @@ func (_class PoolClass) GetHaHostFailuresToTolerate(sessionID SessionRef, self P
 	return
 }
 
-// Get the ha_statefiles field of the given pool.
+// GetHaStatefiles Get the ha_statefiles field of the given pool.
 func (_class PoolClass) GetHaStatefiles(sessionID SessionRef, self PoolRef) (_retval []string, _err error) {
 	_method := "pool.get_ha_statefiles"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1980,7 +1980,7 @@ func (_class PoolClass) GetHaStatefiles(sessionID SessionRef, self PoolRef) (_re
 	return
 }
 
-// Get the ha_configuration field of the given pool.
+// GetHaConfiguration Get the ha_configuration field of the given pool.
 func (_class PoolClass) GetHaConfiguration(sessionID SessionRef, self PoolRef) (_retval map[string]string, _err error) {
 	_method := "pool.get_ha_configuration"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1999,7 +1999,7 @@ func (_class PoolClass) GetHaConfiguration(sessionID SessionRef, self PoolRef) (
 	return
 }
 
-// Get the ha_enabled field of the given pool.
+// GetHaEnabled Get the ha_enabled field of the given pool.
 func (_class PoolClass) GetHaEnabled(sessionID SessionRef, self PoolRef) (_retval bool, _err error) {
 	_method := "pool.get_ha_enabled"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2018,7 +2018,7 @@ func (_class PoolClass) GetHaEnabled(sessionID SessionRef, self PoolRef) (_retva
 	return
 }
 
-// Get the other_config field of the given pool.
+// GetOtherConfig Get the other_config field of the given pool.
 func (_class PoolClass) GetOtherConfig(sessionID SessionRef, self PoolRef) (_retval map[string]string, _err error) {
 	_method := "pool.get_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2037,7 +2037,7 @@ func (_class PoolClass) GetOtherConfig(sessionID SessionRef, self PoolRef) (_ret
 	return
 }
 
-// Get the crash_dump_SR field of the given pool.
+// GetCrashDumpSR Get the crash_dump_SR field of the given pool.
 func (_class PoolClass) GetCrashDumpSR(sessionID SessionRef, self PoolRef) (_retval SRRef, _err error) {
 	_method := "pool.get_crash_dump_SR"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2056,7 +2056,7 @@ func (_class PoolClass) GetCrashDumpSR(sessionID SessionRef, self PoolRef) (_ret
 	return
 }
 
-// Get the suspend_image_SR field of the given pool.
+// GetSuspendImageSR Get the suspend_image_SR field of the given pool.
 func (_class PoolClass) GetSuspendImageSR(sessionID SessionRef, self PoolRef) (_retval SRRef, _err error) {
 	_method := "pool.get_suspend_image_SR"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2075,7 +2075,7 @@ func (_class PoolClass) GetSuspendImageSR(sessionID SessionRef, self PoolRef) (_
 	return
 }
 
-// Get the default_SR field of the given pool.
+// GetDefaultSR Get the default_SR field of the given pool.
 func (_class PoolClass) GetDefaultSR(sessionID SessionRef, self PoolRef) (_retval SRRef, _err error) {
 	_method := "pool.get_default_SR"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2094,7 +2094,7 @@ func (_class PoolClass) GetDefaultSR(sessionID SessionRef, self PoolRef) (_retva
 	return
 }
 
-// Get the master field of the given pool.
+// GetMaster Get the master field of the given pool.
 func (_class PoolClass) GetMaster(sessionID SessionRef, self PoolRef) (_retval HostRef, _err error) {
 	_method := "pool.get_master"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2113,7 +2113,7 @@ func (_class PoolClass) GetMaster(sessionID SessionRef, self PoolRef) (_retval H
 	return
 }
 
-// Get the name_description field of the given pool.
+// GetNameDescription Get the name_description field of the given pool.
 func (_class PoolClass) GetNameDescription(sessionID SessionRef, self PoolRef) (_retval string, _err error) {
 	_method := "pool.get_name_description"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2132,7 +2132,7 @@ func (_class PoolClass) GetNameDescription(sessionID SessionRef, self PoolRef) (
 	return
 }
 
-// Get the name_label field of the given pool.
+// GetNameLabel Get the name_label field of the given pool.
 func (_class PoolClass) GetNameLabel(sessionID SessionRef, self PoolRef) (_retval string, _err error) {
 	_method := "pool.get_name_label"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2151,7 +2151,7 @@ func (_class PoolClass) GetNameLabel(sessionID SessionRef, self PoolRef) (_retva
 	return
 }
 
-// Get the uuid field of the given pool.
+// GetUUID Get the uuid field of the given pool.
 func (_class PoolClass) GetUUID(sessionID SessionRef, self PoolRef) (_retval string, _err error) {
 	_method := "pool.get_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2170,7 +2170,7 @@ func (_class PoolClass) GetUUID(sessionID SessionRef, self PoolRef) (_retval str
 	return
 }
 
-// Get a reference to the pool instance with the specified UUID.
+// GetByUUID Get a reference to the pool instance with the specified UUID.
 func (_class PoolClass) GetByUUID(sessionID SessionRef, uuid string) (_retval PoolRef, _err error) {
 	_method := "pool.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2189,7 +2189,7 @@ func (_class PoolClass) GetByUUID(sessionID SessionRef, uuid string) (_retval Po
 	return
 }
 
-// Get a record containing the current state of the given pool.
+// GetRecord Get a record containing the current state of the given pool.
 func (_class PoolClass) GetRecord(sessionID SessionRef, self PoolRef) (_retval PoolRecord, _err error) {
 	_method := "pool.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

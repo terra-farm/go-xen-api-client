@@ -114,7 +114,7 @@ type VMPPClass struct {
 	client *Client
 }
 
-// Return a map of VMPP references to VMPP records for all VMPPs known to the system.
+// GetAllRecords Return a map of VMPP references to VMPP records for all VMPPs known to the system.
 func (_class VMPPClass) GetAllRecords(sessionID SessionRef) (_retval map[VMPPRef]VMPPRecord, _err error) {
 	_method := "VMPP.get_all_records"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -129,7 +129,7 @@ func (_class VMPPClass) GetAllRecords(sessionID SessionRef) (_retval map[VMPPRef
 	return
 }
 
-// Return a list of all the VMPPs known to the system.
+// GetAll Return a list of all the VMPPs known to the system.
 func (_class VMPPClass) GetAll(sessionID SessionRef) (_retval []VMPPRef, _err error) {
 	_method := "VMPP.get_all"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -144,7 +144,7 @@ func (_class VMPPClass) GetAll(sessionID SessionRef) (_retval []VMPPRef, _err er
 	return
 }
 
-// 
+// SetArchiveLastRunTime 
 func (_class VMPPClass) SetArchiveLastRunTime(sessionID SessionRef, self VMPPRef, value time.Time) (_err error) {
 	_method := "VMPP.set_archive_last_run_time"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -163,7 +163,7 @@ func (_class VMPPClass) SetArchiveLastRunTime(sessionID SessionRef, self VMPPRef
 	return
 }
 
-// 
+// SetBackupLastRunTime 
 func (_class VMPPClass) SetBackupLastRunTime(sessionID SessionRef, self VMPPRef, value time.Time) (_err error) {
 	_method := "VMPP.set_backup_last_run_time"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -182,7 +182,7 @@ func (_class VMPPClass) SetBackupLastRunTime(sessionID SessionRef, self VMPPRef,
 	return
 }
 
-// 
+// RemoveFromAlarmConfig 
 func (_class VMPPClass) RemoveFromAlarmConfig(sessionID SessionRef, self VMPPRef, key string) (_err error) {
 	_method := "VMPP.remove_from_alarm_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -201,7 +201,7 @@ func (_class VMPPClass) RemoveFromAlarmConfig(sessionID SessionRef, self VMPPRef
 	return
 }
 
-// 
+// RemoveFromArchiveSchedule 
 func (_class VMPPClass) RemoveFromArchiveSchedule(sessionID SessionRef, self VMPPRef, key string) (_err error) {
 	_method := "VMPP.remove_from_archive_schedule"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -220,7 +220,7 @@ func (_class VMPPClass) RemoveFromArchiveSchedule(sessionID SessionRef, self VMP
 	return
 }
 
-// 
+// RemoveFromArchiveTargetConfig 
 func (_class VMPPClass) RemoveFromArchiveTargetConfig(sessionID SessionRef, self VMPPRef, key string) (_err error) {
 	_method := "VMPP.remove_from_archive_target_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -239,7 +239,7 @@ func (_class VMPPClass) RemoveFromArchiveTargetConfig(sessionID SessionRef, self
 	return
 }
 
-// 
+// RemoveFromBackupSchedule 
 func (_class VMPPClass) RemoveFromBackupSchedule(sessionID SessionRef, self VMPPRef, key string) (_err error) {
 	_method := "VMPP.remove_from_backup_schedule"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -258,7 +258,7 @@ func (_class VMPPClass) RemoveFromBackupSchedule(sessionID SessionRef, self VMPP
 	return
 }
 
-// 
+// AddToAlarmConfig 
 func (_class VMPPClass) AddToAlarmConfig(sessionID SessionRef, self VMPPRef, key string, value string) (_err error) {
 	_method := "VMPP.add_to_alarm_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -281,7 +281,7 @@ func (_class VMPPClass) AddToAlarmConfig(sessionID SessionRef, self VMPPRef, key
 	return
 }
 
-// 
+// AddToArchiveSchedule 
 func (_class VMPPClass) AddToArchiveSchedule(sessionID SessionRef, self VMPPRef, key string, value string) (_err error) {
 	_method := "VMPP.add_to_archive_schedule"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -304,7 +304,7 @@ func (_class VMPPClass) AddToArchiveSchedule(sessionID SessionRef, self VMPPRef,
 	return
 }
 
-// 
+// AddToArchiveTargetConfig 
 func (_class VMPPClass) AddToArchiveTargetConfig(sessionID SessionRef, self VMPPRef, key string, value string) (_err error) {
 	_method := "VMPP.add_to_archive_target_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -327,7 +327,7 @@ func (_class VMPPClass) AddToArchiveTargetConfig(sessionID SessionRef, self VMPP
 	return
 }
 
-// 
+// AddToBackupSchedule 
 func (_class VMPPClass) AddToBackupSchedule(sessionID SessionRef, self VMPPRef, key string, value string) (_err error) {
 	_method := "VMPP.add_to_backup_schedule"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -350,7 +350,7 @@ func (_class VMPPClass) AddToBackupSchedule(sessionID SessionRef, self VMPPRef, 
 	return
 }
 
-// 
+// SetAlarmConfig 
 func (_class VMPPClass) SetAlarmConfig(sessionID SessionRef, self VMPPRef, value map[string]string) (_err error) {
 	_method := "VMPP.set_alarm_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -369,7 +369,7 @@ func (_class VMPPClass) SetAlarmConfig(sessionID SessionRef, self VMPPRef, value
 	return
 }
 
-// Set the value of the is_alarm_enabled field
+// SetIsAlarmEnabled Set the value of the is_alarm_enabled field
 func (_class VMPPClass) SetIsAlarmEnabled(sessionID SessionRef, self VMPPRef, value bool) (_err error) {
 	_method := "VMPP.set_is_alarm_enabled"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -388,7 +388,7 @@ func (_class VMPPClass) SetIsAlarmEnabled(sessionID SessionRef, self VMPPRef, va
 	return
 }
 
-// 
+// SetArchiveTargetConfig 
 func (_class VMPPClass) SetArchiveTargetConfig(sessionID SessionRef, self VMPPRef, value map[string]string) (_err error) {
 	_method := "VMPP.set_archive_target_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -407,7 +407,7 @@ func (_class VMPPClass) SetArchiveTargetConfig(sessionID SessionRef, self VMPPRe
 	return
 }
 
-// Set the value of the archive_target_config_type field
+// SetArchiveTargetType Set the value of the archive_target_config_type field
 func (_class VMPPClass) SetArchiveTargetType(sessionID SessionRef, self VMPPRef, value VmppArchiveTargetType) (_err error) {
 	_method := "VMPP.set_archive_target_type"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -426,7 +426,7 @@ func (_class VMPPClass) SetArchiveTargetType(sessionID SessionRef, self VMPPRef,
 	return
 }
 
-// 
+// SetArchiveSchedule 
 func (_class VMPPClass) SetArchiveSchedule(sessionID SessionRef, self VMPPRef, value map[string]string) (_err error) {
 	_method := "VMPP.set_archive_schedule"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -445,7 +445,7 @@ func (_class VMPPClass) SetArchiveSchedule(sessionID SessionRef, self VMPPRef, v
 	return
 }
 
-// Set the value of the archive_frequency field
+// SetArchiveFrequency Set the value of the archive_frequency field
 func (_class VMPPClass) SetArchiveFrequency(sessionID SessionRef, self VMPPRef, value VmppArchiveFrequency) (_err error) {
 	_method := "VMPP.set_archive_frequency"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -464,7 +464,7 @@ func (_class VMPPClass) SetArchiveFrequency(sessionID SessionRef, self VMPPRef, 
 	return
 }
 
-// 
+// SetBackupSchedule 
 func (_class VMPPClass) SetBackupSchedule(sessionID SessionRef, self VMPPRef, value map[string]string) (_err error) {
 	_method := "VMPP.set_backup_schedule"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -483,7 +483,7 @@ func (_class VMPPClass) SetBackupSchedule(sessionID SessionRef, self VMPPRef, va
 	return
 }
 
-// Set the value of the backup_frequency field
+// SetBackupFrequency Set the value of the backup_frequency field
 func (_class VMPPClass) SetBackupFrequency(sessionID SessionRef, self VMPPRef, value VmppBackupFrequency) (_err error) {
 	_method := "VMPP.set_backup_frequency"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -502,7 +502,7 @@ func (_class VMPPClass) SetBackupFrequency(sessionID SessionRef, self VMPPRef, v
 	return
 }
 
-// 
+// SetBackupRetentionValue 
 func (_class VMPPClass) SetBackupRetentionValue(sessionID SessionRef, self VMPPRef, value int) (_err error) {
 	_method := "VMPP.set_backup_retention_value"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -521,7 +521,7 @@ func (_class VMPPClass) SetBackupRetentionValue(sessionID SessionRef, self VMPPR
 	return
 }
 
-// This call fetches a history of alerts for a given protection policy
+// GetAlerts This call fetches a history of alerts for a given protection policy
 func (_class VMPPClass) GetAlerts(sessionID SessionRef, vmpp VMPPRef, hoursFromNow int) (_retval []string, _err error) {
 	_method := "VMPP.get_alerts"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -544,7 +544,7 @@ func (_class VMPPClass) GetAlerts(sessionID SessionRef, vmpp VMPPRef, hoursFromN
 	return
 }
 
-// This call archives the snapshot provided as a parameter
+// ArchiveNow This call archives the snapshot provided as a parameter
 func (_class VMPPClass) ArchiveNow(sessionID SessionRef, snapshot VMRef) (_retval string, _err error) {
 	_method := "VMPP.archive_now"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -563,7 +563,7 @@ func (_class VMPPClass) ArchiveNow(sessionID SessionRef, snapshot VMRef) (_retva
 	return
 }
 
-// This call executes the protection policy immediately
+// ProtectNow This call executes the protection policy immediately
 func (_class VMPPClass) ProtectNow(sessionID SessionRef, vmpp VMPPRef) (_retval string, _err error) {
 	_method := "VMPP.protect_now"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -582,7 +582,7 @@ func (_class VMPPClass) ProtectNow(sessionID SessionRef, vmpp VMPPRef) (_retval 
 	return
 }
 
-// Set the backup_type field of the given VMPP.
+// SetBackupType Set the backup_type field of the given VMPP.
 func (_class VMPPClass) SetBackupType(sessionID SessionRef, self VMPPRef, value VmppBackupType) (_err error) {
 	_method := "VMPP.set_backup_type"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -601,7 +601,7 @@ func (_class VMPPClass) SetBackupType(sessionID SessionRef, self VMPPRef, value 
 	return
 }
 
-// Set the is_policy_enabled field of the given VMPP.
+// SetIsPolicyEnabled Set the is_policy_enabled field of the given VMPP.
 func (_class VMPPClass) SetIsPolicyEnabled(sessionID SessionRef, self VMPPRef, value bool) (_err error) {
 	_method := "VMPP.set_is_policy_enabled"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -620,7 +620,7 @@ func (_class VMPPClass) SetIsPolicyEnabled(sessionID SessionRef, self VMPPRef, v
 	return
 }
 
-// Set the name/description field of the given VMPP.
+// SetNameDescription Set the name/description field of the given VMPP.
 func (_class VMPPClass) SetNameDescription(sessionID SessionRef, self VMPPRef, value string) (_err error) {
 	_method := "VMPP.set_name_description"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -639,7 +639,7 @@ func (_class VMPPClass) SetNameDescription(sessionID SessionRef, self VMPPRef, v
 	return
 }
 
-// Set the name/label field of the given VMPP.
+// SetNameLabel Set the name/label field of the given VMPP.
 func (_class VMPPClass) SetNameLabel(sessionID SessionRef, self VMPPRef, value string) (_err error) {
 	_method := "VMPP.set_name_label"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -658,7 +658,7 @@ func (_class VMPPClass) SetNameLabel(sessionID SessionRef, self VMPPRef, value s
 	return
 }
 
-// Get the recent_alerts field of the given VMPP.
+// GetRecentAlerts Get the recent_alerts field of the given VMPP.
 func (_class VMPPClass) GetRecentAlerts(sessionID SessionRef, self VMPPRef) (_retval []string, _err error) {
 	_method := "VMPP.get_recent_alerts"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -677,7 +677,7 @@ func (_class VMPPClass) GetRecentAlerts(sessionID SessionRef, self VMPPRef) (_re
 	return
 }
 
-// Get the alarm_config field of the given VMPP.
+// GetAlarmConfig Get the alarm_config field of the given VMPP.
 func (_class VMPPClass) GetAlarmConfig(sessionID SessionRef, self VMPPRef) (_retval map[string]string, _err error) {
 	_method := "VMPP.get_alarm_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -696,7 +696,7 @@ func (_class VMPPClass) GetAlarmConfig(sessionID SessionRef, self VMPPRef) (_ret
 	return
 }
 
-// Get the is_alarm_enabled field of the given VMPP.
+// GetIsAlarmEnabled Get the is_alarm_enabled field of the given VMPP.
 func (_class VMPPClass) GetIsAlarmEnabled(sessionID SessionRef, self VMPPRef) (_retval bool, _err error) {
 	_method := "VMPP.get_is_alarm_enabled"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -715,7 +715,7 @@ func (_class VMPPClass) GetIsAlarmEnabled(sessionID SessionRef, self VMPPRef) (_
 	return
 }
 
-// Get the VMs field of the given VMPP.
+// GetVMs Get the VMs field of the given VMPP.
 func (_class VMPPClass) GetVMs(sessionID SessionRef, self VMPPRef) (_retval []VMRef, _err error) {
 	_method := "VMPP.get_VMs"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -734,7 +734,7 @@ func (_class VMPPClass) GetVMs(sessionID SessionRef, self VMPPRef) (_retval []VM
 	return
 }
 
-// Get the archive_last_run_time field of the given VMPP.
+// GetArchiveLastRunTime Get the archive_last_run_time field of the given VMPP.
 func (_class VMPPClass) GetArchiveLastRunTime(sessionID SessionRef, self VMPPRef) (_retval time.Time, _err error) {
 	_method := "VMPP.get_archive_last_run_time"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -753,7 +753,7 @@ func (_class VMPPClass) GetArchiveLastRunTime(sessionID SessionRef, self VMPPRef
 	return
 }
 
-// Get the is_archive_running field of the given VMPP.
+// GetIsArchiveRunning Get the is_archive_running field of the given VMPP.
 func (_class VMPPClass) GetIsArchiveRunning(sessionID SessionRef, self VMPPRef) (_retval bool, _err error) {
 	_method := "VMPP.get_is_archive_running"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -772,7 +772,7 @@ func (_class VMPPClass) GetIsArchiveRunning(sessionID SessionRef, self VMPPRef) 
 	return
 }
 
-// Get the archive_schedule field of the given VMPP.
+// GetArchiveSchedule Get the archive_schedule field of the given VMPP.
 func (_class VMPPClass) GetArchiveSchedule(sessionID SessionRef, self VMPPRef) (_retval map[string]string, _err error) {
 	_method := "VMPP.get_archive_schedule"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -791,7 +791,7 @@ func (_class VMPPClass) GetArchiveSchedule(sessionID SessionRef, self VMPPRef) (
 	return
 }
 
-// Get the archive_frequency field of the given VMPP.
+// GetArchiveFrequency Get the archive_frequency field of the given VMPP.
 func (_class VMPPClass) GetArchiveFrequency(sessionID SessionRef, self VMPPRef) (_retval VmppArchiveFrequency, _err error) {
 	_method := "VMPP.get_archive_frequency"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -810,7 +810,7 @@ func (_class VMPPClass) GetArchiveFrequency(sessionID SessionRef, self VMPPRef) 
 	return
 }
 
-// Get the archive_target_config field of the given VMPP.
+// GetArchiveTargetConfig Get the archive_target_config field of the given VMPP.
 func (_class VMPPClass) GetArchiveTargetConfig(sessionID SessionRef, self VMPPRef) (_retval map[string]string, _err error) {
 	_method := "VMPP.get_archive_target_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -829,7 +829,7 @@ func (_class VMPPClass) GetArchiveTargetConfig(sessionID SessionRef, self VMPPRe
 	return
 }
 
-// Get the archive_target_type field of the given VMPP.
+// GetArchiveTargetType Get the archive_target_type field of the given VMPP.
 func (_class VMPPClass) GetArchiveTargetType(sessionID SessionRef, self VMPPRef) (_retval VmppArchiveTargetType, _err error) {
 	_method := "VMPP.get_archive_target_type"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -848,7 +848,7 @@ func (_class VMPPClass) GetArchiveTargetType(sessionID SessionRef, self VMPPRef)
 	return
 }
 
-// Get the backup_last_run_time field of the given VMPP.
+// GetBackupLastRunTime Get the backup_last_run_time field of the given VMPP.
 func (_class VMPPClass) GetBackupLastRunTime(sessionID SessionRef, self VMPPRef) (_retval time.Time, _err error) {
 	_method := "VMPP.get_backup_last_run_time"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -867,7 +867,7 @@ func (_class VMPPClass) GetBackupLastRunTime(sessionID SessionRef, self VMPPRef)
 	return
 }
 
-// Get the is_backup_running field of the given VMPP.
+// GetIsBackupRunning Get the is_backup_running field of the given VMPP.
 func (_class VMPPClass) GetIsBackupRunning(sessionID SessionRef, self VMPPRef) (_retval bool, _err error) {
 	_method := "VMPP.get_is_backup_running"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -886,7 +886,7 @@ func (_class VMPPClass) GetIsBackupRunning(sessionID SessionRef, self VMPPRef) (
 	return
 }
 
-// Get the backup_schedule field of the given VMPP.
+// GetBackupSchedule Get the backup_schedule field of the given VMPP.
 func (_class VMPPClass) GetBackupSchedule(sessionID SessionRef, self VMPPRef) (_retval map[string]string, _err error) {
 	_method := "VMPP.get_backup_schedule"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -905,7 +905,7 @@ func (_class VMPPClass) GetBackupSchedule(sessionID SessionRef, self VMPPRef) (_
 	return
 }
 
-// Get the backup_frequency field of the given VMPP.
+// GetBackupFrequency Get the backup_frequency field of the given VMPP.
 func (_class VMPPClass) GetBackupFrequency(sessionID SessionRef, self VMPPRef) (_retval VmppBackupFrequency, _err error) {
 	_method := "VMPP.get_backup_frequency"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -924,7 +924,7 @@ func (_class VMPPClass) GetBackupFrequency(sessionID SessionRef, self VMPPRef) (
 	return
 }
 
-// Get the backup_retention_value field of the given VMPP.
+// GetBackupRetentionValue Get the backup_retention_value field of the given VMPP.
 func (_class VMPPClass) GetBackupRetentionValue(sessionID SessionRef, self VMPPRef) (_retval int, _err error) {
 	_method := "VMPP.get_backup_retention_value"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -943,7 +943,7 @@ func (_class VMPPClass) GetBackupRetentionValue(sessionID SessionRef, self VMPPR
 	return
 }
 
-// Get the backup_type field of the given VMPP.
+// GetBackupType Get the backup_type field of the given VMPP.
 func (_class VMPPClass) GetBackupType(sessionID SessionRef, self VMPPRef) (_retval VmppBackupType, _err error) {
 	_method := "VMPP.get_backup_type"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -962,7 +962,7 @@ func (_class VMPPClass) GetBackupType(sessionID SessionRef, self VMPPRef) (_retv
 	return
 }
 
-// Get the is_policy_enabled field of the given VMPP.
+// GetIsPolicyEnabled Get the is_policy_enabled field of the given VMPP.
 func (_class VMPPClass) GetIsPolicyEnabled(sessionID SessionRef, self VMPPRef) (_retval bool, _err error) {
 	_method := "VMPP.get_is_policy_enabled"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -981,7 +981,7 @@ func (_class VMPPClass) GetIsPolicyEnabled(sessionID SessionRef, self VMPPRef) (
 	return
 }
 
-// Get the name/description field of the given VMPP.
+// GetNameDescription Get the name/description field of the given VMPP.
 func (_class VMPPClass) GetNameDescription(sessionID SessionRef, self VMPPRef) (_retval string, _err error) {
 	_method := "VMPP.get_name_description"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1000,7 +1000,7 @@ func (_class VMPPClass) GetNameDescription(sessionID SessionRef, self VMPPRef) (
 	return
 }
 
-// Get the name/label field of the given VMPP.
+// GetNameLabel Get the name/label field of the given VMPP.
 func (_class VMPPClass) GetNameLabel(sessionID SessionRef, self VMPPRef) (_retval string, _err error) {
 	_method := "VMPP.get_name_label"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1019,7 +1019,7 @@ func (_class VMPPClass) GetNameLabel(sessionID SessionRef, self VMPPRef) (_retva
 	return
 }
 
-// Get the uuid field of the given VMPP.
+// GetUUID Get the uuid field of the given VMPP.
 func (_class VMPPClass) GetUUID(sessionID SessionRef, self VMPPRef) (_retval string, _err error) {
 	_method := "VMPP.get_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1038,7 +1038,7 @@ func (_class VMPPClass) GetUUID(sessionID SessionRef, self VMPPRef) (_retval str
 	return
 }
 
-// Get all the VMPP instances with the given label.
+// GetByNameLabel Get all the VMPP instances with the given label.
 func (_class VMPPClass) GetByNameLabel(sessionID SessionRef, label string) (_retval []VMPPRef, _err error) {
 	_method := "VMPP.get_by_name_label"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1057,7 +1057,7 @@ func (_class VMPPClass) GetByNameLabel(sessionID SessionRef, label string) (_ret
 	return
 }
 
-// Destroy the specified VMPP instance.
+// Destroy Destroy the specified VMPP instance.
 func (_class VMPPClass) Destroy(sessionID SessionRef, self VMPPRef) (_err error) {
 	_method := "VMPP.destroy"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1072,8 +1072,8 @@ func (_class VMPPClass) Destroy(sessionID SessionRef, self VMPPRef) (_err error)
 	return
 }
 
-// Create a new VMPP instance, and return its handle.
-// The constructor args are: name_label, name_description, is_policy_enabled, backup_type, backup_retention_value, backup_frequency, backup_schedule, archive_target_type, archive_target_config, archive_frequency, archive_schedule, is_alarm_enabled, alarm_config (* = non-optional).
+// Create Create a new VMPP instance, and return its handle.
+The constructor args are: name_label, name_description, is_policy_enabled, backup_type, backup_retention_value, backup_frequency, backup_schedule, archive_target_type, archive_target_config, archive_frequency, archive_schedule, is_alarm_enabled, alarm_config (* = non-optional).
 func (_class VMPPClass) Create(sessionID SessionRef, args VMPPRecord) (_retval VMPPRef, _err error) {
 	_method := "VMPP.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1092,7 +1092,7 @@ func (_class VMPPClass) Create(sessionID SessionRef, args VMPPRecord) (_retval V
 	return
 }
 
-// Get a reference to the VMPP instance with the specified UUID.
+// GetByUUID Get a reference to the VMPP instance with the specified UUID.
 func (_class VMPPClass) GetByUUID(sessionID SessionRef, uuid string) (_retval VMPPRef, _err error) {
 	_method := "VMPP.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1111,7 +1111,7 @@ func (_class VMPPClass) GetByUUID(sessionID SessionRef, uuid string) (_retval VM
 	return
 }
 
-// Get a record containing the current state of the given VMPP.
+// GetRecord Get a record containing the current state of the given VMPP.
 func (_class VMPPClass) GetRecord(sessionID SessionRef, self VMPPRef) (_retval VMPPRecord, _err error) {
 	_method := "VMPP.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

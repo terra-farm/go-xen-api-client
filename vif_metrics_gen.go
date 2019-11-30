@@ -40,7 +40,7 @@ type VIFMetricsClass struct {
 	client *Client
 }
 
-// Return a map of VIF_metrics references to VIF_metrics records for all VIF_metrics instances known to the system.
+// GetAllRecords Return a map of VIF_metrics references to VIF_metrics records for all VIF_metrics instances known to the system.
 func (_class VIFMetricsClass) GetAllRecords(sessionID SessionRef) (_retval map[VIFMetricsRef]VIFMetricsRecord, _err error) {
 	_method := "VIF_metrics.get_all_records"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -55,7 +55,7 @@ func (_class VIFMetricsClass) GetAllRecords(sessionID SessionRef) (_retval map[V
 	return
 }
 
-// Return a list of all the VIF_metrics instances known to the system.
+// GetAll Return a list of all the VIF_metrics instances known to the system.
 func (_class VIFMetricsClass) GetAll(sessionID SessionRef) (_retval []VIFMetricsRef, _err error) {
 	_method := "VIF_metrics.get_all"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -70,7 +70,7 @@ func (_class VIFMetricsClass) GetAll(sessionID SessionRef) (_retval []VIFMetrics
 	return
 }
 
-// Remove the given key and its corresponding value from the other_config field of the given VIF_metrics.  If the key is not in that Map, then do nothing.
+// RemoveFromOtherConfig Remove the given key and its corresponding value from the other_config field of the given VIF_metrics.  If the key is not in that Map, then do nothing.
 func (_class VIFMetricsClass) RemoveFromOtherConfig(sessionID SessionRef, self VIFMetricsRef, key string) (_err error) {
 	_method := "VIF_metrics.remove_from_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -89,7 +89,7 @@ func (_class VIFMetricsClass) RemoveFromOtherConfig(sessionID SessionRef, self V
 	return
 }
 
-// Add the given key-value pair to the other_config field of the given VIF_metrics.
+// AddToOtherConfig Add the given key-value pair to the other_config field of the given VIF_metrics.
 func (_class VIFMetricsClass) AddToOtherConfig(sessionID SessionRef, self VIFMetricsRef, key string, value string) (_err error) {
 	_method := "VIF_metrics.add_to_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -112,7 +112,7 @@ func (_class VIFMetricsClass) AddToOtherConfig(sessionID SessionRef, self VIFMet
 	return
 }
 
-// Set the other_config field of the given VIF_metrics.
+// SetOtherConfig Set the other_config field of the given VIF_metrics.
 func (_class VIFMetricsClass) SetOtherConfig(sessionID SessionRef, self VIFMetricsRef, value map[string]string) (_err error) {
 	_method := "VIF_metrics.set_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -131,7 +131,7 @@ func (_class VIFMetricsClass) SetOtherConfig(sessionID SessionRef, self VIFMetri
 	return
 }
 
-// Get the other_config field of the given VIF_metrics.
+// GetOtherConfig Get the other_config field of the given VIF_metrics.
 func (_class VIFMetricsClass) GetOtherConfig(sessionID SessionRef, self VIFMetricsRef) (_retval map[string]string, _err error) {
 	_method := "VIF_metrics.get_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -150,7 +150,7 @@ func (_class VIFMetricsClass) GetOtherConfig(sessionID SessionRef, self VIFMetri
 	return
 }
 
-// Get the last_updated field of the given VIF_metrics.
+// GetLastUpdated Get the last_updated field of the given VIF_metrics.
 func (_class VIFMetricsClass) GetLastUpdated(sessionID SessionRef, self VIFMetricsRef) (_retval time.Time, _err error) {
 	_method := "VIF_metrics.get_last_updated"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -169,7 +169,7 @@ func (_class VIFMetricsClass) GetLastUpdated(sessionID SessionRef, self VIFMetri
 	return
 }
 
-// Get the io/write_kbs field of the given VIF_metrics.
+// GetIoWriteKbs Get the io/write_kbs field of the given VIF_metrics.
 func (_class VIFMetricsClass) GetIoWriteKbs(sessionID SessionRef, self VIFMetricsRef) (_retval float64, _err error) {
 	_method := "VIF_metrics.get_io_write_kbs"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -188,7 +188,7 @@ func (_class VIFMetricsClass) GetIoWriteKbs(sessionID SessionRef, self VIFMetric
 	return
 }
 
-// Get the io/read_kbs field of the given VIF_metrics.
+// GetIoReadKbs Get the io/read_kbs field of the given VIF_metrics.
 func (_class VIFMetricsClass) GetIoReadKbs(sessionID SessionRef, self VIFMetricsRef) (_retval float64, _err error) {
 	_method := "VIF_metrics.get_io_read_kbs"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -207,7 +207,7 @@ func (_class VIFMetricsClass) GetIoReadKbs(sessionID SessionRef, self VIFMetrics
 	return
 }
 
-// Get the uuid field of the given VIF_metrics.
+// GetUUID Get the uuid field of the given VIF_metrics.
 func (_class VIFMetricsClass) GetUUID(sessionID SessionRef, self VIFMetricsRef) (_retval string, _err error) {
 	_method := "VIF_metrics.get_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -226,7 +226,7 @@ func (_class VIFMetricsClass) GetUUID(sessionID SessionRef, self VIFMetricsRef) 
 	return
 }
 
-// Get a reference to the VIF_metrics instance with the specified UUID.
+// GetByUUID Get a reference to the VIF_metrics instance with the specified UUID.
 func (_class VIFMetricsClass) GetByUUID(sessionID SessionRef, uuid string) (_retval VIFMetricsRef, _err error) {
 	_method := "VIF_metrics.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -245,7 +245,7 @@ func (_class VIFMetricsClass) GetByUUID(sessionID SessionRef, uuid string) (_ret
 	return
 }
 
-// Get a record containing the current state of the given VIF_metrics.
+// GetRecord Get a record containing the current state of the given VIF_metrics.
 func (_class VIFMetricsClass) GetRecord(sessionID SessionRef, self VIFMetricsRef) (_retval VIFMetricsRecord, _err error) {
 	_method := "VIF_metrics.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

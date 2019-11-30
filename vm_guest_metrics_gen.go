@@ -69,7 +69,7 @@ type VMGuestMetricsClass struct {
 	client *Client
 }
 
-// Return a map of VM_guest_metrics references to VM_guest_metrics records for all VM_guest_metrics instances known to the system.
+// GetAllRecords Return a map of VM_guest_metrics references to VM_guest_metrics records for all VM_guest_metrics instances known to the system.
 func (_class VMGuestMetricsClass) GetAllRecords(sessionID SessionRef) (_retval map[VMGuestMetricsRef]VMGuestMetricsRecord, _err error) {
 	_method := "VM_guest_metrics.get_all_records"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -84,7 +84,7 @@ func (_class VMGuestMetricsClass) GetAllRecords(sessionID SessionRef) (_retval m
 	return
 }
 
-// Return a list of all the VM_guest_metrics instances known to the system.
+// GetAll Return a list of all the VM_guest_metrics instances known to the system.
 func (_class VMGuestMetricsClass) GetAll(sessionID SessionRef) (_retval []VMGuestMetricsRef, _err error) {
 	_method := "VM_guest_metrics.get_all"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -99,7 +99,7 @@ func (_class VMGuestMetricsClass) GetAll(sessionID SessionRef) (_retval []VMGues
 	return
 }
 
-// Remove the given key and its corresponding value from the other_config field of the given VM_guest_metrics.  If the key is not in that Map, then do nothing.
+// RemoveFromOtherConfig Remove the given key and its corresponding value from the other_config field of the given VM_guest_metrics.  If the key is not in that Map, then do nothing.
 func (_class VMGuestMetricsClass) RemoveFromOtherConfig(sessionID SessionRef, self VMGuestMetricsRef, key string) (_err error) {
 	_method := "VM_guest_metrics.remove_from_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -118,7 +118,7 @@ func (_class VMGuestMetricsClass) RemoveFromOtherConfig(sessionID SessionRef, se
 	return
 }
 
-// Add the given key-value pair to the other_config field of the given VM_guest_metrics.
+// AddToOtherConfig Add the given key-value pair to the other_config field of the given VM_guest_metrics.
 func (_class VMGuestMetricsClass) AddToOtherConfig(sessionID SessionRef, self VMGuestMetricsRef, key string, value string) (_err error) {
 	_method := "VM_guest_metrics.add_to_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -141,7 +141,7 @@ func (_class VMGuestMetricsClass) AddToOtherConfig(sessionID SessionRef, self VM
 	return
 }
 
-// Set the other_config field of the given VM_guest_metrics.
+// SetOtherConfig Set the other_config field of the given VM_guest_metrics.
 func (_class VMGuestMetricsClass) SetOtherConfig(sessionID SessionRef, self VMGuestMetricsRef, value map[string]string) (_err error) {
 	_method := "VM_guest_metrics.set_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -160,7 +160,7 @@ func (_class VMGuestMetricsClass) SetOtherConfig(sessionID SessionRef, self VMGu
 	return
 }
 
-// Get the PV_drivers_detected field of the given VM_guest_metrics.
+// GetPVDriversDetected Get the PV_drivers_detected field of the given VM_guest_metrics.
 func (_class VMGuestMetricsClass) GetPVDriversDetected(sessionID SessionRef, self VMGuestMetricsRef) (_retval bool, _err error) {
 	_method := "VM_guest_metrics.get_PV_drivers_detected"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -179,7 +179,7 @@ func (_class VMGuestMetricsClass) GetPVDriversDetected(sessionID SessionRef, sel
 	return
 }
 
-// Get the can_use_hotplug_vif field of the given VM_guest_metrics.
+// GetCanUseHotplugVif Get the can_use_hotplug_vif field of the given VM_guest_metrics.
 func (_class VMGuestMetricsClass) GetCanUseHotplugVif(sessionID SessionRef, self VMGuestMetricsRef) (_retval TristateType, _err error) {
 	_method := "VM_guest_metrics.get_can_use_hotplug_vif"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -198,7 +198,7 @@ func (_class VMGuestMetricsClass) GetCanUseHotplugVif(sessionID SessionRef, self
 	return
 }
 
-// Get the can_use_hotplug_vbd field of the given VM_guest_metrics.
+// GetCanUseHotplugVbd Get the can_use_hotplug_vbd field of the given VM_guest_metrics.
 func (_class VMGuestMetricsClass) GetCanUseHotplugVbd(sessionID SessionRef, self VMGuestMetricsRef) (_retval TristateType, _err error) {
 	_method := "VM_guest_metrics.get_can_use_hotplug_vbd"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -217,7 +217,7 @@ func (_class VMGuestMetricsClass) GetCanUseHotplugVbd(sessionID SessionRef, self
 	return
 }
 
-// Get the live field of the given VM_guest_metrics.
+// GetLive Get the live field of the given VM_guest_metrics.
 func (_class VMGuestMetricsClass) GetLive(sessionID SessionRef, self VMGuestMetricsRef) (_retval bool, _err error) {
 	_method := "VM_guest_metrics.get_live"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -236,7 +236,7 @@ func (_class VMGuestMetricsClass) GetLive(sessionID SessionRef, self VMGuestMetr
 	return
 }
 
-// Get the other_config field of the given VM_guest_metrics.
+// GetOtherConfig Get the other_config field of the given VM_guest_metrics.
 func (_class VMGuestMetricsClass) GetOtherConfig(sessionID SessionRef, self VMGuestMetricsRef) (_retval map[string]string, _err error) {
 	_method := "VM_guest_metrics.get_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -255,7 +255,7 @@ func (_class VMGuestMetricsClass) GetOtherConfig(sessionID SessionRef, self VMGu
 	return
 }
 
-// Get the last_updated field of the given VM_guest_metrics.
+// GetLastUpdated Get the last_updated field of the given VM_guest_metrics.
 func (_class VMGuestMetricsClass) GetLastUpdated(sessionID SessionRef, self VMGuestMetricsRef) (_retval time.Time, _err error) {
 	_method := "VM_guest_metrics.get_last_updated"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -274,7 +274,7 @@ func (_class VMGuestMetricsClass) GetLastUpdated(sessionID SessionRef, self VMGu
 	return
 }
 
-// Get the other field of the given VM_guest_metrics.
+// GetOther Get the other field of the given VM_guest_metrics.
 func (_class VMGuestMetricsClass) GetOther(sessionID SessionRef, self VMGuestMetricsRef) (_retval map[string]string, _err error) {
 	_method := "VM_guest_metrics.get_other"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -293,7 +293,7 @@ func (_class VMGuestMetricsClass) GetOther(sessionID SessionRef, self VMGuestMet
 	return
 }
 
-// Get the networks field of the given VM_guest_metrics.
+// GetNetworks Get the networks field of the given VM_guest_metrics.
 func (_class VMGuestMetricsClass) GetNetworks(sessionID SessionRef, self VMGuestMetricsRef) (_retval map[string]string, _err error) {
 	_method := "VM_guest_metrics.get_networks"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -312,7 +312,7 @@ func (_class VMGuestMetricsClass) GetNetworks(sessionID SessionRef, self VMGuest
 	return
 }
 
-// Get the disks field of the given VM_guest_metrics.
+// GetDisks Get the disks field of the given VM_guest_metrics.
 func (_class VMGuestMetricsClass) GetDisks(sessionID SessionRef, self VMGuestMetricsRef) (_retval map[string]string, _err error) {
 	_method := "VM_guest_metrics.get_disks"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -331,7 +331,7 @@ func (_class VMGuestMetricsClass) GetDisks(sessionID SessionRef, self VMGuestMet
 	return
 }
 
-// Get the memory field of the given VM_guest_metrics.
+// GetMemory Get the memory field of the given VM_guest_metrics.
 func (_class VMGuestMetricsClass) GetMemory(sessionID SessionRef, self VMGuestMetricsRef) (_retval map[string]string, _err error) {
 	_method := "VM_guest_metrics.get_memory"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -350,7 +350,7 @@ func (_class VMGuestMetricsClass) GetMemory(sessionID SessionRef, self VMGuestMe
 	return
 }
 
-// Get the PV_drivers_up_to_date field of the given VM_guest_metrics.
+// GetPVDriversUpToDate Get the PV_drivers_up_to_date field of the given VM_guest_metrics.
 func (_class VMGuestMetricsClass) GetPVDriversUpToDate(sessionID SessionRef, self VMGuestMetricsRef) (_retval bool, _err error) {
 	_method := "VM_guest_metrics.get_PV_drivers_up_to_date"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -369,7 +369,7 @@ func (_class VMGuestMetricsClass) GetPVDriversUpToDate(sessionID SessionRef, sel
 	return
 }
 
-// Get the PV_drivers_version field of the given VM_guest_metrics.
+// GetPVDriversVersion Get the PV_drivers_version field of the given VM_guest_metrics.
 func (_class VMGuestMetricsClass) GetPVDriversVersion(sessionID SessionRef, self VMGuestMetricsRef) (_retval map[string]string, _err error) {
 	_method := "VM_guest_metrics.get_PV_drivers_version"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -388,7 +388,7 @@ func (_class VMGuestMetricsClass) GetPVDriversVersion(sessionID SessionRef, self
 	return
 }
 
-// Get the os_version field of the given VM_guest_metrics.
+// GetOSVersion Get the os_version field of the given VM_guest_metrics.
 func (_class VMGuestMetricsClass) GetOSVersion(sessionID SessionRef, self VMGuestMetricsRef) (_retval map[string]string, _err error) {
 	_method := "VM_guest_metrics.get_os_version"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -407,7 +407,7 @@ func (_class VMGuestMetricsClass) GetOSVersion(sessionID SessionRef, self VMGues
 	return
 }
 
-// Get the uuid field of the given VM_guest_metrics.
+// GetUUID Get the uuid field of the given VM_guest_metrics.
 func (_class VMGuestMetricsClass) GetUUID(sessionID SessionRef, self VMGuestMetricsRef) (_retval string, _err error) {
 	_method := "VM_guest_metrics.get_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -426,7 +426,7 @@ func (_class VMGuestMetricsClass) GetUUID(sessionID SessionRef, self VMGuestMetr
 	return
 }
 
-// Get a reference to the VM_guest_metrics instance with the specified UUID.
+// GetByUUID Get a reference to the VM_guest_metrics instance with the specified UUID.
 func (_class VMGuestMetricsClass) GetByUUID(sessionID SessionRef, uuid string) (_retval VMGuestMetricsRef, _err error) {
 	_method := "VM_guest_metrics.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -445,7 +445,7 @@ func (_class VMGuestMetricsClass) GetByUUID(sessionID SessionRef, uuid string) (
 	return
 }
 
-// Get a record containing the current state of the given VM_guest_metrics.
+// GetRecord Get a record containing the current state of the given VM_guest_metrics.
 func (_class VMGuestMetricsClass) GetRecord(sessionID SessionRef, self VMGuestMetricsRef) (_retval VMGuestMetricsRecord, _err error) {
 	_method := "VM_guest_metrics.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

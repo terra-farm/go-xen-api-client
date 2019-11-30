@@ -40,7 +40,7 @@ type TunnelClass struct {
 	client *Client
 }
 
-// Return a map of tunnel references to tunnel records for all tunnels known to the system.
+// GetAllRecords Return a map of tunnel references to tunnel records for all tunnels known to the system.
 func (_class TunnelClass) GetAllRecords(sessionID SessionRef) (_retval map[TunnelRef]TunnelRecord, _err error) {
 	_method := "tunnel.get_all_records"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -55,7 +55,7 @@ func (_class TunnelClass) GetAllRecords(sessionID SessionRef) (_retval map[Tunne
 	return
 }
 
-// Return a list of all the tunnels known to the system.
+// GetAll Return a list of all the tunnels known to the system.
 func (_class TunnelClass) GetAll(sessionID SessionRef) (_retval []TunnelRef, _err error) {
 	_method := "tunnel.get_all"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -70,7 +70,7 @@ func (_class TunnelClass) GetAll(sessionID SessionRef) (_retval []TunnelRef, _er
 	return
 }
 
-// Destroy a tunnel
+// Destroy Destroy a tunnel
 func (_class TunnelClass) Destroy(sessionID SessionRef, self TunnelRef) (_err error) {
 	_method := "tunnel.destroy"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -85,7 +85,7 @@ func (_class TunnelClass) Destroy(sessionID SessionRef, self TunnelRef) (_err er
 	return
 }
 
-// Create a tunnel
+// Create Create a tunnel
 //
 // Errors:
 //  OPENVSWITCH_NOT_ACTIVE - This operation needs the OpenVSwitch networking backend to be enabled on all hosts in the pool.
@@ -113,7 +113,7 @@ func (_class TunnelClass) Create(sessionID SessionRef, transportPIF PIFRef, netw
 	return
 }
 
-// Remove the given key and its corresponding value from the other_config field of the given tunnel.  If the key is not in that Map, then do nothing.
+// RemoveFromOtherConfig Remove the given key and its corresponding value from the other_config field of the given tunnel.  If the key is not in that Map, then do nothing.
 func (_class TunnelClass) RemoveFromOtherConfig(sessionID SessionRef, self TunnelRef, key string) (_err error) {
 	_method := "tunnel.remove_from_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -132,7 +132,7 @@ func (_class TunnelClass) RemoveFromOtherConfig(sessionID SessionRef, self Tunne
 	return
 }
 
-// Add the given key-value pair to the other_config field of the given tunnel.
+// AddToOtherConfig Add the given key-value pair to the other_config field of the given tunnel.
 func (_class TunnelClass) AddToOtherConfig(sessionID SessionRef, self TunnelRef, key string, value string) (_err error) {
 	_method := "tunnel.add_to_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -155,7 +155,7 @@ func (_class TunnelClass) AddToOtherConfig(sessionID SessionRef, self TunnelRef,
 	return
 }
 
-// Set the other_config field of the given tunnel.
+// SetOtherConfig Set the other_config field of the given tunnel.
 func (_class TunnelClass) SetOtherConfig(sessionID SessionRef, self TunnelRef, value map[string]string) (_err error) {
 	_method := "tunnel.set_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -174,7 +174,7 @@ func (_class TunnelClass) SetOtherConfig(sessionID SessionRef, self TunnelRef, v
 	return
 }
 
-// Remove the given key and its corresponding value from the status field of the given tunnel.  If the key is not in that Map, then do nothing.
+// RemoveFromStatus Remove the given key and its corresponding value from the status field of the given tunnel.  If the key is not in that Map, then do nothing.
 func (_class TunnelClass) RemoveFromStatus(sessionID SessionRef, self TunnelRef, key string) (_err error) {
 	_method := "tunnel.remove_from_status"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -193,7 +193,7 @@ func (_class TunnelClass) RemoveFromStatus(sessionID SessionRef, self TunnelRef,
 	return
 }
 
-// Add the given key-value pair to the status field of the given tunnel.
+// AddToStatus Add the given key-value pair to the status field of the given tunnel.
 func (_class TunnelClass) AddToStatus(sessionID SessionRef, self TunnelRef, key string, value string) (_err error) {
 	_method := "tunnel.add_to_status"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -216,7 +216,7 @@ func (_class TunnelClass) AddToStatus(sessionID SessionRef, self TunnelRef, key 
 	return
 }
 
-// Set the status field of the given tunnel.
+// SetStatus Set the status field of the given tunnel.
 func (_class TunnelClass) SetStatus(sessionID SessionRef, self TunnelRef, value map[string]string) (_err error) {
 	_method := "tunnel.set_status"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -235,7 +235,7 @@ func (_class TunnelClass) SetStatus(sessionID SessionRef, self TunnelRef, value 
 	return
 }
 
-// Get the other_config field of the given tunnel.
+// GetOtherConfig Get the other_config field of the given tunnel.
 func (_class TunnelClass) GetOtherConfig(sessionID SessionRef, self TunnelRef) (_retval map[string]string, _err error) {
 	_method := "tunnel.get_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -254,7 +254,7 @@ func (_class TunnelClass) GetOtherConfig(sessionID SessionRef, self TunnelRef) (
 	return
 }
 
-// Get the status field of the given tunnel.
+// GetStatus Get the status field of the given tunnel.
 func (_class TunnelClass) GetStatus(sessionID SessionRef, self TunnelRef) (_retval map[string]string, _err error) {
 	_method := "tunnel.get_status"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -273,7 +273,7 @@ func (_class TunnelClass) GetStatus(sessionID SessionRef, self TunnelRef) (_retv
 	return
 }
 
-// Get the transport_PIF field of the given tunnel.
+// GetTransportPIF Get the transport_PIF field of the given tunnel.
 func (_class TunnelClass) GetTransportPIF(sessionID SessionRef, self TunnelRef) (_retval PIFRef, _err error) {
 	_method := "tunnel.get_transport_PIF"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -292,7 +292,7 @@ func (_class TunnelClass) GetTransportPIF(sessionID SessionRef, self TunnelRef) 
 	return
 }
 
-// Get the access_PIF field of the given tunnel.
+// GetAccessPIF Get the access_PIF field of the given tunnel.
 func (_class TunnelClass) GetAccessPIF(sessionID SessionRef, self TunnelRef) (_retval PIFRef, _err error) {
 	_method := "tunnel.get_access_PIF"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -311,7 +311,7 @@ func (_class TunnelClass) GetAccessPIF(sessionID SessionRef, self TunnelRef) (_r
 	return
 }
 
-// Get the uuid field of the given tunnel.
+// GetUUID Get the uuid field of the given tunnel.
 func (_class TunnelClass) GetUUID(sessionID SessionRef, self TunnelRef) (_retval string, _err error) {
 	_method := "tunnel.get_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -330,7 +330,7 @@ func (_class TunnelClass) GetUUID(sessionID SessionRef, self TunnelRef) (_retval
 	return
 }
 
-// Get a reference to the tunnel instance with the specified UUID.
+// GetByUUID Get a reference to the tunnel instance with the specified UUID.
 func (_class TunnelClass) GetByUUID(sessionID SessionRef, uuid string) (_retval TunnelRef, _err error) {
 	_method := "tunnel.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -349,7 +349,7 @@ func (_class TunnelClass) GetByUUID(sessionID SessionRef, uuid string) (_retval 
 	return
 }
 
-// Get a record containing the current state of the given tunnel.
+// GetRecord Get a record containing the current state of the given tunnel.
 func (_class TunnelClass) GetRecord(sessionID SessionRef, self TunnelRef) (_retval TunnelRecord, _err error) {
 	_method := "tunnel.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

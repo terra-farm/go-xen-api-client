@@ -297,7 +297,7 @@ type {{ .Name|exported }}Ref string
 `
 
 const messageFuncTemplate string = `
-{{ .Message.Description|godoc }}{{ if .Message.Errors }}
+{{ .Message.Name|exported|godoc }} {{ .Message.Description }}{{ if .Message.Errors }}
 //
 // Errors:{{ range .Message.Errors }}
 //  {{ .Name }} - {{ .Doc }}{{ end }}{{ end }}

@@ -27,7 +27,7 @@ type AuthClass struct {
 	client *Client
 }
 
-// This calls queries the external directory service to obtain the transitively-closed set of groups that the the subject_identifier is member of.
+// GetGroupMembership This calls queries the external directory service to obtain the transitively-closed set of groups that the the subject_identifier is member of.
 func (_class AuthClass) GetGroupMembership(sessionID SessionRef, subjectIdentifier string) (_retval []string, _err error) {
 	_method := "auth.get_group_membership"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -46,7 +46,7 @@ func (_class AuthClass) GetGroupMembership(sessionID SessionRef, subjectIdentifi
 	return
 }
 
-// This call queries the external directory service to obtain the user information (e.g. username, organization etc) from the specified subject_identifier
+// GetSubjectInformationFromIdentifier This call queries the external directory service to obtain the user information (e.g. username, organization etc) from the specified subject_identifier
 func (_class AuthClass) GetSubjectInformationFromIdentifier(sessionID SessionRef, subjectIdentifier string) (_retval map[string]string, _err error) {
 	_method := "auth.get_subject_information_from_identifier"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -65,7 +65,7 @@ func (_class AuthClass) GetSubjectInformationFromIdentifier(sessionID SessionRef
 	return
 }
 
-// This call queries the external directory service to obtain the subject_identifier as a string from the human-readable subject_name
+// GetSubjectIdentifier This call queries the external directory service to obtain the subject_identifier as a string from the human-readable subject_name
 func (_class AuthClass) GetSubjectIdentifier(sessionID SessionRef, subjectName string) (_retval string, _err error) {
 	_method := "auth.get_subject_identifier"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

@@ -76,7 +76,7 @@ type PoolUpdateClass struct {
 	client *Client
 }
 
-// Return a map of pool_update references to pool_update records for all pool_updates known to the system.
+// GetAllRecords Return a map of pool_update references to pool_update records for all pool_updates known to the system.
 func (_class PoolUpdateClass) GetAllRecords(sessionID SessionRef) (_retval map[PoolUpdateRef]PoolUpdateRecord, _err error) {
 	_method := "pool_update.get_all_records"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -91,7 +91,7 @@ func (_class PoolUpdateClass) GetAllRecords(sessionID SessionRef) (_retval map[P
 	return
 }
 
-// Return a list of all the pool_updates known to the system.
+// GetAll Return a list of all the pool_updates known to the system.
 func (_class PoolUpdateClass) GetAll(sessionID SessionRef) (_retval []PoolUpdateRef, _err error) {
 	_method := "pool_update.get_all"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -106,7 +106,7 @@ func (_class PoolUpdateClass) GetAll(sessionID SessionRef) (_retval []PoolUpdate
 	return
 }
 
-// Removes the database entry. Only works on unapplied update.
+// Destroy Removes the database entry. Only works on unapplied update.
 func (_class PoolUpdateClass) Destroy(sessionID SessionRef, self PoolUpdateRef) (_err error) {
 	_method := "pool_update.destroy"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -121,7 +121,7 @@ func (_class PoolUpdateClass) Destroy(sessionID SessionRef, self PoolUpdateRef) 
 	return
 }
 
-// Removes the update's files from all hosts in the pool, but does not revert the update
+// PoolClean Removes the update's files from all hosts in the pool, but does not revert the update
 func (_class PoolUpdateClass) PoolClean(sessionID SessionRef, self PoolUpdateRef) (_err error) {
 	_method := "pool_update.pool_clean"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -136,7 +136,7 @@ func (_class PoolUpdateClass) PoolClean(sessionID SessionRef, self PoolUpdateRef
 	return
 }
 
-// Apply the selected update to all hosts in the pool
+// PoolApply Apply the selected update to all hosts in the pool
 func (_class PoolUpdateClass) PoolApply(sessionID SessionRef, self PoolUpdateRef) (_err error) {
 	_method := "pool_update.pool_apply"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -151,7 +151,7 @@ func (_class PoolUpdateClass) PoolApply(sessionID SessionRef, self PoolUpdateRef
 	return
 }
 
-// Apply the selected update to a host
+// Apply Apply the selected update to a host
 func (_class PoolUpdateClass) Apply(sessionID SessionRef, self PoolUpdateRef, host HostRef) (_err error) {
 	_method := "pool_update.apply"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -170,7 +170,7 @@ func (_class PoolUpdateClass) Apply(sessionID SessionRef, self PoolUpdateRef, ho
 	return
 }
 
-// Execute the precheck stage of the selected update on a host
+// Precheck Execute the precheck stage of the selected update on a host
 func (_class PoolUpdateClass) Precheck(sessionID SessionRef, self PoolUpdateRef, host HostRef) (_retval LivepatchStatus, _err error) {
 	_method := "pool_update.precheck"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -193,7 +193,7 @@ func (_class PoolUpdateClass) Precheck(sessionID SessionRef, self PoolUpdateRef,
 	return
 }
 
-// Introduce update VDI
+// Introduce Introduce update VDI
 func (_class PoolUpdateClass) Introduce(sessionID SessionRef, vdi VDIRef) (_retval PoolUpdateRef, _err error) {
 	_method := "pool_update.introduce"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -212,7 +212,7 @@ func (_class PoolUpdateClass) Introduce(sessionID SessionRef, vdi VDIRef) (_retv
 	return
 }
 
-// Remove the given key and its corresponding value from the other_config field of the given pool_update.  If the key is not in that Map, then do nothing.
+// RemoveFromOtherConfig Remove the given key and its corresponding value from the other_config field of the given pool_update.  If the key is not in that Map, then do nothing.
 func (_class PoolUpdateClass) RemoveFromOtherConfig(sessionID SessionRef, self PoolUpdateRef, key string) (_err error) {
 	_method := "pool_update.remove_from_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -231,7 +231,7 @@ func (_class PoolUpdateClass) RemoveFromOtherConfig(sessionID SessionRef, self P
 	return
 }
 
-// Add the given key-value pair to the other_config field of the given pool_update.
+// AddToOtherConfig Add the given key-value pair to the other_config field of the given pool_update.
 func (_class PoolUpdateClass) AddToOtherConfig(sessionID SessionRef, self PoolUpdateRef, key string, value string) (_err error) {
 	_method := "pool_update.add_to_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -254,7 +254,7 @@ func (_class PoolUpdateClass) AddToOtherConfig(sessionID SessionRef, self PoolUp
 	return
 }
 
-// Set the other_config field of the given pool_update.
+// SetOtherConfig Set the other_config field of the given pool_update.
 func (_class PoolUpdateClass) SetOtherConfig(sessionID SessionRef, self PoolUpdateRef, value map[string]string) (_err error) {
 	_method := "pool_update.set_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -273,7 +273,7 @@ func (_class PoolUpdateClass) SetOtherConfig(sessionID SessionRef, self PoolUpda
 	return
 }
 
-// Get the enforce_homogeneity field of the given pool_update.
+// GetEnforceHomogeneity Get the enforce_homogeneity field of the given pool_update.
 func (_class PoolUpdateClass) GetEnforceHomogeneity(sessionID SessionRef, self PoolUpdateRef) (_retval bool, _err error) {
 	_method := "pool_update.get_enforce_homogeneity"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -292,7 +292,7 @@ func (_class PoolUpdateClass) GetEnforceHomogeneity(sessionID SessionRef, self P
 	return
 }
 
-// Get the other_config field of the given pool_update.
+// GetOtherConfig Get the other_config field of the given pool_update.
 func (_class PoolUpdateClass) GetOtherConfig(sessionID SessionRef, self PoolUpdateRef) (_retval map[string]string, _err error) {
 	_method := "pool_update.get_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -311,7 +311,7 @@ func (_class PoolUpdateClass) GetOtherConfig(sessionID SessionRef, self PoolUpda
 	return
 }
 
-// Get the hosts field of the given pool_update.
+// GetHosts Get the hosts field of the given pool_update.
 func (_class PoolUpdateClass) GetHosts(sessionID SessionRef, self PoolUpdateRef) (_retval []HostRef, _err error) {
 	_method := "pool_update.get_hosts"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -330,7 +330,7 @@ func (_class PoolUpdateClass) GetHosts(sessionID SessionRef, self PoolUpdateRef)
 	return
 }
 
-// Get the vdi field of the given pool_update.
+// GetVdi Get the vdi field of the given pool_update.
 func (_class PoolUpdateClass) GetVdi(sessionID SessionRef, self PoolUpdateRef) (_retval VDIRef, _err error) {
 	_method := "pool_update.get_vdi"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -349,7 +349,7 @@ func (_class PoolUpdateClass) GetVdi(sessionID SessionRef, self PoolUpdateRef) (
 	return
 }
 
-// Get the after_apply_guidance field of the given pool_update.
+// GetAfterApplyGuidance Get the after_apply_guidance field of the given pool_update.
 func (_class PoolUpdateClass) GetAfterApplyGuidance(sessionID SessionRef, self PoolUpdateRef) (_retval []UpdateAfterApplyGuidance, _err error) {
 	_method := "pool_update.get_after_apply_guidance"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -368,7 +368,7 @@ func (_class PoolUpdateClass) GetAfterApplyGuidance(sessionID SessionRef, self P
 	return
 }
 
-// Get the key field of the given pool_update.
+// GetKey Get the key field of the given pool_update.
 func (_class PoolUpdateClass) GetKey(sessionID SessionRef, self PoolUpdateRef) (_retval string, _err error) {
 	_method := "pool_update.get_key"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -387,7 +387,7 @@ func (_class PoolUpdateClass) GetKey(sessionID SessionRef, self PoolUpdateRef) (
 	return
 }
 
-// Get the installation_size field of the given pool_update.
+// GetInstallationSize Get the installation_size field of the given pool_update.
 func (_class PoolUpdateClass) GetInstallationSize(sessionID SessionRef, self PoolUpdateRef) (_retval int, _err error) {
 	_method := "pool_update.get_installation_size"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -406,7 +406,7 @@ func (_class PoolUpdateClass) GetInstallationSize(sessionID SessionRef, self Poo
 	return
 }
 
-// Get the version field of the given pool_update.
+// GetVersion Get the version field of the given pool_update.
 func (_class PoolUpdateClass) GetVersion(sessionID SessionRef, self PoolUpdateRef) (_retval string, _err error) {
 	_method := "pool_update.get_version"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -425,7 +425,7 @@ func (_class PoolUpdateClass) GetVersion(sessionID SessionRef, self PoolUpdateRe
 	return
 }
 
-// Get the name/description field of the given pool_update.
+// GetNameDescription Get the name/description field of the given pool_update.
 func (_class PoolUpdateClass) GetNameDescription(sessionID SessionRef, self PoolUpdateRef) (_retval string, _err error) {
 	_method := "pool_update.get_name_description"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -444,7 +444,7 @@ func (_class PoolUpdateClass) GetNameDescription(sessionID SessionRef, self Pool
 	return
 }
 
-// Get the name/label field of the given pool_update.
+// GetNameLabel Get the name/label field of the given pool_update.
 func (_class PoolUpdateClass) GetNameLabel(sessionID SessionRef, self PoolUpdateRef) (_retval string, _err error) {
 	_method := "pool_update.get_name_label"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -463,7 +463,7 @@ func (_class PoolUpdateClass) GetNameLabel(sessionID SessionRef, self PoolUpdate
 	return
 }
 
-// Get the uuid field of the given pool_update.
+// GetUUID Get the uuid field of the given pool_update.
 func (_class PoolUpdateClass) GetUUID(sessionID SessionRef, self PoolUpdateRef) (_retval string, _err error) {
 	_method := "pool_update.get_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -482,7 +482,7 @@ func (_class PoolUpdateClass) GetUUID(sessionID SessionRef, self PoolUpdateRef) 
 	return
 }
 
-// Get all the pool_update instances with the given label.
+// GetByNameLabel Get all the pool_update instances with the given label.
 func (_class PoolUpdateClass) GetByNameLabel(sessionID SessionRef, label string) (_retval []PoolUpdateRef, _err error) {
 	_method := "pool_update.get_by_name_label"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -501,7 +501,7 @@ func (_class PoolUpdateClass) GetByNameLabel(sessionID SessionRef, label string)
 	return
 }
 
-// Get a reference to the pool_update instance with the specified UUID.
+// GetByUUID Get a reference to the pool_update instance with the specified UUID.
 func (_class PoolUpdateClass) GetByUUID(sessionID SessionRef, uuid string) (_retval PoolUpdateRef, _err error) {
 	_method := "pool_update.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -520,7 +520,7 @@ func (_class PoolUpdateClass) GetByUUID(sessionID SessionRef, uuid string) (_ret
 	return
 }
 
-// Get a record containing the current state of the given pool_update.
+// GetRecord Get a record containing the current state of the given pool_update.
 func (_class PoolUpdateClass) GetRecord(sessionID SessionRef, self PoolUpdateRef) (_retval PoolUpdateRecord, _err error) {
 	_method := "pool_update.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

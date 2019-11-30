@@ -126,7 +126,7 @@ type VIFClass struct {
 	client *Client
 }
 
-// Return a map of VIF references to VIF records for all VIFs known to the system.
+// GetAllRecords Return a map of VIF references to VIF records for all VIFs known to the system.
 func (_class VIFClass) GetAllRecords(sessionID SessionRef) (_retval map[VIFRef]VIFRecord, _err error) {
 	_method := "VIF.get_all_records"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -141,7 +141,7 @@ func (_class VIFClass) GetAllRecords(sessionID SessionRef) (_retval map[VIFRef]V
 	return
 }
 
-// Return a list of all the VIFs known to the system.
+// GetAll Return a list of all the VIFs known to the system.
 func (_class VIFClass) GetAll(sessionID SessionRef) (_retval []VIFRef, _err error) {
 	_method := "VIF.get_all"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -156,7 +156,7 @@ func (_class VIFClass) GetAll(sessionID SessionRef) (_retval []VIFRef, _err erro
 	return
 }
 
-// Configure IPv6 settings for this virtual interface
+// ConfigureIpv6 Configure IPv6 settings for this virtual interface
 func (_class VIFClass) ConfigureIpv6(sessionID SessionRef, self VIFRef, mode VifIpv6ConfigurationMode, address string, gateway string) (_err error) {
 	_method := "VIF.configure_ipv6"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -183,7 +183,7 @@ func (_class VIFClass) ConfigureIpv6(sessionID SessionRef, self VIFRef, mode Vif
 	return
 }
 
-// Configure IPv4 settings for this virtual interface
+// ConfigureIpv4 Configure IPv4 settings for this virtual interface
 func (_class VIFClass) ConfigureIpv4(sessionID SessionRef, self VIFRef, mode VifIpv4ConfigurationMode, address string, gateway string) (_err error) {
 	_method := "VIF.configure_ipv4"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -210,7 +210,7 @@ func (_class VIFClass) ConfigureIpv4(sessionID SessionRef, self VIFRef, mode Vif
 	return
 }
 
-// Removes an IPv6 address from this VIF
+// RemoveIpv6Allowed Removes an IPv6 address from this VIF
 func (_class VIFClass) RemoveIpv6Allowed(sessionID SessionRef, self VIFRef, value string) (_err error) {
 	_method := "VIF.remove_ipv6_allowed"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -229,7 +229,7 @@ func (_class VIFClass) RemoveIpv6Allowed(sessionID SessionRef, self VIFRef, valu
 	return
 }
 
-// Associates an IPv6 address with this VIF
+// AddIpv6Allowed Associates an IPv6 address with this VIF
 func (_class VIFClass) AddIpv6Allowed(sessionID SessionRef, self VIFRef, value string) (_err error) {
 	_method := "VIF.add_ipv6_allowed"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -248,7 +248,7 @@ func (_class VIFClass) AddIpv6Allowed(sessionID SessionRef, self VIFRef, value s
 	return
 }
 
-// Set the IPv6 addresses to which traffic on this VIF can be restricted
+// SetIpv6Allowed Set the IPv6 addresses to which traffic on this VIF can be restricted
 func (_class VIFClass) SetIpv6Allowed(sessionID SessionRef, self VIFRef, value []string) (_err error) {
 	_method := "VIF.set_ipv6_allowed"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -267,7 +267,7 @@ func (_class VIFClass) SetIpv6Allowed(sessionID SessionRef, self VIFRef, value [
 	return
 }
 
-// Removes an IPv4 address from this VIF
+// RemoveIpv4Allowed Removes an IPv4 address from this VIF
 func (_class VIFClass) RemoveIpv4Allowed(sessionID SessionRef, self VIFRef, value string) (_err error) {
 	_method := "VIF.remove_ipv4_allowed"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -286,7 +286,7 @@ func (_class VIFClass) RemoveIpv4Allowed(sessionID SessionRef, self VIFRef, valu
 	return
 }
 
-// Associates an IPv4 address with this VIF
+// AddIpv4Allowed Associates an IPv4 address with this VIF
 func (_class VIFClass) AddIpv4Allowed(sessionID SessionRef, self VIFRef, value string) (_err error) {
 	_method := "VIF.add_ipv4_allowed"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -305,7 +305,7 @@ func (_class VIFClass) AddIpv4Allowed(sessionID SessionRef, self VIFRef, value s
 	return
 }
 
-// Set the IPv4 addresses to which traffic on this VIF can be restricted
+// SetIpv4Allowed Set the IPv4 addresses to which traffic on this VIF can be restricted
 func (_class VIFClass) SetIpv4Allowed(sessionID SessionRef, self VIFRef, value []string) (_err error) {
 	_method := "VIF.set_ipv4_allowed"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -324,7 +324,7 @@ func (_class VIFClass) SetIpv4Allowed(sessionID SessionRef, self VIFRef, value [
 	return
 }
 
-// Set the locking mode for this VIF
+// SetLockingMode Set the locking mode for this VIF
 func (_class VIFClass) SetLockingMode(sessionID SessionRef, self VIFRef, value VifLockingMode) (_err error) {
 	_method := "VIF.set_locking_mode"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -343,7 +343,7 @@ func (_class VIFClass) SetLockingMode(sessionID SessionRef, self VIFRef, value V
 	return
 }
 
-// Move the specified VIF to the specified network, even while the VM is running
+// Move Move the specified VIF to the specified network, even while the VM is running
 func (_class VIFClass) Move(sessionID SessionRef, self VIFRef, network NetworkRef) (_err error) {
 	_method := "VIF.move"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -362,7 +362,7 @@ func (_class VIFClass) Move(sessionID SessionRef, self VIFRef, network NetworkRe
 	return
 }
 
-// Forcibly unplug the specified VIF
+// UnplugForce Forcibly unplug the specified VIF
 func (_class VIFClass) UnplugForce(sessionID SessionRef, self VIFRef) (_err error) {
 	_method := "VIF.unplug_force"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -377,7 +377,7 @@ func (_class VIFClass) UnplugForce(sessionID SessionRef, self VIFRef) (_err erro
 	return
 }
 
-// Hot-unplug the specified VIF, dynamically unattaching it from the running VM
+// Unplug Hot-unplug the specified VIF, dynamically unattaching it from the running VM
 func (_class VIFClass) Unplug(sessionID SessionRef, self VIFRef) (_err error) {
 	_method := "VIF.unplug"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -392,7 +392,7 @@ func (_class VIFClass) Unplug(sessionID SessionRef, self VIFRef) (_err error) {
 	return
 }
 
-// Hotplug the specified VIF, dynamically attaching it to the running VM
+// Plug Hotplug the specified VIF, dynamically attaching it to the running VM
 func (_class VIFClass) Plug(sessionID SessionRef, self VIFRef) (_err error) {
 	_method := "VIF.plug"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -407,7 +407,7 @@ func (_class VIFClass) Plug(sessionID SessionRef, self VIFRef) (_err error) {
 	return
 }
 
-// Remove the given key and its corresponding value from the qos/algorithm_params field of the given VIF.  If the key is not in that Map, then do nothing.
+// RemoveFromQosAlgorithmParams Remove the given key and its corresponding value from the qos/algorithm_params field of the given VIF.  If the key is not in that Map, then do nothing.
 func (_class VIFClass) RemoveFromQosAlgorithmParams(sessionID SessionRef, self VIFRef, key string) (_err error) {
 	_method := "VIF.remove_from_qos_algorithm_params"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -426,7 +426,7 @@ func (_class VIFClass) RemoveFromQosAlgorithmParams(sessionID SessionRef, self V
 	return
 }
 
-// Add the given key-value pair to the qos/algorithm_params field of the given VIF.
+// AddToQosAlgorithmParams Add the given key-value pair to the qos/algorithm_params field of the given VIF.
 func (_class VIFClass) AddToQosAlgorithmParams(sessionID SessionRef, self VIFRef, key string, value string) (_err error) {
 	_method := "VIF.add_to_qos_algorithm_params"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -449,7 +449,7 @@ func (_class VIFClass) AddToQosAlgorithmParams(sessionID SessionRef, self VIFRef
 	return
 }
 
-// Set the qos/algorithm_params field of the given VIF.
+// SetQosAlgorithmParams Set the qos/algorithm_params field of the given VIF.
 func (_class VIFClass) SetQosAlgorithmParams(sessionID SessionRef, self VIFRef, value map[string]string) (_err error) {
 	_method := "VIF.set_qos_algorithm_params"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -468,7 +468,7 @@ func (_class VIFClass) SetQosAlgorithmParams(sessionID SessionRef, self VIFRef, 
 	return
 }
 
-// Set the qos/algorithm_type field of the given VIF.
+// SetQosAlgorithmType Set the qos/algorithm_type field of the given VIF.
 func (_class VIFClass) SetQosAlgorithmType(sessionID SessionRef, self VIFRef, value string) (_err error) {
 	_method := "VIF.set_qos_algorithm_type"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -487,7 +487,7 @@ func (_class VIFClass) SetQosAlgorithmType(sessionID SessionRef, self VIFRef, va
 	return
 }
 
-// Remove the given key and its corresponding value from the other_config field of the given VIF.  If the key is not in that Map, then do nothing.
+// RemoveFromOtherConfig Remove the given key and its corresponding value from the other_config field of the given VIF.  If the key is not in that Map, then do nothing.
 func (_class VIFClass) RemoveFromOtherConfig(sessionID SessionRef, self VIFRef, key string) (_err error) {
 	_method := "VIF.remove_from_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -506,7 +506,7 @@ func (_class VIFClass) RemoveFromOtherConfig(sessionID SessionRef, self VIFRef, 
 	return
 }
 
-// Add the given key-value pair to the other_config field of the given VIF.
+// AddToOtherConfig Add the given key-value pair to the other_config field of the given VIF.
 func (_class VIFClass) AddToOtherConfig(sessionID SessionRef, self VIFRef, key string, value string) (_err error) {
 	_method := "VIF.add_to_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -529,7 +529,7 @@ func (_class VIFClass) AddToOtherConfig(sessionID SessionRef, self VIFRef, key s
 	return
 }
 
-// Set the other_config field of the given VIF.
+// SetOtherConfig Set the other_config field of the given VIF.
 func (_class VIFClass) SetOtherConfig(sessionID SessionRef, self VIFRef, value map[string]string) (_err error) {
 	_method := "VIF.set_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -548,7 +548,7 @@ func (_class VIFClass) SetOtherConfig(sessionID SessionRef, self VIFRef, value m
 	return
 }
 
-// Get the ipv6_gateway field of the given VIF.
+// GetIpv6Gateway Get the ipv6_gateway field of the given VIF.
 func (_class VIFClass) GetIpv6Gateway(sessionID SessionRef, self VIFRef) (_retval string, _err error) {
 	_method := "VIF.get_ipv6_gateway"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -567,7 +567,7 @@ func (_class VIFClass) GetIpv6Gateway(sessionID SessionRef, self VIFRef) (_retva
 	return
 }
 
-// Get the ipv6_addresses field of the given VIF.
+// GetIpv6Addresses Get the ipv6_addresses field of the given VIF.
 func (_class VIFClass) GetIpv6Addresses(sessionID SessionRef, self VIFRef) (_retval []string, _err error) {
 	_method := "VIF.get_ipv6_addresses"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -586,7 +586,7 @@ func (_class VIFClass) GetIpv6Addresses(sessionID SessionRef, self VIFRef) (_ret
 	return
 }
 
-// Get the ipv6_configuration_mode field of the given VIF.
+// GetIpv6ConfigurationMode Get the ipv6_configuration_mode field of the given VIF.
 func (_class VIFClass) GetIpv6ConfigurationMode(sessionID SessionRef, self VIFRef) (_retval VifIpv6ConfigurationMode, _err error) {
 	_method := "VIF.get_ipv6_configuration_mode"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -605,7 +605,7 @@ func (_class VIFClass) GetIpv6ConfigurationMode(sessionID SessionRef, self VIFRe
 	return
 }
 
-// Get the ipv4_gateway field of the given VIF.
+// GetIpv4Gateway Get the ipv4_gateway field of the given VIF.
 func (_class VIFClass) GetIpv4Gateway(sessionID SessionRef, self VIFRef) (_retval string, _err error) {
 	_method := "VIF.get_ipv4_gateway"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -624,7 +624,7 @@ func (_class VIFClass) GetIpv4Gateway(sessionID SessionRef, self VIFRef) (_retva
 	return
 }
 
-// Get the ipv4_addresses field of the given VIF.
+// GetIpv4Addresses Get the ipv4_addresses field of the given VIF.
 func (_class VIFClass) GetIpv4Addresses(sessionID SessionRef, self VIFRef) (_retval []string, _err error) {
 	_method := "VIF.get_ipv4_addresses"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -643,7 +643,7 @@ func (_class VIFClass) GetIpv4Addresses(sessionID SessionRef, self VIFRef) (_ret
 	return
 }
 
-// Get the ipv4_configuration_mode field of the given VIF.
+// GetIpv4ConfigurationMode Get the ipv4_configuration_mode field of the given VIF.
 func (_class VIFClass) GetIpv4ConfigurationMode(sessionID SessionRef, self VIFRef) (_retval VifIpv4ConfigurationMode, _err error) {
 	_method := "VIF.get_ipv4_configuration_mode"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -662,7 +662,7 @@ func (_class VIFClass) GetIpv4ConfigurationMode(sessionID SessionRef, self VIFRe
 	return
 }
 
-// Get the ipv6_allowed field of the given VIF.
+// GetIpv6Allowed Get the ipv6_allowed field of the given VIF.
 func (_class VIFClass) GetIpv6Allowed(sessionID SessionRef, self VIFRef) (_retval []string, _err error) {
 	_method := "VIF.get_ipv6_allowed"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -681,7 +681,7 @@ func (_class VIFClass) GetIpv6Allowed(sessionID SessionRef, self VIFRef) (_retva
 	return
 }
 
-// Get the ipv4_allowed field of the given VIF.
+// GetIpv4Allowed Get the ipv4_allowed field of the given VIF.
 func (_class VIFClass) GetIpv4Allowed(sessionID SessionRef, self VIFRef) (_retval []string, _err error) {
 	_method := "VIF.get_ipv4_allowed"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -700,7 +700,7 @@ func (_class VIFClass) GetIpv4Allowed(sessionID SessionRef, self VIFRef) (_retva
 	return
 }
 
-// Get the locking_mode field of the given VIF.
+// GetLockingMode Get the locking_mode field of the given VIF.
 func (_class VIFClass) GetLockingMode(sessionID SessionRef, self VIFRef) (_retval VifLockingMode, _err error) {
 	_method := "VIF.get_locking_mode"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -719,7 +719,7 @@ func (_class VIFClass) GetLockingMode(sessionID SessionRef, self VIFRef) (_retva
 	return
 }
 
-// Get the MAC_autogenerated field of the given VIF.
+// GetMACAutogenerated Get the MAC_autogenerated field of the given VIF.
 func (_class VIFClass) GetMACAutogenerated(sessionID SessionRef, self VIFRef) (_retval bool, _err error) {
 	_method := "VIF.get_MAC_autogenerated"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -738,7 +738,7 @@ func (_class VIFClass) GetMACAutogenerated(sessionID SessionRef, self VIFRef) (_
 	return
 }
 
-// Get the metrics field of the given VIF.
+// GetMetrics Get the metrics field of the given VIF.
 func (_class VIFClass) GetMetrics(sessionID SessionRef, self VIFRef) (_retval VIFMetricsRef, _err error) {
 	_method := "VIF.get_metrics"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -757,7 +757,7 @@ func (_class VIFClass) GetMetrics(sessionID SessionRef, self VIFRef) (_retval VI
 	return
 }
 
-// Get the qos/supported_algorithms field of the given VIF.
+// GetQosSupportedAlgorithms Get the qos/supported_algorithms field of the given VIF.
 func (_class VIFClass) GetQosSupportedAlgorithms(sessionID SessionRef, self VIFRef) (_retval []string, _err error) {
 	_method := "VIF.get_qos_supported_algorithms"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -776,7 +776,7 @@ func (_class VIFClass) GetQosSupportedAlgorithms(sessionID SessionRef, self VIFR
 	return
 }
 
-// Get the qos/algorithm_params field of the given VIF.
+// GetQosAlgorithmParams Get the qos/algorithm_params field of the given VIF.
 func (_class VIFClass) GetQosAlgorithmParams(sessionID SessionRef, self VIFRef) (_retval map[string]string, _err error) {
 	_method := "VIF.get_qos_algorithm_params"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -795,7 +795,7 @@ func (_class VIFClass) GetQosAlgorithmParams(sessionID SessionRef, self VIFRef) 
 	return
 }
 
-// Get the qos/algorithm_type field of the given VIF.
+// GetQosAlgorithmType Get the qos/algorithm_type field of the given VIF.
 func (_class VIFClass) GetQosAlgorithmType(sessionID SessionRef, self VIFRef) (_retval string, _err error) {
 	_method := "VIF.get_qos_algorithm_type"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -814,7 +814,7 @@ func (_class VIFClass) GetQosAlgorithmType(sessionID SessionRef, self VIFRef) (_
 	return
 }
 
-// Get the runtime_properties field of the given VIF.
+// GetRuntimeProperties Get the runtime_properties field of the given VIF.
 func (_class VIFClass) GetRuntimeProperties(sessionID SessionRef, self VIFRef) (_retval map[string]string, _err error) {
 	_method := "VIF.get_runtime_properties"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -833,7 +833,7 @@ func (_class VIFClass) GetRuntimeProperties(sessionID SessionRef, self VIFRef) (
 	return
 }
 
-// Get the status_detail field of the given VIF.
+// GetStatusDetail Get the status_detail field of the given VIF.
 func (_class VIFClass) GetStatusDetail(sessionID SessionRef, self VIFRef) (_retval string, _err error) {
 	_method := "VIF.get_status_detail"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -852,7 +852,7 @@ func (_class VIFClass) GetStatusDetail(sessionID SessionRef, self VIFRef) (_retv
 	return
 }
 
-// Get the status_code field of the given VIF.
+// GetStatusCode Get the status_code field of the given VIF.
 func (_class VIFClass) GetStatusCode(sessionID SessionRef, self VIFRef) (_retval int, _err error) {
 	_method := "VIF.get_status_code"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -871,7 +871,7 @@ func (_class VIFClass) GetStatusCode(sessionID SessionRef, self VIFRef) (_retval
 	return
 }
 
-// Get the currently_attached field of the given VIF.
+// GetCurrentlyAttached Get the currently_attached field of the given VIF.
 func (_class VIFClass) GetCurrentlyAttached(sessionID SessionRef, self VIFRef) (_retval bool, _err error) {
 	_method := "VIF.get_currently_attached"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -890,7 +890,7 @@ func (_class VIFClass) GetCurrentlyAttached(sessionID SessionRef, self VIFRef) (
 	return
 }
 
-// Get the other_config field of the given VIF.
+// GetOtherConfig Get the other_config field of the given VIF.
 func (_class VIFClass) GetOtherConfig(sessionID SessionRef, self VIFRef) (_retval map[string]string, _err error) {
 	_method := "VIF.get_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -909,7 +909,7 @@ func (_class VIFClass) GetOtherConfig(sessionID SessionRef, self VIFRef) (_retva
 	return
 }
 
-// Get the MTU field of the given VIF.
+// GetMTU Get the MTU field of the given VIF.
 func (_class VIFClass) GetMTU(sessionID SessionRef, self VIFRef) (_retval int, _err error) {
 	_method := "VIF.get_MTU"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -928,7 +928,7 @@ func (_class VIFClass) GetMTU(sessionID SessionRef, self VIFRef) (_retval int, _
 	return
 }
 
-// Get the MAC field of the given VIF.
+// GetMAC Get the MAC field of the given VIF.
 func (_class VIFClass) GetMAC(sessionID SessionRef, self VIFRef) (_retval string, _err error) {
 	_method := "VIF.get_MAC"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -947,7 +947,7 @@ func (_class VIFClass) GetMAC(sessionID SessionRef, self VIFRef) (_retval string
 	return
 }
 
-// Get the VM field of the given VIF.
+// GetVM Get the VM field of the given VIF.
 func (_class VIFClass) GetVM(sessionID SessionRef, self VIFRef) (_retval VMRef, _err error) {
 	_method := "VIF.get_VM"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -966,7 +966,7 @@ func (_class VIFClass) GetVM(sessionID SessionRef, self VIFRef) (_retval VMRef, 
 	return
 }
 
-// Get the network field of the given VIF.
+// GetNetwork Get the network field of the given VIF.
 func (_class VIFClass) GetNetwork(sessionID SessionRef, self VIFRef) (_retval NetworkRef, _err error) {
 	_method := "VIF.get_network"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -985,7 +985,7 @@ func (_class VIFClass) GetNetwork(sessionID SessionRef, self VIFRef) (_retval Ne
 	return
 }
 
-// Get the device field of the given VIF.
+// GetDevice Get the device field of the given VIF.
 func (_class VIFClass) GetDevice(sessionID SessionRef, self VIFRef) (_retval string, _err error) {
 	_method := "VIF.get_device"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1004,7 +1004,7 @@ func (_class VIFClass) GetDevice(sessionID SessionRef, self VIFRef) (_retval str
 	return
 }
 
-// Get the current_operations field of the given VIF.
+// GetCurrentOperations Get the current_operations field of the given VIF.
 func (_class VIFClass) GetCurrentOperations(sessionID SessionRef, self VIFRef) (_retval map[string]VifOperations, _err error) {
 	_method := "VIF.get_current_operations"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1023,7 +1023,7 @@ func (_class VIFClass) GetCurrentOperations(sessionID SessionRef, self VIFRef) (
 	return
 }
 
-// Get the allowed_operations field of the given VIF.
+// GetAllowedOperations Get the allowed_operations field of the given VIF.
 func (_class VIFClass) GetAllowedOperations(sessionID SessionRef, self VIFRef) (_retval []VifOperations, _err error) {
 	_method := "VIF.get_allowed_operations"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1042,7 +1042,7 @@ func (_class VIFClass) GetAllowedOperations(sessionID SessionRef, self VIFRef) (
 	return
 }
 
-// Get the uuid field of the given VIF.
+// GetUUID Get the uuid field of the given VIF.
 func (_class VIFClass) GetUUID(sessionID SessionRef, self VIFRef) (_retval string, _err error) {
 	_method := "VIF.get_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1061,7 +1061,7 @@ func (_class VIFClass) GetUUID(sessionID SessionRef, self VIFRef) (_retval strin
 	return
 }
 
-// Destroy the specified VIF instance.
+// Destroy Destroy the specified VIF instance.
 func (_class VIFClass) Destroy(sessionID SessionRef, self VIFRef) (_err error) {
 	_method := "VIF.destroy"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1076,8 +1076,8 @@ func (_class VIFClass) Destroy(sessionID SessionRef, self VIFRef) (_err error) {
 	return
 }
 
-// Create a new VIF instance, and return its handle.
-// The constructor args are: device*, network*, VM*, MAC*, MTU*, other_config*, qos_algorithm_type*, qos_algorithm_params*, locking_mode, ipv4_allowed, ipv6_allowed (* = non-optional).
+// Create Create a new VIF instance, and return its handle.
+The constructor args are: device*, network*, VM*, MAC*, MTU*, other_config*, qos_algorithm_type*, qos_algorithm_params*, locking_mode, ipv4_allowed, ipv6_allowed (* = non-optional).
 func (_class VIFClass) Create(sessionID SessionRef, args VIFRecord) (_retval VIFRef, _err error) {
 	_method := "VIF.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1096,7 +1096,7 @@ func (_class VIFClass) Create(sessionID SessionRef, args VIFRecord) (_retval VIF
 	return
 }
 
-// Get a reference to the VIF instance with the specified UUID.
+// GetByUUID Get a reference to the VIF instance with the specified UUID.
 func (_class VIFClass) GetByUUID(sessionID SessionRef, uuid string) (_retval VIFRef, _err error) {
 	_method := "VIF.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1115,7 +1115,7 @@ func (_class VIFClass) GetByUUID(sessionID SessionRef, uuid string) (_retval VIF
 	return
 }
 
-// Get a record containing the current state of the given VIF.
+// GetRecord Get a record containing the current state of the given VIF.
 func (_class VIFClass) GetRecord(sessionID SessionRef, self VIFRef) (_retval VIFRecord, _err error) {
 	_method := "VIF.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

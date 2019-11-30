@@ -56,7 +56,7 @@ type PUSBClass struct {
 	client *Client
 }
 
-// Return a map of PUSB references to PUSB records for all PUSBs known to the system.
+// GetAllRecords Return a map of PUSB references to PUSB records for all PUSBs known to the system.
 func (_class PUSBClass) GetAllRecords(sessionID SessionRef) (_retval map[PUSBRef]PUSBRecord, _err error) {
 	_method := "PUSB.get_all_records"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -71,7 +71,7 @@ func (_class PUSBClass) GetAllRecords(sessionID SessionRef) (_retval map[PUSBRef
 	return
 }
 
-// Return a list of all the PUSBs known to the system.
+// GetAll Return a list of all the PUSBs known to the system.
 func (_class PUSBClass) GetAll(sessionID SessionRef) (_retval []PUSBRef, _err error) {
 	_method := "PUSB.get_all"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -86,7 +86,7 @@ func (_class PUSBClass) GetAll(sessionID SessionRef) (_retval []PUSBRef, _err er
 	return
 }
 
-// 
+// SetPassthroughEnabled 
 func (_class PUSBClass) SetPassthroughEnabled(sessionID SessionRef, self PUSBRef, value bool) (_err error) {
 	_method := "PUSB.set_passthrough_enabled"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -105,7 +105,7 @@ func (_class PUSBClass) SetPassthroughEnabled(sessionID SessionRef, self PUSBRef
 	return
 }
 
-// 
+// Scan 
 func (_class PUSBClass) Scan(sessionID SessionRef, host HostRef) (_err error) {
 	_method := "PUSB.scan"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -120,7 +120,7 @@ func (_class PUSBClass) Scan(sessionID SessionRef, host HostRef) (_err error) {
 	return
 }
 
-// Remove the given key and its corresponding value from the other_config field of the given PUSB.  If the key is not in that Map, then do nothing.
+// RemoveFromOtherConfig Remove the given key and its corresponding value from the other_config field of the given PUSB.  If the key is not in that Map, then do nothing.
 func (_class PUSBClass) RemoveFromOtherConfig(sessionID SessionRef, self PUSBRef, key string) (_err error) {
 	_method := "PUSB.remove_from_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -139,7 +139,7 @@ func (_class PUSBClass) RemoveFromOtherConfig(sessionID SessionRef, self PUSBRef
 	return
 }
 
-// Add the given key-value pair to the other_config field of the given PUSB.
+// AddToOtherConfig Add the given key-value pair to the other_config field of the given PUSB.
 func (_class PUSBClass) AddToOtherConfig(sessionID SessionRef, self PUSBRef, key string, value string) (_err error) {
 	_method := "PUSB.add_to_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -162,7 +162,7 @@ func (_class PUSBClass) AddToOtherConfig(sessionID SessionRef, self PUSBRef, key
 	return
 }
 
-// Set the other_config field of the given PUSB.
+// SetOtherConfig Set the other_config field of the given PUSB.
 func (_class PUSBClass) SetOtherConfig(sessionID SessionRef, self PUSBRef, value map[string]string) (_err error) {
 	_method := "PUSB.set_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -181,7 +181,7 @@ func (_class PUSBClass) SetOtherConfig(sessionID SessionRef, self PUSBRef, value
 	return
 }
 
-// Get the other_config field of the given PUSB.
+// GetOtherConfig Get the other_config field of the given PUSB.
 func (_class PUSBClass) GetOtherConfig(sessionID SessionRef, self PUSBRef) (_retval map[string]string, _err error) {
 	_method := "PUSB.get_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -200,7 +200,7 @@ func (_class PUSBClass) GetOtherConfig(sessionID SessionRef, self PUSBRef) (_ret
 	return
 }
 
-// Get the passthrough_enabled field of the given PUSB.
+// GetPassthroughEnabled Get the passthrough_enabled field of the given PUSB.
 func (_class PUSBClass) GetPassthroughEnabled(sessionID SessionRef, self PUSBRef) (_retval bool, _err error) {
 	_method := "PUSB.get_passthrough_enabled"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -219,7 +219,7 @@ func (_class PUSBClass) GetPassthroughEnabled(sessionID SessionRef, self PUSBRef
 	return
 }
 
-// Get the description field of the given PUSB.
+// GetDescription Get the description field of the given PUSB.
 func (_class PUSBClass) GetDescription(sessionID SessionRef, self PUSBRef) (_retval string, _err error) {
 	_method := "PUSB.get_description"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -238,7 +238,7 @@ func (_class PUSBClass) GetDescription(sessionID SessionRef, self PUSBRef) (_ret
 	return
 }
 
-// Get the version field of the given PUSB.
+// GetVersion Get the version field of the given PUSB.
 func (_class PUSBClass) GetVersion(sessionID SessionRef, self PUSBRef) (_retval string, _err error) {
 	_method := "PUSB.get_version"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -257,7 +257,7 @@ func (_class PUSBClass) GetVersion(sessionID SessionRef, self PUSBRef) (_retval 
 	return
 }
 
-// Get the serial field of the given PUSB.
+// GetSerial Get the serial field of the given PUSB.
 func (_class PUSBClass) GetSerial(sessionID SessionRef, self PUSBRef) (_retval string, _err error) {
 	_method := "PUSB.get_serial"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -276,7 +276,7 @@ func (_class PUSBClass) GetSerial(sessionID SessionRef, self PUSBRef) (_retval s
 	return
 }
 
-// Get the product_desc field of the given PUSB.
+// GetProductDesc Get the product_desc field of the given PUSB.
 func (_class PUSBClass) GetProductDesc(sessionID SessionRef, self PUSBRef) (_retval string, _err error) {
 	_method := "PUSB.get_product_desc"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -295,7 +295,7 @@ func (_class PUSBClass) GetProductDesc(sessionID SessionRef, self PUSBRef) (_ret
 	return
 }
 
-// Get the product_id field of the given PUSB.
+// GetProductID Get the product_id field of the given PUSB.
 func (_class PUSBClass) GetProductID(sessionID SessionRef, self PUSBRef) (_retval string, _err error) {
 	_method := "PUSB.get_product_id"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -314,7 +314,7 @@ func (_class PUSBClass) GetProductID(sessionID SessionRef, self PUSBRef) (_retva
 	return
 }
 
-// Get the vendor_desc field of the given PUSB.
+// GetVendorDesc Get the vendor_desc field of the given PUSB.
 func (_class PUSBClass) GetVendorDesc(sessionID SessionRef, self PUSBRef) (_retval string, _err error) {
 	_method := "PUSB.get_vendor_desc"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -333,7 +333,7 @@ func (_class PUSBClass) GetVendorDesc(sessionID SessionRef, self PUSBRef) (_retv
 	return
 }
 
-// Get the vendor_id field of the given PUSB.
+// GetVendorID Get the vendor_id field of the given PUSB.
 func (_class PUSBClass) GetVendorID(sessionID SessionRef, self PUSBRef) (_retval string, _err error) {
 	_method := "PUSB.get_vendor_id"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -352,7 +352,7 @@ func (_class PUSBClass) GetVendorID(sessionID SessionRef, self PUSBRef) (_retval
 	return
 }
 
-// Get the path field of the given PUSB.
+// GetPath Get the path field of the given PUSB.
 func (_class PUSBClass) GetPath(sessionID SessionRef, self PUSBRef) (_retval string, _err error) {
 	_method := "PUSB.get_path"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -371,7 +371,7 @@ func (_class PUSBClass) GetPath(sessionID SessionRef, self PUSBRef) (_retval str
 	return
 }
 
-// Get the host field of the given PUSB.
+// GetHost Get the host field of the given PUSB.
 func (_class PUSBClass) GetHost(sessionID SessionRef, self PUSBRef) (_retval HostRef, _err error) {
 	_method := "PUSB.get_host"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -390,7 +390,7 @@ func (_class PUSBClass) GetHost(sessionID SessionRef, self PUSBRef) (_retval Hos
 	return
 }
 
-// Get the USB_group field of the given PUSB.
+// GetUSBGroup Get the USB_group field of the given PUSB.
 func (_class PUSBClass) GetUSBGroup(sessionID SessionRef, self PUSBRef) (_retval USBGroupRef, _err error) {
 	_method := "PUSB.get_USB_group"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -409,7 +409,7 @@ func (_class PUSBClass) GetUSBGroup(sessionID SessionRef, self PUSBRef) (_retval
 	return
 }
 
-// Get the uuid field of the given PUSB.
+// GetUUID Get the uuid field of the given PUSB.
 func (_class PUSBClass) GetUUID(sessionID SessionRef, self PUSBRef) (_retval string, _err error) {
 	_method := "PUSB.get_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -428,7 +428,7 @@ func (_class PUSBClass) GetUUID(sessionID SessionRef, self PUSBRef) (_retval str
 	return
 }
 
-// Get a reference to the PUSB instance with the specified UUID.
+// GetByUUID Get a reference to the PUSB instance with the specified UUID.
 func (_class PUSBClass) GetByUUID(sessionID SessionRef, uuid string) (_retval PUSBRef, _err error) {
 	_method := "PUSB.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -447,7 +447,7 @@ func (_class PUSBClass) GetByUUID(sessionID SessionRef, uuid string) (_retval PU
 	return
 }
 
-// Get a record containing the current state of the given PUSB.
+// GetRecord Get a record containing the current state of the given PUSB.
 func (_class PUSBClass) GetRecord(sessionID SessionRef, self PUSBRef) (_retval PUSBRecord, _err error) {
 	_method := "PUSB.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

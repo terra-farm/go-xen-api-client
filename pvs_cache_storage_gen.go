@@ -42,7 +42,7 @@ type PVSCacheStorageClass struct {
 	client *Client
 }
 
-// Return a map of PVS_cache_storage references to PVS_cache_storage records for all PVS_cache_storages known to the system.
+// GetAllRecords Return a map of PVS_cache_storage references to PVS_cache_storage records for all PVS_cache_storages known to the system.
 func (_class PVSCacheStorageClass) GetAllRecords(sessionID SessionRef) (_retval map[PVSCacheStorageRef]PVSCacheStorageRecord, _err error) {
 	_method := "PVS_cache_storage.get_all_records"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -57,7 +57,7 @@ func (_class PVSCacheStorageClass) GetAllRecords(sessionID SessionRef) (_retval 
 	return
 }
 
-// Return a list of all the PVS_cache_storages known to the system.
+// GetAll Return a list of all the PVS_cache_storages known to the system.
 func (_class PVSCacheStorageClass) GetAll(sessionID SessionRef) (_retval []PVSCacheStorageRef, _err error) {
 	_method := "PVS_cache_storage.get_all"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -72,7 +72,7 @@ func (_class PVSCacheStorageClass) GetAll(sessionID SessionRef) (_retval []PVSCa
 	return
 }
 
-// Get the VDI field of the given PVS_cache_storage.
+// GetVDI Get the VDI field of the given PVS_cache_storage.
 func (_class PVSCacheStorageClass) GetVDI(sessionID SessionRef, self PVSCacheStorageRef) (_retval VDIRef, _err error) {
 	_method := "PVS_cache_storage.get_VDI"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -91,7 +91,7 @@ func (_class PVSCacheStorageClass) GetVDI(sessionID SessionRef, self PVSCacheSto
 	return
 }
 
-// Get the size field of the given PVS_cache_storage.
+// GetSize Get the size field of the given PVS_cache_storage.
 func (_class PVSCacheStorageClass) GetSize(sessionID SessionRef, self PVSCacheStorageRef) (_retval int, _err error) {
 	_method := "PVS_cache_storage.get_size"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -110,7 +110,7 @@ func (_class PVSCacheStorageClass) GetSize(sessionID SessionRef, self PVSCacheSt
 	return
 }
 
-// Get the site field of the given PVS_cache_storage.
+// GetSite Get the site field of the given PVS_cache_storage.
 func (_class PVSCacheStorageClass) GetSite(sessionID SessionRef, self PVSCacheStorageRef) (_retval PVSSiteRef, _err error) {
 	_method := "PVS_cache_storage.get_site"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -129,7 +129,7 @@ func (_class PVSCacheStorageClass) GetSite(sessionID SessionRef, self PVSCacheSt
 	return
 }
 
-// Get the SR field of the given PVS_cache_storage.
+// GetSR Get the SR field of the given PVS_cache_storage.
 func (_class PVSCacheStorageClass) GetSR(sessionID SessionRef, self PVSCacheStorageRef) (_retval SRRef, _err error) {
 	_method := "PVS_cache_storage.get_SR"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -148,7 +148,7 @@ func (_class PVSCacheStorageClass) GetSR(sessionID SessionRef, self PVSCacheStor
 	return
 }
 
-// Get the host field of the given PVS_cache_storage.
+// GetHost Get the host field of the given PVS_cache_storage.
 func (_class PVSCacheStorageClass) GetHost(sessionID SessionRef, self PVSCacheStorageRef) (_retval HostRef, _err error) {
 	_method := "PVS_cache_storage.get_host"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -167,7 +167,7 @@ func (_class PVSCacheStorageClass) GetHost(sessionID SessionRef, self PVSCacheSt
 	return
 }
 
-// Get the uuid field of the given PVS_cache_storage.
+// GetUUID Get the uuid field of the given PVS_cache_storage.
 func (_class PVSCacheStorageClass) GetUUID(sessionID SessionRef, self PVSCacheStorageRef) (_retval string, _err error) {
 	_method := "PVS_cache_storage.get_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -186,7 +186,7 @@ func (_class PVSCacheStorageClass) GetUUID(sessionID SessionRef, self PVSCacheSt
 	return
 }
 
-// Destroy the specified PVS_cache_storage instance.
+// Destroy Destroy the specified PVS_cache_storage instance.
 func (_class PVSCacheStorageClass) Destroy(sessionID SessionRef, self PVSCacheStorageRef) (_err error) {
 	_method := "PVS_cache_storage.destroy"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -201,8 +201,8 @@ func (_class PVSCacheStorageClass) Destroy(sessionID SessionRef, self PVSCacheSt
 	return
 }
 
-// Create a new PVS_cache_storage instance, and return its handle.
-// The constructor args are: host, SR, site, size (* = non-optional).
+// Create Create a new PVS_cache_storage instance, and return its handle.
+The constructor args are: host, SR, site, size (* = non-optional).
 func (_class PVSCacheStorageClass) Create(sessionID SessionRef, args PVSCacheStorageRecord) (_retval PVSCacheStorageRef, _err error) {
 	_method := "PVS_cache_storage.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -221,7 +221,7 @@ func (_class PVSCacheStorageClass) Create(sessionID SessionRef, args PVSCacheSto
 	return
 }
 
-// Get a reference to the PVS_cache_storage instance with the specified UUID.
+// GetByUUID Get a reference to the PVS_cache_storage instance with the specified UUID.
 func (_class PVSCacheStorageClass) GetByUUID(sessionID SessionRef, uuid string) (_retval PVSCacheStorageRef, _err error) {
 	_method := "PVS_cache_storage.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -240,7 +240,7 @@ func (_class PVSCacheStorageClass) GetByUUID(sessionID SessionRef, uuid string) 
 	return
 }
 
-// Get a record containing the current state of the given PVS_cache_storage.
+// GetRecord Get a record containing the current state of the given PVS_cache_storage.
 func (_class PVSCacheStorageClass) GetRecord(sessionID SessionRef, self PVSCacheStorageRef) (_retval PVSCacheStorageRecord, _err error) {
 	_method := "PVS_cache_storage.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

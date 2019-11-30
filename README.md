@@ -28,7 +28,7 @@ const XEN_API_PASSWORD string = "PASSWORD"
 const VM_NAME_LABEL = "VM NAME LABEL"
 
 func main() {
-    xapi, err := xenAPI.NewClient(XEN_API_URL, nil)
+    xapi, err := xenapi.NewClient(XEN_API_URL, nil)
     if err != nil {
         panic(err)
     }

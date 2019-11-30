@@ -65,7 +65,7 @@ type MessageClass struct {
 	client *Client
 }
 
-// 
+// GetAllRecordsWhere 
 func (_class MessageClass) GetAllRecordsWhere(sessionID SessionRef, expr string) (_retval map[MessageRef]MessageRecord, _err error) {
 	_method := "message.get_all_records_where"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -84,7 +84,7 @@ func (_class MessageClass) GetAllRecordsWhere(sessionID SessionRef, expr string)
 	return
 }
 
-// 
+// GetAllRecords 
 func (_class MessageClass) GetAllRecords(sessionID SessionRef) (_retval map[MessageRef]MessageRecord, _err error) {
 	_method := "message.get_all_records"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -99,7 +99,7 @@ func (_class MessageClass) GetAllRecords(sessionID SessionRef) (_retval map[Mess
 	return
 }
 
-// 
+// GetByUUID 
 func (_class MessageClass) GetByUUID(sessionID SessionRef, uuid string) (_retval MessageRef, _err error) {
 	_method := "message.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -118,7 +118,7 @@ func (_class MessageClass) GetByUUID(sessionID SessionRef, uuid string) (_retval
 	return
 }
 
-// 
+// GetRecord 
 func (_class MessageClass) GetRecord(sessionID SessionRef, self MessageRef) (_retval MessageRecord, _err error) {
 	_method := "message.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -137,7 +137,7 @@ func (_class MessageClass) GetRecord(sessionID SessionRef, self MessageRef) (_re
 	return
 }
 
-// 
+// GetSince 
 func (_class MessageClass) GetSince(sessionID SessionRef, since time.Time) (_retval map[MessageRef]MessageRecord, _err error) {
 	_method := "message.get_since"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -156,7 +156,7 @@ func (_class MessageClass) GetSince(sessionID SessionRef, since time.Time) (_ret
 	return
 }
 
-// 
+// GetAll 
 func (_class MessageClass) GetAll(sessionID SessionRef) (_retval []MessageRef, _err error) {
 	_method := "message.get_all"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -171,7 +171,7 @@ func (_class MessageClass) GetAll(sessionID SessionRef) (_retval []MessageRef, _
 	return
 }
 
-// 
+// Get 
 func (_class MessageClass) Get(sessionID SessionRef, cls Cls, objUUID string, since time.Time) (_retval map[MessageRef]MessageRecord, _err error) {
 	_method := "message.get"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -198,7 +198,7 @@ func (_class MessageClass) Get(sessionID SessionRef, cls Cls, objUUID string, si
 	return
 }
 
-// 
+// Destroy 
 func (_class MessageClass) Destroy(sessionID SessionRef, self MessageRef) (_err error) {
 	_method := "message.destroy"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -213,7 +213,7 @@ func (_class MessageClass) Destroy(sessionID SessionRef, self MessageRef) (_err 
 	return
 }
 
-// 
+// Create 
 func (_class MessageClass) Create(sessionID SessionRef, name string, priority int, cls Cls, objUUID string, body string) (_retval MessageRef, _err error) {
 	_method := "message.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

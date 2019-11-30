@@ -38,7 +38,7 @@ type CrashdumpClass struct {
 	client *Client
 }
 
-// Return a map of crashdump references to crashdump records for all crashdumps known to the system.
+// GetAllRecords Return a map of crashdump references to crashdump records for all crashdumps known to the system.
 func (_class CrashdumpClass) GetAllRecords(sessionID SessionRef) (_retval map[CrashdumpRef]CrashdumpRecord, _err error) {
 	_method := "crashdump.get_all_records"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -53,7 +53,7 @@ func (_class CrashdumpClass) GetAllRecords(sessionID SessionRef) (_retval map[Cr
 	return
 }
 
-// Return a list of all the crashdumps known to the system.
+// GetAll Return a list of all the crashdumps known to the system.
 func (_class CrashdumpClass) GetAll(sessionID SessionRef) (_retval []CrashdumpRef, _err error) {
 	_method := "crashdump.get_all"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -68,7 +68,7 @@ func (_class CrashdumpClass) GetAll(sessionID SessionRef) (_retval []CrashdumpRe
 	return
 }
 
-// Destroy the specified crashdump
+// Destroy Destroy the specified crashdump
 func (_class CrashdumpClass) Destroy(sessionID SessionRef, self CrashdumpRef) (_err error) {
 	_method := "crashdump.destroy"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -83,7 +83,7 @@ func (_class CrashdumpClass) Destroy(sessionID SessionRef, self CrashdumpRef) (_
 	return
 }
 
-// Remove the given key and its corresponding value from the other_config field of the given crashdump.  If the key is not in that Map, then do nothing.
+// RemoveFromOtherConfig Remove the given key and its corresponding value from the other_config field of the given crashdump.  If the key is not in that Map, then do nothing.
 func (_class CrashdumpClass) RemoveFromOtherConfig(sessionID SessionRef, self CrashdumpRef, key string) (_err error) {
 	_method := "crashdump.remove_from_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -102,7 +102,7 @@ func (_class CrashdumpClass) RemoveFromOtherConfig(sessionID SessionRef, self Cr
 	return
 }
 
-// Add the given key-value pair to the other_config field of the given crashdump.
+// AddToOtherConfig Add the given key-value pair to the other_config field of the given crashdump.
 func (_class CrashdumpClass) AddToOtherConfig(sessionID SessionRef, self CrashdumpRef, key string, value string) (_err error) {
 	_method := "crashdump.add_to_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -125,7 +125,7 @@ func (_class CrashdumpClass) AddToOtherConfig(sessionID SessionRef, self Crashdu
 	return
 }
 
-// Set the other_config field of the given crashdump.
+// SetOtherConfig Set the other_config field of the given crashdump.
 func (_class CrashdumpClass) SetOtherConfig(sessionID SessionRef, self CrashdumpRef, value map[string]string) (_err error) {
 	_method := "crashdump.set_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -144,7 +144,7 @@ func (_class CrashdumpClass) SetOtherConfig(sessionID SessionRef, self Crashdump
 	return
 }
 
-// Get the other_config field of the given crashdump.
+// GetOtherConfig Get the other_config field of the given crashdump.
 func (_class CrashdumpClass) GetOtherConfig(sessionID SessionRef, self CrashdumpRef) (_retval map[string]string, _err error) {
 	_method := "crashdump.get_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -163,7 +163,7 @@ func (_class CrashdumpClass) GetOtherConfig(sessionID SessionRef, self Crashdump
 	return
 }
 
-// Get the VDI field of the given crashdump.
+// GetVDI Get the VDI field of the given crashdump.
 func (_class CrashdumpClass) GetVDI(sessionID SessionRef, self CrashdumpRef) (_retval VDIRef, _err error) {
 	_method := "crashdump.get_VDI"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -182,7 +182,7 @@ func (_class CrashdumpClass) GetVDI(sessionID SessionRef, self CrashdumpRef) (_r
 	return
 }
 
-// Get the VM field of the given crashdump.
+// GetVM Get the VM field of the given crashdump.
 func (_class CrashdumpClass) GetVM(sessionID SessionRef, self CrashdumpRef) (_retval VMRef, _err error) {
 	_method := "crashdump.get_VM"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -201,7 +201,7 @@ func (_class CrashdumpClass) GetVM(sessionID SessionRef, self CrashdumpRef) (_re
 	return
 }
 
-// Get the uuid field of the given crashdump.
+// GetUUID Get the uuid field of the given crashdump.
 func (_class CrashdumpClass) GetUUID(sessionID SessionRef, self CrashdumpRef) (_retval string, _err error) {
 	_method := "crashdump.get_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -220,7 +220,7 @@ func (_class CrashdumpClass) GetUUID(sessionID SessionRef, self CrashdumpRef) (_
 	return
 }
 
-// Get a reference to the crashdump instance with the specified UUID.
+// GetByUUID Get a reference to the crashdump instance with the specified UUID.
 func (_class CrashdumpClass) GetByUUID(sessionID SessionRef, uuid string) (_retval CrashdumpRef, _err error) {
 	_method := "crashdump.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -239,7 +239,7 @@ func (_class CrashdumpClass) GetByUUID(sessionID SessionRef, uuid string) (_retv
 	return
 }
 
-// Get a record containing the current state of the given crashdump.
+// GetRecord Get a record containing the current state of the given crashdump.
 func (_class CrashdumpClass) GetRecord(sessionID SessionRef, self CrashdumpRef) (_retval CrashdumpRecord, _err error) {
 	_method := "crashdump.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

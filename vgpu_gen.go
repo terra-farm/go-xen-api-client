@@ -50,7 +50,7 @@ type VGPUClass struct {
 	client *Client
 }
 
-// Return a map of VGPU references to VGPU records for all VGPUs known to the system.
+// GetAllRecords Return a map of VGPU references to VGPU records for all VGPUs known to the system.
 func (_class VGPUClass) GetAllRecords(sessionID SessionRef) (_retval map[VGPURef]VGPURecord, _err error) {
 	_method := "VGPU.get_all_records"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -65,7 +65,7 @@ func (_class VGPUClass) GetAllRecords(sessionID SessionRef) (_retval map[VGPURef
 	return
 }
 
-// Return a list of all the VGPUs known to the system.
+// GetAll Return a list of all the VGPUs known to the system.
 func (_class VGPUClass) GetAll(sessionID SessionRef) (_retval []VGPURef, _err error) {
 	_method := "VGPU.get_all"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -80,7 +80,7 @@ func (_class VGPUClass) GetAll(sessionID SessionRef) (_retval []VGPURef, _err er
 	return
 }
 
-// 
+// Destroy 
 func (_class VGPUClass) Destroy(sessionID SessionRef, self VGPURef) (_err error) {
 	_method := "VGPU.destroy"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -95,7 +95,7 @@ func (_class VGPUClass) Destroy(sessionID SessionRef, self VGPURef) (_err error)
 	return
 }
 
-// 
+// Create 
 func (_class VGPUClass) Create(sessionID SessionRef, vm VMRef, gpuGroup GPUGroupRef, device string, otherConfig map[string]string, atype VGPUTypeRef) (_retval VGPURef, _err error) {
 	_method := "VGPU.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -130,7 +130,7 @@ func (_class VGPUClass) Create(sessionID SessionRef, vm VMRef, gpuGroup GPUGroup
 	return
 }
 
-// Remove the given key and its corresponding value from the other_config field of the given VGPU.  If the key is not in that Map, then do nothing.
+// RemoveFromOtherConfig Remove the given key and its corresponding value from the other_config field of the given VGPU.  If the key is not in that Map, then do nothing.
 func (_class VGPUClass) RemoveFromOtherConfig(sessionID SessionRef, self VGPURef, key string) (_err error) {
 	_method := "VGPU.remove_from_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -149,7 +149,7 @@ func (_class VGPUClass) RemoveFromOtherConfig(sessionID SessionRef, self VGPURef
 	return
 }
 
-// Add the given key-value pair to the other_config field of the given VGPU.
+// AddToOtherConfig Add the given key-value pair to the other_config field of the given VGPU.
 func (_class VGPUClass) AddToOtherConfig(sessionID SessionRef, self VGPURef, key string, value string) (_err error) {
 	_method := "VGPU.add_to_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -172,7 +172,7 @@ func (_class VGPUClass) AddToOtherConfig(sessionID SessionRef, self VGPURef, key
 	return
 }
 
-// Set the other_config field of the given VGPU.
+// SetOtherConfig Set the other_config field of the given VGPU.
 func (_class VGPUClass) SetOtherConfig(sessionID SessionRef, self VGPURef, value map[string]string) (_err error) {
 	_method := "VGPU.set_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -191,7 +191,7 @@ func (_class VGPUClass) SetOtherConfig(sessionID SessionRef, self VGPURef, value
 	return
 }
 
-// Get the compatibility_metadata field of the given VGPU.
+// GetCompatibilityMetadata Get the compatibility_metadata field of the given VGPU.
 func (_class VGPUClass) GetCompatibilityMetadata(sessionID SessionRef, self VGPURef) (_retval map[string]string, _err error) {
 	_method := "VGPU.get_compatibility_metadata"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -210,7 +210,7 @@ func (_class VGPUClass) GetCompatibilityMetadata(sessionID SessionRef, self VGPU
 	return
 }
 
-// Get the scheduled_to_be_resident_on field of the given VGPU.
+// GetScheduledToBeResidentOn Get the scheduled_to_be_resident_on field of the given VGPU.
 func (_class VGPUClass) GetScheduledToBeResidentOn(sessionID SessionRef, self VGPURef) (_retval PGPURef, _err error) {
 	_method := "VGPU.get_scheduled_to_be_resident_on"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -229,7 +229,7 @@ func (_class VGPUClass) GetScheduledToBeResidentOn(sessionID SessionRef, self VG
 	return
 }
 
-// Get the resident_on field of the given VGPU.
+// GetResidentOn Get the resident_on field of the given VGPU.
 func (_class VGPUClass) GetResidentOn(sessionID SessionRef, self VGPURef) (_retval PGPURef, _err error) {
 	_method := "VGPU.get_resident_on"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -248,7 +248,7 @@ func (_class VGPUClass) GetResidentOn(sessionID SessionRef, self VGPURef) (_retv
 	return
 }
 
-// Get the type field of the given VGPU.
+// GetType Get the type field of the given VGPU.
 func (_class VGPUClass) GetType(sessionID SessionRef, self VGPURef) (_retval VGPUTypeRef, _err error) {
 	_method := "VGPU.get_type"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -267,7 +267,7 @@ func (_class VGPUClass) GetType(sessionID SessionRef, self VGPURef) (_retval VGP
 	return
 }
 
-// Get the other_config field of the given VGPU.
+// GetOtherConfig Get the other_config field of the given VGPU.
 func (_class VGPUClass) GetOtherConfig(sessionID SessionRef, self VGPURef) (_retval map[string]string, _err error) {
 	_method := "VGPU.get_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -286,7 +286,7 @@ func (_class VGPUClass) GetOtherConfig(sessionID SessionRef, self VGPURef) (_ret
 	return
 }
 
-// Get the currently_attached field of the given VGPU.
+// GetCurrentlyAttached Get the currently_attached field of the given VGPU.
 func (_class VGPUClass) GetCurrentlyAttached(sessionID SessionRef, self VGPURef) (_retval bool, _err error) {
 	_method := "VGPU.get_currently_attached"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -305,7 +305,7 @@ func (_class VGPUClass) GetCurrentlyAttached(sessionID SessionRef, self VGPURef)
 	return
 }
 
-// Get the device field of the given VGPU.
+// GetDevice Get the device field of the given VGPU.
 func (_class VGPUClass) GetDevice(sessionID SessionRef, self VGPURef) (_retval string, _err error) {
 	_method := "VGPU.get_device"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -324,7 +324,7 @@ func (_class VGPUClass) GetDevice(sessionID SessionRef, self VGPURef) (_retval s
 	return
 }
 
-// Get the GPU_group field of the given VGPU.
+// GetGPUGroup Get the GPU_group field of the given VGPU.
 func (_class VGPUClass) GetGPUGroup(sessionID SessionRef, self VGPURef) (_retval GPUGroupRef, _err error) {
 	_method := "VGPU.get_GPU_group"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -343,7 +343,7 @@ func (_class VGPUClass) GetGPUGroup(sessionID SessionRef, self VGPURef) (_retval
 	return
 }
 
-// Get the VM field of the given VGPU.
+// GetVM Get the VM field of the given VGPU.
 func (_class VGPUClass) GetVM(sessionID SessionRef, self VGPURef) (_retval VMRef, _err error) {
 	_method := "VGPU.get_VM"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -362,7 +362,7 @@ func (_class VGPUClass) GetVM(sessionID SessionRef, self VGPURef) (_retval VMRef
 	return
 }
 
-// Get the uuid field of the given VGPU.
+// GetUUID Get the uuid field of the given VGPU.
 func (_class VGPUClass) GetUUID(sessionID SessionRef, self VGPURef) (_retval string, _err error) {
 	_method := "VGPU.get_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -381,7 +381,7 @@ func (_class VGPUClass) GetUUID(sessionID SessionRef, self VGPURef) (_retval str
 	return
 }
 
-// Get a reference to the VGPU instance with the specified UUID.
+// GetByUUID Get a reference to the VGPU instance with the specified UUID.
 func (_class VGPUClass) GetByUUID(sessionID SessionRef, uuid string) (_retval VGPURef, _err error) {
 	_method := "VGPU.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -400,7 +400,7 @@ func (_class VGPUClass) GetByUUID(sessionID SessionRef, uuid string) (_retval VG
 	return
 }
 
-// Get a record containing the current state of the given VGPU.
+// GetRecord Get a record containing the current state of the given VGPU.
 func (_class VGPUClass) GetRecord(sessionID SessionRef, self VGPURef) (_retval VGPURecord, _err error) {
 	_method := "VGPU.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

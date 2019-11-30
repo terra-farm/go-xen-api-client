@@ -55,7 +55,7 @@ type VMApplianceClass struct {
 	client *Client
 }
 
-// Return a map of VM_appliance references to VM_appliance records for all VM_appliances known to the system.
+// GetAllRecords Return a map of VM_appliance references to VM_appliance records for all VM_appliances known to the system.
 func (_class VMApplianceClass) GetAllRecords(sessionID SessionRef) (_retval map[VMApplianceRef]VMApplianceRecord, _err error) {
 	_method := "VM_appliance.get_all_records"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -70,7 +70,7 @@ func (_class VMApplianceClass) GetAllRecords(sessionID SessionRef) (_retval map[
 	return
 }
 
-// Return a list of all the VM_appliances known to the system.
+// GetAll Return a list of all the VM_appliances known to the system.
 func (_class VMApplianceClass) GetAll(sessionID SessionRef) (_retval []VMApplianceRef, _err error) {
 	_method := "VM_appliance.get_all"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -85,7 +85,7 @@ func (_class VMApplianceClass) GetAll(sessionID SessionRef) (_retval []VMApplian
 	return
 }
 
-// Recover the VM appliance
+// Recover Recover the VM appliance
 //
 // Errors:
 //  VM_REQUIRES_SR - You attempted to run a VM on a host which doesn't have access to an SR needed by the VM. The VM has at least one VBD attached to a VDI in the SR.
@@ -111,7 +111,7 @@ func (_class VMApplianceClass) Recover(sessionID SessionRef, self VMApplianceRef
 	return
 }
 
-// Get the list of SRs required by the VM appliance to recover.
+// GetSRsRequiredForRecovery Get the list of SRs required by the VM appliance to recover.
 func (_class VMApplianceClass) GetSRsRequiredForRecovery(sessionID SessionRef, self VMApplianceRef, sessionTo SessionRef) (_retval []SRRef, _err error) {
 	_method := "VM_appliance.get_SRs_required_for_recovery"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -134,7 +134,7 @@ func (_class VMApplianceClass) GetSRsRequiredForRecovery(sessionID SessionRef, s
 	return
 }
 
-// Assert whether all SRs required to recover this VM appliance are available.
+// AssertCanBeRecovered Assert whether all SRs required to recover this VM appliance are available.
 //
 // Errors:
 //  VM_REQUIRES_SR - You attempted to run a VM on a host which doesn't have access to an SR needed by the VM. The VM has at least one VBD attached to a VDI in the SR.
@@ -156,7 +156,7 @@ func (_class VMApplianceClass) AssertCanBeRecovered(sessionID SessionRef, self V
 	return
 }
 
-// For each VM in the appliance, try to shut it down cleanly. If this fails, perform a hard shutdown of the VM.
+// Shutdown For each VM in the appliance, try to shut it down cleanly. If this fails, perform a hard shutdown of the VM.
 //
 // Errors:
 //  OPERATION_PARTIALLY_FAILED - Some VMs belonging to the appliance threw an exception while carrying out the specified operation
@@ -174,7 +174,7 @@ func (_class VMApplianceClass) Shutdown(sessionID SessionRef, self VMApplianceRe
 	return
 }
 
-// Perform a hard shutdown of all the VMs in the appliance
+// HardShutdown Perform a hard shutdown of all the VMs in the appliance
 //
 // Errors:
 //  OPERATION_PARTIALLY_FAILED - Some VMs belonging to the appliance threw an exception while carrying out the specified operation
@@ -192,7 +192,7 @@ func (_class VMApplianceClass) HardShutdown(sessionID SessionRef, self VMApplian
 	return
 }
 
-// Perform a clean shutdown of all the VMs in the appliance
+// CleanShutdown Perform a clean shutdown of all the VMs in the appliance
 //
 // Errors:
 //  OPERATION_PARTIALLY_FAILED - Some VMs belonging to the appliance threw an exception while carrying out the specified operation
@@ -210,7 +210,7 @@ func (_class VMApplianceClass) CleanShutdown(sessionID SessionRef, self VMApplia
 	return
 }
 
-// Start all VMs in the appliance
+// Start Start all VMs in the appliance
 //
 // Errors:
 //  OPERATION_PARTIALLY_FAILED - Some VMs belonging to the appliance threw an exception while carrying out the specified operation
@@ -232,7 +232,7 @@ func (_class VMApplianceClass) Start(sessionID SessionRef, self VMApplianceRef, 
 	return
 }
 
-// Set the name/description field of the given VM_appliance.
+// SetNameDescription Set the name/description field of the given VM_appliance.
 func (_class VMApplianceClass) SetNameDescription(sessionID SessionRef, self VMApplianceRef, value string) (_err error) {
 	_method := "VM_appliance.set_name_description"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -251,7 +251,7 @@ func (_class VMApplianceClass) SetNameDescription(sessionID SessionRef, self VMA
 	return
 }
 
-// Set the name/label field of the given VM_appliance.
+// SetNameLabel Set the name/label field of the given VM_appliance.
 func (_class VMApplianceClass) SetNameLabel(sessionID SessionRef, self VMApplianceRef, value string) (_err error) {
 	_method := "VM_appliance.set_name_label"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -270,7 +270,7 @@ func (_class VMApplianceClass) SetNameLabel(sessionID SessionRef, self VMApplian
 	return
 }
 
-// Get the VMs field of the given VM_appliance.
+// GetVMs Get the VMs field of the given VM_appliance.
 func (_class VMApplianceClass) GetVMs(sessionID SessionRef, self VMApplianceRef) (_retval []VMRef, _err error) {
 	_method := "VM_appliance.get_VMs"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -289,7 +289,7 @@ func (_class VMApplianceClass) GetVMs(sessionID SessionRef, self VMApplianceRef)
 	return
 }
 
-// Get the current_operations field of the given VM_appliance.
+// GetCurrentOperations Get the current_operations field of the given VM_appliance.
 func (_class VMApplianceClass) GetCurrentOperations(sessionID SessionRef, self VMApplianceRef) (_retval map[string]VMApplianceOperation, _err error) {
 	_method := "VM_appliance.get_current_operations"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -308,7 +308,7 @@ func (_class VMApplianceClass) GetCurrentOperations(sessionID SessionRef, self V
 	return
 }
 
-// Get the allowed_operations field of the given VM_appliance.
+// GetAllowedOperations Get the allowed_operations field of the given VM_appliance.
 func (_class VMApplianceClass) GetAllowedOperations(sessionID SessionRef, self VMApplianceRef) (_retval []VMApplianceOperation, _err error) {
 	_method := "VM_appliance.get_allowed_operations"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -327,7 +327,7 @@ func (_class VMApplianceClass) GetAllowedOperations(sessionID SessionRef, self V
 	return
 }
 
-// Get the name/description field of the given VM_appliance.
+// GetNameDescription Get the name/description field of the given VM_appliance.
 func (_class VMApplianceClass) GetNameDescription(sessionID SessionRef, self VMApplianceRef) (_retval string, _err error) {
 	_method := "VM_appliance.get_name_description"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -346,7 +346,7 @@ func (_class VMApplianceClass) GetNameDescription(sessionID SessionRef, self VMA
 	return
 }
 
-// Get the name/label field of the given VM_appliance.
+// GetNameLabel Get the name/label field of the given VM_appliance.
 func (_class VMApplianceClass) GetNameLabel(sessionID SessionRef, self VMApplianceRef) (_retval string, _err error) {
 	_method := "VM_appliance.get_name_label"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -365,7 +365,7 @@ func (_class VMApplianceClass) GetNameLabel(sessionID SessionRef, self VMApplian
 	return
 }
 
-// Get the uuid field of the given VM_appliance.
+// GetUUID Get the uuid field of the given VM_appliance.
 func (_class VMApplianceClass) GetUUID(sessionID SessionRef, self VMApplianceRef) (_retval string, _err error) {
 	_method := "VM_appliance.get_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -384,7 +384,7 @@ func (_class VMApplianceClass) GetUUID(sessionID SessionRef, self VMApplianceRef
 	return
 }
 
-// Get all the VM_appliance instances with the given label.
+// GetByNameLabel Get all the VM_appliance instances with the given label.
 func (_class VMApplianceClass) GetByNameLabel(sessionID SessionRef, label string) (_retval []VMApplianceRef, _err error) {
 	_method := "VM_appliance.get_by_name_label"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -403,7 +403,7 @@ func (_class VMApplianceClass) GetByNameLabel(sessionID SessionRef, label string
 	return
 }
 
-// Destroy the specified VM_appliance instance.
+// Destroy Destroy the specified VM_appliance instance.
 func (_class VMApplianceClass) Destroy(sessionID SessionRef, self VMApplianceRef) (_err error) {
 	_method := "VM_appliance.destroy"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -418,8 +418,8 @@ func (_class VMApplianceClass) Destroy(sessionID SessionRef, self VMApplianceRef
 	return
 }
 
-// Create a new VM_appliance instance, and return its handle.
-// The constructor args are: name_label, name_description (* = non-optional).
+// Create Create a new VM_appliance instance, and return its handle.
+The constructor args are: name_label, name_description (* = non-optional).
 func (_class VMApplianceClass) Create(sessionID SessionRef, args VMApplianceRecord) (_retval VMApplianceRef, _err error) {
 	_method := "VM_appliance.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -438,7 +438,7 @@ func (_class VMApplianceClass) Create(sessionID SessionRef, args VMApplianceReco
 	return
 }
 
-// Get a reference to the VM_appliance instance with the specified UUID.
+// GetByUUID Get a reference to the VM_appliance instance with the specified UUID.
 func (_class VMApplianceClass) GetByUUID(sessionID SessionRef, uuid string) (_retval VMApplianceRef, _err error) {
 	_method := "VM_appliance.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -457,7 +457,7 @@ func (_class VMApplianceClass) GetByUUID(sessionID SessionRef, uuid string) (_re
 	return
 }
 
-// Get a record containing the current state of the given VM_appliance.
+// GetRecord Get a record containing the current state of the given VM_appliance.
 func (_class VMApplianceClass) GetRecord(sessionID SessionRef, self VMApplianceRef) (_retval VMApplianceRecord, _err error) {
 	_method := "VM_appliance.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

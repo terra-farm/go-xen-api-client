@@ -40,7 +40,7 @@ type PVSServerClass struct {
 	client *Client
 }
 
-// Return a map of PVS_server references to PVS_server records for all PVS_servers known to the system.
+// GetAllRecords Return a map of PVS_server references to PVS_server records for all PVS_servers known to the system.
 func (_class PVSServerClass) GetAllRecords(sessionID SessionRef) (_retval map[PVSServerRef]PVSServerRecord, _err error) {
 	_method := "PVS_server.get_all_records"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -55,7 +55,7 @@ func (_class PVSServerClass) GetAllRecords(sessionID SessionRef) (_retval map[PV
 	return
 }
 
-// Return a list of all the PVS_servers known to the system.
+// GetAll Return a list of all the PVS_servers known to the system.
 func (_class PVSServerClass) GetAll(sessionID SessionRef) (_retval []PVSServerRef, _err error) {
 	_method := "PVS_server.get_all"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -70,7 +70,7 @@ func (_class PVSServerClass) GetAll(sessionID SessionRef) (_retval []PVSServerRe
 	return
 }
 
-// forget a PVS server
+// Forget forget a PVS server
 func (_class PVSServerClass) Forget(sessionID SessionRef, self PVSServerRef) (_err error) {
 	_method := "PVS_server.forget"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -85,7 +85,7 @@ func (_class PVSServerClass) Forget(sessionID SessionRef, self PVSServerRef) (_e
 	return
 }
 
-// introduce new PVS server
+// Introduce introduce new PVS server
 func (_class PVSServerClass) Introduce(sessionID SessionRef, addresses []string, firstPort int, lastPort int, site PVSSiteRef) (_retval PVSServerRef, _err error) {
 	_method := "PVS_server.introduce"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -116,7 +116,7 @@ func (_class PVSServerClass) Introduce(sessionID SessionRef, addresses []string,
 	return
 }
 
-// Get the site field of the given PVS_server.
+// GetSite Get the site field of the given PVS_server.
 func (_class PVSServerClass) GetSite(sessionID SessionRef, self PVSServerRef) (_retval PVSSiteRef, _err error) {
 	_method := "PVS_server.get_site"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -135,7 +135,7 @@ func (_class PVSServerClass) GetSite(sessionID SessionRef, self PVSServerRef) (_
 	return
 }
 
-// Get the last_port field of the given PVS_server.
+// GetLastPort Get the last_port field of the given PVS_server.
 func (_class PVSServerClass) GetLastPort(sessionID SessionRef, self PVSServerRef) (_retval int, _err error) {
 	_method := "PVS_server.get_last_port"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -154,7 +154,7 @@ func (_class PVSServerClass) GetLastPort(sessionID SessionRef, self PVSServerRef
 	return
 }
 
-// Get the first_port field of the given PVS_server.
+// GetFirstPort Get the first_port field of the given PVS_server.
 func (_class PVSServerClass) GetFirstPort(sessionID SessionRef, self PVSServerRef) (_retval int, _err error) {
 	_method := "PVS_server.get_first_port"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -173,7 +173,7 @@ func (_class PVSServerClass) GetFirstPort(sessionID SessionRef, self PVSServerRe
 	return
 }
 
-// Get the addresses field of the given PVS_server.
+// GetAddresses Get the addresses field of the given PVS_server.
 func (_class PVSServerClass) GetAddresses(sessionID SessionRef, self PVSServerRef) (_retval []string, _err error) {
 	_method := "PVS_server.get_addresses"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -192,7 +192,7 @@ func (_class PVSServerClass) GetAddresses(sessionID SessionRef, self PVSServerRe
 	return
 }
 
-// Get the uuid field of the given PVS_server.
+// GetUUID Get the uuid field of the given PVS_server.
 func (_class PVSServerClass) GetUUID(sessionID SessionRef, self PVSServerRef) (_retval string, _err error) {
 	_method := "PVS_server.get_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -211,7 +211,7 @@ func (_class PVSServerClass) GetUUID(sessionID SessionRef, self PVSServerRef) (_
 	return
 }
 
-// Get a reference to the PVS_server instance with the specified UUID.
+// GetByUUID Get a reference to the PVS_server instance with the specified UUID.
 func (_class PVSServerClass) GetByUUID(sessionID SessionRef, uuid string) (_retval PVSServerRef, _err error) {
 	_method := "PVS_server.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -230,7 +230,7 @@ func (_class PVSServerClass) GetByUUID(sessionID SessionRef, uuid string) (_retv
 	return
 }
 
-// Get a record containing the current state of the given PVS_server.
+// GetRecord Get a record containing the current state of the given PVS_server.
 func (_class PVSServerClass) GetRecord(sessionID SessionRef, self PVSServerRef) (_retval PVSServerRecord, _err error) {
 	_method := "PVS_server.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

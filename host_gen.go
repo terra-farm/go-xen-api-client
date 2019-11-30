@@ -176,7 +176,7 @@ type HostClass struct {
 	client *Client
 }
 
-// Return a map of host references to host records for all hosts known to the system.
+// GetAllRecords Return a map of host references to host records for all hosts known to the system.
 func (_class HostClass) GetAllRecords(sessionID SessionRef) (_retval map[HostRef]HostRecord, _err error) {
 	_method := "host.get_all_records"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -191,7 +191,7 @@ func (_class HostClass) GetAllRecords(sessionID SessionRef) (_retval map[HostRef
 	return
 }
 
-// Return a list of all the hosts known to the system.
+// GetAll Return a list of all the hosts known to the system.
 func (_class HostClass) GetAll(sessionID SessionRef) (_retval []HostRef, _err error) {
 	_method := "host.get_all"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -206,7 +206,7 @@ func (_class HostClass) GetAll(sessionID SessionRef) (_retval []HostRef, _err er
 	return
 }
 
-// Enable/disable SSLv3 for interoperability with older versions of XenServer. When this is set to a different value, the host immediately restarts its SSL/TLS listening service; typically this takes less than a second but existing connections to it will be broken. XenAPI login sessions will remain valid.
+// SetSslLegacy Enable/disable SSLv3 for interoperability with older versions of XenServer. When this is set to a different value, the host immediately restarts its SSL/TLS listening service; typically this takes less than a second but existing connections to it will be broken. XenAPI login sessions will remain valid.
 func (_class HostClass) SetSslLegacy(sessionID SessionRef, self HostRef, value bool) (_err error) {
 	_method := "host.set_ssl_legacy"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -225,7 +225,7 @@ func (_class HostClass) SetSslLegacy(sessionID SessionRef, self HostRef, value b
 	return
 }
 
-// Disable console output to the physical display device next time this host boots
+// DisableDisplay Disable console output to the physical display device next time this host boots
 func (_class HostClass) DisableDisplay(sessionID SessionRef, host HostRef) (_retval HostDisplay, _err error) {
 	_method := "host.disable_display"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -244,7 +244,7 @@ func (_class HostClass) DisableDisplay(sessionID SessionRef, host HostRef) (_ret
 	return
 }
 
-// Enable console output to the physical display device next time this host boots
+// EnableDisplay Enable console output to the physical display device next time this host boots
 func (_class HostClass) EnableDisplay(sessionID SessionRef, host HostRef) (_retval HostDisplay, _err error) {
 	_method := "host.enable_display"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -263,7 +263,7 @@ func (_class HostClass) EnableDisplay(sessionID SessionRef, host HostRef) (_retv
 	return
 }
 
-// Declare that a host is dead. This is a dangerous operation, and should only be called if the administrator is absolutely sure the host is definitely dead
+// DeclareDead Declare that a host is dead. This is a dangerous operation, and should only be called if the administrator is absolutely sure the host is definitely dead
 func (_class HostClass) DeclareDead(sessionID SessionRef, host HostRef) (_err error) {
 	_method := "host.declare_dead"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -278,7 +278,7 @@ func (_class HostClass) DeclareDead(sessionID SessionRef, host HostRef) (_err er
 	return
 }
 
-// Prepare to receive a VM, returning a token which can be passed to VM.migrate.
+// MigrateReceive Prepare to receive a VM, returning a token which can be passed to VM.migrate.
 func (_class HostClass) MigrateReceive(sessionID SessionRef, host HostRef, network NetworkRef, options map[string]string) (_retval map[string]string, _err error) {
 	_method := "host.migrate_receive"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -305,7 +305,7 @@ func (_class HostClass) MigrateReceive(sessionID SessionRef, host HostRef, netwo
 	return
 }
 
-// Disable the use of a local SR for caching purposes
+// DisableLocalStorageCaching Disable the use of a local SR for caching purposes
 func (_class HostClass) DisableLocalStorageCaching(sessionID SessionRef, host HostRef) (_err error) {
 	_method := "host.disable_local_storage_caching"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -320,7 +320,7 @@ func (_class HostClass) DisableLocalStorageCaching(sessionID SessionRef, host Ho
 	return
 }
 
-// Enable the use of a local SR for caching purposes
+// EnableLocalStorageCaching Enable the use of a local SR for caching purposes
 func (_class HostClass) EnableLocalStorageCaching(sessionID SessionRef, host HostRef, sr SRRef) (_err error) {
 	_method := "host.enable_local_storage_caching"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -339,7 +339,7 @@ func (_class HostClass) EnableLocalStorageCaching(sessionID SessionRef, host Hos
 	return
 }
 
-// Remove the feature mask, such that after a reboot all features of the CPU are enabled.
+// ResetCPUFeatures Remove the feature mask, such that after a reboot all features of the CPU are enabled.
 func (_class HostClass) ResetCPUFeatures(sessionID SessionRef, host HostRef) (_err error) {
 	_method := "host.reset_cpu_features"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -354,7 +354,7 @@ func (_class HostClass) ResetCPUFeatures(sessionID SessionRef, host HostRef) (_e
 	return
 }
 
-// Set the CPU features to be used after a reboot, if the given features string is valid.
+// SetCPUFeatures Set the CPU features to be used after a reboot, if the given features string is valid.
 func (_class HostClass) SetCPUFeatures(sessionID SessionRef, host HostRef, features string) (_err error) {
 	_method := "host.set_cpu_features"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -373,7 +373,7 @@ func (_class HostClass) SetCPUFeatures(sessionID SessionRef, host HostRef, featu
 	return
 }
 
-// Set the power-on-mode, host, user and password 
+// SetPowerOnMode Set the power-on-mode, host, user and password 
 func (_class HostClass) SetPowerOnMode(sessionID SessionRef, self HostRef, powerOnMode string, powerOnConfig map[string]string) (_err error) {
 	_method := "host.set_power_on_mode"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -396,7 +396,7 @@ func (_class HostClass) SetPowerOnMode(sessionID SessionRef, self HostRef, power
 	return
 }
 
-// Refresh the list of installed Supplemental Packs.
+// RefreshPackInfo Refresh the list of installed Supplemental Packs.
 func (_class HostClass) RefreshPackInfo(sessionID SessionRef, host HostRef) (_err error) {
 	_method := "host.refresh_pack_info"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -411,7 +411,7 @@ func (_class HostClass) RefreshPackInfo(sessionID SessionRef, host HostRef) (_er
 	return
 }
 
-// Change to another edition, or reactivate the current edition after a license has expired. This may be subject to the successful checkout of an appropriate license.
+// ApplyEdition Change to another edition, or reactivate the current edition after a license has expired. This may be subject to the successful checkout of an appropriate license.
 func (_class HostClass) ApplyEdition(sessionID SessionRef, host HostRef, edition string, force bool) (_err error) {
 	_method := "host.apply_edition"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -434,7 +434,7 @@ func (_class HostClass) ApplyEdition(sessionID SessionRef, host HostRef, edition
 	return
 }
 
-// Get the installed server public TLS certificate.
+// GetServerCertificate Get the installed server public TLS certificate.
 func (_class HostClass) GetServerCertificate(sessionID SessionRef, host HostRef) (_retval string, _err error) {
 	_method := "host.get_server_certificate"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -453,7 +453,7 @@ func (_class HostClass) GetServerCertificate(sessionID SessionRef, host HostRef)
 	return
 }
 
-// Retrieves recommended host migrations to perform when evacuating the host from the wlb server. If a VM cannot be migrated from the host the reason is listed instead of a recommendation.
+// RetrieveWlbEvacuateRecommendations Retrieves recommended host migrations to perform when evacuating the host from the wlb server. If a VM cannot be migrated from the host the reason is listed instead of a recommendation.
 func (_class HostClass) RetrieveWlbEvacuateRecommendations(sessionID SessionRef, self HostRef) (_retval map[VMRef][]string, _err error) {
 	_method := "host.retrieve_wlb_evacuate_recommendations"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -472,7 +472,7 @@ func (_class HostClass) RetrieveWlbEvacuateRecommendations(sessionID SessionRef,
 	return
 }
 
-// This call disables external authentication on the local host
+// DisableExternalAuth This call disables external authentication on the local host
 func (_class HostClass) DisableExternalAuth(sessionID SessionRef, host HostRef, config map[string]string) (_err error) {
 	_method := "host.disable_external_auth"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -491,7 +491,7 @@ func (_class HostClass) DisableExternalAuth(sessionID SessionRef, host HostRef, 
 	return
 }
 
-// This call enables external authentication on a host
+// EnableExternalAuth This call enables external authentication on a host
 func (_class HostClass) EnableExternalAuth(sessionID SessionRef, host HostRef, config map[string]string, serviceName string, authType string) (_err error) {
 	_method := "host.enable_external_auth"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -518,7 +518,7 @@ func (_class HostClass) EnableExternalAuth(sessionID SessionRef, host HostRef, c
 	return
 }
 
-// This call queries the host's clock for the current time in the host's local timezone
+// GetServerLocaltime This call queries the host's clock for the current time in the host's local timezone
 func (_class HostClass) GetServerLocaltime(sessionID SessionRef, host HostRef) (_retval time.Time, _err error) {
 	_method := "host.get_server_localtime"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -537,7 +537,7 @@ func (_class HostClass) GetServerLocaltime(sessionID SessionRef, host HostRef) (
 	return
 }
 
-// This call queries the host's clock for the current time
+// GetServertime This call queries the host's clock for the current time
 func (_class HostClass) GetServertime(sessionID SessionRef, host HostRef) (_retval time.Time, _err error) {
 	_method := "host.get_servertime"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -556,7 +556,7 @@ func (_class HostClass) GetServertime(sessionID SessionRef, host HostRef) (_retv
 	return
 }
 
-// Call a XenAPI extension on this host
+// CallExtension Call a XenAPI extension on this host
 func (_class HostClass) CallExtension(sessionID SessionRef, host HostRef, call string) (_retval string, _err error) {
 	_method := "host.call_extension"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -579,7 +579,7 @@ func (_class HostClass) CallExtension(sessionID SessionRef, host HostRef, call s
 	return
 }
 
-// Return true if the extension is available on the host
+// HasExtension Return true if the extension is available on the host
 func (_class HostClass) HasExtension(sessionID SessionRef, host HostRef, name string) (_retval bool, _err error) {
 	_method := "host.has_extension"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -602,7 +602,7 @@ func (_class HostClass) HasExtension(sessionID SessionRef, host HostRef, name st
 	return
 }
 
-// Call a XenAPI plugin on this host
+// CallPlugin Call a XenAPI plugin on this host
 func (_class HostClass) CallPlugin(sessionID SessionRef, host HostRef, plugin string, fn string, args map[string]string) (_retval string, _err error) {
 	_method := "host.call_plugin"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -633,7 +633,7 @@ func (_class HostClass) CallPlugin(sessionID SessionRef, host HostRef, plugin st
 	return
 }
 
-// Create a placeholder for a named binary blob of data that is associated with this host
+// CreateNewBlob Create a placeholder for a named binary blob of data that is associated with this host
 func (_class HostClass) CreateNewBlob(sessionID SessionRef, host HostRef, name string, mimeType string, public bool) (_retval BlobRef, _err error) {
 	_method := "host.create_new_blob"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -664,7 +664,7 @@ func (_class HostClass) CreateNewBlob(sessionID SessionRef, host HostRef, name s
 	return
 }
 
-// This causes the RRDs to be backed up to the master
+// BackupRrds This causes the RRDs to be backed up to the master
 func (_class HostClass) BackupRrds(sessionID SessionRef, host HostRef, delay float64) (_err error) {
 	_method := "host.backup_rrds"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -683,7 +683,7 @@ func (_class HostClass) BackupRrds(sessionID SessionRef, host HostRef, delay flo
 	return
 }
 
-// This causes the synchronisation of the non-database data (messages, RRDs and so on) stored on the master to be synchronised with the host
+// SyncData This causes the synchronisation of the non-database data (messages, RRDs and so on) stored on the master to be synchronised with the host
 func (_class HostClass) SyncData(sessionID SessionRef, host HostRef) (_err error) {
 	_method := "host.sync_data"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -698,7 +698,7 @@ func (_class HostClass) SyncData(sessionID SessionRef, host HostRef) (_err error
 	return
 }
 
-// Computes the virtualization memory overhead of a host.
+// ComputeMemoryOverhead Computes the virtualization memory overhead of a host.
 func (_class HostClass) ComputeMemoryOverhead(sessionID SessionRef, host HostRef) (_retval int, _err error) {
 	_method := "host.compute_memory_overhead"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -717,7 +717,7 @@ func (_class HostClass) ComputeMemoryOverhead(sessionID SessionRef, host HostRef
 	return
 }
 
-// Computes the amount of free memory on the host.
+// ComputeFreeMemory Computes the amount of free memory on the host.
 func (_class HostClass) ComputeFreeMemory(sessionID SessionRef, host HostRef) (_retval int, _err error) {
 	_method := "host.compute_free_memory"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -736,7 +736,7 @@ func (_class HostClass) ComputeFreeMemory(sessionID SessionRef, host HostRef) (_
 	return
 }
 
-// Sets the host name to the specified string.  Both the API and lower-level system hostname are changed immediately.
+// SetHostnameLive Sets the host name to the specified string.  Both the API and lower-level system hostname are changed immediately.
 //
 // Errors:
 //  HOST_NAME_INVALID - The host name is invalid.
@@ -758,7 +758,7 @@ func (_class HostClass) SetHostnameLive(sessionID SessionRef, host HostRef, host
 	return
 }
 
-// Shuts the agent down after a 10 second pause. WARNING: this is a dangerous operation. Any operations in progress will be aborted, and unrecoverable data loss may occur. The caller is responsible for ensuring that there are no operations in progress when this method is called.
+// ShutdownAgent Shuts the agent down after a 10 second pause. WARNING: this is a dangerous operation. Any operations in progress will be aborted, and unrecoverable data loss may occur. The caller is responsible for ensuring that there are no operations in progress when this method is called.
 func (_class HostClass) ShutdownAgent(sessionID SessionRef) (_err error) {
 	_method := "host.shutdown_agent"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -769,7 +769,7 @@ func (_class HostClass) ShutdownAgent(sessionID SessionRef) (_err error) {
 	return
 }
 
-// Restarts the agent after a 10 second pause. WARNING: this is a dangerous operation. Any operations in progress will be aborted, and unrecoverable data loss may occur. The caller is responsible for ensuring that there are no operations in progress when this method is called.
+// RestartAgent Restarts the agent after a 10 second pause. WARNING: this is a dangerous operation. Any operations in progress will be aborted, and unrecoverable data loss may occur. The caller is responsible for ensuring that there are no operations in progress when this method is called.
 func (_class HostClass) RestartAgent(sessionID SessionRef, host HostRef) (_err error) {
 	_method := "host.restart_agent"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -784,7 +784,7 @@ func (_class HostClass) RestartAgent(sessionID SessionRef, host HostRef) (_err e
 	return
 }
 
-// 
+// GetSystemStatusCapabilities 
 func (_class HostClass) GetSystemStatusCapabilities(sessionID SessionRef, host HostRef) (_retval string, _err error) {
 	_method := "host.get_system_status_capabilities"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -803,7 +803,7 @@ func (_class HostClass) GetSystemStatusCapabilities(sessionID SessionRef, host H
 	return
 }
 
-// Returns the management interface for the specified host
+// GetManagementInterface Returns the management interface for the specified host
 func (_class HostClass) GetManagementInterface(sessionID SessionRef, host HostRef) (_retval PIFRef, _err error) {
 	_method := "host.get_management_interface"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -822,7 +822,7 @@ func (_class HostClass) GetManagementInterface(sessionID SessionRef, host HostRe
 	return
 }
 
-// Disable the management network interface
+// ManagementDisable Disable the management network interface
 func (_class HostClass) ManagementDisable(sessionID SessionRef) (_err error) {
 	_method := "host.management_disable"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -833,7 +833,7 @@ func (_class HostClass) ManagementDisable(sessionID SessionRef) (_err error) {
 	return
 }
 
-// Reconfigure the management network interface. Should only be used if Host.management_reconfigure is impossible because the network configuration is broken.
+// LocalManagementReconfigure Reconfigure the management network interface. Should only be used if Host.management_reconfigure is impossible because the network configuration is broken.
 func (_class HostClass) LocalManagementReconfigure(sessionID SessionRef, iface string) (_err error) {
 	_method := "host.local_management_reconfigure"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -848,7 +848,7 @@ func (_class HostClass) LocalManagementReconfigure(sessionID SessionRef, iface s
 	return
 }
 
-// Reconfigure the management network interface
+// ManagementReconfigure Reconfigure the management network interface
 func (_class HostClass) ManagementReconfigure(sessionID SessionRef, pif PIFRef) (_err error) {
 	_method := "host.management_reconfigure"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -863,7 +863,7 @@ func (_class HostClass) ManagementReconfigure(sessionID SessionRef, pif PIFRef) 
 	return
 }
 
-// Re-configure syslog logging
+// SyslogReconfigure Re-configure syslog logging
 func (_class HostClass) SyslogReconfigure(sessionID SessionRef, host HostRef) (_err error) {
 	_method := "host.syslog_reconfigure"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -878,7 +878,7 @@ func (_class HostClass) SyslogReconfigure(sessionID SessionRef, host HostRef) (_
 	return
 }
 
-// Migrate all VMs off of this host, where possible.
+// Evacuate Migrate all VMs off of this host, where possible.
 func (_class HostClass) Evacuate(sessionID SessionRef, host HostRef) (_err error) {
 	_method := "host.evacuate"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -893,7 +893,7 @@ func (_class HostClass) Evacuate(sessionID SessionRef, host HostRef) (_err error
 	return
 }
 
-// Return a set of VMs which are not co-operating with the host's memory control system
+// GetUncooperativeResidentVMs Return a set of VMs which are not co-operating with the host's memory control system
 func (_class HostClass) GetUncooperativeResidentVMs(sessionID SessionRef, self HostRef) (_retval []VMRef, _err error) {
 	_method := "host.get_uncooperative_resident_VMs"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -912,7 +912,7 @@ func (_class HostClass) GetUncooperativeResidentVMs(sessionID SessionRef, self H
 	return
 }
 
-// Return a set of VMs which prevent the host being evacuated, with per-VM error codes
+// GetVmsWhichPreventEvacuation Return a set of VMs which prevent the host being evacuated, with per-VM error codes
 func (_class HostClass) GetVmsWhichPreventEvacuation(sessionID SessionRef, self HostRef) (_retval map[VMRef][]string, _err error) {
 	_method := "host.get_vms_which_prevent_evacuation"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -931,7 +931,7 @@ func (_class HostClass) GetVmsWhichPreventEvacuation(sessionID SessionRef, self 
 	return
 }
 
-// Check this host can be evacuated.
+// AssertCanEvacuate Check this host can be evacuated.
 func (_class HostClass) AssertCanEvacuate(sessionID SessionRef, host HostRef) (_err error) {
 	_method := "host.assert_can_evacuate"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -946,7 +946,7 @@ func (_class HostClass) AssertCanEvacuate(sessionID SessionRef, host HostRef) (_
 	return
 }
 
-// Forget the recorded statistics related to the specified data source
+// ForgetDataSourceArchives Forget the recorded statistics related to the specified data source
 func (_class HostClass) ForgetDataSourceArchives(sessionID SessionRef, host HostRef, dataSource string) (_err error) {
 	_method := "host.forget_data_source_archives"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -965,7 +965,7 @@ func (_class HostClass) ForgetDataSourceArchives(sessionID SessionRef, host Host
 	return
 }
 
-// Query the latest value of the specified data source
+// QueryDataSource Query the latest value of the specified data source
 func (_class HostClass) QueryDataSource(sessionID SessionRef, host HostRef, dataSource string) (_retval float64, _err error) {
 	_method := "host.query_data_source"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -988,7 +988,7 @@ func (_class HostClass) QueryDataSource(sessionID SessionRef, host HostRef, data
 	return
 }
 
-// Start recording the specified data source
+// RecordDataSource Start recording the specified data source
 func (_class HostClass) RecordDataSource(sessionID SessionRef, host HostRef, dataSource string) (_err error) {
 	_method := "host.record_data_source"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1007,7 +1007,7 @@ func (_class HostClass) RecordDataSource(sessionID SessionRef, host HostRef, dat
 	return
 }
 
-// 
+// GetDataSources 
 func (_class HostClass) GetDataSources(sessionID SessionRef, host HostRef) (_retval []DataSourceRecord, _err error) {
 	_method := "host.get_data_sources"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1026,7 +1026,7 @@ func (_class HostClass) GetDataSources(sessionID SessionRef, host HostRef) (_ret
 	return
 }
 
-// This call disables HA on the local host. This should only be used with extreme care.
+// EmergencyHaDisable This call disables HA on the local host. This should only be used with extreme care.
 func (_class HostClass) EmergencyHaDisable(sessionID SessionRef, soft bool) (_err error) {
 	_method := "host.emergency_ha_disable"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1041,7 +1041,7 @@ func (_class HostClass) EmergencyHaDisable(sessionID SessionRef, soft bool) (_er
 	return
 }
 
-// Attempt to power-on the host (if the capability exists).
+// PowerOn Attempt to power-on the host (if the capability exists).
 func (_class HostClass) PowerOn(sessionID SessionRef, host HostRef) (_err error) {
 	_method := "host.power_on"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1056,7 +1056,7 @@ func (_class HostClass) PowerOn(sessionID SessionRef, host HostRef) (_err error)
 	return
 }
 
-// Destroy specified host record in database
+// Destroy Destroy specified host record in database
 func (_class HostClass) Destroy(sessionID SessionRef, self HostRef) (_err error) {
 	_method := "host.destroy"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1071,7 +1071,7 @@ func (_class HostClass) Destroy(sessionID SessionRef, self HostRef) (_err error)
 	return
 }
 
-// Remove any license file from the specified host, and switch that host to the unlicensed edition
+// LicenseRemove Remove any license file from the specified host, and switch that host to the unlicensed edition
 func (_class HostClass) LicenseRemove(sessionID SessionRef, host HostRef) (_err error) {
 	_method := "host.license_remove"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1086,7 +1086,7 @@ func (_class HostClass) LicenseRemove(sessionID SessionRef, host HostRef) (_err 
 	return
 }
 
-// Apply a new license to a host
+// LicenseAdd Apply a new license to a host
 //
 // Errors:
 //  LICENSE_PROCESSING_ERROR - There was an error processing your license.  Please contact your support representative.
@@ -1108,7 +1108,7 @@ func (_class HostClass) LicenseAdd(sessionID SessionRef, host HostRef, contents 
 	return
 }
 
-// Apply a new license to a host
+// LicenseApply Apply a new license to a host
 //
 // Errors:
 //  LICENSE_PROCESSING_ERROR - There was an error processing your license.  Please contact your support representative.
@@ -1130,7 +1130,7 @@ func (_class HostClass) LicenseApply(sessionID SessionRef, host HostRef, content
 	return
 }
 
-// List all supported methods
+// ListMethods List all supported methods
 func (_class HostClass) ListMethods(sessionID SessionRef) (_retval []string, _err error) {
 	_method := "host.list_methods"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1145,7 +1145,7 @@ func (_class HostClass) ListMethods(sessionID SessionRef) (_retval []string, _er
 	return
 }
 
-// Run xen-bugtool --yestoall and upload the output to support
+// BugreportUpload Run xen-bugtool --yestoall and upload the output to support
 func (_class HostClass) BugreportUpload(sessionID SessionRef, host HostRef, url string, options map[string]string) (_err error) {
 	_method := "host.bugreport_upload"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1168,7 +1168,7 @@ func (_class HostClass) BugreportUpload(sessionID SessionRef, host HostRef, url 
 	return
 }
 
-// Inject the given string as debugging keys into Xen
+// SendDebugKeys Inject the given string as debugging keys into Xen
 func (_class HostClass) SendDebugKeys(sessionID SessionRef, host HostRef, keys string) (_err error) {
 	_method := "host.send_debug_keys"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1187,7 +1187,7 @@ func (_class HostClass) SendDebugKeys(sessionID SessionRef, host HostRef, keys s
 	return
 }
 
-// Get the host's log file
+// GetLog Get the host's log file
 func (_class HostClass) GetLog(sessionID SessionRef, host HostRef) (_retval string, _err error) {
 	_method := "host.get_log"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1206,7 +1206,7 @@ func (_class HostClass) GetLog(sessionID SessionRef, host HostRef) (_retval stri
 	return
 }
 
-// Get the host xen dmesg, and clear the buffer.
+// DmesgClear Get the host xen dmesg, and clear the buffer.
 func (_class HostClass) DmesgClear(sessionID SessionRef, host HostRef) (_retval string, _err error) {
 	_method := "host.dmesg_clear"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1225,7 +1225,7 @@ func (_class HostClass) DmesgClear(sessionID SessionRef, host HostRef) (_retval 
 	return
 }
 
-// Get the host xen dmesg.
+// Dmesg Get the host xen dmesg.
 func (_class HostClass) Dmesg(sessionID SessionRef, host HostRef) (_retval string, _err error) {
 	_method := "host.dmesg"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1244,7 +1244,7 @@ func (_class HostClass) Dmesg(sessionID SessionRef, host HostRef) (_retval strin
 	return
 }
 
-// Reboot the host. (This function can only be called if there are no currently running VMs on the host and it is disabled.)
+// Reboot Reboot the host. (This function can only be called if there are no currently running VMs on the host and it is disabled.)
 func (_class HostClass) Reboot(sessionID SessionRef, host HostRef) (_err error) {
 	_method := "host.reboot"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1259,7 +1259,7 @@ func (_class HostClass) Reboot(sessionID SessionRef, host HostRef) (_err error) 
 	return
 }
 
-// Shutdown the host. (This function can only be called if there are no currently running VMs on the host and it is disabled.)
+// Shutdown Shutdown the host. (This function can only be called if there are no currently running VMs on the host and it is disabled.)
 func (_class HostClass) Shutdown(sessionID SessionRef, host HostRef) (_err error) {
 	_method := "host.shutdown"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1274,7 +1274,7 @@ func (_class HostClass) Shutdown(sessionID SessionRef, host HostRef) (_err error
 	return
 }
 
-// Puts the host into a state in which new VMs can be started.
+// Enable Puts the host into a state in which new VMs can be started.
 func (_class HostClass) Enable(sessionID SessionRef, host HostRef) (_err error) {
 	_method := "host.enable"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1289,7 +1289,7 @@ func (_class HostClass) Enable(sessionID SessionRef, host HostRef) (_err error) 
 	return
 }
 
-// Puts the host into a state in which no new VMs can be started. Currently active VMs on the host continue to execute.
+// Disable Puts the host into a state in which no new VMs can be started. Currently active VMs on the host continue to execute.
 func (_class HostClass) Disable(sessionID SessionRef, host HostRef) (_err error) {
 	_method := "host.disable"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1304,7 +1304,7 @@ func (_class HostClass) Disable(sessionID SessionRef, host HostRef) (_err error)
 	return
 }
 
-// Set the display field of the given host.
+// SetDisplay Set the display field of the given host.
 func (_class HostClass) SetDisplay(sessionID SessionRef, self HostRef, value HostDisplay) (_err error) {
 	_method := "host.set_display"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1323,7 +1323,7 @@ func (_class HostClass) SetDisplay(sessionID SessionRef, self HostRef, value Hos
 	return
 }
 
-// Remove the given key and its corresponding value from the guest_VCPUs_params field of the given host.  If the key is not in that Map, then do nothing.
+// RemoveFromGuestVCPUsParams Remove the given key and its corresponding value from the guest_VCPUs_params field of the given host.  If the key is not in that Map, then do nothing.
 func (_class HostClass) RemoveFromGuestVCPUsParams(sessionID SessionRef, self HostRef, key string) (_err error) {
 	_method := "host.remove_from_guest_VCPUs_params"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1342,7 +1342,7 @@ func (_class HostClass) RemoveFromGuestVCPUsParams(sessionID SessionRef, self Ho
 	return
 }
 
-// Add the given key-value pair to the guest_VCPUs_params field of the given host.
+// AddToGuestVCPUsParams Add the given key-value pair to the guest_VCPUs_params field of the given host.
 func (_class HostClass) AddToGuestVCPUsParams(sessionID SessionRef, self HostRef, key string, value string) (_err error) {
 	_method := "host.add_to_guest_VCPUs_params"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1365,7 +1365,7 @@ func (_class HostClass) AddToGuestVCPUsParams(sessionID SessionRef, self HostRef
 	return
 }
 
-// Set the guest_VCPUs_params field of the given host.
+// SetGuestVCPUsParams Set the guest_VCPUs_params field of the given host.
 func (_class HostClass) SetGuestVCPUsParams(sessionID SessionRef, self HostRef, value map[string]string) (_err error) {
 	_method := "host.set_guest_VCPUs_params"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1384,7 +1384,7 @@ func (_class HostClass) SetGuestVCPUsParams(sessionID SessionRef, self HostRef, 
 	return
 }
 
-// Remove the given key and its corresponding value from the license_server field of the given host.  If the key is not in that Map, then do nothing.
+// RemoveFromLicenseServer Remove the given key and its corresponding value from the license_server field of the given host.  If the key is not in that Map, then do nothing.
 func (_class HostClass) RemoveFromLicenseServer(sessionID SessionRef, self HostRef, key string) (_err error) {
 	_method := "host.remove_from_license_server"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1403,7 +1403,7 @@ func (_class HostClass) RemoveFromLicenseServer(sessionID SessionRef, self HostR
 	return
 }
 
-// Add the given key-value pair to the license_server field of the given host.
+// AddToLicenseServer Add the given key-value pair to the license_server field of the given host.
 func (_class HostClass) AddToLicenseServer(sessionID SessionRef, self HostRef, key string, value string) (_err error) {
 	_method := "host.add_to_license_server"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1426,7 +1426,7 @@ func (_class HostClass) AddToLicenseServer(sessionID SessionRef, self HostRef, k
 	return
 }
 
-// Set the license_server field of the given host.
+// SetLicenseServer Set the license_server field of the given host.
 func (_class HostClass) SetLicenseServer(sessionID SessionRef, self HostRef, value map[string]string) (_err error) {
 	_method := "host.set_license_server"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1445,7 +1445,7 @@ func (_class HostClass) SetLicenseServer(sessionID SessionRef, self HostRef, val
 	return
 }
 
-// Remove the given value from the tags field of the given host.  If the value is not in that Set, then do nothing.
+// RemoveTags Remove the given value from the tags field of the given host.  If the value is not in that Set, then do nothing.
 func (_class HostClass) RemoveTags(sessionID SessionRef, self HostRef, value string) (_err error) {
 	_method := "host.remove_tags"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1464,7 +1464,7 @@ func (_class HostClass) RemoveTags(sessionID SessionRef, self HostRef, value str
 	return
 }
 
-// Add the given value to the tags field of the given host.  If the value is already in that Set, then do nothing.
+// AddTags Add the given value to the tags field of the given host.  If the value is already in that Set, then do nothing.
 func (_class HostClass) AddTags(sessionID SessionRef, self HostRef, value string) (_err error) {
 	_method := "host.add_tags"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1483,7 +1483,7 @@ func (_class HostClass) AddTags(sessionID SessionRef, self HostRef, value string
 	return
 }
 
-// Set the tags field of the given host.
+// SetTags Set the tags field of the given host.
 func (_class HostClass) SetTags(sessionID SessionRef, self HostRef, value []string) (_err error) {
 	_method := "host.set_tags"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1502,7 +1502,7 @@ func (_class HostClass) SetTags(sessionID SessionRef, self HostRef, value []stri
 	return
 }
 
-// Set the address field of the given host.
+// SetAddress Set the address field of the given host.
 func (_class HostClass) SetAddress(sessionID SessionRef, self HostRef, value string) (_err error) {
 	_method := "host.set_address"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1521,7 +1521,7 @@ func (_class HostClass) SetAddress(sessionID SessionRef, self HostRef, value str
 	return
 }
 
-// Set the hostname field of the given host.
+// SetHostname Set the hostname field of the given host.
 func (_class HostClass) SetHostname(sessionID SessionRef, self HostRef, value string) (_err error) {
 	_method := "host.set_hostname"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1540,7 +1540,7 @@ func (_class HostClass) SetHostname(sessionID SessionRef, self HostRef, value st
 	return
 }
 
-// Set the crash_dump_sr field of the given host.
+// SetCrashDumpSr Set the crash_dump_sr field of the given host.
 func (_class HostClass) SetCrashDumpSr(sessionID SessionRef, self HostRef, value SRRef) (_err error) {
 	_method := "host.set_crash_dump_sr"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1559,7 +1559,7 @@ func (_class HostClass) SetCrashDumpSr(sessionID SessionRef, self HostRef, value
 	return
 }
 
-// Set the suspend_image_sr field of the given host.
+// SetSuspendImageSr Set the suspend_image_sr field of the given host.
 func (_class HostClass) SetSuspendImageSr(sessionID SessionRef, self HostRef, value SRRef) (_err error) {
 	_method := "host.set_suspend_image_sr"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1578,7 +1578,7 @@ func (_class HostClass) SetSuspendImageSr(sessionID SessionRef, self HostRef, va
 	return
 }
 
-// Remove the given key and its corresponding value from the logging field of the given host.  If the key is not in that Map, then do nothing.
+// RemoveFromLogging Remove the given key and its corresponding value from the logging field of the given host.  If the key is not in that Map, then do nothing.
 func (_class HostClass) RemoveFromLogging(sessionID SessionRef, self HostRef, key string) (_err error) {
 	_method := "host.remove_from_logging"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1597,7 +1597,7 @@ func (_class HostClass) RemoveFromLogging(sessionID SessionRef, self HostRef, ke
 	return
 }
 
-// Add the given key-value pair to the logging field of the given host.
+// AddToLogging Add the given key-value pair to the logging field of the given host.
 func (_class HostClass) AddToLogging(sessionID SessionRef, self HostRef, key string, value string) (_err error) {
 	_method := "host.add_to_logging"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1620,7 +1620,7 @@ func (_class HostClass) AddToLogging(sessionID SessionRef, self HostRef, key str
 	return
 }
 
-// Set the logging field of the given host.
+// SetLogging Set the logging field of the given host.
 func (_class HostClass) SetLogging(sessionID SessionRef, self HostRef, value map[string]string) (_err error) {
 	_method := "host.set_logging"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1639,7 +1639,7 @@ func (_class HostClass) SetLogging(sessionID SessionRef, self HostRef, value map
 	return
 }
 
-// Remove the given key and its corresponding value from the other_config field of the given host.  If the key is not in that Map, then do nothing.
+// RemoveFromOtherConfig Remove the given key and its corresponding value from the other_config field of the given host.  If the key is not in that Map, then do nothing.
 func (_class HostClass) RemoveFromOtherConfig(sessionID SessionRef, self HostRef, key string) (_err error) {
 	_method := "host.remove_from_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1658,7 +1658,7 @@ func (_class HostClass) RemoveFromOtherConfig(sessionID SessionRef, self HostRef
 	return
 }
 
-// Add the given key-value pair to the other_config field of the given host.
+// AddToOtherConfig Add the given key-value pair to the other_config field of the given host.
 func (_class HostClass) AddToOtherConfig(sessionID SessionRef, self HostRef, key string, value string) (_err error) {
 	_method := "host.add_to_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1681,7 +1681,7 @@ func (_class HostClass) AddToOtherConfig(sessionID SessionRef, self HostRef, key
 	return
 }
 
-// Set the other_config field of the given host.
+// SetOtherConfig Set the other_config field of the given host.
 func (_class HostClass) SetOtherConfig(sessionID SessionRef, self HostRef, value map[string]string) (_err error) {
 	_method := "host.set_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1700,7 +1700,7 @@ func (_class HostClass) SetOtherConfig(sessionID SessionRef, self HostRef, value
 	return
 }
 
-// Set the name/description field of the given host.
+// SetNameDescription Set the name/description field of the given host.
 func (_class HostClass) SetNameDescription(sessionID SessionRef, self HostRef, value string) (_err error) {
 	_method := "host.set_name_description"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1719,7 +1719,7 @@ func (_class HostClass) SetNameDescription(sessionID SessionRef, self HostRef, v
 	return
 }
 
-// Set the name/label field of the given host.
+// SetNameLabel Set the name/label field of the given host.
 func (_class HostClass) SetNameLabel(sessionID SessionRef, self HostRef, value string) (_err error) {
 	_method := "host.set_name_label"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1738,7 +1738,7 @@ func (_class HostClass) SetNameLabel(sessionID SessionRef, self HostRef, value s
 	return
 }
 
-// Get the features field of the given host.
+// GetFeatures Get the features field of the given host.
 func (_class HostClass) GetFeatures(sessionID SessionRef, self HostRef) (_retval []FeatureRef, _err error) {
 	_method := "host.get_features"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1757,7 +1757,7 @@ func (_class HostClass) GetFeatures(sessionID SessionRef, self HostRef) (_retval
 	return
 }
 
-// Get the updates_requiring_reboot field of the given host.
+// GetUpdatesRequiringReboot Get the updates_requiring_reboot field of the given host.
 func (_class HostClass) GetUpdatesRequiringReboot(sessionID SessionRef, self HostRef) (_retval []PoolUpdateRef, _err error) {
 	_method := "host.get_updates_requiring_reboot"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1776,7 +1776,7 @@ func (_class HostClass) GetUpdatesRequiringReboot(sessionID SessionRef, self Hos
 	return
 }
 
-// Get the control_domain field of the given host.
+// GetControlDomain Get the control_domain field of the given host.
 func (_class HostClass) GetControlDomain(sessionID SessionRef, self HostRef) (_retval VMRef, _err error) {
 	_method := "host.get_control_domain"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1795,7 +1795,7 @@ func (_class HostClass) GetControlDomain(sessionID SessionRef, self HostRef) (_r
 	return
 }
 
-// Get the virtual_hardware_platform_versions field of the given host.
+// GetVirtualHardwarePlatformVersions Get the virtual_hardware_platform_versions field of the given host.
 func (_class HostClass) GetVirtualHardwarePlatformVersions(sessionID SessionRef, self HostRef) (_retval []int, _err error) {
 	_method := "host.get_virtual_hardware_platform_versions"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1814,7 +1814,7 @@ func (_class HostClass) GetVirtualHardwarePlatformVersions(sessionID SessionRef,
 	return
 }
 
-// Get the display field of the given host.
+// GetDisplay Get the display field of the given host.
 func (_class HostClass) GetDisplay(sessionID SessionRef, self HostRef) (_retval HostDisplay, _err error) {
 	_method := "host.get_display"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1833,7 +1833,7 @@ func (_class HostClass) GetDisplay(sessionID SessionRef, self HostRef) (_retval 
 	return
 }
 
-// Get the guest_VCPUs_params field of the given host.
+// GetGuestVCPUsParams Get the guest_VCPUs_params field of the given host.
 func (_class HostClass) GetGuestVCPUsParams(sessionID SessionRef, self HostRef) (_retval map[string]string, _err error) {
 	_method := "host.get_guest_VCPUs_params"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1852,7 +1852,7 @@ func (_class HostClass) GetGuestVCPUsParams(sessionID SessionRef, self HostRef) 
 	return
 }
 
-// Get the ssl_legacy field of the given host.
+// GetSslLegacy Get the ssl_legacy field of the given host.
 func (_class HostClass) GetSslLegacy(sessionID SessionRef, self HostRef) (_retval bool, _err error) {
 	_method := "host.get_ssl_legacy"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1871,7 +1871,7 @@ func (_class HostClass) GetSslLegacy(sessionID SessionRef, self HostRef) (_retva
 	return
 }
 
-// Get the PUSBs field of the given host.
+// GetPUSBs Get the PUSBs field of the given host.
 func (_class HostClass) GetPUSBs(sessionID SessionRef, self HostRef) (_retval []PUSBRef, _err error) {
 	_method := "host.get_PUSBs"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1890,7 +1890,7 @@ func (_class HostClass) GetPUSBs(sessionID SessionRef, self HostRef) (_retval []
 	return
 }
 
-// Get the PGPUs field of the given host.
+// GetPGPUs Get the PGPUs field of the given host.
 func (_class HostClass) GetPGPUs(sessionID SessionRef, self HostRef) (_retval []PGPURef, _err error) {
 	_method := "host.get_PGPUs"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1909,7 +1909,7 @@ func (_class HostClass) GetPGPUs(sessionID SessionRef, self HostRef) (_retval []
 	return
 }
 
-// Get the PCIs field of the given host.
+// GetPCIs Get the PCIs field of the given host.
 func (_class HostClass) GetPCIs(sessionID SessionRef, self HostRef) (_retval []PCIRef, _err error) {
 	_method := "host.get_PCIs"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1928,7 +1928,7 @@ func (_class HostClass) GetPCIs(sessionID SessionRef, self HostRef) (_retval []P
 	return
 }
 
-// Get the chipset_info field of the given host.
+// GetChipsetInfo Get the chipset_info field of the given host.
 func (_class HostClass) GetChipsetInfo(sessionID SessionRef, self HostRef) (_retval map[string]string, _err error) {
 	_method := "host.get_chipset_info"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1947,7 +1947,7 @@ func (_class HostClass) GetChipsetInfo(sessionID SessionRef, self HostRef) (_ret
 	return
 }
 
-// Get the local_cache_sr field of the given host.
+// GetLocalCacheSr Get the local_cache_sr field of the given host.
 func (_class HostClass) GetLocalCacheSr(sessionID SessionRef, self HostRef) (_retval SRRef, _err error) {
 	_method := "host.get_local_cache_sr"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1966,7 +1966,7 @@ func (_class HostClass) GetLocalCacheSr(sessionID SessionRef, self HostRef) (_re
 	return
 }
 
-// Get the power_on_config field of the given host.
+// GetPowerOnConfig Get the power_on_config field of the given host.
 func (_class HostClass) GetPowerOnConfig(sessionID SessionRef, self HostRef) (_retval map[string]string, _err error) {
 	_method := "host.get_power_on_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1985,7 +1985,7 @@ func (_class HostClass) GetPowerOnConfig(sessionID SessionRef, self HostRef) (_r
 	return
 }
 
-// Get the power_on_mode field of the given host.
+// GetPowerOnMode Get the power_on_mode field of the given host.
 func (_class HostClass) GetPowerOnMode(sessionID SessionRef, self HostRef) (_retval string, _err error) {
 	_method := "host.get_power_on_mode"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2004,7 +2004,7 @@ func (_class HostClass) GetPowerOnMode(sessionID SessionRef, self HostRef) (_ret
 	return
 }
 
-// Get the bios_strings field of the given host.
+// GetBiosStrings Get the bios_strings field of the given host.
 func (_class HostClass) GetBiosStrings(sessionID SessionRef, self HostRef) (_retval map[string]string, _err error) {
 	_method := "host.get_bios_strings"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2023,7 +2023,7 @@ func (_class HostClass) GetBiosStrings(sessionID SessionRef, self HostRef) (_ret
 	return
 }
 
-// Get the license_server field of the given host.
+// GetLicenseServer Get the license_server field of the given host.
 func (_class HostClass) GetLicenseServer(sessionID SessionRef, self HostRef) (_retval map[string]string, _err error) {
 	_method := "host.get_license_server"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2042,7 +2042,7 @@ func (_class HostClass) GetLicenseServer(sessionID SessionRef, self HostRef) (_r
 	return
 }
 
-// Get the edition field of the given host.
+// GetEdition Get the edition field of the given host.
 func (_class HostClass) GetEdition(sessionID SessionRef, self HostRef) (_retval string, _err error) {
 	_method := "host.get_edition"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2061,7 +2061,7 @@ func (_class HostClass) GetEdition(sessionID SessionRef, self HostRef) (_retval 
 	return
 }
 
-// Get the external_auth_configuration field of the given host.
+// GetExternalAuthConfiguration Get the external_auth_configuration field of the given host.
 func (_class HostClass) GetExternalAuthConfiguration(sessionID SessionRef, self HostRef) (_retval map[string]string, _err error) {
 	_method := "host.get_external_auth_configuration"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2080,7 +2080,7 @@ func (_class HostClass) GetExternalAuthConfiguration(sessionID SessionRef, self 
 	return
 }
 
-// Get the external_auth_service_name field of the given host.
+// GetExternalAuthServiceName Get the external_auth_service_name field of the given host.
 func (_class HostClass) GetExternalAuthServiceName(sessionID SessionRef, self HostRef) (_retval string, _err error) {
 	_method := "host.get_external_auth_service_name"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2099,7 +2099,7 @@ func (_class HostClass) GetExternalAuthServiceName(sessionID SessionRef, self Ho
 	return
 }
 
-// Get the external_auth_type field of the given host.
+// GetExternalAuthType Get the external_auth_type field of the given host.
 func (_class HostClass) GetExternalAuthType(sessionID SessionRef, self HostRef) (_retval string, _err error) {
 	_method := "host.get_external_auth_type"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2118,7 +2118,7 @@ func (_class HostClass) GetExternalAuthType(sessionID SessionRef, self HostRef) 
 	return
 }
 
-// Get the tags field of the given host.
+// GetTags Get the tags field of the given host.
 func (_class HostClass) GetTags(sessionID SessionRef, self HostRef) (_retval []string, _err error) {
 	_method := "host.get_tags"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2137,7 +2137,7 @@ func (_class HostClass) GetTags(sessionID SessionRef, self HostRef) (_retval []s
 	return
 }
 
-// Get the blobs field of the given host.
+// GetBlobs Get the blobs field of the given host.
 func (_class HostClass) GetBlobs(sessionID SessionRef, self HostRef) (_retval map[string]BlobRef, _err error) {
 	_method := "host.get_blobs"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2156,7 +2156,7 @@ func (_class HostClass) GetBlobs(sessionID SessionRef, self HostRef) (_retval ma
 	return
 }
 
-// Get the ha_network_peers field of the given host.
+// GetHaNetworkPeers Get the ha_network_peers field of the given host.
 func (_class HostClass) GetHaNetworkPeers(sessionID SessionRef, self HostRef) (_retval []string, _err error) {
 	_method := "host.get_ha_network_peers"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2175,7 +2175,7 @@ func (_class HostClass) GetHaNetworkPeers(sessionID SessionRef, self HostRef) (_
 	return
 }
 
-// Get the ha_statefiles field of the given host.
+// GetHaStatefiles Get the ha_statefiles field of the given host.
 func (_class HostClass) GetHaStatefiles(sessionID SessionRef, self HostRef) (_retval []string, _err error) {
 	_method := "host.get_ha_statefiles"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2194,7 +2194,7 @@ func (_class HostClass) GetHaStatefiles(sessionID SessionRef, self HostRef) (_re
 	return
 }
 
-// Get the license_params field of the given host.
+// GetLicenseParams Get the license_params field of the given host.
 func (_class HostClass) GetLicenseParams(sessionID SessionRef, self HostRef) (_retval map[string]string, _err error) {
 	_method := "host.get_license_params"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2213,7 +2213,7 @@ func (_class HostClass) GetLicenseParams(sessionID SessionRef, self HostRef) (_r
 	return
 }
 
-// Get the metrics field of the given host.
+// GetMetrics Get the metrics field of the given host.
 func (_class HostClass) GetMetrics(sessionID SessionRef, self HostRef) (_retval HostMetricsRef, _err error) {
 	_method := "host.get_metrics"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2232,7 +2232,7 @@ func (_class HostClass) GetMetrics(sessionID SessionRef, self HostRef) (_retval 
 	return
 }
 
-// Get the address field of the given host.
+// GetAddress Get the address field of the given host.
 func (_class HostClass) GetAddress(sessionID SessionRef, self HostRef) (_retval string, _err error) {
 	_method := "host.get_address"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2251,7 +2251,7 @@ func (_class HostClass) GetAddress(sessionID SessionRef, self HostRef) (_retval 
 	return
 }
 
-// Get the hostname field of the given host.
+// GetHostname Get the hostname field of the given host.
 func (_class HostClass) GetHostname(sessionID SessionRef, self HostRef) (_retval string, _err error) {
 	_method := "host.get_hostname"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2270,7 +2270,7 @@ func (_class HostClass) GetHostname(sessionID SessionRef, self HostRef) (_retval
 	return
 }
 
-// Get the cpu_info field of the given host.
+// GetCPUInfo Get the cpu_info field of the given host.
 func (_class HostClass) GetCPUInfo(sessionID SessionRef, self HostRef) (_retval map[string]string, _err error) {
 	_method := "host.get_cpu_info"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2289,7 +2289,7 @@ func (_class HostClass) GetCPUInfo(sessionID SessionRef, self HostRef) (_retval 
 	return
 }
 
-// Get the host_CPUs field of the given host.
+// GetHostCPUs Get the host_CPUs field of the given host.
 func (_class HostClass) GetHostCPUs(sessionID SessionRef, self HostRef) (_retval []HostCPURef, _err error) {
 	_method := "host.get_host_CPUs"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2308,7 +2308,7 @@ func (_class HostClass) GetHostCPUs(sessionID SessionRef, self HostRef) (_retval
 	return
 }
 
-// Get the PBDs field of the given host.
+// GetPBDs Get the PBDs field of the given host.
 func (_class HostClass) GetPBDs(sessionID SessionRef, self HostRef) (_retval []PBDRef, _err error) {
 	_method := "host.get_PBDs"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2327,7 +2327,7 @@ func (_class HostClass) GetPBDs(sessionID SessionRef, self HostRef) (_retval []P
 	return
 }
 
-// Get the updates field of the given host.
+// GetUpdates Get the updates field of the given host.
 func (_class HostClass) GetUpdates(sessionID SessionRef, self HostRef) (_retval []PoolUpdateRef, _err error) {
 	_method := "host.get_updates"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2346,7 +2346,7 @@ func (_class HostClass) GetUpdates(sessionID SessionRef, self HostRef) (_retval 
 	return
 }
 
-// Get the patches field of the given host.
+// GetPatches Get the patches field of the given host.
 func (_class HostClass) GetPatches(sessionID SessionRef, self HostRef) (_retval []HostPatchRef, _err error) {
 	_method := "host.get_patches"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2365,7 +2365,7 @@ func (_class HostClass) GetPatches(sessionID SessionRef, self HostRef) (_retval 
 	return
 }
 
-// Get the crashdumps field of the given host.
+// GetCrashdumps Get the crashdumps field of the given host.
 func (_class HostClass) GetCrashdumps(sessionID SessionRef, self HostRef) (_retval []HostCrashdumpRef, _err error) {
 	_method := "host.get_crashdumps"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2384,7 +2384,7 @@ func (_class HostClass) GetCrashdumps(sessionID SessionRef, self HostRef) (_retv
 	return
 }
 
-// Get the crash_dump_sr field of the given host.
+// GetCrashDumpSr Get the crash_dump_sr field of the given host.
 func (_class HostClass) GetCrashDumpSr(sessionID SessionRef, self HostRef) (_retval SRRef, _err error) {
 	_method := "host.get_crash_dump_sr"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2403,7 +2403,7 @@ func (_class HostClass) GetCrashDumpSr(sessionID SessionRef, self HostRef) (_ret
 	return
 }
 
-// Get the suspend_image_sr field of the given host.
+// GetSuspendImageSr Get the suspend_image_sr field of the given host.
 func (_class HostClass) GetSuspendImageSr(sessionID SessionRef, self HostRef) (_retval SRRef, _err error) {
 	_method := "host.get_suspend_image_sr"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2422,7 +2422,7 @@ func (_class HostClass) GetSuspendImageSr(sessionID SessionRef, self HostRef) (_
 	return
 }
 
-// Get the PIFs field of the given host.
+// GetPIFs Get the PIFs field of the given host.
 func (_class HostClass) GetPIFs(sessionID SessionRef, self HostRef) (_retval []PIFRef, _err error) {
 	_method := "host.get_PIFs"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2441,7 +2441,7 @@ func (_class HostClass) GetPIFs(sessionID SessionRef, self HostRef) (_retval []P
 	return
 }
 
-// Get the logging field of the given host.
+// GetLogging Get the logging field of the given host.
 func (_class HostClass) GetLogging(sessionID SessionRef, self HostRef) (_retval map[string]string, _err error) {
 	_method := "host.get_logging"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2460,7 +2460,7 @@ func (_class HostClass) GetLogging(sessionID SessionRef, self HostRef) (_retval 
 	return
 }
 
-// Get the resident_VMs field of the given host.
+// GetResidentVMs Get the resident_VMs field of the given host.
 func (_class HostClass) GetResidentVMs(sessionID SessionRef, self HostRef) (_retval []VMRef, _err error) {
 	_method := "host.get_resident_VMs"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2479,7 +2479,7 @@ func (_class HostClass) GetResidentVMs(sessionID SessionRef, self HostRef) (_ret
 	return
 }
 
-// Get the supported_bootloaders field of the given host.
+// GetSupportedBootloaders Get the supported_bootloaders field of the given host.
 func (_class HostClass) GetSupportedBootloaders(sessionID SessionRef, self HostRef) (_retval []string, _err error) {
 	_method := "host.get_supported_bootloaders"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2498,7 +2498,7 @@ func (_class HostClass) GetSupportedBootloaders(sessionID SessionRef, self HostR
 	return
 }
 
-// Get the sched_policy field of the given host.
+// GetSchedPolicy Get the sched_policy field of the given host.
 func (_class HostClass) GetSchedPolicy(sessionID SessionRef, self HostRef) (_retval string, _err error) {
 	_method := "host.get_sched_policy"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2517,7 +2517,7 @@ func (_class HostClass) GetSchedPolicy(sessionID SessionRef, self HostRef) (_ret
 	return
 }
 
-// Get the cpu_configuration field of the given host.
+// GetCPUConfiguration Get the cpu_configuration field of the given host.
 func (_class HostClass) GetCPUConfiguration(sessionID SessionRef, self HostRef) (_retval map[string]string, _err error) {
 	_method := "host.get_cpu_configuration"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2536,7 +2536,7 @@ func (_class HostClass) GetCPUConfiguration(sessionID SessionRef, self HostRef) 
 	return
 }
 
-// Get the capabilities field of the given host.
+// GetCapabilities Get the capabilities field of the given host.
 func (_class HostClass) GetCapabilities(sessionID SessionRef, self HostRef) (_retval []string, _err error) {
 	_method := "host.get_capabilities"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2555,7 +2555,7 @@ func (_class HostClass) GetCapabilities(sessionID SessionRef, self HostRef) (_re
 	return
 }
 
-// Get the other_config field of the given host.
+// GetOtherConfig Get the other_config field of the given host.
 func (_class HostClass) GetOtherConfig(sessionID SessionRef, self HostRef) (_retval map[string]string, _err error) {
 	_method := "host.get_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2574,7 +2574,7 @@ func (_class HostClass) GetOtherConfig(sessionID SessionRef, self HostRef) (_ret
 	return
 }
 
-// Get the software_version field of the given host.
+// GetSoftwareVersion Get the software_version field of the given host.
 func (_class HostClass) GetSoftwareVersion(sessionID SessionRef, self HostRef) (_retval map[string]string, _err error) {
 	_method := "host.get_software_version"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2593,7 +2593,7 @@ func (_class HostClass) GetSoftwareVersion(sessionID SessionRef, self HostRef) (
 	return
 }
 
-// Get the enabled field of the given host.
+// GetEnabled Get the enabled field of the given host.
 func (_class HostClass) GetEnabled(sessionID SessionRef, self HostRef) (_retval bool, _err error) {
 	_method := "host.get_enabled"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2612,7 +2612,7 @@ func (_class HostClass) GetEnabled(sessionID SessionRef, self HostRef) (_retval 
 	return
 }
 
-// Get the API_version/vendor_implementation field of the given host.
+// GetAPIVersionVendorImplementation Get the API_version/vendor_implementation field of the given host.
 func (_class HostClass) GetAPIVersionVendorImplementation(sessionID SessionRef, self HostRef) (_retval map[string]string, _err error) {
 	_method := "host.get_API_version_vendor_implementation"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2631,7 +2631,7 @@ func (_class HostClass) GetAPIVersionVendorImplementation(sessionID SessionRef, 
 	return
 }
 
-// Get the API_version/vendor field of the given host.
+// GetAPIVersionVendor Get the API_version/vendor field of the given host.
 func (_class HostClass) GetAPIVersionVendor(sessionID SessionRef, self HostRef) (_retval string, _err error) {
 	_method := "host.get_API_version_vendor"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2650,7 +2650,7 @@ func (_class HostClass) GetAPIVersionVendor(sessionID SessionRef, self HostRef) 
 	return
 }
 
-// Get the API_version/minor field of the given host.
+// GetAPIVersionMinor Get the API_version/minor field of the given host.
 func (_class HostClass) GetAPIVersionMinor(sessionID SessionRef, self HostRef) (_retval int, _err error) {
 	_method := "host.get_API_version_minor"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2669,7 +2669,7 @@ func (_class HostClass) GetAPIVersionMinor(sessionID SessionRef, self HostRef) (
 	return
 }
 
-// Get the API_version/major field of the given host.
+// GetAPIVersionMajor Get the API_version/major field of the given host.
 func (_class HostClass) GetAPIVersionMajor(sessionID SessionRef, self HostRef) (_retval int, _err error) {
 	_method := "host.get_API_version_major"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2688,7 +2688,7 @@ func (_class HostClass) GetAPIVersionMajor(sessionID SessionRef, self HostRef) (
 	return
 }
 
-// Get the current_operations field of the given host.
+// GetCurrentOperations Get the current_operations field of the given host.
 func (_class HostClass) GetCurrentOperations(sessionID SessionRef, self HostRef) (_retval map[string]HostAllowedOperations, _err error) {
 	_method := "host.get_current_operations"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2707,7 +2707,7 @@ func (_class HostClass) GetCurrentOperations(sessionID SessionRef, self HostRef)
 	return
 }
 
-// Get the allowed_operations field of the given host.
+// GetAllowedOperations Get the allowed_operations field of the given host.
 func (_class HostClass) GetAllowedOperations(sessionID SessionRef, self HostRef) (_retval []HostAllowedOperations, _err error) {
 	_method := "host.get_allowed_operations"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2726,7 +2726,7 @@ func (_class HostClass) GetAllowedOperations(sessionID SessionRef, self HostRef)
 	return
 }
 
-// Get the memory/overhead field of the given host.
+// GetMemoryOverhead Get the memory/overhead field of the given host.
 func (_class HostClass) GetMemoryOverhead(sessionID SessionRef, self HostRef) (_retval int, _err error) {
 	_method := "host.get_memory_overhead"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2745,7 +2745,7 @@ func (_class HostClass) GetMemoryOverhead(sessionID SessionRef, self HostRef) (_
 	return
 }
 
-// Get the name/description field of the given host.
+// GetNameDescription Get the name/description field of the given host.
 func (_class HostClass) GetNameDescription(sessionID SessionRef, self HostRef) (_retval string, _err error) {
 	_method := "host.get_name_description"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2764,7 +2764,7 @@ func (_class HostClass) GetNameDescription(sessionID SessionRef, self HostRef) (
 	return
 }
 
-// Get the name/label field of the given host.
+// GetNameLabel Get the name/label field of the given host.
 func (_class HostClass) GetNameLabel(sessionID SessionRef, self HostRef) (_retval string, _err error) {
 	_method := "host.get_name_label"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2783,7 +2783,7 @@ func (_class HostClass) GetNameLabel(sessionID SessionRef, self HostRef) (_retva
 	return
 }
 
-// Get the uuid field of the given host.
+// GetUUID Get the uuid field of the given host.
 func (_class HostClass) GetUUID(sessionID SessionRef, self HostRef) (_retval string, _err error) {
 	_method := "host.get_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2802,7 +2802,7 @@ func (_class HostClass) GetUUID(sessionID SessionRef, self HostRef) (_retval str
 	return
 }
 
-// Get all the host instances with the given label.
+// GetByNameLabel Get all the host instances with the given label.
 func (_class HostClass) GetByNameLabel(sessionID SessionRef, label string) (_retval []HostRef, _err error) {
 	_method := "host.get_by_name_label"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2821,7 +2821,7 @@ func (_class HostClass) GetByNameLabel(sessionID SessionRef, label string) (_ret
 	return
 }
 
-// Get a reference to the host instance with the specified UUID.
+// GetByUUID Get a reference to the host instance with the specified UUID.
 func (_class HostClass) GetByUUID(sessionID SessionRef, uuid string) (_retval HostRef, _err error) {
 	_method := "host.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -2840,7 +2840,7 @@ func (_class HostClass) GetByUUID(sessionID SessionRef, uuid string) (_retval Ho
 	return
 }
 
-// Get a record containing the current state of the given host.
+// GetRecord Get a record containing the current state of the given host.
 func (_class HostClass) GetRecord(sessionID SessionRef, self HostRef) (_retval HostRecord, _err error) {
 	_method := "host.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

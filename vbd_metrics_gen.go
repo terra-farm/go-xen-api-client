@@ -40,7 +40,7 @@ type VBDMetricsClass struct {
 	client *Client
 }
 
-// Return a map of VBD_metrics references to VBD_metrics records for all VBD_metrics instances known to the system.
+// GetAllRecords Return a map of VBD_metrics references to VBD_metrics records for all VBD_metrics instances known to the system.
 func (_class VBDMetricsClass) GetAllRecords(sessionID SessionRef) (_retval map[VBDMetricsRef]VBDMetricsRecord, _err error) {
 	_method := "VBD_metrics.get_all_records"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -55,7 +55,7 @@ func (_class VBDMetricsClass) GetAllRecords(sessionID SessionRef) (_retval map[V
 	return
 }
 
-// Return a list of all the VBD_metrics instances known to the system.
+// GetAll Return a list of all the VBD_metrics instances known to the system.
 func (_class VBDMetricsClass) GetAll(sessionID SessionRef) (_retval []VBDMetricsRef, _err error) {
 	_method := "VBD_metrics.get_all"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -70,7 +70,7 @@ func (_class VBDMetricsClass) GetAll(sessionID SessionRef) (_retval []VBDMetrics
 	return
 }
 
-// Remove the given key and its corresponding value from the other_config field of the given VBD_metrics.  If the key is not in that Map, then do nothing.
+// RemoveFromOtherConfig Remove the given key and its corresponding value from the other_config field of the given VBD_metrics.  If the key is not in that Map, then do nothing.
 func (_class VBDMetricsClass) RemoveFromOtherConfig(sessionID SessionRef, self VBDMetricsRef, key string) (_err error) {
 	_method := "VBD_metrics.remove_from_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -89,7 +89,7 @@ func (_class VBDMetricsClass) RemoveFromOtherConfig(sessionID SessionRef, self V
 	return
 }
 
-// Add the given key-value pair to the other_config field of the given VBD_metrics.
+// AddToOtherConfig Add the given key-value pair to the other_config field of the given VBD_metrics.
 func (_class VBDMetricsClass) AddToOtherConfig(sessionID SessionRef, self VBDMetricsRef, key string, value string) (_err error) {
 	_method := "VBD_metrics.add_to_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -112,7 +112,7 @@ func (_class VBDMetricsClass) AddToOtherConfig(sessionID SessionRef, self VBDMet
 	return
 }
 
-// Set the other_config field of the given VBD_metrics.
+// SetOtherConfig Set the other_config field of the given VBD_metrics.
 func (_class VBDMetricsClass) SetOtherConfig(sessionID SessionRef, self VBDMetricsRef, value map[string]string) (_err error) {
 	_method := "VBD_metrics.set_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -131,7 +131,7 @@ func (_class VBDMetricsClass) SetOtherConfig(sessionID SessionRef, self VBDMetri
 	return
 }
 
-// Get the other_config field of the given VBD_metrics.
+// GetOtherConfig Get the other_config field of the given VBD_metrics.
 func (_class VBDMetricsClass) GetOtherConfig(sessionID SessionRef, self VBDMetricsRef) (_retval map[string]string, _err error) {
 	_method := "VBD_metrics.get_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -150,7 +150,7 @@ func (_class VBDMetricsClass) GetOtherConfig(sessionID SessionRef, self VBDMetri
 	return
 }
 
-// Get the last_updated field of the given VBD_metrics.
+// GetLastUpdated Get the last_updated field of the given VBD_metrics.
 func (_class VBDMetricsClass) GetLastUpdated(sessionID SessionRef, self VBDMetricsRef) (_retval time.Time, _err error) {
 	_method := "VBD_metrics.get_last_updated"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -169,7 +169,7 @@ func (_class VBDMetricsClass) GetLastUpdated(sessionID SessionRef, self VBDMetri
 	return
 }
 
-// Get the io/write_kbs field of the given VBD_metrics.
+// GetIoWriteKbs Get the io/write_kbs field of the given VBD_metrics.
 func (_class VBDMetricsClass) GetIoWriteKbs(sessionID SessionRef, self VBDMetricsRef) (_retval float64, _err error) {
 	_method := "VBD_metrics.get_io_write_kbs"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -188,7 +188,7 @@ func (_class VBDMetricsClass) GetIoWriteKbs(sessionID SessionRef, self VBDMetric
 	return
 }
 
-// Get the io/read_kbs field of the given VBD_metrics.
+// GetIoReadKbs Get the io/read_kbs field of the given VBD_metrics.
 func (_class VBDMetricsClass) GetIoReadKbs(sessionID SessionRef, self VBDMetricsRef) (_retval float64, _err error) {
 	_method := "VBD_metrics.get_io_read_kbs"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -207,7 +207,7 @@ func (_class VBDMetricsClass) GetIoReadKbs(sessionID SessionRef, self VBDMetrics
 	return
 }
 
-// Get the uuid field of the given VBD_metrics.
+// GetUUID Get the uuid field of the given VBD_metrics.
 func (_class VBDMetricsClass) GetUUID(sessionID SessionRef, self VBDMetricsRef) (_retval string, _err error) {
 	_method := "VBD_metrics.get_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -226,7 +226,7 @@ func (_class VBDMetricsClass) GetUUID(sessionID SessionRef, self VBDMetricsRef) 
 	return
 }
 
-// Get a reference to the VBD_metrics instance with the specified UUID.
+// GetByUUID Get a reference to the VBD_metrics instance with the specified UUID.
 func (_class VBDMetricsClass) GetByUUID(sessionID SessionRef, uuid string) (_retval VBDMetricsRef, _err error) {
 	_method := "VBD_metrics.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -245,7 +245,7 @@ func (_class VBDMetricsClass) GetByUUID(sessionID SessionRef, uuid string) (_ret
 	return
 }
 
-// Get a record containing the current state of the given VBD_metrics.
+// GetRecord Get a record containing the current state of the given VBD_metrics.
 func (_class VBDMetricsClass) GetRecord(sessionID SessionRef, self VBDMetricsRef) (_retval VBDMetricsRecord, _err error) {
 	_method := "VBD_metrics.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

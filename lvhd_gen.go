@@ -32,7 +32,7 @@ type LVHDClass struct {
 	client *Client
 }
 
-// Upgrades an LVHD SR to enable thin-provisioning. Future VDIs created in this SR will be thinly-provisioned, although existing VDIs will be left alone. Note that the SR must be attached to the SRmaster for upgrade to work.
+// EnableThinProvisioning Upgrades an LVHD SR to enable thin-provisioning. Future VDIs created in this SR will be thinly-provisioned, although existing VDIs will be left alone. Note that the SR must be attached to the SRmaster for upgrade to work.
 func (_class LVHDClass) EnableThinProvisioning(sessionID SessionRef, host HostRef, sr SRRef, initialAllocation int, allocationQuantum int) (_retval string, _err error) {
 	_method := "LVHD.enable_thin_provisioning"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -63,7 +63,7 @@ func (_class LVHDClass) EnableThinProvisioning(sessionID SessionRef, host HostRe
 	return
 }
 
-// Get the uuid field of the given LVHD.
+// GetUUID Get the uuid field of the given LVHD.
 func (_class LVHDClass) GetUUID(sessionID SessionRef, self LVHDRef) (_retval string, _err error) {
 	_method := "LVHD.get_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -82,7 +82,7 @@ func (_class LVHDClass) GetUUID(sessionID SessionRef, self LVHDRef) (_retval str
 	return
 }
 
-// Get a reference to the LVHD instance with the specified UUID.
+// GetByUUID Get a reference to the LVHD instance with the specified UUID.
 func (_class LVHDClass) GetByUUID(sessionID SessionRef, uuid string) (_retval LVHDRef, _err error) {
 	_method := "LVHD.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -101,7 +101,7 @@ func (_class LVHDClass) GetByUUID(sessionID SessionRef, uuid string) (_retval LV
 	return
 }
 
-// Get a record containing the current state of the given LVHD.
+// GetRecord Get a record containing the current state of the given LVHD.
 func (_class LVHDClass) GetRecord(sessionID SessionRef, self LVHDRef) (_retval LVHDRecord, _err error) {
 	_method := "LVHD.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

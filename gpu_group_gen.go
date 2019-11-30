@@ -59,7 +59,7 @@ type GPUGroupClass struct {
 	client *Client
 }
 
-// Return a map of GPU_group references to GPU_group records for all GPU_groups known to the system.
+// GetAllRecords Return a map of GPU_group references to GPU_group records for all GPU_groups known to the system.
 func (_class GPUGroupClass) GetAllRecords(sessionID SessionRef) (_retval map[GPUGroupRef]GPUGroupRecord, _err error) {
 	_method := "GPU_group.get_all_records"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -74,7 +74,7 @@ func (_class GPUGroupClass) GetAllRecords(sessionID SessionRef) (_retval map[GPU
 	return
 }
 
-// Return a list of all the GPU_groups known to the system.
+// GetAll Return a list of all the GPU_groups known to the system.
 func (_class GPUGroupClass) GetAll(sessionID SessionRef) (_retval []GPUGroupRef, _err error) {
 	_method := "GPU_group.get_all"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -89,7 +89,7 @@ func (_class GPUGroupClass) GetAll(sessionID SessionRef) (_retval []GPUGroupRef,
 	return
 }
 
-// 
+// GetRemainingCapacity 
 func (_class GPUGroupClass) GetRemainingCapacity(sessionID SessionRef, self GPUGroupRef, vgpuType VGPUTypeRef) (_retval int, _err error) {
 	_method := "GPU_group.get_remaining_capacity"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -112,7 +112,7 @@ func (_class GPUGroupClass) GetRemainingCapacity(sessionID SessionRef, self GPUG
 	return
 }
 
-// 
+// Destroy 
 func (_class GPUGroupClass) Destroy(sessionID SessionRef, self GPUGroupRef) (_err error) {
 	_method := "GPU_group.destroy"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -127,7 +127,7 @@ func (_class GPUGroupClass) Destroy(sessionID SessionRef, self GPUGroupRef) (_er
 	return
 }
 
-// 
+// Create 
 func (_class GPUGroupClass) Create(sessionID SessionRef, nameLabel string, nameDescription string, otherConfig map[string]string) (_retval GPUGroupRef, _err error) {
 	_method := "GPU_group.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -154,7 +154,7 @@ func (_class GPUGroupClass) Create(sessionID SessionRef, nameLabel string, nameD
 	return
 }
 
-// Set the allocation_algorithm field of the given GPU_group.
+// SetAllocationAlgorithm Set the allocation_algorithm field of the given GPU_group.
 func (_class GPUGroupClass) SetAllocationAlgorithm(sessionID SessionRef, self GPUGroupRef, value AllocationAlgorithm) (_err error) {
 	_method := "GPU_group.set_allocation_algorithm"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -173,7 +173,7 @@ func (_class GPUGroupClass) SetAllocationAlgorithm(sessionID SessionRef, self GP
 	return
 }
 
-// Remove the given key and its corresponding value from the other_config field of the given GPU_group.  If the key is not in that Map, then do nothing.
+// RemoveFromOtherConfig Remove the given key and its corresponding value from the other_config field of the given GPU_group.  If the key is not in that Map, then do nothing.
 func (_class GPUGroupClass) RemoveFromOtherConfig(sessionID SessionRef, self GPUGroupRef, key string) (_err error) {
 	_method := "GPU_group.remove_from_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -192,7 +192,7 @@ func (_class GPUGroupClass) RemoveFromOtherConfig(sessionID SessionRef, self GPU
 	return
 }
 
-// Add the given key-value pair to the other_config field of the given GPU_group.
+// AddToOtherConfig Add the given key-value pair to the other_config field of the given GPU_group.
 func (_class GPUGroupClass) AddToOtherConfig(sessionID SessionRef, self GPUGroupRef, key string, value string) (_err error) {
 	_method := "GPU_group.add_to_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -215,7 +215,7 @@ func (_class GPUGroupClass) AddToOtherConfig(sessionID SessionRef, self GPUGroup
 	return
 }
 
-// Set the other_config field of the given GPU_group.
+// SetOtherConfig Set the other_config field of the given GPU_group.
 func (_class GPUGroupClass) SetOtherConfig(sessionID SessionRef, self GPUGroupRef, value map[string]string) (_err error) {
 	_method := "GPU_group.set_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -234,7 +234,7 @@ func (_class GPUGroupClass) SetOtherConfig(sessionID SessionRef, self GPUGroupRe
 	return
 }
 
-// Set the name/description field of the given GPU_group.
+// SetNameDescription Set the name/description field of the given GPU_group.
 func (_class GPUGroupClass) SetNameDescription(sessionID SessionRef, self GPUGroupRef, value string) (_err error) {
 	_method := "GPU_group.set_name_description"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -253,7 +253,7 @@ func (_class GPUGroupClass) SetNameDescription(sessionID SessionRef, self GPUGro
 	return
 }
 
-// Set the name/label field of the given GPU_group.
+// SetNameLabel Set the name/label field of the given GPU_group.
 func (_class GPUGroupClass) SetNameLabel(sessionID SessionRef, self GPUGroupRef, value string) (_err error) {
 	_method := "GPU_group.set_name_label"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -272,7 +272,7 @@ func (_class GPUGroupClass) SetNameLabel(sessionID SessionRef, self GPUGroupRef,
 	return
 }
 
-// Get the enabled_VGPU_types field of the given GPU_group.
+// GetEnabledVGPUTypes Get the enabled_VGPU_types field of the given GPU_group.
 func (_class GPUGroupClass) GetEnabledVGPUTypes(sessionID SessionRef, self GPUGroupRef) (_retval []VGPUTypeRef, _err error) {
 	_method := "GPU_group.get_enabled_VGPU_types"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -291,7 +291,7 @@ func (_class GPUGroupClass) GetEnabledVGPUTypes(sessionID SessionRef, self GPUGr
 	return
 }
 
-// Get the supported_VGPU_types field of the given GPU_group.
+// GetSupportedVGPUTypes Get the supported_VGPU_types field of the given GPU_group.
 func (_class GPUGroupClass) GetSupportedVGPUTypes(sessionID SessionRef, self GPUGroupRef) (_retval []VGPUTypeRef, _err error) {
 	_method := "GPU_group.get_supported_VGPU_types"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -310,7 +310,7 @@ func (_class GPUGroupClass) GetSupportedVGPUTypes(sessionID SessionRef, self GPU
 	return
 }
 
-// Get the allocation_algorithm field of the given GPU_group.
+// GetAllocationAlgorithm Get the allocation_algorithm field of the given GPU_group.
 func (_class GPUGroupClass) GetAllocationAlgorithm(sessionID SessionRef, self GPUGroupRef) (_retval AllocationAlgorithm, _err error) {
 	_method := "GPU_group.get_allocation_algorithm"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -329,7 +329,7 @@ func (_class GPUGroupClass) GetAllocationAlgorithm(sessionID SessionRef, self GP
 	return
 }
 
-// Get the other_config field of the given GPU_group.
+// GetOtherConfig Get the other_config field of the given GPU_group.
 func (_class GPUGroupClass) GetOtherConfig(sessionID SessionRef, self GPUGroupRef) (_retval map[string]string, _err error) {
 	_method := "GPU_group.get_other_config"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -348,7 +348,7 @@ func (_class GPUGroupClass) GetOtherConfig(sessionID SessionRef, self GPUGroupRe
 	return
 }
 
-// Get the GPU_types field of the given GPU_group.
+// GetGPUTypes Get the GPU_types field of the given GPU_group.
 func (_class GPUGroupClass) GetGPUTypes(sessionID SessionRef, self GPUGroupRef) (_retval []string, _err error) {
 	_method := "GPU_group.get_GPU_types"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -367,7 +367,7 @@ func (_class GPUGroupClass) GetGPUTypes(sessionID SessionRef, self GPUGroupRef) 
 	return
 }
 
-// Get the VGPUs field of the given GPU_group.
+// GetVGPUs Get the VGPUs field of the given GPU_group.
 func (_class GPUGroupClass) GetVGPUs(sessionID SessionRef, self GPUGroupRef) (_retval []VGPURef, _err error) {
 	_method := "GPU_group.get_VGPUs"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -386,7 +386,7 @@ func (_class GPUGroupClass) GetVGPUs(sessionID SessionRef, self GPUGroupRef) (_r
 	return
 }
 
-// Get the PGPUs field of the given GPU_group.
+// GetPGPUs Get the PGPUs field of the given GPU_group.
 func (_class GPUGroupClass) GetPGPUs(sessionID SessionRef, self GPUGroupRef) (_retval []PGPURef, _err error) {
 	_method := "GPU_group.get_PGPUs"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -405,7 +405,7 @@ func (_class GPUGroupClass) GetPGPUs(sessionID SessionRef, self GPUGroupRef) (_r
 	return
 }
 
-// Get the name/description field of the given GPU_group.
+// GetNameDescription Get the name/description field of the given GPU_group.
 func (_class GPUGroupClass) GetNameDescription(sessionID SessionRef, self GPUGroupRef) (_retval string, _err error) {
 	_method := "GPU_group.get_name_description"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -424,7 +424,7 @@ func (_class GPUGroupClass) GetNameDescription(sessionID SessionRef, self GPUGro
 	return
 }
 
-// Get the name/label field of the given GPU_group.
+// GetNameLabel Get the name/label field of the given GPU_group.
 func (_class GPUGroupClass) GetNameLabel(sessionID SessionRef, self GPUGroupRef) (_retval string, _err error) {
 	_method := "GPU_group.get_name_label"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -443,7 +443,7 @@ func (_class GPUGroupClass) GetNameLabel(sessionID SessionRef, self GPUGroupRef)
 	return
 }
 
-// Get the uuid field of the given GPU_group.
+// GetUUID Get the uuid field of the given GPU_group.
 func (_class GPUGroupClass) GetUUID(sessionID SessionRef, self GPUGroupRef) (_retval string, _err error) {
 	_method := "GPU_group.get_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -462,7 +462,7 @@ func (_class GPUGroupClass) GetUUID(sessionID SessionRef, self GPUGroupRef) (_re
 	return
 }
 
-// Get all the GPU_group instances with the given label.
+// GetByNameLabel Get all the GPU_group instances with the given label.
 func (_class GPUGroupClass) GetByNameLabel(sessionID SessionRef, label string) (_retval []GPUGroupRef, _err error) {
 	_method := "GPU_group.get_by_name_label"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -481,7 +481,7 @@ func (_class GPUGroupClass) GetByNameLabel(sessionID SessionRef, label string) (
 	return
 }
 
-// Get a reference to the GPU_group instance with the specified UUID.
+// GetByUUID Get a reference to the GPU_group instance with the specified UUID.
 func (_class GPUGroupClass) GetByUUID(sessionID SessionRef, uuid string) (_retval GPUGroupRef, _err error) {
 	_method := "GPU_group.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -500,7 +500,7 @@ func (_class GPUGroupClass) GetByUUID(sessionID SessionRef, uuid string) (_retva
 	return
 }
 
-// Get a record containing the current state of the given GPU_group.
+// GetRecord Get a record containing the current state of the given GPU_group.
 func (_class GPUGroupClass) GetRecord(sessionID SessionRef, self GPUGroupRef) (_retval GPUGroupRecord, _err error) {
 	_method := "GPU_group.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

@@ -38,7 +38,7 @@ type RoleClass struct {
 	client *Client
 }
 
-// Return a map of role references to role records for all roles known to the system.
+// GetAllRecords Return a map of role references to role records for all roles known to the system.
 func (_class RoleClass) GetAllRecords(sessionID SessionRef) (_retval map[RoleRef]RoleRecord, _err error) {
 	_method := "role.get_all_records"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -53,7 +53,7 @@ func (_class RoleClass) GetAllRecords(sessionID SessionRef) (_retval map[RoleRef
 	return
 }
 
-// Return a list of all the roles known to the system.
+// GetAll Return a list of all the roles known to the system.
 func (_class RoleClass) GetAll(sessionID SessionRef) (_retval []RoleRef, _err error) {
 	_method := "role.get_all"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -68,7 +68,7 @@ func (_class RoleClass) GetAll(sessionID SessionRef) (_retval []RoleRef, _err er
 	return
 }
 
-// This call returns a list of roles given a permission name
+// GetByPermissionNameLabel This call returns a list of roles given a permission name
 func (_class RoleClass) GetByPermissionNameLabel(sessionID SessionRef, label string) (_retval []RoleRef, _err error) {
 	_method := "role.get_by_permission_name_label"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -87,7 +87,7 @@ func (_class RoleClass) GetByPermissionNameLabel(sessionID SessionRef, label str
 	return
 }
 
-// This call returns a list of roles given a permission
+// GetByPermission This call returns a list of roles given a permission
 func (_class RoleClass) GetByPermission(sessionID SessionRef, permission RoleRef) (_retval []RoleRef, _err error) {
 	_method := "role.get_by_permission"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -106,7 +106,7 @@ func (_class RoleClass) GetByPermission(sessionID SessionRef, permission RoleRef
 	return
 }
 
-// This call returns a list of permission names given a role
+// GetPermissionsNameLabel This call returns a list of permission names given a role
 func (_class RoleClass) GetPermissionsNameLabel(sessionID SessionRef, self RoleRef) (_retval []string, _err error) {
 	_method := "role.get_permissions_name_label"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -125,7 +125,7 @@ func (_class RoleClass) GetPermissionsNameLabel(sessionID SessionRef, self RoleR
 	return
 }
 
-// This call returns a list of permissions given a role
+// GetPermissions This call returns a list of permissions given a role
 func (_class RoleClass) GetPermissions(sessionID SessionRef, self RoleRef) (_retval []RoleRef, _err error) {
 	_method := "role.get_permissions"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -144,7 +144,7 @@ func (_class RoleClass) GetPermissions(sessionID SessionRef, self RoleRef) (_ret
 	return
 }
 
-// Get the subroles field of the given role.
+// GetSubroles Get the subroles field of the given role.
 func (_class RoleClass) GetSubroles(sessionID SessionRef, self RoleRef) (_retval []RoleRef, _err error) {
 	_method := "role.get_subroles"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -163,7 +163,7 @@ func (_class RoleClass) GetSubroles(sessionID SessionRef, self RoleRef) (_retval
 	return
 }
 
-// Get the name/description field of the given role.
+// GetNameDescription Get the name/description field of the given role.
 func (_class RoleClass) GetNameDescription(sessionID SessionRef, self RoleRef) (_retval string, _err error) {
 	_method := "role.get_name_description"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -182,7 +182,7 @@ func (_class RoleClass) GetNameDescription(sessionID SessionRef, self RoleRef) (
 	return
 }
 
-// Get the name/label field of the given role.
+// GetNameLabel Get the name/label field of the given role.
 func (_class RoleClass) GetNameLabel(sessionID SessionRef, self RoleRef) (_retval string, _err error) {
 	_method := "role.get_name_label"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -201,7 +201,7 @@ func (_class RoleClass) GetNameLabel(sessionID SessionRef, self RoleRef) (_retva
 	return
 }
 
-// Get the uuid field of the given role.
+// GetUUID Get the uuid field of the given role.
 func (_class RoleClass) GetUUID(sessionID SessionRef, self RoleRef) (_retval string, _err error) {
 	_method := "role.get_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -220,7 +220,7 @@ func (_class RoleClass) GetUUID(sessionID SessionRef, self RoleRef) (_retval str
 	return
 }
 
-// Get all the role instances with the given label.
+// GetByNameLabel Get all the role instances with the given label.
 func (_class RoleClass) GetByNameLabel(sessionID SessionRef, label string) (_retval []RoleRef, _err error) {
 	_method := "role.get_by_name_label"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -239,7 +239,7 @@ func (_class RoleClass) GetByNameLabel(sessionID SessionRef, label string) (_ret
 	return
 }
 
-// Get a reference to the role instance with the specified UUID.
+// GetByUUID Get a reference to the role instance with the specified UUID.
 func (_class RoleClass) GetByUUID(sessionID SessionRef, uuid string) (_retval RoleRef, _err error) {
 	_method := "role.get_by_uuid"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -258,7 +258,7 @@ func (_class RoleClass) GetByUUID(sessionID SessionRef, uuid string) (_retval Ro
 	return
 }
 
-// Get a record containing the current state of the given role.
+// GetRecord Get a record containing the current state of the given role.
 func (_class RoleClass) GetRecord(sessionID SessionRef, self RoleRef) (_retval RoleRecord, _err error) {
 	_method := "role.get_record"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
