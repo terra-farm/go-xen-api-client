@@ -21,11 +21,11 @@ var _ = strconv.Atoi
 var _ = time.UTC
 
 type SecretRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // the secret
+	// the secret
 	Value string
-  // other_config
+	// other_config
 	OtherConfig map[string]string
 }
 
@@ -218,8 +218,7 @@ func (_class SecretClass) Destroy(sessionID SessionRef, self SecretRef) (_err er
 	return
 }
 
-// Create Create a new secret instance, and return its handle.
-The constructor args are: value*, other_config (* = non-optional).
+// Create Create a new secret instance, and return its handle. The constructor args are: value*, other_config (* = non-optional).
 func (_class SecretClass) Create(sessionID SessionRef, args SecretRecord) (_retval SecretRef, _err error) {
 	_method := "secret.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

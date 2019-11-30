@@ -21,21 +21,21 @@ var _ = strconv.Atoi
 var _ = time.UTC
 
 type DataSourceRecord struct {
-  // a human-readable name
+	// a human-readable name
 	NameLabel string
-  // a notes field containing human-readable description
+	// a notes field containing human-readable description
 	NameDescription string
-  // true if the data source is being logged
+	// true if the data source is being logged
 	Enabled bool
-  // true if the data source is enabled by default. Non-default data sources cannot be disabled
+	// true if the data source is enabled by default. Non-default data sources cannot be disabled
 	Standard bool
-  // the units of the value
+	// the units of the value
 	Units string
-  // the minimum value of the data source
+	// the minimum value of the data source
 	Min float64
-  // the maximum value of the data source
+	// the maximum value of the data source
 	Max float64
-  // current value of the data source
+	// current value of the data source
 	Value float64
 }
 

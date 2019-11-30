@@ -21,17 +21,17 @@ var _ = strconv.Atoi
 var _ = time.UTC
 
 type USBGroupRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // a human-readable name
+	// a human-readable name
 	NameLabel string
-  // a notes field containing human-readable description
+	// a notes field containing human-readable description
 	NameDescription string
-  // List of PUSBs in the group
+	// List of PUSBs in the group
 	PUSBs []PUSBRef
-  // List of VUSBs using the group
+	// List of VUSBs using the group
 	VUSBs []VUSBRef
-  // Additional configuration
+	// Additional configuration
 	OtherConfig map[string]string
 }
 

@@ -23,38 +23,38 @@ var _ = time.UTC
 type Cls string
 
 const (
-  // VM
+	// VM
 	ClsVM Cls = "VM"
-  // Host
+	// Host
 	ClsHost Cls = "Host"
-  // SR
+	// SR
 	ClsSR Cls = "SR"
-  // Pool
+	// Pool
 	ClsPool Cls = "Pool"
-  // VMPP
+	// VMPP
 	ClsVMPP Cls = "VMPP"
-  // VMSS
+	// VMSS
 	ClsVMSS Cls = "VMSS"
-  // PVS_proxy
+	// PVS_proxy
 	ClsPVSProxy Cls = "PVS_proxy"
-  // VDI
+	// VDI
 	ClsVDI Cls = "VDI"
 )
 
 type MessageRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // The name of the message
+	// The name of the message
 	Name string
-  // The message priority, 0 being low priority
+	// The message priority, 0 being low priority
 	Priority int
-  // The class of the object this message is associated with
+	// The class of the object this message is associated with
 	Cls Cls
-  // The uuid of the object this message is associated with
+	// The uuid of the object this message is associated with
 	ObjUUID string
-  // The time at which the message was created
+	// The time at which the message was created
 	Timestamp time.Time
-  // The body of the message
+	// The body of the message
 	Body string
 }
 

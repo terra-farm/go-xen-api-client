@@ -21,13 +21,13 @@ var _ = strconv.Atoi
 var _ = time.UTC
 
 type SubjectRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // the subject identifier, unique in the external directory service
+	// the subject identifier, unique in the external directory service
 	SubjectIdentifier string
-  // additional configuration
+	// additional configuration
 	OtherConfig map[string]string
-  // the roles associated with this subject
+	// the roles associated with this subject
 	Roles []RoleRef
 }
 
@@ -216,8 +216,7 @@ func (_class SubjectClass) Destroy(sessionID SessionRef, self SubjectRef) (_err 
 	return
 }
 
-// Create Create a new subject instance, and return its handle.
-The constructor args are: subject_identifier, other_config (* = non-optional).
+// Create Create a new subject instance, and return its handle. The constructor args are: subject_identifier, other_config (* = non-optional).
 func (_class SubjectClass) Create(sessionID SessionRef, args SubjectRecord) (_retval SubjectRef, _err error) {
 	_method := "subject.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

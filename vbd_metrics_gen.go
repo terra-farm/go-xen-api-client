@@ -21,15 +21,15 @@ var _ = strconv.Atoi
 var _ = time.UTC
 
 type VBDMetricsRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // Read bandwidth (KiB/s)
+	// Read bandwidth (KiB/s)
 	IoReadKbs float64
-  // Write bandwidth (KiB/s)
+	// Write bandwidth (KiB/s)
 	IoWriteKbs float64
-  // Time at which this information was last updated
+	// Time at which this information was last updated
 	LastUpdated time.Time
-  // additional configuration
+	// additional configuration
 	OtherConfig map[string]string
 }
 

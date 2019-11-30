@@ -23,42 +23,42 @@ var _ = time.UTC
 type TristateType string
 
 const (
-  // Known to be true
+	// Known to be true
 	TristateTypeYes TristateType = "yes"
-  // Known to be false
+	// Known to be false
 	TristateTypeNo TristateType = "no"
-  // Unknown or unspecified
+	// Unknown or unspecified
 	TristateTypeUnspecified TristateType = "unspecified"
 )
 
 type VMGuestMetricsRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // version of the OS
+	// version of the OS
 	OSVersion map[string]string
-  // version of the PV drivers
+	// version of the PV drivers
 	PVDriversVersion map[string]string
-  // Logically equivalent to PV_drivers_detected
+	// Logically equivalent to PV_drivers_detected
 	PVDriversUpToDate bool
-  // This field exists but has no data. Use the memory and memory_internal_free RRD data-sources instead.
+	// This field exists but has no data. Use the memory and memory_internal_free RRD data-sources instead.
 	Memory map[string]string
-  // This field exists but has no data.
+	// This field exists but has no data.
 	Disks map[string]string
-  // network configuration
+	// network configuration
 	Networks map[string]string
-  // anything else
+	// anything else
 	Other map[string]string
-  // Time at which this information was last updated
+	// Time at which this information was last updated
 	LastUpdated time.Time
-  // additional configuration
+	// additional configuration
 	OtherConfig map[string]string
-  // True if the guest is sending heartbeat messages via the guest agent
+	// True if the guest is sending heartbeat messages via the guest agent
 	Live bool
-  // The guest's statement of whether it supports VBD hotplug, i.e. whether it is capable of responding immediately to instantiation of a new VBD by bringing online a new PV block device. If the guest states that it is not capable, then the VBD plug and unplug operations will not be allowed while the guest is running.
+	// The guest's statement of whether it supports VBD hotplug, i.e. whether it is capable of responding immediately to instantiation of a new VBD by bringing online a new PV block device. If the guest states that it is not capable, then the VBD plug and unplug operations will not be allowed while the guest is running.
 	CanUseHotplugVbd TristateType
-  // The guest's statement of whether it supports VIF hotplug, i.e. whether it is capable of responding immediately to instantiation of a new VIF by bringing online a new PV network device. If the guest states that it is not capable, then the VIF plug and unplug operations will not be allowed while the guest is running.
+	// The guest's statement of whether it supports VIF hotplug, i.e. whether it is capable of responding immediately to instantiation of a new VIF by bringing online a new PV network device. If the guest states that it is not capable, then the VIF plug and unplug operations will not be allowed while the guest is running.
 	CanUseHotplugVif TristateType
-  // At least one of the guest's devices has successfully connected to the backend.
+	// At least one of the guest's devices has successfully connected to the backend.
 	PVDriversDetected bool
 }
 

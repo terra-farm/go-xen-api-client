@@ -21,33 +21,33 @@ var _ = strconv.Atoi
 var _ = time.UTC
 
 type SMRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // a human-readable name
+	// a human-readable name
 	NameLabel string
-  // a notes field containing human-readable description
+	// a notes field containing human-readable description
 	NameDescription string
-  // SR.type
+	// SR.type
 	Type string
-  // Vendor who created this plugin
+	// Vendor who created this plugin
 	Vendor string
-  // Entity which owns the copyright of this plugin
+	// Entity which owns the copyright of this plugin
 	Copyright string
-  // Version of the plugin
+	// Version of the plugin
 	Version string
-  // Minimum SM API version required on the server
+	// Minimum SM API version required on the server
 	RequiredAPIVersion string
-  // names and descriptions of device config keys
+	// names and descriptions of device config keys
 	Configuration map[string]string
-  // capabilities of the SM plugin
+	// capabilities of the SM plugin
 	Capabilities []string
-  // capabilities of the SM plugin, with capability version numbers
+	// capabilities of the SM plugin, with capability version numbers
 	Features map[string]int
-  // additional configuration
+	// additional configuration
 	OtherConfig map[string]string
-  // filename of the storage driver
+	// filename of the storage driver
 	DriverFilename string
-  // The storage plugin requires that one of these cluster stacks is configured and running.
+	// The storage plugin requires that one of these cluster stacks is configured and running.
 	RequiredClusterStack []string
 }
 

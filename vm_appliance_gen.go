@@ -23,28 +23,28 @@ var _ = time.UTC
 type VMApplianceOperation string
 
 const (
-  // Start
+	// Start
 	VMApplianceOperationStart VMApplianceOperation = "start"
-  // Clean shutdown
+	// Clean shutdown
 	VMApplianceOperationCleanShutdown VMApplianceOperation = "clean_shutdown"
-  // Hard shutdown
+	// Hard shutdown
 	VMApplianceOperationHardShutdown VMApplianceOperation = "hard_shutdown"
-  // Shutdown
+	// Shutdown
 	VMApplianceOperationShutdown VMApplianceOperation = "shutdown"
 )
 
 type VMApplianceRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // a human-readable name
+	// a human-readable name
 	NameLabel string
-  // a notes field containing human-readable description
+	// a notes field containing human-readable description
 	NameDescription string
-  // list of the operations allowed in this state. This list is advisory only and the server state may have changed by the time this field is read by a client.
+	// list of the operations allowed in this state. This list is advisory only and the server state may have changed by the time this field is read by a client.
 	AllowedOperations []VMApplianceOperation
-  // links each of the running tasks using this object (by reference) to a current_operation enum which describes the nature of the task.
+	// links each of the running tasks using this object (by reference) to a current_operation enum which describes the nature of the task.
 	CurrentOperations map[string]VMApplianceOperation
-  // all VMs in this appliance
+	// all VMs in this appliance
 	VMs []VMRef
 }
 
@@ -418,8 +418,7 @@ func (_class VMApplianceClass) Destroy(sessionID SessionRef, self VMApplianceRef
 	return
 }
 
-// Create Create a new VM_appliance instance, and return its handle.
-The constructor args are: name_label, name_description (* = non-optional).
+// Create Create a new VM_appliance instance, and return its handle. The constructor args are: name_label, name_description (* = non-optional).
 func (_class VMApplianceClass) Create(sessionID SessionRef, args VMApplianceRecord) (_retval VMApplianceRef, _err error) {
 	_method := "VM_appliance.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

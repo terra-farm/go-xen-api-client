@@ -21,25 +21,25 @@ var _ = strconv.Atoi
 var _ = time.UTC
 
 type PCIRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // PCI class name
+	// PCI class name
 	ClassName string
-  // Vendor name
+	// Vendor name
 	VendorName string
-  // Device name
+	// Device name
 	DeviceName string
-  // Physical machine that owns the PCI device
+	// Physical machine that owns the PCI device
 	Host HostRef
-  // PCI ID of the physical device
+	// PCI ID of the physical device
 	PciID string
-  // List of dependent PCI devices
+	// List of dependent PCI devices
 	Dependencies []PCIRef
-  // Additional configuration
+	// Additional configuration
 	OtherConfig map[string]string
-  // Subsystem vendor name
+	// Subsystem vendor name
 	SubsystemVendorName string
-  // Subsystem device name
+	// Subsystem device name
 	SubsystemDeviceName string
 }
 

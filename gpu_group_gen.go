@@ -23,32 +23,32 @@ var _ = time.UTC
 type AllocationAlgorithm string
 
 const (
-  // vGPUs of a given type are allocated evenly across supporting pGPUs.
+	// vGPUs of a given type are allocated evenly across supporting pGPUs.
 	AllocationAlgorithmBreadthFirst AllocationAlgorithm = "breadth_first"
-  // vGPUs of a given type are allocated on supporting pGPUs until they are full.
+	// vGPUs of a given type are allocated on supporting pGPUs until they are full.
 	AllocationAlgorithmDepthFirst AllocationAlgorithm = "depth_first"
 )
 
 type GPUGroupRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // a human-readable name
+	// a human-readable name
 	NameLabel string
-  // a notes field containing human-readable description
+	// a notes field containing human-readable description
 	NameDescription string
-  // List of pGPUs in the group
+	// List of pGPUs in the group
 	PGPUs []PGPURef
-  // List of vGPUs using the group
+	// List of vGPUs using the group
 	VGPUs []VGPURef
-  // List of GPU types (vendor+device ID) that can be in this group
+	// List of GPU types (vendor+device ID) that can be in this group
 	GPUTypes []string
-  // Additional configuration
+	// Additional configuration
 	OtherConfig map[string]string
-  // Current allocation of vGPUs to pGPUs for this group
+	// Current allocation of vGPUs to pGPUs for this group
 	AllocationAlgorithm AllocationAlgorithm
-  // vGPU types supported on at least one of the pGPUs in this group
+	// vGPU types supported on at least one of the pGPUs in this group
 	SupportedVGPUTypes []VGPUTypeRef
-  // vGPU types supported on at least one of the pGPUs in this group
+	// vGPU types supported on at least one of the pGPUs in this group
 	EnabledVGPUTypes []VGPUTypeRef
 }
 

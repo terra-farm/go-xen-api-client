@@ -21,13 +21,13 @@ var _ = strconv.Atoi
 var _ = time.UTC
 
 type RoleRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // a short user-friendly name for the role
+	// a short user-friendly name for the role
 	NameLabel string
-  // what this role is for
+	// what this role is for
 	NameDescription string
-  // a list of pointers to other roles or permissions
+	// a list of pointers to other roles or permissions
 	Subroles []RoleRef
 }
 

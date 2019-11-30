@@ -23,46 +23,46 @@ var _ = time.UTC
 type VgpuTypeImplementation string
 
 const (
-  // Pass through an entire physical GPU to a guest
+	// Pass through an entire physical GPU to a guest
 	VgpuTypeImplementationPassthrough VgpuTypeImplementation = "passthrough"
-  // vGPU using NVIDIA hardware
+	// vGPU using NVIDIA hardware
 	VgpuTypeImplementationNvidia VgpuTypeImplementation = "nvidia"
-  // vGPU using Intel GVT-g
+	// vGPU using Intel GVT-g
 	VgpuTypeImplementationGvtG VgpuTypeImplementation = "gvt_g"
-  // vGPU using AMD MxGPU
+	// vGPU using AMD MxGPU
 	VgpuTypeImplementationMxgpu VgpuTypeImplementation = "mxgpu"
 )
 
 type VGPUTypeRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // Name of VGPU vendor
+	// Name of VGPU vendor
 	VendorName string
-  // Model name associated with the VGPU type
+	// Model name associated with the VGPU type
 	ModelName string
-  // Framebuffer size of the VGPU type, in bytes
+	// Framebuffer size of the VGPU type, in bytes
 	FramebufferSize int
-  // Maximum number of displays supported by the VGPU type
+	// Maximum number of displays supported by the VGPU type
 	MaxHeads int
-  // Maximum resolution (width) supported by the VGPU type
+	// Maximum resolution (width) supported by the VGPU type
 	MaxResolutionX int
-  // Maximum resolution (height) supported by the VGPU type
+	// Maximum resolution (height) supported by the VGPU type
 	MaxResolutionY int
-  // List of PGPUs that support this VGPU type
+	// List of PGPUs that support this VGPU type
 	SupportedOnPGPUs []PGPURef
-  // List of PGPUs that have this VGPU type enabled
+	// List of PGPUs that have this VGPU type enabled
 	EnabledOnPGPUs []PGPURef
-  // List of VGPUs of this type
+	// List of VGPUs of this type
 	VGPUs []VGPURef
-  // List of GPU groups in which at least one PGPU supports this VGPU type
+	// List of GPU groups in which at least one PGPU supports this VGPU type
 	SupportedOnGPUGroups []GPUGroupRef
-  // List of GPU groups in which at least one have this VGPU type enabled
+	// List of GPU groups in which at least one have this VGPU type enabled
 	EnabledOnGPUGroups []GPUGroupRef
-  // The internal implementation of this VGPU type
+	// The internal implementation of this VGPU type
 	Implementation VgpuTypeImplementation
-  // Key used to identify VGPU types and avoid creating duplicates - this field is used internally and not intended for interpretation by API clients
+	// Key used to identify VGPU types and avoid creating duplicates - this field is used internally and not intended for interpretation by API clients
 	Identifier string
-  // Indicates whether VGPUs of this type should be considered experimental
+	// Indicates whether VGPUs of this type should be considered experimental
 	Experimental bool
 }
 

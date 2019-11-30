@@ -21,25 +21,25 @@ var _ = strconv.Atoi
 var _ = time.UTC
 
 type VGPURecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // VM that owns the vGPU
+	// VM that owns the vGPU
 	VM VMRef
-  // GPU group used by the vGPU
+	// GPU group used by the vGPU
 	GPUGroup GPUGroupRef
-  // Order in which the devices are plugged into the VM
+	// Order in which the devices are plugged into the VM
 	Device string
-  // Reflects whether the virtual device is currently connected to a physical device
+	// Reflects whether the virtual device is currently connected to a physical device
 	CurrentlyAttached bool
-  // Additional configuration
+	// Additional configuration
 	OtherConfig map[string]string
-  // Preset type for this VGPU
+	// Preset type for this VGPU
 	Type VGPUTypeRef
-  // The PGPU on which this VGPU is running
+	// The PGPU on which this VGPU is running
 	ResidentOn PGPURef
-  // The PGPU on which this VGPU is scheduled to run
+	// The PGPU on which this VGPU is scheduled to run
 	ScheduledToBeResidentOn PGPURef
-  // VGPU metadata to determine whether a VGPU can migrate between two PGPUs
+	// VGPU metadata to determine whether a VGPU can migrate between two PGPUs
 	CompatibilityMetadata map[string]string
 }
 

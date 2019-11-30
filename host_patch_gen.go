@@ -21,25 +21,25 @@ var _ = strconv.Atoi
 var _ = time.UTC
 
 type HostPatchRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // a human-readable name
+	// a human-readable name
 	NameLabel string
-  // a notes field containing human-readable description
+	// a notes field containing human-readable description
 	NameDescription string
-  // Patch version number
+	// Patch version number
 	Version string
-  // Host the patch relates to
+	// Host the patch relates to
 	Host HostRef
-  // True if the patch has been applied
+	// True if the patch has been applied
 	Applied bool
-  // Time the patch was applied
+	// Time the patch was applied
 	TimestampApplied time.Time
-  // Size of the patch
+	// Size of the patch
 	Size int
-  // The patch applied
+	// The patch applied
 	PoolPatch PoolPatchRef
-  // additional configuration
+	// additional configuration
 	OtherConfig map[string]string
 }
 

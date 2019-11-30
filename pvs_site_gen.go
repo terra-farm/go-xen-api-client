@@ -21,19 +21,19 @@ var _ = strconv.Atoi
 var _ = time.UTC
 
 type PVSSiteRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // a human-readable name
+	// a human-readable name
 	NameLabel string
-  // a notes field containing human-readable description
+	// a notes field containing human-readable description
 	NameDescription string
-  // Unique identifier of the PVS site, as configured in PVS
+	// Unique identifier of the PVS site, as configured in PVS
 	PVSUUID string
-  // The SR used by PVS proxy for the cache
+	// The SR used by PVS proxy for the cache
 	CacheStorage []PVSCacheStorageRef
-  // The set of PVS servers in the site
+	// The set of PVS servers in the site
 	Servers []PVSServerRef
-  // The set of proxies associated with the site
+	// The set of proxies associated with the site
 	Proxies []PVSProxyRef
 }
 

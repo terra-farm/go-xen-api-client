@@ -21,15 +21,15 @@ var _ = strconv.Atoi
 var _ = time.UTC
 
 type PVSServerRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // IPv4 addresses of this server
+	// IPv4 addresses of this server
 	Addresses []string
-  // First UDP port accepted by this server
+	// First UDP port accepted by this server
 	FirstPort int
-  // Last UDP port accepted by this server
+	// Last UDP port accepted by this server
 	LastPort int
-  // PVS site this server is part of
+	// PVS site this server is part of
 	Site PVSSiteRef
 }
 

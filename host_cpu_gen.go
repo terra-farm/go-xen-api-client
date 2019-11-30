@@ -21,31 +21,31 @@ var _ = strconv.Atoi
 var _ = time.UTC
 
 type HostCPURecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // the host the CPU is in
+	// the host the CPU is in
 	Host HostRef
-  // the number of the physical CPU within the host
+	// the number of the physical CPU within the host
 	Number int
-  // the vendor of the physical CPU
+	// the vendor of the physical CPU
 	Vendor string
-  // the speed of the physical CPU
+	// the speed of the physical CPU
 	Speed int
-  // the model name of the physical CPU
+	// the model name of the physical CPU
 	Modelname string
-  // the family (number) of the physical CPU
+	// the family (number) of the physical CPU
 	Family int
-  // the model number of the physical CPU
+	// the model number of the physical CPU
 	Model int
-  // the stepping of the physical CPU
+	// the stepping of the physical CPU
 	Stepping string
-  // the flags of the physical CPU (a decoded version of the features field)
+	// the flags of the physical CPU (a decoded version of the features field)
 	Flags string
-  // the physical CPU feature bitmap
+	// the physical CPU feature bitmap
 	Features string
-  // the current CPU utilisation
+	// the current CPU utilisation
 	Utilisation float64
-  // additional configuration
+	// additional configuration
 	OtherConfig map[string]string
 }
 

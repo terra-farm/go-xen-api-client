@@ -23,307 +23,307 @@ var _ = time.UTC
 type VMPowerState string
 
 const (
-  // VM is offline and not using any resources
+	// VM is offline and not using any resources
 	VMPowerStateHalted VMPowerState = "Halted"
-  // All resources have been allocated but the VM itself is paused and its vCPUs are not running
+	// All resources have been allocated but the VM itself is paused and its vCPUs are not running
 	VMPowerStatePaused VMPowerState = "Paused"
-  // Running
+	// Running
 	VMPowerStateRunning VMPowerState = "Running"
-  // VM state has been saved to disk and it is nolonger running. Note that disks remain in-use while the VM is suspended.
+	// VM state has been saved to disk and it is nolonger running. Note that disks remain in-use while the VM is suspended.
 	VMPowerStateSuspended VMPowerState = "Suspended"
 )
 
 type OnNormalExit string
 
 const (
-  // destroy the VM state
+	// destroy the VM state
 	OnNormalExitDestroy OnNormalExit = "destroy"
-  // restart the VM
+	// restart the VM
 	OnNormalExitRestart OnNormalExit = "restart"
 )
 
 type VMOperations string
 
 const (
-  // refers to the operation "snapshot"
+	// refers to the operation "snapshot"
 	VMOperationsSnapshot VMOperations = "snapshot"
-  // refers to the operation "clone"
+	// refers to the operation "clone"
 	VMOperationsClone VMOperations = "clone"
-  // refers to the operation "copy"
+	// refers to the operation "copy"
 	VMOperationsCopy VMOperations = "copy"
-  // refers to the operation "create_template"
+	// refers to the operation "create_template"
 	VMOperationsCreateTemplate VMOperations = "create_template"
-  // refers to the operation "revert"
+	// refers to the operation "revert"
 	VMOperationsRevert VMOperations = "revert"
-  // refers to the operation "checkpoint"
+	// refers to the operation "checkpoint"
 	VMOperationsCheckpoint VMOperations = "checkpoint"
-  // refers to the operation "snapshot_with_quiesce"
+	// refers to the operation "snapshot_with_quiesce"
 	VMOperationsSnapshotWithQuiesce VMOperations = "snapshot_with_quiesce"
-  // refers to the operation "provision"
+	// refers to the operation "provision"
 	VMOperationsProvision VMOperations = "provision"
-  // refers to the operation "start"
+	// refers to the operation "start"
 	VMOperationsStart VMOperations = "start"
-  // refers to the operation "start_on"
+	// refers to the operation "start_on"
 	VMOperationsStartOn VMOperations = "start_on"
-  // refers to the operation "pause"
+	// refers to the operation "pause"
 	VMOperationsPause VMOperations = "pause"
-  // refers to the operation "unpause"
+	// refers to the operation "unpause"
 	VMOperationsUnpause VMOperations = "unpause"
-  // refers to the operation "clean_shutdown"
+	// refers to the operation "clean_shutdown"
 	VMOperationsCleanShutdown VMOperations = "clean_shutdown"
-  // refers to the operation "clean_reboot"
+	// refers to the operation "clean_reboot"
 	VMOperationsCleanReboot VMOperations = "clean_reboot"
-  // refers to the operation "hard_shutdown"
+	// refers to the operation "hard_shutdown"
 	VMOperationsHardShutdown VMOperations = "hard_shutdown"
-  // refers to the operation "power_state_reset"
+	// refers to the operation "power_state_reset"
 	VMOperationsPowerStateReset VMOperations = "power_state_reset"
-  // refers to the operation "hard_reboot"
+	// refers to the operation "hard_reboot"
 	VMOperationsHardReboot VMOperations = "hard_reboot"
-  // refers to the operation "suspend"
+	// refers to the operation "suspend"
 	VMOperationsSuspend VMOperations = "suspend"
-  // refers to the operation "csvm"
+	// refers to the operation "csvm"
 	VMOperationsCsvm VMOperations = "csvm"
-  // refers to the operation "resume"
+	// refers to the operation "resume"
 	VMOperationsResume VMOperations = "resume"
-  // refers to the operation "resume_on"
+	// refers to the operation "resume_on"
 	VMOperationsResumeOn VMOperations = "resume_on"
-  // refers to the operation "pool_migrate"
+	// refers to the operation "pool_migrate"
 	VMOperationsPoolMigrate VMOperations = "pool_migrate"
-  // refers to the operation "migrate_send"
+	// refers to the operation "migrate_send"
 	VMOperationsMigrateSend VMOperations = "migrate_send"
-  // refers to the operation "get_boot_record"
+	// refers to the operation "get_boot_record"
 	VMOperationsGetBootRecord VMOperations = "get_boot_record"
-  // refers to the operation "send_sysrq"
+	// refers to the operation "send_sysrq"
 	VMOperationsSendSysrq VMOperations = "send_sysrq"
-  // refers to the operation "send_trigger"
+	// refers to the operation "send_trigger"
 	VMOperationsSendTrigger VMOperations = "send_trigger"
-  // refers to the operation "query_services"
+	// refers to the operation "query_services"
 	VMOperationsQueryServices VMOperations = "query_services"
-  // refers to the operation "shutdown"
+	// refers to the operation "shutdown"
 	VMOperationsShutdown VMOperations = "shutdown"
-  // refers to the operation "call_plugin"
+	// refers to the operation "call_plugin"
 	VMOperationsCallPlugin VMOperations = "call_plugin"
-  // Changing the memory settings
+	// Changing the memory settings
 	VMOperationsChangingMemoryLive VMOperations = "changing_memory_live"
-  // Waiting for the memory settings to change
+	// Waiting for the memory settings to change
 	VMOperationsAwaitingMemoryLive VMOperations = "awaiting_memory_live"
-  // Changing the memory dynamic range
+	// Changing the memory dynamic range
 	VMOperationsChangingDynamicRange VMOperations = "changing_dynamic_range"
-  // Changing the memory static range
+	// Changing the memory static range
 	VMOperationsChangingStaticRange VMOperations = "changing_static_range"
-  // Changing the memory limits
+	// Changing the memory limits
 	VMOperationsChangingMemoryLimits VMOperations = "changing_memory_limits"
-  // Changing the shadow memory for a halted VM.
+	// Changing the shadow memory for a halted VM.
 	VMOperationsChangingShadowMemory VMOperations = "changing_shadow_memory"
-  // Changing the shadow memory for a running VM.
+	// Changing the shadow memory for a running VM.
 	VMOperationsChangingShadowMemoryLive VMOperations = "changing_shadow_memory_live"
-  // Changing VCPU settings for a halted VM.
+	// Changing VCPU settings for a halted VM.
 	VMOperationsChangingVCPUs VMOperations = "changing_VCPUs"
-  // Changing VCPU settings for a running VM.
+	// Changing VCPU settings for a running VM.
 	VMOperationsChangingVCPUsLive VMOperations = "changing_VCPUs_live"
-  // 
+	// 
 	VMOperationsAssertOperationValid VMOperations = "assert_operation_valid"
-  // Add, remove, query or list data sources
+	// Add, remove, query or list data sources
 	VMOperationsDataSourceOp VMOperations = "data_source_op"
-  // 
+	// 
 	VMOperationsUpdateAllowedOperations VMOperations = "update_allowed_operations"
-  // Turning this VM into a template
+	// Turning this VM into a template
 	VMOperationsMakeIntoTemplate VMOperations = "make_into_template"
-  // importing a VM from a network stream
+	// importing a VM from a network stream
 	VMOperationsImport VMOperations = "import"
-  // exporting a VM to a network stream
+	// exporting a VM to a network stream
 	VMOperationsExport VMOperations = "export"
-  // exporting VM metadata to a network stream
+	// exporting VM metadata to a network stream
 	VMOperationsMetadataExport VMOperations = "metadata_export"
-  // Reverting the VM to a previous snapshotted state
+	// Reverting the VM to a previous snapshotted state
 	VMOperationsReverting VMOperations = "reverting"
-  // refers to the act of uninstalling the VM
+	// refers to the act of uninstalling the VM
 	VMOperationsDestroy VMOperations = "destroy"
 )
 
 type OnCrashBehaviour string
 
 const (
-  // destroy the VM state
+	// destroy the VM state
 	OnCrashBehaviourDestroy OnCrashBehaviour = "destroy"
-  // record a coredump and then destroy the VM state
+	// record a coredump and then destroy the VM state
 	OnCrashBehaviourCoredumpAndDestroy OnCrashBehaviour = "coredump_and_destroy"
-  // restart the VM
+	// restart the VM
 	OnCrashBehaviourRestart OnCrashBehaviour = "restart"
-  // record a coredump and then restart the VM
+	// record a coredump and then restart the VM
 	OnCrashBehaviourCoredumpAndRestart OnCrashBehaviour = "coredump_and_restart"
-  // leave the crashed VM paused
+	// leave the crashed VM paused
 	OnCrashBehaviourPreserve OnCrashBehaviour = "preserve"
-  // rename the crashed VM and start a new copy
+	// rename the crashed VM and start a new copy
 	OnCrashBehaviourRenameRestart OnCrashBehaviour = "rename_restart"
 )
 
 type VMRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // list of the operations allowed in this state. This list is advisory only and the server state may have changed by the time this field is read by a client.
+	// list of the operations allowed in this state. This list is advisory only and the server state may have changed by the time this field is read by a client.
 	AllowedOperations []VMOperations
-  // links each of the running tasks using this object (by reference) to a current_operation enum which describes the nature of the task.
+	// links each of the running tasks using this object (by reference) to a current_operation enum which describes the nature of the task.
 	CurrentOperations map[string]VMOperations
-  // Current power state of the machine
+	// Current power state of the machine
 	PowerState VMPowerState
-  // a human-readable name
+	// a human-readable name
 	NameLabel string
-  // a notes field containing human-readable description
+	// a notes field containing human-readable description
 	NameDescription string
-  // Creators of VMs and templates may store version information here.
+	// Creators of VMs and templates may store version information here.
 	UserVersion int
-  // true if this is a template. Template VMs can never be started, they are used only for cloning other VMs
+	// true if this is a template. Template VMs can never be started, they are used only for cloning other VMs
 	IsATemplate bool
-  // true if this is a default template. Default template VMs can never be started or migrated, they are used only for cloning other VMs
+	// true if this is a default template. Default template VMs can never be started or migrated, they are used only for cloning other VMs
 	IsDefaultTemplate bool
-  // The VDI that a suspend image is stored on. (Only has meaning if VM is currently suspended)
+	// The VDI that a suspend image is stored on. (Only has meaning if VM is currently suspended)
 	SuspendVDI VDIRef
-  // the host the VM is currently resident on
+	// the host the VM is currently resident on
 	ResidentOn HostRef
-  // A host which the VM has some affinity for (or NULL). This is used as a hint to the start call when it decides where to run the VM. Resource constraints may cause the VM to be started elsewhere.
+	// A host which the VM has some affinity for (or NULL). This is used as a hint to the start call when it decides where to run the VM. Resource constraints may cause the VM to be started elsewhere.
 	Affinity HostRef
-  // Virtualization memory overhead (bytes).
+	// Virtualization memory overhead (bytes).
 	MemoryOverhead int
-  // Dynamically-set memory target (bytes). The value of this field indicates the current target for memory available to this VM.
+	// Dynamically-set memory target (bytes). The value of this field indicates the current target for memory available to this VM.
 	MemoryTarget int
-  // Statically-set (i.e. absolute) maximum (bytes). The value of this field at VM start time acts as a hard limit of the amount of memory a guest can use. New values only take effect on reboot.
+	// Statically-set (i.e. absolute) maximum (bytes). The value of this field at VM start time acts as a hard limit of the amount of memory a guest can use. New values only take effect on reboot.
 	MemoryStaticMax int
-  // Dynamic maximum (bytes)
+	// Dynamic maximum (bytes)
 	MemoryDynamicMax int
-  // Dynamic minimum (bytes)
+	// Dynamic minimum (bytes)
 	MemoryDynamicMin int
-  // Statically-set (i.e. absolute) mininum (bytes). The value of this field indicates the least amount of memory this VM can boot with without crashing.
+	// Statically-set (i.e. absolute) mininum (bytes). The value of this field indicates the least amount of memory this VM can boot with without crashing.
 	MemoryStaticMin int
-  // configuration parameters for the selected VCPU policy
+	// configuration parameters for the selected VCPU policy
 	VCPUsParams map[string]string
-  // Max number of VCPUs
+	// Max number of VCPUs
 	VCPUsMax int
-  // Boot number of VCPUs
+	// Boot number of VCPUs
 	VCPUsAtStartup int
-  // action to take after the guest has shutdown itself
+	// action to take after the guest has shutdown itself
 	ActionsAfterShutdown OnNormalExit
-  // action to take after the guest has rebooted itself
+	// action to take after the guest has rebooted itself
 	ActionsAfterReboot OnNormalExit
-  // action to take if the guest crashes
+	// action to take if the guest crashes
 	ActionsAfterCrash OnCrashBehaviour
-  // virtual console devices
+	// virtual console devices
 	Consoles []ConsoleRef
-  // virtual network interfaces
+	// virtual network interfaces
 	VIFs []VIFRef
-  // virtual block devices
+	// virtual block devices
 	VBDs []VBDRef
-  // vitual usb devices
+	// vitual usb devices
 	VUSBs []VUSBRef
-  // crash dumps associated with this VM
+	// crash dumps associated with this VM
 	CrashDumps []CrashdumpRef
-  // virtual TPMs
+	// virtual TPMs
 	VTPMs []VTPMRef
-  // name of or path to bootloader
+	// name of or path to bootloader
 	PVBootloader string
-  // path to the kernel
+	// path to the kernel
 	PVKernel string
-  // path to the initrd
+	// path to the initrd
 	PVRamdisk string
-  // kernel command-line arguments
+	// kernel command-line arguments
 	PVArgs string
-  // miscellaneous arguments for the bootloader
+	// miscellaneous arguments for the bootloader
 	PVBootloaderArgs string
-  // to make Zurich guests boot
+	// to make Zurich guests boot
 	PVLegacyArgs string
-  // HVM boot policy
+	// HVM boot policy
 	HVMBootPolicy string
-  // HVM boot params
+	// HVM boot params
 	HVMBootParams map[string]string
-  // multiplier applied to the amount of shadow that will be made available to the guest
+	// multiplier applied to the amount of shadow that will be made available to the guest
 	HVMShadowMultiplier float64
-  // platform-specific configuration
+	// platform-specific configuration
 	Platform map[string]string
-  // PCI bus path for pass-through devices
+	// PCI bus path for pass-through devices
 	PCIBus string
-  // additional configuration
+	// additional configuration
 	OtherConfig map[string]string
-  // domain ID (if available, -1 otherwise)
+	// domain ID (if available, -1 otherwise)
 	Domid int
-  // Domain architecture (if available, null string otherwise)
+	// Domain architecture (if available, null string otherwise)
 	Domarch string
-  // describes the CPU flags on which the VM was last booted
+	// describes the CPU flags on which the VM was last booted
 	LastBootCPUFlags map[string]string
-  // true if this is a control domain (domain 0 or a driver domain)
+	// true if this is a control domain (domain 0 or a driver domain)
 	IsControlDomain bool
-  // metrics associated with this VM
+	// metrics associated with this VM
 	Metrics VMMetricsRef
-  // metrics associated with the running guest
+	// metrics associated with the running guest
 	GuestMetrics VMGuestMetricsRef
-  // marshalled value containing VM record at time of last boot, updated dynamically to reflect the runtime state of the domain
+	// marshalled value containing VM record at time of last boot, updated dynamically to reflect the runtime state of the domain
 	LastBootedRecord string
-  // An XML specification of recommended values and ranges for properties of this VM
+	// An XML specification of recommended values and ranges for properties of this VM
 	Recommendations string
-  // data to be inserted into the xenstore tree (/local/domain/<domid>/vm-data) after the VM is created.
+	// data to be inserted into the xenstore tree (/local/domain/<domid>/vm-data) after the VM is created.
 	XenstoreData map[string]string
-  // if true then the system will attempt to keep the VM running as much as possible.
+	// if true then the system will attempt to keep the VM running as much as possible.
 	HaAlwaysRun bool
-  // has possible values: "best-effort" meaning "try to restart this VM if possible but don't consider the Pool to be overcommitted if this is not possible"; "restart" meaning "this VM should be restarted"; "" meaning "do not try to restart this VM"
+	// has possible values: "best-effort" meaning "try to restart this VM if possible but don't consider the Pool to be overcommitted if this is not possible"; "restart" meaning "this VM should be restarted"; "" meaning "do not try to restart this VM"
 	HaRestartPriority string
-  // true if this is a snapshot. Snapshotted VMs can never be started, they are used only for cloning other VMs
+	// true if this is a snapshot. Snapshotted VMs can never be started, they are used only for cloning other VMs
 	IsASnapshot bool
-  // Ref pointing to the VM this snapshot is of.
+	// Ref pointing to the VM this snapshot is of.
 	SnapshotOf VMRef
-  // List pointing to all the VM snapshots.
+	// List pointing to all the VM snapshots.
 	Snapshots []VMRef
-  // Date/time when this snapshot was created.
+	// Date/time when this snapshot was created.
 	SnapshotTime time.Time
-  // Transportable ID of the snapshot VM
+	// Transportable ID of the snapshot VM
 	TransportableSnapshotID string
-  // Binary blobs associated with this VM
+	// Binary blobs associated with this VM
 	Blobs map[string]BlobRef
-  // user-specified tags for categorization purposes
+	// user-specified tags for categorization purposes
 	Tags []string
-  // List of operations which have been explicitly blocked and an error code
+	// List of operations which have been explicitly blocked and an error code
 	BlockedOperations map[VMOperations]string
-  // Human-readable information concerning this snapshot
+	// Human-readable information concerning this snapshot
 	SnapshotInfo map[string]string
-  // Encoded information about the VM's metadata this is a snapshot of
+	// Encoded information about the VM's metadata this is a snapshot of
 	SnapshotMetadata string
-  // Ref pointing to the parent of this VM
+	// Ref pointing to the parent of this VM
 	Parent VMRef
-  // List pointing to all the children of this VM
+	// List pointing to all the children of this VM
 	Children []VMRef
-  // BIOS strings
+	// BIOS strings
 	BiosStrings map[string]string
-  // Ref pointing to a protection policy for this VM
+	// Ref pointing to a protection policy for this VM
 	ProtectionPolicy VMPPRef
-  // true if this snapshot was created by the protection policy
+	// true if this snapshot was created by the protection policy
 	IsSnapshotFromVmpp bool
-  // Ref pointing to a snapshot schedule for this VM
+	// Ref pointing to a snapshot schedule for this VM
 	SnapshotSchedule VMSSRef
-  // true if this snapshot was created by the snapshot schedule
+	// true if this snapshot was created by the snapshot schedule
 	IsVmssSnapshot bool
-  // the appliance to which this VM belongs
+	// the appliance to which this VM belongs
 	Appliance VMApplianceRef
-  // The delay to wait before proceeding to the next order in the startup sequence (seconds)
+	// The delay to wait before proceeding to the next order in the startup sequence (seconds)
 	StartDelay int
-  // The delay to wait before proceeding to the next order in the shutdown sequence (seconds)
+	// The delay to wait before proceeding to the next order in the shutdown sequence (seconds)
 	ShutdownDelay int
-  // The point in the startup or shutdown sequence at which this VM will be started
+	// The point in the startup or shutdown sequence at which this VM will be started
 	Order int
-  // Virtual GPUs
+	// Virtual GPUs
 	VGPUs []VGPURef
-  // Currently passed-through PCI devices
+	// Currently passed-through PCI devices
 	AttachedPCIs []PCIRef
-  // The SR on which a suspend image is stored
+	// The SR on which a suspend image is stored
 	SuspendSR SRRef
-  // The number of times this VM has been recovered
+	// The number of times this VM has been recovered
 	Version int
-  // Generation ID of the VM
+	// Generation ID of the VM
 	GenerationID string
-  // The host virtual hardware platform version the VM can run on
+	// The host virtual hardware platform version the VM can run on
 	HardwarePlatformVersion int
-  // When an HVM guest starts, this controls the presence of the emulated C000 PCI device which triggers Windows Update to fetch or update PV drivers.
+	// When an HVM guest starts, this controls the presence of the emulated C000 PCI device which triggers Windows Update to fetch or update PV drivers.
 	HasVendorDevice bool
-  // Indicates whether a VM requires a reboot in order to update its configuration, e.g. its memory allocation.
+	// Indicates whether a VM requires a reboot in order to update its configuration, e.g. its memory allocation.
 	RequiresReboot bool
-  // Textual reference to the template used to create a VM. This can be used by clients in need of an immutable reference to the template since the latter's uuid and name_label may change, for example, after a package installation or upgrade.
+	// Textual reference to the template used to create a VM. This can be used by clients in need of an immutable reference to the template since the latter's uuid and name_label may change, for example, after a package installation or upgrade.
 	ReferenceLabel string
 }
 
@@ -4516,8 +4516,7 @@ func (_class VMClass) Destroy(sessionID SessionRef, self VMRef) (_err error) {
 	return
 }
 
-// Create NOT RECOMMENDED! VM.clone or VM.copy (or VM.import) is a better choice in almost all situations. The standard way to obtain a new VM is to call VM.clone on a template VM, then call VM.provision on the new clone. Caution: if VM.create is used and then the new VM is attached to a virtual disc that has an operating system already installed, then there is no guarantee that the operating system will boot and run. Any software that calls VM.create on a future version of this API may fail or give unexpected results. For example this could happen if an additional parameter were added to VM.create. VM.create is intended only for use in the automatic creation of the system VM templates. It creates a new VM instance, and returns its handle.
-The constructor args are: name_label, name_description, user_version*, is_a_template*, affinity*, memory_target, memory_static_max*, memory_dynamic_max*, memory_dynamic_min*, memory_static_min*, VCPUs_params*, VCPUs_max*, VCPUs_at_startup*, actions_after_shutdown*, actions_after_reboot*, actions_after_crash*, PV_bootloader*, PV_kernel*, PV_ramdisk*, PV_args*, PV_bootloader_args*, PV_legacy_args*, HVM_boot_policy*, HVM_boot_params*, HVM_shadow_multiplier, platform*, PCI_bus*, other_config*, recommendations*, xenstore_data, ha_always_run, ha_restart_priority, tags, blocked_operations, protection_policy, is_snapshot_from_vmpp, snapshot_schedule, is_vmss_snapshot, appliance, start_delay, shutdown_delay, order, suspend_SR, version, generation_id, hardware_platform_version, has_vendor_device, reference_label (* = non-optional).
+// Create NOT RECOMMENDED! VM.clone or VM.copy (or VM.import) is a better choice in almost all situations. The standard way to obtain a new VM is to call VM.clone on a template VM, then call VM.provision on the new clone. Caution: if VM.create is used and then the new VM is attached to a virtual disc that has an operating system already installed, then there is no guarantee that the operating system will boot and run. Any software that calls VM.create on a future version of this API may fail or give unexpected results. For example this could happen if an additional parameter were added to VM.create. VM.create is intended only for use in the automatic creation of the system VM templates. It creates a new VM instance, and returns its handle. The constructor args are: name_label, name_description, user_version*, is_a_template*, affinity*, memory_target, memory_static_max*, memory_dynamic_max*, memory_dynamic_min*, memory_static_min*, VCPUs_params*, VCPUs_max*, VCPUs_at_startup*, actions_after_shutdown*, actions_after_reboot*, actions_after_crash*, PV_bootloader*, PV_kernel*, PV_ramdisk*, PV_args*, PV_bootloader_args*, PV_legacy_args*, HVM_boot_policy*, HVM_boot_params*, HVM_shadow_multiplier, platform*, PCI_bus*, other_config*, recommendations*, xenstore_data, ha_always_run, ha_restart_priority, tags, blocked_operations, protection_policy, is_snapshot_from_vmpp, snapshot_schedule, is_vmss_snapshot, appliance, start_delay, shutdown_delay, order, suspend_SR, version, generation_id, hardware_platform_version, has_vendor_device, reference_label (* = non-optional).
 func (_class VMClass) Create(sessionID SessionRef, args VMRecord) (_retval VMRef, _err error) {
 	_method := "VM.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

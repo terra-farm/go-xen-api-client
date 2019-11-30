@@ -23,60 +23,60 @@ var _ = time.UTC
 type NetworkOperations string
 
 const (
-  // Indicates this network is attaching to a VIF or PIF
+	// Indicates this network is attaching to a VIF or PIF
 	NetworkOperationsAttaching NetworkOperations = "attaching"
 )
 
 type NetworkDefaultLockingMode string
 
 const (
-  // Treat all VIFs on this network with locking_mode = 'default' as if they have locking_mode = 'unlocked'
+	// Treat all VIFs on this network with locking_mode = 'default' as if they have locking_mode = 'unlocked'
 	NetworkDefaultLockingModeUnlocked NetworkDefaultLockingMode = "unlocked"
-  // Treat all VIFs on this network with locking_mode = 'default' as if they have locking_mode = 'disabled'
+	// Treat all VIFs on this network with locking_mode = 'default' as if they have locking_mode = 'disabled'
 	NetworkDefaultLockingModeDisabled NetworkDefaultLockingMode = "disabled"
 )
 
 type NetworkPurpose string
 
 const (
-  // Network Block Device service using TLS
+	// Network Block Device service using TLS
 	NetworkPurposeNbd NetworkPurpose = "nbd"
-  // Network Block Device service without integrity or confidentiality: NOT RECOMMENDED
+	// Network Block Device service without integrity or confidentiality: NOT RECOMMENDED
 	NetworkPurposeInsecureNbd NetworkPurpose = "insecure_nbd"
 )
 
 type NetworkRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // a human-readable name
+	// a human-readable name
 	NameLabel string
-  // a notes field containing human-readable description
+	// a notes field containing human-readable description
 	NameDescription string
-  // list of the operations allowed in this state. This list is advisory only and the server state may have changed by the time this field is read by a client.
+	// list of the operations allowed in this state. This list is advisory only and the server state may have changed by the time this field is read by a client.
 	AllowedOperations []NetworkOperations
-  // links each of the running tasks using this object (by reference) to a current_operation enum which describes the nature of the task.
+	// links each of the running tasks using this object (by reference) to a current_operation enum which describes the nature of the task.
 	CurrentOperations map[string]NetworkOperations
-  // list of connected vifs
+	// list of connected vifs
 	VIFs []VIFRef
-  // list of connected pifs
+	// list of connected pifs
 	PIFs []PIFRef
-  // MTU in octets
+	// MTU in octets
 	MTU int
-  // additional configuration
+	// additional configuration
 	OtherConfig map[string]string
-  // name of the bridge corresponding to this network on the local host
+	// name of the bridge corresponding to this network on the local host
 	Bridge string
-  // true if the bridge is managed by xapi
+	// true if the bridge is managed by xapi
 	Managed bool
-  // Binary blobs associated with this network
+	// Binary blobs associated with this network
 	Blobs map[string]BlobRef
-  // user-specified tags for categorization purposes
+	// user-specified tags for categorization purposes
 	Tags []string
-  // The network will use this value to determine the behaviour of all VIFs where locking_mode = default
+	// The network will use this value to determine the behaviour of all VIFs where locking_mode = default
 	DefaultLockingMode NetworkDefaultLockingMode
-  // The IP addresses assigned to VIFs on networks that have active xapi-managed DHCP
+	// The IP addresses assigned to VIFs on networks that have active xapi-managed DHCP
 	AssignedIps map[VIFRef]string
-  // Set of purposes for which the server will use this network
+	// Set of purposes for which the server will use this network
 	Purpose []NetworkPurpose
 }
 
@@ -721,8 +721,7 @@ func (_class NetworkClass) Destroy(sessionID SessionRef, self NetworkRef) (_err 
 	return
 }
 
-// Create Create a new network instance, and return its handle.
-The constructor args are: name_label, name_description, MTU, other_config*, bridge, managed, tags (* = non-optional).
+// Create Create a new network instance, and return its handle. The constructor args are: name_label, name_description, MTU, other_config*, bridge, managed, tags (* = non-optional).
 func (_class NetworkClass) Create(sessionID SessionRef, args NetworkRecord) (_retval NetworkRef, _err error) {
 	_method := "network.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

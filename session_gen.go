@@ -21,35 +21,35 @@ var _ = strconv.Atoi
 var _ = time.UTC
 
 type SessionRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // Currently connected host
+	// Currently connected host
 	ThisHost HostRef
-  // Currently connected user
+	// Currently connected user
 	ThisUser UserRef
-  // Timestamp for last time session was active
+	// Timestamp for last time session was active
 	LastActive time.Time
-  // True if this session relates to a intra-pool login, false otherwise
+	// True if this session relates to a intra-pool login, false otherwise
 	Pool bool
-  // additional configuration
+	// additional configuration
 	OtherConfig map[string]string
-  // true iff this session was created using local superuser credentials
+	// true iff this session was created using local superuser credentials
 	IsLocalSuperuser bool
-  // references the subject instance that created the session. If a session instance has is_local_superuser set, then the value of this field is undefined.
+	// references the subject instance that created the session. If a session instance has is_local_superuser set, then the value of this field is undefined.
 	Subject SubjectRef
-  // time when session was last validated
+	// time when session was last validated
 	ValidationTime time.Time
-  // the subject identifier of the user that was externally authenticated. If a session instance has is_local_superuser set, then the value of this field is undefined.
+	// the subject identifier of the user that was externally authenticated. If a session instance has is_local_superuser set, then the value of this field is undefined.
 	AuthUserSid string
-  // the subject name of the user that was externally authenticated. If a session instance has is_local_superuser set, then the value of this field is undefined.
+	// the subject name of the user that was externally authenticated. If a session instance has is_local_superuser set, then the value of this field is undefined.
 	AuthUserName string
-  // list with all RBAC permissions for this session
+	// list with all RBAC permissions for this session
 	RbacPermissions []string
-  // list of tasks created using the current session
+	// list of tasks created using the current session
 	Tasks []TaskRef
-  // references the parent session that created this session
+	// references the parent session that created this session
 	Parent SessionRef
-  // a key string provided by a API user to distinguish itself from other users sharing the same login name
+	// a key string provided by a API user to distinguish itself from other users sharing the same login name
 	Originator string
 }
 

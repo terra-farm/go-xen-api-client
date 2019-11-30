@@ -21,35 +21,35 @@ var _ = strconv.Atoi
 var _ = time.UTC
 
 type VMMetricsRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // Guest's actual memory (bytes)
+	// Guest's actual memory (bytes)
 	MemoryActual int
-  // Current number of VCPUs
+	// Current number of VCPUs
 	VCPUsNumber int
-  // Utilisation for all of guest's current VCPUs
+	// Utilisation for all of guest's current VCPUs
 	VCPUsUtilisation map[int]float64
-  // VCPU to PCPU map
+	// VCPU to PCPU map
 	VCPUsCPU map[int]int
-  // The live equivalent to VM.VCPUs_params
+	// The live equivalent to VM.VCPUs_params
 	VCPUsParams map[string]string
-  // CPU flags (blocked,online,running)
+	// CPU flags (blocked,online,running)
 	VCPUsFlags map[int][]string
-  // The state of the guest, eg blocked, dying etc
+	// The state of the guest, eg blocked, dying etc
 	State []string
-  // Time at which this VM was last booted
+	// Time at which this VM was last booted
 	StartTime time.Time
-  // Time at which the VM was installed
+	// Time at which the VM was installed
 	InstallTime time.Time
-  // Time at which this information was last updated
+	// Time at which this information was last updated
 	LastUpdated time.Time
-  // additional configuration
+	// additional configuration
 	OtherConfig map[string]string
-  // hardware virtual machine
+	// hardware virtual machine
 	Hvm bool
-  // VM supports nested virtualisation
+	// VM supports nested virtualisation
 	NestedVirt bool
-  // VM is immobile and can't migrate between hosts
+	// VM is immobile and can't migrate between hosts
 	Nomigrate bool
 }
 

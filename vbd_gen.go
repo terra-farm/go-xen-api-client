@@ -23,88 +23,88 @@ var _ = time.UTC
 type VbdOperations string
 
 const (
-  // Attempting to attach this VBD to a VM
+	// Attempting to attach this VBD to a VM
 	VbdOperationsAttach VbdOperations = "attach"
-  // Attempting to eject the media from this VBD
+	// Attempting to eject the media from this VBD
 	VbdOperationsEject VbdOperations = "eject"
-  // Attempting to insert new media into this VBD
+	// Attempting to insert new media into this VBD
 	VbdOperationsInsert VbdOperations = "insert"
-  // Attempting to hotplug this VBD
+	// Attempting to hotplug this VBD
 	VbdOperationsPlug VbdOperations = "plug"
-  // Attempting to hot unplug this VBD
+	// Attempting to hot unplug this VBD
 	VbdOperationsUnplug VbdOperations = "unplug"
-  // Attempting to forcibly unplug this VBD
+	// Attempting to forcibly unplug this VBD
 	VbdOperationsUnplugForce VbdOperations = "unplug_force"
-  // Attempting to pause a block device backend
+	// Attempting to pause a block device backend
 	VbdOperationsPause VbdOperations = "pause"
-  // Attempting to unpause a block device backend
+	// Attempting to unpause a block device backend
 	VbdOperationsUnpause VbdOperations = "unpause"
 )
 
 type VbdType string
 
 const (
-  // VBD will appear to guest as CD
+	// VBD will appear to guest as CD
 	VbdTypeCD VbdType = "CD"
-  // VBD will appear to guest as disk
+	// VBD will appear to guest as disk
 	VbdTypeDisk VbdType = "Disk"
-  // VBD will appear as a floppy
+	// VBD will appear as a floppy
 	VbdTypeFloppy VbdType = "Floppy"
 )
 
 type VbdMode string
 
 const (
-  // only read-only access will be allowed
+	// only read-only access will be allowed
 	VbdModeRO VbdMode = "RO"
-  // read-write access will be allowed
+	// read-write access will be allowed
 	VbdModeRW VbdMode = "RW"
 )
 
 type VBDRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // list of the operations allowed in this state. This list is advisory only and the server state may have changed by the time this field is read by a client.
+	// list of the operations allowed in this state. This list is advisory only and the server state may have changed by the time this field is read by a client.
 	AllowedOperations []VbdOperations
-  // links each of the running tasks using this object (by reference) to a current_operation enum which describes the nature of the task.
+	// links each of the running tasks using this object (by reference) to a current_operation enum which describes the nature of the task.
 	CurrentOperations map[string]VbdOperations
-  // the virtual machine
+	// the virtual machine
 	VM VMRef
-  // the virtual disk
+	// the virtual disk
 	VDI VDIRef
-  // device seen by the guest e.g. hda1
+	// device seen by the guest e.g. hda1
 	Device string
-  // user-friendly device name e.g. 0,1,2,etc.
+	// user-friendly device name e.g. 0,1,2,etc.
 	Userdevice string
-  // true if this VBD is bootable
+	// true if this VBD is bootable
 	Bootable bool
-  // the mode the VBD should be mounted with
+	// the mode the VBD should be mounted with
 	Mode VbdMode
-  // how the VBD will appear to the guest (e.g. disk or CD)
+	// how the VBD will appear to the guest (e.g. disk or CD)
 	Type VbdType
-  // true if this VBD will support hot-unplug
+	// true if this VBD will support hot-unplug
 	Unpluggable bool
-  // true if a storage level lock was acquired
+	// true if a storage level lock was acquired
 	StorageLock bool
-  // if true this represents an empty drive
+	// if true this represents an empty drive
 	Empty bool
-  // additional configuration
+	// additional configuration
 	OtherConfig map[string]string
-  // is the device currently attached (erased on reboot)
+	// is the device currently attached (erased on reboot)
 	CurrentlyAttached bool
-  // error/success code associated with last attach-operation (erased on reboot)
+	// error/success code associated with last attach-operation (erased on reboot)
 	StatusCode int
-  // error/success information associated with last attach-operation status (erased on reboot)
+	// error/success information associated with last attach-operation status (erased on reboot)
 	StatusDetail string
-  // Device runtime properties
+	// Device runtime properties
 	RuntimeProperties map[string]string
-  // QoS algorithm to use
+	// QoS algorithm to use
 	QosAlgorithmType string
-  // parameters for chosen QoS algorithm
+	// parameters for chosen QoS algorithm
 	QosAlgorithmParams map[string]string
-  // supported QoS algorithms for this VBD
+	// supported QoS algorithms for this VBD
 	QosSupportedAlgorithms []string
-  // metrics associated with this VBD
+	// metrics associated with this VBD
 	Metrics VBDMetricsRef
 }
 
@@ -920,8 +920,7 @@ func (_class VBDClass) Destroy(sessionID SessionRef, self VBDRef) (_err error) {
 	return
 }
 
-// Create Create a new VBD instance, and return its handle.
-The constructor args are: VM*, VDI*, userdevice*, bootable*, mode*, type*, unpluggable, empty*, other_config*, qos_algorithm_type*, qos_algorithm_params* (* = non-optional).
+// Create Create a new VBD instance, and return its handle. The constructor args are: VM*, VDI*, userdevice*, bootable*, mode*, type*, unpluggable, empty*, other_config*, qos_algorithm_type*, qos_algorithm_params* (* = non-optional).
 func (_class VBDClass) Create(sessionID SessionRef, args VBDRecord) (_retval VBDRef, _err error) {
 	_method := "VBD.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

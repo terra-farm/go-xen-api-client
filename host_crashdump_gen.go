@@ -21,15 +21,15 @@ var _ = strconv.Atoi
 var _ = time.UTC
 
 type HostCrashdumpRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // Host the crashdump relates to
+	// Host the crashdump relates to
 	Host HostRef
-  // Time the crash happened
+	// Time the crash happened
 	Timestamp time.Time
-  // Size of the crashdump
+	// Size of the crashdump
 	Size int
-  // additional configuration
+	// additional configuration
 	OtherConfig map[string]string
 }
 

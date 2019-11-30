@@ -23,36 +23,36 @@ var _ = time.UTC
 type AfterApplyGuidance string
 
 const (
-  // This patch requires HVM guests to be restarted once applied.
+	// This patch requires HVM guests to be restarted once applied.
 	AfterApplyGuidanceRestartHVM AfterApplyGuidance = "restartHVM"
-  // This patch requires PV guests to be restarted once applied.
+	// This patch requires PV guests to be restarted once applied.
 	AfterApplyGuidanceRestartPV AfterApplyGuidance = "restartPV"
-  // This patch requires the host to be restarted once applied.
+	// This patch requires the host to be restarted once applied.
 	AfterApplyGuidanceRestartHost AfterApplyGuidance = "restartHost"
-  // This patch requires XAPI to be restarted once applied.
+	// This patch requires XAPI to be restarted once applied.
 	AfterApplyGuidanceRestartXAPI AfterApplyGuidance = "restartXAPI"
 )
 
 type PoolPatchRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // a human-readable name
+	// a human-readable name
 	NameLabel string
-  // a notes field containing human-readable description
+	// a notes field containing human-readable description
 	NameDescription string
-  // Patch version number
+	// Patch version number
 	Version string
-  // Size of the patch
+	// Size of the patch
 	Size int
-  // This patch should be applied across the entire pool
+	// This patch should be applied across the entire pool
 	PoolApplied bool
-  // This hosts this patch is applied to.
+	// This hosts this patch is applied to.
 	HostPatches []HostPatchRef
-  // What the client should do after this patch has been applied.
+	// What the client should do after this patch has been applied.
 	AfterApplyGuidance []AfterApplyGuidance
-  // A reference to the associated pool_update object
+	// A reference to the associated pool_update object
 	PoolUpdate PoolUpdateRef
-  // additional configuration
+	// additional configuration
 	OtherConfig map[string]string
 }
 

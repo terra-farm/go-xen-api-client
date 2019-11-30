@@ -23,84 +23,84 @@ var _ = time.UTC
 type PoolAllowedOperations string
 
 const (
-  // Indicates this pool is in the process of enabling HA
+	// Indicates this pool is in the process of enabling HA
 	PoolAllowedOperationsHaEnable PoolAllowedOperations = "ha_enable"
-  // Indicates this pool is in the process of disabling HA
+	// Indicates this pool is in the process of disabling HA
 	PoolAllowedOperationsHaDisable PoolAllowedOperations = "ha_disable"
 )
 
 type PoolRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // Short name
+	// Short name
 	NameLabel string
-  // Description
+	// Description
 	NameDescription string
-  // The host that is pool master
+	// The host that is pool master
 	Master HostRef
-  // Default SR for VDIs
+	// Default SR for VDIs
 	DefaultSR SRRef
-  // The SR in which VDIs for suspend images are created
+	// The SR in which VDIs for suspend images are created
 	SuspendImageSR SRRef
-  // The SR in which VDIs for crash dumps are created
+	// The SR in which VDIs for crash dumps are created
 	CrashDumpSR SRRef
-  // additional configuration
+	// additional configuration
 	OtherConfig map[string]string
-  // true if HA is enabled on the pool, false otherwise
+	// true if HA is enabled on the pool, false otherwise
 	HaEnabled bool
-  // The current HA configuration
+	// The current HA configuration
 	HaConfiguration map[string]string
-  // HA statefile VDIs in use
+	// HA statefile VDIs in use
 	HaStatefiles []string
-  // Number of host failures to tolerate before the Pool is declared to be overcommitted
+	// Number of host failures to tolerate before the Pool is declared to be overcommitted
 	HaHostFailuresToTolerate int
-  // Number of future host failures we have managed to find a plan for. Once this reaches zero any future host failures will cause the failure of protected VMs.
+	// Number of future host failures we have managed to find a plan for. Once this reaches zero any future host failures will cause the failure of protected VMs.
 	HaPlanExistsFor int
-  // If set to false then operations which would cause the Pool to become overcommitted will be blocked.
+	// If set to false then operations which would cause the Pool to become overcommitted will be blocked.
 	HaAllowOvercommit bool
-  // True if the Pool is considered to be overcommitted i.e. if there exist insufficient physical resources to tolerate the configured number of host failures
+	// True if the Pool is considered to be overcommitted i.e. if there exist insufficient physical resources to tolerate the configured number of host failures
 	HaOvercommitted bool
-  // Binary blobs associated with this pool
+	// Binary blobs associated with this pool
 	Blobs map[string]BlobRef
-  // user-specified tags for categorization purposes
+	// user-specified tags for categorization purposes
 	Tags []string
-  // gui-specific configuration for pool
+	// gui-specific configuration for pool
 	GuiConfig map[string]string
-  // Configuration for the automatic health check feature
+	// Configuration for the automatic health check feature
 	HealthCheckConfig map[string]string
-  // Url for the configured workload balancing host
+	// Url for the configured workload balancing host
 	WlbURL string
-  // Username for accessing the workload balancing host
+	// Username for accessing the workload balancing host
 	WlbUsername string
-  // true if workload balancing is enabled on the pool, false otherwise
+	// true if workload balancing is enabled on the pool, false otherwise
 	WlbEnabled bool
-  // true if communication with the WLB server should enforce SSL certificate verification.
+	// true if communication with the WLB server should enforce SSL certificate verification.
 	WlbVerifyCert bool
-  // true a redo-log is to be used other than when HA is enabled, false otherwise
+	// true a redo-log is to be used other than when HA is enabled, false otherwise
 	RedoLogEnabled bool
-  // indicates the VDI to use for the redo-log other than when HA is enabled
+	// indicates the VDI to use for the redo-log other than when HA is enabled
 	RedoLogVdi VDIRef
-  // address of the vswitch controller
+	// address of the vswitch controller
 	VswitchController string
-  // Pool-wide restrictions currently in effect
+	// Pool-wide restrictions currently in effect
 	Restrictions map[string]string
-  // The set of currently known metadata VDIs for this pool
+	// The set of currently known metadata VDIs for this pool
 	MetadataVDIs []VDIRef
-  // The HA cluster stack that is currently in use. Only valid when HA is enabled.
+	// The HA cluster stack that is currently in use. Only valid when HA is enabled.
 	HaClusterStack string
-  // list of the operations allowed in this state. This list is advisory only and the server state may have changed by the time this field is read by a client.
+	// list of the operations allowed in this state. This list is advisory only and the server state may have changed by the time this field is read by a client.
 	AllowedOperations []PoolAllowedOperations
-  // links each of the running tasks using this object (by reference) to a current_operation enum which describes the nature of the task.
+	// links each of the running tasks using this object (by reference) to a current_operation enum which describes the nature of the task.
 	CurrentOperations map[string]PoolAllowedOperations
-  // Pool-wide guest agent configuration information
+	// Pool-wide guest agent configuration information
 	GuestAgentConfig map[string]string
-  // Details about the physical CPUs on the pool
+	// Details about the physical CPUs on the pool
 	CPUInfo map[string]string
-  // The pool-wide policy for clients on whether to use the vendor device or not on newly created VMs. This field will also be consulted if the 'has_vendor_device' field is not specified in the VM.create call.
+	// The pool-wide policy for clients on whether to use the vendor device or not on newly created VMs. This field will also be consulted if the 'has_vendor_device' field is not specified in the VM.create call.
 	PolicyNoVendorDevice bool
-  // The pool-wide flag to show if the live patching feauture is disabled or not.
+	// The pool-wide flag to show if the live patching feauture is disabled or not.
 	LivePatchingDisabled bool
-  // true if IGMP snooping is enabled in the pool, false otherwise.
+	// true if IGMP snooping is enabled in the pool, false otherwise.
 	IgmpSnoopingEnabled bool
 }
 

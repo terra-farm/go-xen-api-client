@@ -23,28 +23,28 @@ var _ = time.UTC
 type VusbOperations string
 
 const (
-  // Attempting to attach this VUSB to a VM
+	// Attempting to attach this VUSB to a VM
 	VusbOperationsAttach VusbOperations = "attach"
-  // Attempting to plug this VUSB into a VM
+	// Attempting to plug this VUSB into a VM
 	VusbOperationsPlug VusbOperations = "plug"
-  // Attempting to hot unplug this VUSB
+	// Attempting to hot unplug this VUSB
 	VusbOperationsUnplug VusbOperations = "unplug"
 )
 
 type VUSBRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // list of the operations allowed in this state. This list is advisory only and the server state may have changed by the time this field is read by a client.
+	// list of the operations allowed in this state. This list is advisory only and the server state may have changed by the time this field is read by a client.
 	AllowedOperations []VusbOperations
-  // links each of the running tasks using this object (by reference) to a current_operation enum which describes the nature of the task.
+	// links each of the running tasks using this object (by reference) to a current_operation enum which describes the nature of the task.
 	CurrentOperations map[string]VusbOperations
-  // VM that owns the VUSB
+	// VM that owns the VUSB
 	VM VMRef
-  // USB group used by the VUSB
+	// USB group used by the VUSB
 	USBGroup USBGroupRef
-  // Additional configuration
+	// Additional configuration
 	OtherConfig map[string]string
-  // is the device currently attached
+	// is the device currently attached
 	CurrentlyAttached bool
 }
 

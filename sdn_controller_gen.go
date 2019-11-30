@@ -23,20 +23,20 @@ var _ = time.UTC
 type SdnControllerProtocol string
 
 const (
-  // Active ssl connection
+	// Active ssl connection
 	SdnControllerProtocolSsl SdnControllerProtocol = "ssl"
-  // Passive ssl connection
+	// Passive ssl connection
 	SdnControllerProtocolPssl SdnControllerProtocol = "pssl"
 )
 
 type SDNControllerRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // Protocol to connect with SDN controller
+	// Protocol to connect with SDN controller
 	Protocol SdnControllerProtocol
-  // IP address of the controller
+	// IP address of the controller
 	Address string
-  // TCP port of the controller
+	// TCP port of the controller
 	Port int
 }
 

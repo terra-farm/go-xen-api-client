@@ -23,30 +23,30 @@ var _ = time.UTC
 type BondMode string
 
 const (
-  // Source-level balancing
+	// Source-level balancing
 	BondModeBalanceSlb BondMode = "balance-slb"
-  // Active/passive bonding: only one NIC is carrying traffic
+	// Active/passive bonding: only one NIC is carrying traffic
 	BondModeActiveBackup BondMode = "active-backup"
-  // Link aggregation control protocol
+	// Link aggregation control protocol
 	BondModeLacp BondMode = "lacp"
 )
 
 type BondRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // The bonded interface
+	// The bonded interface
 	Master PIFRef
-  // The interfaces which are part of this bond
+	// The interfaces which are part of this bond
 	Slaves []PIFRef
-  // additional configuration
+	// additional configuration
 	OtherConfig map[string]string
-  // The PIF of which the IP configuration and MAC were copied to the bond, and which will receive all configuration/VLANs/VIFs on the bond if the bond is destroyed
+	// The PIF of which the IP configuration and MAC were copied to the bond, and which will receive all configuration/VLANs/VIFs on the bond if the bond is destroyed
 	PrimarySlave PIFRef
-  // The algorithm used to distribute traffic among the bonded NICs
+	// The algorithm used to distribute traffic among the bonded NICs
 	Mode BondMode
-  // Additional configuration properties specific to the bond mode.
+	// Additional configuration properties specific to the bond mode.
 	Properties map[string]string
-  // Number of links up in this bond
+	// Number of links up in this bond
 	LinksUp int
 }
 

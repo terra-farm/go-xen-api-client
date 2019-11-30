@@ -23,111 +23,111 @@ var _ = time.UTC
 type PifIgmpStatus string
 
 const (
-  // IGMP Snooping is enabled in the corresponding backend bridge.'
+	// IGMP Snooping is enabled in the corresponding backend bridge.'
 	PifIgmpStatusEnabled PifIgmpStatus = "enabled"
-  // IGMP Snooping is disabled in the corresponding backend bridge.'
+	// IGMP Snooping is disabled in the corresponding backend bridge.'
 	PifIgmpStatusDisabled PifIgmpStatus = "disabled"
-  // IGMP snooping status is unknown. If this is a VLAN master, then please consult the underlying VLAN slave PIF.
+	// IGMP snooping status is unknown. If this is a VLAN master, then please consult the underlying VLAN slave PIF.
 	PifIgmpStatusUnknown PifIgmpStatus = "unknown"
 )
 
 type IPConfigurationMode string
 
 const (
-  // Do not acquire an IP address
+	// Do not acquire an IP address
 	IPConfigurationModeNone IPConfigurationMode = "None"
-  // Acquire an IP address by DHCP
+	// Acquire an IP address by DHCP
 	IPConfigurationModeDHCP IPConfigurationMode = "DHCP"
-  // Static IP address configuration
+	// Static IP address configuration
 	IPConfigurationModeStatic IPConfigurationMode = "Static"
 )
 
 type Ipv6ConfigurationMode string
 
 const (
-  // Do not acquire an IPv6 address
+	// Do not acquire an IPv6 address
 	Ipv6ConfigurationModeNone Ipv6ConfigurationMode = "None"
-  // Acquire an IPv6 address by DHCP
+	// Acquire an IPv6 address by DHCP
 	Ipv6ConfigurationModeDHCP Ipv6ConfigurationMode = "DHCP"
-  // Static IPv6 address configuration
+	// Static IPv6 address configuration
 	Ipv6ConfigurationModeStatic Ipv6ConfigurationMode = "Static"
-  // Router assigned prefix delegation IPv6 allocation
+	// Router assigned prefix delegation IPv6 allocation
 	Ipv6ConfigurationModeAutoconf Ipv6ConfigurationMode = "Autoconf"
 )
 
 type PrimaryAddressType string
 
 const (
-  // Primary address is the IPv4 address
+	// Primary address is the IPv4 address
 	PrimaryAddressTypeIPv4 PrimaryAddressType = "IPv4"
-  // Primary address is the IPv6 address
+	// Primary address is the IPv6 address
 	PrimaryAddressTypeIPv6 PrimaryAddressType = "IPv6"
 )
 
 type PIFRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // machine-readable name of the interface (e.g. eth0)
+	// machine-readable name of the interface (e.g. eth0)
 	Device string
-  // virtual network to which this pif is connected
+	// virtual network to which this pif is connected
 	Network NetworkRef
-  // physical machine to which this pif is connected
+	// physical machine to which this pif is connected
 	Host HostRef
-  // ethernet MAC address of physical interface
+	// ethernet MAC address of physical interface
 	MAC string
-  // MTU in octets
+	// MTU in octets
 	MTU int
-  // VLAN tag for all traffic passing through this interface
+	// VLAN tag for all traffic passing through this interface
 	VLAN int
-  // metrics associated with this PIF
+	// metrics associated with this PIF
 	Metrics PIFMetricsRef
-  // true if this represents a physical network interface
+	// true if this represents a physical network interface
 	Physical bool
-  // true if this interface is online
+	// true if this interface is online
 	CurrentlyAttached bool
-  // Sets if and how this interface gets an IP address
+	// Sets if and how this interface gets an IP address
 	IPConfigurationMode IPConfigurationMode
-  // IP address
+	// IP address
 	IP string
-  // IP netmask
+	// IP netmask
 	Netmask string
-  // IP gateway
+	// IP gateway
 	Gateway string
-  // IP address of DNS servers to use
+	// IP address of DNS servers to use
 	DNS string
-  // Indicates which bond this interface is part of
+	// Indicates which bond this interface is part of
 	BondSlaveOf BondRef
-  // Indicates this PIF represents the results of a bond
+	// Indicates this PIF represents the results of a bond
 	BondMasterOf []BondRef
-  // Indicates wich VLAN this interface receives untagged traffic from
+	// Indicates wich VLAN this interface receives untagged traffic from
 	VLANMasterOf VLANRef
-  // Indicates which VLANs this interface transmits tagged traffic to
+	// Indicates which VLANs this interface transmits tagged traffic to
 	VLANSlaveOf []VLANRef
-  // Indicates whether the control software is listening for connections on this interface
+	// Indicates whether the control software is listening for connections on this interface
 	Management bool
-  // Additional configuration
+	// Additional configuration
 	OtherConfig map[string]string
-  // Prevent this PIF from being unplugged; set this to notify the management tool-stack that the PIF has a special use and should not be unplugged under any circumstances (e.g. because you're running storage traffic over it)
+	// Prevent this PIF from being unplugged; set this to notify the management tool-stack that the PIF has a special use and should not be unplugged under any circumstances (e.g. because you're running storage traffic over it)
 	DisallowUnplug bool
-  // Indicates to which tunnel this PIF gives access
+	// Indicates to which tunnel this PIF gives access
 	TunnelAccessPIFOf []TunnelRef
-  // Indicates to which tunnel this PIF provides transport
+	// Indicates to which tunnel this PIF provides transport
 	TunnelTransportPIFOf []TunnelRef
-  // Sets if and how this interface gets an IPv6 address
+	// Sets if and how this interface gets an IPv6 address
 	Ipv6ConfigurationMode Ipv6ConfigurationMode
-  // IPv6 address
+	// IPv6 address
 	IPv6 []string
-  // IPv6 gateway
+	// IPv6 gateway
 	Ipv6Gateway string
-  // Which protocol should define the primary address of this interface
+	// Which protocol should define the primary address of this interface
 	PrimaryAddressType PrimaryAddressType
-  // Indicates whether the interface is managed by xapi. If it is not, then xapi will not configure the interface, the commands PIF.plug/unplug/reconfigure_ip(v6) can not be used, nor can the interface be bonded or have VLANs based on top through xapi.
+	// Indicates whether the interface is managed by xapi. If it is not, then xapi will not configure the interface, the commands PIF.plug/unplug/reconfigure_ip(v6) can not be used, nor can the interface be bonded or have VLANs based on top through xapi.
 	Managed bool
-  // Additional configuration properties for the interface.
+	// Additional configuration properties for the interface.
 	Properties map[string]string
-  // Additional capabilities on the interface.
+	// Additional capabilities on the interface.
 	Capabilities []string
-  // The IGMP snooping status of the corresponding network bridge
+	// The IGMP snooping status of the corresponding network bridge
 	IgmpSnoopingStatus PifIgmpStatus
 }
 

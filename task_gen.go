@@ -23,61 +23,61 @@ var _ = time.UTC
 type TaskAllowedOperations string
 
 const (
-  // refers to the operation "cancel"
+	// refers to the operation "cancel"
 	TaskAllowedOperationsCancel TaskAllowedOperations = "cancel"
-  // refers to the operation "destroy"
+	// refers to the operation "destroy"
 	TaskAllowedOperationsDestroy TaskAllowedOperations = "destroy"
 )
 
 type TaskStatusType string
 
 const (
-  // task is in progress
+	// task is in progress
 	TaskStatusTypePending TaskStatusType = "pending"
-  // task was completed successfully
+	// task was completed successfully
 	TaskStatusTypeSuccess TaskStatusType = "success"
-  // task has failed
+	// task has failed
 	TaskStatusTypeFailure TaskStatusType = "failure"
-  // task is being cancelled
+	// task is being cancelled
 	TaskStatusTypeCancelling TaskStatusType = "cancelling"
-  // task has been cancelled
+	// task has been cancelled
 	TaskStatusTypeCancelled TaskStatusType = "cancelled"
 )
 
 type TaskRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // a human-readable name
+	// a human-readable name
 	NameLabel string
-  // a notes field containing human-readable description
+	// a notes field containing human-readable description
 	NameDescription string
-  // list of the operations allowed in this state. This list is advisory only and the server state may have changed by the time this field is read by a client.
+	// list of the operations allowed in this state. This list is advisory only and the server state may have changed by the time this field is read by a client.
 	AllowedOperations []TaskAllowedOperations
-  // links each of the running tasks using this object (by reference) to a current_operation enum which describes the nature of the task.
+	// links each of the running tasks using this object (by reference) to a current_operation enum which describes the nature of the task.
 	CurrentOperations map[string]TaskAllowedOperations
-  // Time task was created
+	// Time task was created
 	Created time.Time
-  // Time task finished (i.e. succeeded or failed). If task-status is pending, then the value of this field has no meaning
+	// Time task finished (i.e. succeeded or failed). If task-status is pending, then the value of this field has no meaning
 	Finished time.Time
-  // current status of the task
+	// current status of the task
 	Status TaskStatusType
-  // the host on which the task is running
+	// the host on which the task is running
 	ResidentOn HostRef
-  // This field contains the estimated fraction of the task which is complete. This field should not be used to determine whether the task is complete - for this the status field of the task should be used.
+	// This field contains the estimated fraction of the task which is complete. This field should not be used to determine whether the task is complete - for this the status field of the task should be used.
 	Progress float64
-  // if the task has completed successfully, this field contains the type of the encoded result (i.e. name of the class whose reference is in the result field). Undefined otherwise.
+	// if the task has completed successfully, this field contains the type of the encoded result (i.e. name of the class whose reference is in the result field). Undefined otherwise.
 	Type string
-  // if the task has completed successfully, this field contains the result value (either Void or an object reference). Undefined otherwise.
+	// if the task has completed successfully, this field contains the result value (either Void or an object reference). Undefined otherwise.
 	Result string
-  // if the task has failed, this field contains the set of associated error strings. Undefined otherwise.
+	// if the task has failed, this field contains the set of associated error strings. Undefined otherwise.
 	ErrorInfo []string
-  // additional configuration
+	// additional configuration
 	OtherConfig map[string]string
-  // Ref pointing to the task this is a substask of.
+	// Ref pointing to the task this is a substask of.
 	SubtaskOf TaskRef
-  // List pointing to all the substasks.
+	// List pointing to all the substasks.
 	Subtasks []TaskRef
-  // Function call trace for debugging.
+	// Function call trace for debugging.
 	Backtrace string
 }
 

@@ -21,13 +21,13 @@ var _ = strconv.Atoi
 var _ = time.UTC
 
 type CrashdumpRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // the virtual machine
+	// the virtual machine
 	VM VMRef
-  // the virtual disk
+	// the virtual disk
 	VDI VDIRef
-  // additional configuration
+	// additional configuration
 	OtherConfig map[string]string
 }
 

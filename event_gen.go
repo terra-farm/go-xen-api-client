@@ -23,26 +23,26 @@ var _ = time.UTC
 type EventOperation string
 
 const (
-  // An object has been created
+	// An object has been created
 	EventOperationAdd EventOperation = "add"
-  // An object has been deleted
+	// An object has been deleted
 	EventOperationDel EventOperation = "del"
-  // An object has been modified
+	// An object has been modified
 	EventOperationMod EventOperation = "mod"
 )
 
 type EventRecord struct {
-  // An ID, monotonically increasing, and local to the current session
+	// An ID, monotonically increasing, and local to the current session
 	ID int
-  // The time at which the event occurred
+	// The time at which the event occurred
 	Timestamp time.Time
-  // The name of the class of the object that changed
+	// The name of the class of the object that changed
 	Class string
-  // The operation that was performed
+	// The operation that was performed
 	Operation EventOperation
-  // A reference to the object that changed
+	// A reference to the object that changed
 	Ref string
-  // The uuid of the object that changed
+	// The uuid of the object that changed
 	ObjUUID string
 }
 

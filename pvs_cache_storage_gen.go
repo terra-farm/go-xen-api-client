@@ -21,17 +21,17 @@ var _ = strconv.Atoi
 var _ = time.UTC
 
 type PVSCacheStorageRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // The host on which this object defines PVS cache storage
+	// The host on which this object defines PVS cache storage
 	Host HostRef
-  // SR providing storage for the PVS cache
+	// SR providing storage for the PVS cache
 	SR SRRef
-  // The PVS_site for which this object defines the storage
+	// The PVS_site for which this object defines the storage
 	Site PVSSiteRef
-  // The size of the cache VDI (in bytes)
+	// The size of the cache VDI (in bytes)
 	Size int
-  // The VDI used for caching
+	// The VDI used for caching
 	VDI VDIRef
 }
 
@@ -201,8 +201,7 @@ func (_class PVSCacheStorageClass) Destroy(sessionID SessionRef, self PVSCacheSt
 	return
 }
 
-// Create Create a new PVS_cache_storage instance, and return its handle.
-The constructor args are: host, SR, site, size (* = non-optional).
+// Create Create a new PVS_cache_storage instance, and return its handle. The constructor args are: host, SR, site, size (* = non-optional).
 func (_class PVSCacheStorageClass) Create(sessionID SessionRef, args PVSCacheStorageRecord) (_retval PVSCacheStorageRef, _err error) {
 	_method := "PVS_cache_storage.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

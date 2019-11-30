@@ -21,7 +21,7 @@ var _ = strconv.Atoi
 var _ = time.UTC
 
 type LVHDRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
 }
 

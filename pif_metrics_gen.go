@@ -21,31 +21,31 @@ var _ = strconv.Atoi
 var _ = time.UTC
 
 type PIFMetricsRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // Read bandwidth (KiB/s)
+	// Read bandwidth (KiB/s)
 	IoReadKbs float64
-  // Write bandwidth (KiB/s)
+	// Write bandwidth (KiB/s)
 	IoWriteKbs float64
-  // Report if the PIF got a carrier or not
+	// Report if the PIF got a carrier or not
 	Carrier bool
-  // Report vendor ID
+	// Report vendor ID
 	VendorID string
-  // Report vendor name
+	// Report vendor name
 	VendorName string
-  // Report device ID
+	// Report device ID
 	DeviceID string
-  // Report device name
+	// Report device name
 	DeviceName string
-  // Speed of the link (if available)
+	// Speed of the link (if available)
 	Speed int
-  // Full duplex capability of the link (if available)
+	// Full duplex capability of the link (if available)
 	Duplex bool
-  // PCI bus path of the pif (if available)
+	// PCI bus path of the pif (if available)
 	PciBusPath string
-  // Time at which this information was last updated
+	// Time at which this information was last updated
 	LastUpdated time.Time
-  // additional configuration
+	// additional configuration
 	OtherConfig map[string]string
 }
 

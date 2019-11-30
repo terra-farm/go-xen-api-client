@@ -23,45 +23,45 @@ var _ = time.UTC
 type VmssFrequency string
 
 const (
-  // Hourly snapshots
+	// Hourly snapshots
 	VmssFrequencyHourly VmssFrequency = "hourly"
-  // Daily snapshots
+	// Daily snapshots
 	VmssFrequencyDaily VmssFrequency = "daily"
-  // Weekly snapshots
+	// Weekly snapshots
 	VmssFrequencyWeekly VmssFrequency = "weekly"
 )
 
 type VmssType string
 
 const (
-  // The snapshot is a disk snapshot
+	// The snapshot is a disk snapshot
 	VmssTypeSnapshot VmssType = "snapshot"
-  // The snapshot is a checkpoint
+	// The snapshot is a checkpoint
 	VmssTypeCheckpoint VmssType = "checkpoint"
-  // The snapshot is a VSS
+	// The snapshot is a VSS
 	VmssTypeSnapshotWithQuiesce VmssType = "snapshot_with_quiesce"
 )
 
 type VMSSRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // a human-readable name
+	// a human-readable name
 	NameLabel string
-  // a notes field containing human-readable description
+	// a notes field containing human-readable description
 	NameDescription string
-  // enable or disable this snapshot schedule
+	// enable or disable this snapshot schedule
 	Enabled bool
-  // type of the snapshot schedule
+	// type of the snapshot schedule
 	Type VmssType
-  // maximum number of snapshots that should be stored at any time
+	// maximum number of snapshots that should be stored at any time
 	RetainedSnapshots int
-  // frequency of taking snapshot from snapshot schedule
+	// frequency of taking snapshot from snapshot schedule
 	Frequency VmssFrequency
-  // schedule of the snapshot containing 'hour', 'min', 'days'. Date/time-related information is in Local Timezone
+	// schedule of the snapshot containing 'hour', 'min', 'days'. Date/time-related information is in Local Timezone
 	Schedule map[string]string
-  // time of the last snapshot
+	// time of the last snapshot
 	LastRunTime time.Time
-  // all VMs attached to this snapshot schedule
+	// all VMs attached to this snapshot schedule
 	VMs []VMRef
 }
 
@@ -539,8 +539,7 @@ func (_class VMSSClass) Destroy(sessionID SessionRef, self VMSSRef) (_err error)
 	return
 }
 
-// Create Create a new VMSS instance, and return its handle.
-The constructor args are: name_label, name_description, enabled, type*, retained_snapshots, frequency*, schedule (* = non-optional).
+// Create Create a new VMSS instance, and return its handle. The constructor args are: name_label, name_description, enabled, type*, retained_snapshots, frequency*, schedule (* = non-optional).
 func (_class VMSSClass) Create(sessionID SessionRef, args VMSSRecord) (_retval VMSSRef, _err error) {
 	_method := "VMSS.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

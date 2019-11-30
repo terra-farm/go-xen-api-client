@@ -23,142 +23,142 @@ var _ = time.UTC
 type VdiOperations string
 
 const (
-  // Cloning the VDI
+	// Cloning the VDI
 	VdiOperationsClone VdiOperations = "clone"
-  // Copying the VDI
+	// Copying the VDI
 	VdiOperationsCopy VdiOperations = "copy"
-  // Resizing the VDI
+	// Resizing the VDI
 	VdiOperationsResize VdiOperations = "resize"
-  // Resizing the VDI which may or may not be online
+	// Resizing the VDI which may or may not be online
 	VdiOperationsResizeOnline VdiOperations = "resize_online"
-  // Snapshotting the VDI
+	// Snapshotting the VDI
 	VdiOperationsSnapshot VdiOperations = "snapshot"
-  // Mirroring the VDI
+	// Mirroring the VDI
 	VdiOperationsMirror VdiOperations = "mirror"
-  // Destroying the VDI
+	// Destroying the VDI
 	VdiOperationsDestroy VdiOperations = "destroy"
-  // Forget about the VDI
+	// Forget about the VDI
 	VdiOperationsForget VdiOperations = "forget"
-  // Refreshing the fields of the VDI
+	// Refreshing the fields of the VDI
 	VdiOperationsUpdate VdiOperations = "update"
-  // Forcibly unlocking the VDI
+	// Forcibly unlocking the VDI
 	VdiOperationsForceUnlock VdiOperations = "force_unlock"
-  // Generating static configuration
+	// Generating static configuration
 	VdiOperationsGenerateConfig VdiOperations = "generate_config"
-  // Enabling changed block tracking for a VDI
+	// Enabling changed block tracking for a VDI
 	VdiOperationsEnableCbt VdiOperations = "enable_cbt"
-  // Disabling changed block tracking for a VDI
+	// Disabling changed block tracking for a VDI
 	VdiOperationsDisableCbt VdiOperations = "disable_cbt"
-  // Deleting the data of the VDI
+	// Deleting the data of the VDI
 	VdiOperationsDataDestroy VdiOperations = "data_destroy"
-  // Exporting a bitmap that shows the changed blocks between two VDIs
+	// Exporting a bitmap that shows the changed blocks between two VDIs
 	VdiOperationsListChangedBlocks VdiOperations = "list_changed_blocks"
-  // Setting the on_boot field of the VDI
+	// Setting the on_boot field of the VDI
 	VdiOperationsSetOnBoot VdiOperations = "set_on_boot"
-  // Operations on this VDI are temporarily blocked
+	// Operations on this VDI are temporarily blocked
 	VdiOperationsBlocked VdiOperations = "blocked"
 )
 
 type VdiType string
 
 const (
-  // a disk that may be replaced on upgrade
+	// a disk that may be replaced on upgrade
 	VdiTypeSystem VdiType = "system"
-  // a disk that is always preserved on upgrade
+	// a disk that is always preserved on upgrade
 	VdiTypeUser VdiType = "user"
-  // a disk that may be reformatted on upgrade
+	// a disk that may be reformatted on upgrade
 	VdiTypeEphemeral VdiType = "ephemeral"
-  // a disk that stores a suspend image
+	// a disk that stores a suspend image
 	VdiTypeSuspend VdiType = "suspend"
-  // a disk that stores VM crashdump information
+	// a disk that stores VM crashdump information
 	VdiTypeCrashdump VdiType = "crashdump"
-  // a disk used for HA storage heartbeating
+	// a disk used for HA storage heartbeating
 	VdiTypeHaStatefile VdiType = "ha_statefile"
-  // a disk used for HA Pool metadata
+	// a disk used for HA Pool metadata
 	VdiTypeMetadata VdiType = "metadata"
-  // a disk used for a general metadata redo-log
+	// a disk used for a general metadata redo-log
 	VdiTypeRedoLog VdiType = "redo_log"
-  // a disk that stores SR-level RRDs
+	// a disk that stores SR-level RRDs
 	VdiTypeRrd VdiType = "rrd"
-  // a disk that stores PVS cache data
+	// a disk that stores PVS cache data
 	VdiTypePvsCache VdiType = "pvs_cache"
-  // Metadata about a snapshot VDI that has been deleted: the set of blocks that changed between some previous version of the disk and the version tracked by the snapshot.
+	// Metadata about a snapshot VDI that has been deleted: the set of blocks that changed between some previous version of the disk and the version tracked by the snapshot.
 	VdiTypeCbtMetadata VdiType = "cbt_metadata"
 )
 
 type OnBoot string
 
 const (
-  // When a VM containing this VDI is started, the contents of the VDI are reset to the state they were in when this flag was last set.
+	// When a VM containing this VDI is started, the contents of the VDI are reset to the state they were in when this flag was last set.
 	OnBootReset OnBoot = "reset"
-  // Standard behaviour.
+	// Standard behaviour.
 	OnBootPersist OnBoot = "persist"
 )
 
 type VDIRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // a human-readable name
+	// a human-readable name
 	NameLabel string
-  // a notes field containing human-readable description
+	// a notes field containing human-readable description
 	NameDescription string
-  // list of the operations allowed in this state. This list is advisory only and the server state may have changed by the time this field is read by a client.
+	// list of the operations allowed in this state. This list is advisory only and the server state may have changed by the time this field is read by a client.
 	AllowedOperations []VdiOperations
-  // links each of the running tasks using this object (by reference) to a current_operation enum which describes the nature of the task.
+	// links each of the running tasks using this object (by reference) to a current_operation enum which describes the nature of the task.
 	CurrentOperations map[string]VdiOperations
-  // storage repository in which the VDI resides
+	// storage repository in which the VDI resides
 	SR SRRef
-  // list of vbds that refer to this disk
+	// list of vbds that refer to this disk
 	VBDs []VBDRef
-  // list of crash dumps that refer to this disk
+	// list of crash dumps that refer to this disk
 	CrashDumps []CrashdumpRef
-  // size of disk as presented to the guest (in bytes). Note that, depending on storage backend type, requested size may not be respected exactly
+	// size of disk as presented to the guest (in bytes). Note that, depending on storage backend type, requested size may not be respected exactly
 	VirtualSize int
-  // amount of physical space that the disk image is currently taking up on the storage repository (in bytes)
+	// amount of physical space that the disk image is currently taking up on the storage repository (in bytes)
 	PhysicalUtilisation int
-  // type of the VDI
+	// type of the VDI
 	Type VdiType
-  // true if this disk may be shared
+	// true if this disk may be shared
 	Sharable bool
-  // true if this disk may ONLY be mounted read-only
+	// true if this disk may ONLY be mounted read-only
 	ReadOnly bool
-  // additional configuration
+	// additional configuration
 	OtherConfig map[string]string
-  // true if this disk is locked at the storage level
+	// true if this disk is locked at the storage level
 	StorageLock bool
-  // location information
+	// location information
 	Location string
-  // 
+	// 
 	Managed bool
-  // true if SR scan operation reported this VDI as not present on disk
+	// true if SR scan operation reported this VDI as not present on disk
 	Missing bool
-  // This field is always null. Deprecated
+	// This field is always null. Deprecated
 	Parent VDIRef
-  // data to be inserted into the xenstore tree (/local/domain/0/backend/vbd/<domid>/<device-id>/sm-data) after the VDI is attached. This is generally set by the SM backends on vdi_attach.
+	// data to be inserted into the xenstore tree (/local/domain/0/backend/vbd/<domid>/<device-id>/sm-data) after the VDI is attached. This is generally set by the SM backends on vdi_attach.
 	XenstoreData map[string]string
-  // SM dependent data
+	// SM dependent data
 	SmConfig map[string]string
-  // true if this is a snapshot.
+	// true if this is a snapshot.
 	IsASnapshot bool
-  // Ref pointing to the VDI this snapshot is of.
+	// Ref pointing to the VDI this snapshot is of.
 	SnapshotOf VDIRef
-  // List pointing to all the VDIs snapshots.
+	// List pointing to all the VDIs snapshots.
 	Snapshots []VDIRef
-  // Date/time when this snapshot was created.
+	// Date/time when this snapshot was created.
 	SnapshotTime time.Time
-  // user-specified tags for categorization purposes
+	// user-specified tags for categorization purposes
 	Tags []string
-  // true if this VDI is to be cached in the local cache SR
+	// true if this VDI is to be cached in the local cache SR
 	AllowCaching bool
-  // The behaviour of this VDI on a VM boot
+	// The behaviour of this VDI on a VM boot
 	OnBoot OnBoot
-  // The pool whose metadata is contained in this VDI
+	// The pool whose metadata is contained in this VDI
 	MetadataOfPool PoolRef
-  // Whether this VDI contains the latest known accessible metadata for the pool
+	// Whether this VDI contains the latest known accessible metadata for the pool
 	MetadataLatest bool
-  // Whether this VDI is a Tools ISO
+	// Whether this VDI is a Tools ISO
 	IsToolsIso bool
-  // True if changed blocks are tracked for this VDI
+	// True if changed blocks are tracked for this VDI
 	CbtEnabled bool
 }
 
@@ -1887,8 +1887,7 @@ func (_class VDIClass) Destroy(sessionID SessionRef, self VDIRef) (_err error) {
 	return
 }
 
-// Create Create a new VDI instance, and return its handle.
-The constructor args are: name_label, name_description, SR*, virtual_size*, type*, sharable*, read_only*, other_config*, xenstore_data, sm_config, tags (* = non-optional).
+// Create Create a new VDI instance, and return its handle. The constructor args are: name_label, name_description, SR*, virtual_size*, type*, sharable*, read_only*, other_config*, xenstore_data, sm_config, tags (* = non-optional).
 func (_class VDIClass) Create(sessionID SessionRef, args VDIRecord) (_retval VDIRef, _err error) {
 	_method := "VDI.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

@@ -23,49 +23,49 @@ var _ = time.UTC
 type UpdateAfterApplyGuidance string
 
 const (
-  // This update requires HVM guests to be restarted once applied.
+	// This update requires HVM guests to be restarted once applied.
 	UpdateAfterApplyGuidanceRestartHVM UpdateAfterApplyGuidance = "restartHVM"
-  // This update requires PV guests to be restarted once applied.
+	// This update requires PV guests to be restarted once applied.
 	UpdateAfterApplyGuidanceRestartPV UpdateAfterApplyGuidance = "restartPV"
-  // This update requires the host to be restarted once applied.
+	// This update requires the host to be restarted once applied.
 	UpdateAfterApplyGuidanceRestartHost UpdateAfterApplyGuidance = "restartHost"
-  // This update requires XAPI to be restarted once applied.
+	// This update requires XAPI to be restarted once applied.
 	UpdateAfterApplyGuidanceRestartXAPI UpdateAfterApplyGuidance = "restartXAPI"
 )
 
 type LivepatchStatus string
 
 const (
-  // An applicable live patch exists for every required component
+	// An applicable live patch exists for every required component
 	LivepatchStatusOkLivepatchComplete LivepatchStatus = "ok_livepatch_complete"
-  // An applicable live patch exists but it is not sufficient
+	// An applicable live patch exists but it is not sufficient
 	LivepatchStatusOkLivepatchIncomplete LivepatchStatus = "ok_livepatch_incomplete"
-  // There is no applicable live patch
+	// There is no applicable live patch
 	LivepatchStatusOk LivepatchStatus = "ok"
 )
 
 type PoolUpdateRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // a human-readable name
+	// a human-readable name
 	NameLabel string
-  // a notes field containing human-readable description
+	// a notes field containing human-readable description
 	NameDescription string
-  // Update version number
+	// Update version number
 	Version string
-  // Size of the update in bytes
+	// Size of the update in bytes
 	InstallationSize int
-  // GPG key of the update
+	// GPG key of the update
 	Key string
-  // What the client should do after this update has been applied.
+	// What the client should do after this update has been applied.
 	AfterApplyGuidance []UpdateAfterApplyGuidance
-  // VDI the update was uploaded to
+	// VDI the update was uploaded to
 	Vdi VDIRef
-  // The hosts that have applied this update.
+	// The hosts that have applied this update.
 	Hosts []HostRef
-  // additional configuration
+	// additional configuration
 	OtherConfig map[string]string
-  // Flag - if true, all hosts in a pool must apply this update
+	// Flag - if true, all hosts in a pool must apply this update
 	EnforceHomogeneity bool
 }
 

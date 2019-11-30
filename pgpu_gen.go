@@ -23,40 +23,40 @@ var _ = time.UTC
 type PgpuDom0Access string
 
 const (
-  // dom0 can access this device as normal
+	// dom0 can access this device as normal
 	PgpuDom0AccessEnabled PgpuDom0Access = "enabled"
-  // On host reboot dom0 will be blocked from accessing this device
+	// On host reboot dom0 will be blocked from accessing this device
 	PgpuDom0AccessDisableOnReboot PgpuDom0Access = "disable_on_reboot"
-  // dom0 cannot access this device
+	// dom0 cannot access this device
 	PgpuDom0AccessDisabled PgpuDom0Access = "disabled"
-  // On host reboot dom0 will be allowed to access this device
+	// On host reboot dom0 will be allowed to access this device
 	PgpuDom0AccessEnableOnReboot PgpuDom0Access = "enable_on_reboot"
 )
 
 type PGPURecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // Link to underlying PCI device
+	// Link to underlying PCI device
 	PCI PCIRef
-  // GPU group the pGPU is contained in
+	// GPU group the pGPU is contained in
 	GPUGroup GPUGroupRef
-  // Host that owns the GPU
+	// Host that owns the GPU
 	Host HostRef
-  // Additional configuration
+	// Additional configuration
 	OtherConfig map[string]string
-  // List of VGPU types supported by the underlying hardware
+	// List of VGPU types supported by the underlying hardware
 	SupportedVGPUTypes []VGPUTypeRef
-  // List of VGPU types which have been enabled for this PGPU
+	// List of VGPU types which have been enabled for this PGPU
 	EnabledVGPUTypes []VGPUTypeRef
-  // List of VGPUs running on this PGPU
+	// List of VGPUs running on this PGPU
 	ResidentVGPUs []VGPURef
-  // A map relating each VGPU type supported on this GPU to the maximum number of VGPUs of that type which can run simultaneously on this GPU
+	// A map relating each VGPU type supported on this GPU to the maximum number of VGPUs of that type which can run simultaneously on this GPU
 	SupportedVGPUMaxCapacities map[VGPUTypeRef]int
-  // The accessibility of this device from dom0
+	// The accessibility of this device from dom0
 	Dom0Access PgpuDom0Access
-  // Is this device the system display device
+	// Is this device the system display device
 	IsSystemDisplayDevice bool
-  // PGPU metadata to determine whether a VGPU can migrate between two PGPUs
+	// PGPU metadata to determine whether a VGPU can migrate between two PGPUs
 	CompatibilityMetadata map[string]string
 }
 

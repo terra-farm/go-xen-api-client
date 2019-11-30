@@ -21,19 +21,19 @@ var _ = strconv.Atoi
 var _ = time.UTC
 
 type FeatureRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // a human-readable name
+	// a human-readable name
 	NameLabel string
-  // a notes field containing human-readable description
+	// a notes field containing human-readable description
 	NameDescription string
-  // Indicates whether the feature is enabled
+	// Indicates whether the feature is enabled
 	Enabled bool
-  // Indicates whether the feature is experimental (as opposed to stable and fully supported)
+	// Indicates whether the feature is experimental (as opposed to stable and fully supported)
 	Experimental bool
-  // The version of this feature
+	// The version of this feature
 	Version string
-  // The host where this feature is available
+	// The host where this feature is available
 	Host HostRef
 }
 

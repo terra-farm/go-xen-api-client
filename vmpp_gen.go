@@ -23,87 +23,87 @@ var _ = time.UTC
 type VmppBackupType string
 
 const (
-  // The backup is a snapshot
+	// The backup is a snapshot
 	VmppBackupTypeSnapshot VmppBackupType = "snapshot"
-  // The backup is a checkpoint
+	// The backup is a checkpoint
 	VmppBackupTypeCheckpoint VmppBackupType = "checkpoint"
 )
 
 type VmppBackupFrequency string
 
 const (
-  // Hourly backups
+	// Hourly backups
 	VmppBackupFrequencyHourly VmppBackupFrequency = "hourly"
-  // Daily backups
+	// Daily backups
 	VmppBackupFrequencyDaily VmppBackupFrequency = "daily"
-  // Weekly backups
+	// Weekly backups
 	VmppBackupFrequencyWeekly VmppBackupFrequency = "weekly"
 )
 
 type VmppArchiveFrequency string
 
 const (
-  // Never archive
+	// Never archive
 	VmppArchiveFrequencyNever VmppArchiveFrequency = "never"
-  // Archive after backup
+	// Archive after backup
 	VmppArchiveFrequencyAlwaysAfterBackup VmppArchiveFrequency = "always_after_backup"
-  // Daily archives
+	// Daily archives
 	VmppArchiveFrequencyDaily VmppArchiveFrequency = "daily"
-  // Weekly backups
+	// Weekly backups
 	VmppArchiveFrequencyWeekly VmppArchiveFrequency = "weekly"
 )
 
 type VmppArchiveTargetType string
 
 const (
-  // No target config
+	// No target config
 	VmppArchiveTargetTypeNone VmppArchiveTargetType = "none"
-  // CIFS target config
+	// CIFS target config
 	VmppArchiveTargetTypeCifs VmppArchiveTargetType = "cifs"
-  // NFS target config
+	// NFS target config
 	VmppArchiveTargetTypeNfs VmppArchiveTargetType = "nfs"
 )
 
 type VMPPRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // a human-readable name
+	// a human-readable name
 	NameLabel string
-  // a notes field containing human-readable description
+	// a notes field containing human-readable description
 	NameDescription string
-  // enable or disable this policy
+	// enable or disable this policy
 	IsPolicyEnabled bool
-  // type of the backup sub-policy
+	// type of the backup sub-policy
 	BackupType VmppBackupType
-  // maximum number of backups that should be stored at any time
+	// maximum number of backups that should be stored at any time
 	BackupRetentionValue int
-  // frequency of the backup schedule
+	// frequency of the backup schedule
 	BackupFrequency VmppBackupFrequency
-  // schedule of the backup containing 'hour', 'min', 'days'. Date/time-related information is in Local Timezone
+	// schedule of the backup containing 'hour', 'min', 'days'. Date/time-related information is in Local Timezone
 	BackupSchedule map[string]string
-  // true if this protection policy's backup is running
+	// true if this protection policy's backup is running
 	IsBackupRunning bool
-  // time of the last backup
+	// time of the last backup
 	BackupLastRunTime time.Time
-  // type of the archive target config
+	// type of the archive target config
 	ArchiveTargetType VmppArchiveTargetType
-  // configuration for the archive, including its 'location', 'username', 'password'
+	// configuration for the archive, including its 'location', 'username', 'password'
 	ArchiveTargetConfig map[string]string
-  // frequency of the archive schedule
+	// frequency of the archive schedule
 	ArchiveFrequency VmppArchiveFrequency
-  // schedule of the archive containing 'hour', 'min', 'days'. Date/time-related information is in Local Timezone
+	// schedule of the archive containing 'hour', 'min', 'days'. Date/time-related information is in Local Timezone
 	ArchiveSchedule map[string]string
-  // true if this protection policy's archive is running
+	// true if this protection policy's archive is running
 	IsArchiveRunning bool
-  // time of the last archive
+	// time of the last archive
 	ArchiveLastRunTime time.Time
-  // all VMs attached to this protection policy
+	// all VMs attached to this protection policy
 	VMs []VMRef
-  // true if alarm is enabled for this policy
+	// true if alarm is enabled for this policy
 	IsAlarmEnabled bool
-  // configuration for the alarm
+	// configuration for the alarm
 	AlarmConfig map[string]string
-  // recent alerts
+	// recent alerts
 	RecentAlerts []string
 }
 
@@ -1072,8 +1072,7 @@ func (_class VMPPClass) Destroy(sessionID SessionRef, self VMPPRef) (_err error)
 	return
 }
 
-// Create Create a new VMPP instance, and return its handle.
-The constructor args are: name_label, name_description, is_policy_enabled, backup_type, backup_retention_value, backup_frequency, backup_schedule, archive_target_type, archive_target_config, archive_frequency, archive_schedule, is_alarm_enabled, alarm_config (* = non-optional).
+// Create Create a new VMPP instance, and return its handle. The constructor args are: name_label, name_description, is_policy_enabled, backup_type, backup_retention_value, backup_frequency, backup_schedule, archive_target_type, archive_target_config, archive_frequency, archive_schedule, is_alarm_enabled, alarm_config (* = non-optional).
 func (_class VMPPClass) Create(sessionID SessionRef, args VMPPRecord) (_retval VMPPRef, _err error) {
 	_method := "VMPP.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

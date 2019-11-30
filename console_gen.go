@@ -23,24 +23,24 @@ var _ = time.UTC
 type ConsoleProtocol string
 
 const (
-  // VT100 terminal
+	// VT100 terminal
 	ConsoleProtocolVt100 ConsoleProtocol = "vt100"
-  // Remote FrameBuffer protocol (as used in VNC)
+	// Remote FrameBuffer protocol (as used in VNC)
 	ConsoleProtocolRfb ConsoleProtocol = "rfb"
-  // Remote Desktop Protocol
+	// Remote Desktop Protocol
 	ConsoleProtocolRdp ConsoleProtocol = "rdp"
 )
 
 type ConsoleRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // the protocol used by this console
+	// the protocol used by this console
 	Protocol ConsoleProtocol
-  // URI for the console service
+	// URI for the console service
 	Location string
-  // VM to which this console is attached
+	// VM to which this console is attached
 	VM VMRef
-  // additional configuration
+	// additional configuration
 	OtherConfig map[string]string
 }
 
@@ -252,8 +252,7 @@ func (_class ConsoleClass) Destroy(sessionID SessionRef, self ConsoleRef) (_err 
 	return
 }
 
-// Create Create a new console instance, and return its handle.
-The constructor args are: other_config* (* = non-optional).
+// Create Create a new console instance, and return its handle. The constructor args are: other_config* (* = non-optional).
 func (_class ConsoleClass) Create(sessionID SessionRef, args ConsoleRecord) (_retval ConsoleRef, _err error) {
 	_method := "console.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

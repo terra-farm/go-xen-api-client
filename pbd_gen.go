@@ -21,17 +21,17 @@ var _ = strconv.Atoi
 var _ = time.UTC
 
 type PBDRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // physical machine on which the pbd is available
+	// physical machine on which the pbd is available
 	Host HostRef
-  // the storage repository that the pbd realises
+	// the storage repository that the pbd realises
 	SR SRRef
-  // a config string to string map that is provided to the host's SR-backend-driver
+	// a config string to string map that is provided to the host's SR-backend-driver
 	DeviceConfig map[string]string
-  // is the SR currently attached on this host?
+	// is the SR currently attached on this host?
 	CurrentlyAttached bool
-  // additional configuration
+	// additional configuration
 	OtherConfig map[string]string
 }
 
@@ -314,8 +314,7 @@ func (_class PBDClass) Destroy(sessionID SessionRef, self PBDRef) (_err error) {
 	return
 }
 
-// Create Create a new PBD instance, and return its handle.
-The constructor args are: host*, SR*, device_config*, other_config (* = non-optional).
+// Create Create a new PBD instance, and return its handle. The constructor args are: host*, SR*, device_config*, other_config (* = non-optional).
 func (_class PBDClass) Create(sessionID SessionRef, args PBDRecord) (_retval PBDRef, _err error) {
 	_method := "PBD.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

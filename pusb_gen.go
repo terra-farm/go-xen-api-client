@@ -21,31 +21,31 @@ var _ = strconv.Atoi
 var _ = time.UTC
 
 type PUSBRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // USB group the PUSB is contained in
+	// USB group the PUSB is contained in
 	USBGroup USBGroupRef
-  // Physical machine that owns the USB device
+	// Physical machine that owns the USB device
 	Host HostRef
-  // port path of USB device
+	// port path of USB device
 	Path string
-  // vendor id of the USB device
+	// vendor id of the USB device
 	VendorID string
-  // vendor description of the USB device
+	// vendor description of the USB device
 	VendorDesc string
-  // product id of the USB device
+	// product id of the USB device
 	ProductID string
-  // product description of the USB device
+	// product description of the USB device
 	ProductDesc string
-  // serial of the USB device
+	// serial of the USB device
 	Serial string
-  // USB device version
+	// USB device version
 	Version string
-  // USB device description
+	// USB device description
 	Description string
-  // enabled for passthrough
+	// enabled for passthrough
 	PassthroughEnabled bool
-  // additional configuration
+	// additional configuration
 	OtherConfig map[string]string
 }
 

@@ -21,15 +21,15 @@ var _ = strconv.Atoi
 var _ = time.UTC
 
 type VLANRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // interface on which traffic is tagged
+	// interface on which traffic is tagged
 	TaggedPIF PIFRef
-  // interface on which traffic is untagged
+	// interface on which traffic is untagged
 	UntaggedPIF PIFRef
-  // VLAN tag in use
+	// VLAN tag in use
 	Tag int
-  // additional configuration
+	// additional configuration
 	OtherConfig map[string]string
 }
 

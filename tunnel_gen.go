@@ -21,15 +21,15 @@ var _ = strconv.Atoi
 var _ = time.UTC
 
 type TunnelRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // The interface through which the tunnel is accessed
+	// The interface through which the tunnel is accessed
 	AccessPIF PIFRef
-  // The interface used by the tunnel
+	// The interface used by the tunnel
 	TransportPIF PIFRef
-  // Status information about the tunnel
+	// Status information about the tunnel
 	Status map[string]string
-  // Additional configuration
+	// Additional configuration
 	OtherConfig map[string]string
 }
 

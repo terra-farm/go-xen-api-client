@@ -23,149 +23,149 @@ var _ = time.UTC
 type HostAllowedOperations string
 
 const (
-  // Indicates this host is able to provision another VM
+	// Indicates this host is able to provision another VM
 	HostAllowedOperationsProvision HostAllowedOperations = "provision"
-  // Indicates this host is evacuating
+	// Indicates this host is evacuating
 	HostAllowedOperationsEvacuate HostAllowedOperations = "evacuate"
-  // Indicates this host is in the process of shutting itself down
+	// Indicates this host is in the process of shutting itself down
 	HostAllowedOperationsShutdown HostAllowedOperations = "shutdown"
-  // Indicates this host is in the process of rebooting
+	// Indicates this host is in the process of rebooting
 	HostAllowedOperationsReboot HostAllowedOperations = "reboot"
-  // Indicates this host is in the process of being powered on
+	// Indicates this host is in the process of being powered on
 	HostAllowedOperationsPowerOn HostAllowedOperations = "power_on"
-  // This host is starting a VM
+	// This host is starting a VM
 	HostAllowedOperationsVMStart HostAllowedOperations = "vm_start"
-  // This host is resuming a VM
+	// This host is resuming a VM
 	HostAllowedOperationsVMResume HostAllowedOperations = "vm_resume"
-  // This host is the migration target of a VM
+	// This host is the migration target of a VM
 	HostAllowedOperationsVMMigrate HostAllowedOperations = "vm_migrate"
 )
 
 type HostDisplay string
 
 const (
-  // This host is outputting its console to a physical display device
+	// This host is outputting its console to a physical display device
 	HostDisplayEnabled HostDisplay = "enabled"
-  // The host will stop outputting its console to a physical display device on next boot
+	// The host will stop outputting its console to a physical display device on next boot
 	HostDisplayDisableOnReboot HostDisplay = "disable_on_reboot"
-  // This host is not outputting its console to a physical display device
+	// This host is not outputting its console to a physical display device
 	HostDisplayDisabled HostDisplay = "disabled"
-  // The host will start outputting its console to a physical display device on next boot
+	// The host will start outputting its console to a physical display device on next boot
 	HostDisplayEnableOnReboot HostDisplay = "enable_on_reboot"
 )
 
 type HostRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // a human-readable name
+	// a human-readable name
 	NameLabel string
-  // a notes field containing human-readable description
+	// a notes field containing human-readable description
 	NameDescription string
-  // Virtualization memory overhead (bytes).
+	// Virtualization memory overhead (bytes).
 	MemoryOverhead int
-  // list of the operations allowed in this state. This list is advisory only and the server state may have changed by the time this field is read by a client.
+	// list of the operations allowed in this state. This list is advisory only and the server state may have changed by the time this field is read by a client.
 	AllowedOperations []HostAllowedOperations
-  // links each of the running tasks using this object (by reference) to a current_operation enum which describes the nature of the task.
+	// links each of the running tasks using this object (by reference) to a current_operation enum which describes the nature of the task.
 	CurrentOperations map[string]HostAllowedOperations
-  // major version number
+	// major version number
 	APIVersionMajor int
-  // minor version number
+	// minor version number
 	APIVersionMinor int
-  // identification of vendor
+	// identification of vendor
 	APIVersionVendor string
-  // details of vendor implementation
+	// details of vendor implementation
 	APIVersionVendorImplementation map[string]string
-  // True if the host is currently enabled
+	// True if the host is currently enabled
 	Enabled bool
-  // version strings
+	// version strings
 	SoftwareVersion map[string]string
-  // additional configuration
+	// additional configuration
 	OtherConfig map[string]string
-  // Xen capabilities
+	// Xen capabilities
 	Capabilities []string
-  // The CPU configuration on this host.  May contain keys such as "nr_nodes", "sockets_per_node", "cores_per_socket", or "threads_per_core"
+	// The CPU configuration on this host.  May contain keys such as "nr_nodes", "sockets_per_node", "cores_per_socket", or "threads_per_core"
 	CPUConfiguration map[string]string
-  // Scheduler policy currently in force on this host
+	// Scheduler policy currently in force on this host
 	SchedPolicy string
-  // a list of the bootloaders installed on the machine
+	// a list of the bootloaders installed on the machine
 	SupportedBootloaders []string
-  // list of VMs currently resident on host
+	// list of VMs currently resident on host
 	ResidentVMs []VMRef
-  // logging configuration
+	// logging configuration
 	Logging map[string]string
-  // physical network interfaces
+	// physical network interfaces
 	PIFs []PIFRef
-  // The SR in which VDIs for suspend images are created
+	// The SR in which VDIs for suspend images are created
 	SuspendImageSr SRRef
-  // The SR in which VDIs for crash dumps are created
+	// The SR in which VDIs for crash dumps are created
 	CrashDumpSr SRRef
-  // Set of host crash dumps
+	// Set of host crash dumps
 	Crashdumps []HostCrashdumpRef
-  // Set of host patches
+	// Set of host patches
 	Patches []HostPatchRef
-  // Set of updates
+	// Set of updates
 	Updates []PoolUpdateRef
-  // physical blockdevices
+	// physical blockdevices
 	PBDs []PBDRef
-  // The physical CPUs on this host
+	// The physical CPUs on this host
 	HostCPUs []HostCPURef
-  // Details about the physical CPUs on this host
+	// Details about the physical CPUs on this host
 	CPUInfo map[string]string
-  // The hostname of this host
+	// The hostname of this host
 	Hostname string
-  // The address by which this host can be contacted from any other host in the pool
+	// The address by which this host can be contacted from any other host in the pool
 	Address string
-  // metrics associated with this host
+	// metrics associated with this host
 	Metrics HostMetricsRef
-  // State of the current license
+	// State of the current license
 	LicenseParams map[string]string
-  // The set of statefiles accessible from this host
+	// The set of statefiles accessible from this host
 	HaStatefiles []string
-  // The set of hosts visible via the network from this host
+	// The set of hosts visible via the network from this host
 	HaNetworkPeers []string
-  // Binary blobs associated with this host
+	// Binary blobs associated with this host
 	Blobs map[string]BlobRef
-  // user-specified tags for categorization purposes
+	// user-specified tags for categorization purposes
 	Tags []string
-  // type of external authentication service configured; empty if none configured.
+	// type of external authentication service configured; empty if none configured.
 	ExternalAuthType string
-  // name of external authentication service configured; empty if none configured.
+	// name of external authentication service configured; empty if none configured.
 	ExternalAuthServiceName string
-  // configuration specific to external authentication service
+	// configuration specific to external authentication service
 	ExternalAuthConfiguration map[string]string
-  // Product edition
+	// Product edition
 	Edition string
-  // Contact information of the license server
+	// Contact information of the license server
 	LicenseServer map[string]string
-  // BIOS strings
+	// BIOS strings
 	BiosStrings map[string]string
-  // The power on mode
+	// The power on mode
 	PowerOnMode string
-  // The power on config
+	// The power on config
 	PowerOnConfig map[string]string
-  // The SR that is used as a local cache
+	// The SR that is used as a local cache
 	LocalCacheSr SRRef
-  // Information about chipset features
+	// Information about chipset features
 	ChipsetInfo map[string]string
-  // List of PCI devices in the host
+	// List of PCI devices in the host
 	PCIs []PCIRef
-  // List of physical GPUs in the host
+	// List of physical GPUs in the host
 	PGPUs []PGPURef
-  // List of physical USBs in the host
+	// List of physical USBs in the host
 	PUSBs []PUSBRef
-  // Allow SSLv3 protocol and ciphersuites as used by older XenServers. This controls both incoming and outgoing connections. When this is set to a different value, the host immediately restarts its SSL/TLS listening service; typically this takes less than a second but existing connections to it will be broken. XenAPI login sessions will remain valid.
+	// Allow SSLv3 protocol and ciphersuites as used by older XenServers. This controls both incoming and outgoing connections. When this is set to a different value, the host immediately restarts its SSL/TLS listening service; typically this takes less than a second but existing connections to it will be broken. XenAPI login sessions will remain valid.
 	SslLegacy bool
-  // VCPUs params to apply to all resident guests
+	// VCPUs params to apply to all resident guests
 	GuestVCPUsParams map[string]string
-  // indicates whether the host is configured to output its console to a physical display device
+	// indicates whether the host is configured to output its console to a physical display device
 	Display HostDisplay
-  // The set of versions of the virtual hardware platform that the host can offer to its guests
+	// The set of versions of the virtual hardware platform that the host can offer to its guests
 	VirtualHardwarePlatformVersions []int
-  // The control domain (domain 0)
+	// The control domain (domain 0)
 	ControlDomain VMRef
-  // List of updates which require reboot
+	// List of updates which require reboot
 	UpdatesRequiringReboot []PoolUpdateRef
-  // List of features available on this host
+	// List of features available on this host
 	Features []FeatureRef
 }
 

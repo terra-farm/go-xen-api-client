@@ -23,28 +23,28 @@ var _ = time.UTC
 type PvsProxyStatus string
 
 const (
-  // The proxy is not currently running
+	// The proxy is not currently running
 	PvsProxyStatusStopped PvsProxyStatus = "stopped"
-  // The proxy is setup but has not yet cached anything
+	// The proxy is setup but has not yet cached anything
 	PvsProxyStatusInitialised PvsProxyStatus = "initialised"
-  // The proxy is currently caching data
+	// The proxy is currently caching data
 	PvsProxyStatusCaching PvsProxyStatus = "caching"
-  // The PVS device is configured to use an incompatible write-cache mode
+	// The PVS device is configured to use an incompatible write-cache mode
 	PvsProxyStatusIncompatibleWriteCacheMode PvsProxyStatus = "incompatible_write_cache_mode"
-  // The PVS protocol in use is not compatible with the PVS proxy
+	// The PVS protocol in use is not compatible with the PVS proxy
 	PvsProxyStatusIncompatibleProtocolVersion PvsProxyStatus = "incompatible_protocol_version"
 )
 
 type PVSProxyRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // PVS site this proxy is part of
+	// PVS site this proxy is part of
 	Site PVSSiteRef
-  // VIF of the VM using the proxy
+	// VIF of the VM using the proxy
 	VIF VIFRef
-  // true = VM is currently proxied
+	// true = VM is currently proxied
 	CurrentlyAttached bool
-  // The run-time status of the proxy
+	// The run-time status of the proxy
 	Status PvsProxyStatus
 }
 

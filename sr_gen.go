@@ -23,90 +23,90 @@ var _ = time.UTC
 type StorageOperations string
 
 const (
-  // Scanning backends for new or deleted VDIs
+	// Scanning backends for new or deleted VDIs
 	StorageOperationsScan StorageOperations = "scan"
-  // Destroying the SR
+	// Destroying the SR
 	StorageOperationsDestroy StorageOperations = "destroy"
-  // Forgetting about SR
+	// Forgetting about SR
 	StorageOperationsForget StorageOperations = "forget"
-  // Plugging a PBD into this SR
+	// Plugging a PBD into this SR
 	StorageOperationsPlug StorageOperations = "plug"
-  // Unplugging a PBD from this SR
+	// Unplugging a PBD from this SR
 	StorageOperationsUnplug StorageOperations = "unplug"
-  // Refresh the fields on the SR
+	// Refresh the fields on the SR
 	StorageOperationsUpdate StorageOperations = "update"
-  // Creating a new VDI
+	// Creating a new VDI
 	StorageOperationsVdiCreate StorageOperations = "vdi_create"
-  // Introducing a new VDI
+	// Introducing a new VDI
 	StorageOperationsVdiIntroduce StorageOperations = "vdi_introduce"
-  // Destroying a VDI
+	// Destroying a VDI
 	StorageOperationsVdiDestroy StorageOperations = "vdi_destroy"
-  // Resizing a VDI
+	// Resizing a VDI
 	StorageOperationsVdiResize StorageOperations = "vdi_resize"
-  // Cloneing a VDI
+	// Cloneing a VDI
 	StorageOperationsVdiClone StorageOperations = "vdi_clone"
-  // Snapshotting a VDI
+	// Snapshotting a VDI
 	StorageOperationsVdiSnapshot StorageOperations = "vdi_snapshot"
-  // Mirroring a VDI
+	// Mirroring a VDI
 	StorageOperationsVdiMirror StorageOperations = "vdi_mirror"
-  // Enabling changed block tracking for a VDI
+	// Enabling changed block tracking for a VDI
 	StorageOperationsVdiEnableCbt StorageOperations = "vdi_enable_cbt"
-  // Disabling changed block tracking for a VDI
+	// Disabling changed block tracking for a VDI
 	StorageOperationsVdiDisableCbt StorageOperations = "vdi_disable_cbt"
-  // Deleting the data of the VDI
+	// Deleting the data of the VDI
 	StorageOperationsVdiDataDestroy StorageOperations = "vdi_data_destroy"
-  // Exporting a bitmap that shows the changed blocks between two VDIs
+	// Exporting a bitmap that shows the changed blocks between two VDIs
 	StorageOperationsVdiListChangedBlocks StorageOperations = "vdi_list_changed_blocks"
-  // Setting the on_boot field of the VDI
+	// Setting the on_boot field of the VDI
 	StorageOperationsVdiSetOnBoot StorageOperations = "vdi_set_on_boot"
-  // Creating a PBD for this SR
+	// Creating a PBD for this SR
 	StorageOperationsPbdCreate StorageOperations = "pbd_create"
-  // Destroying one of this SR's PBDs
+	// Destroying one of this SR's PBDs
 	StorageOperationsPbdDestroy StorageOperations = "pbd_destroy"
 )
 
 type SRRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // a human-readable name
+	// a human-readable name
 	NameLabel string
-  // a notes field containing human-readable description
+	// a notes field containing human-readable description
 	NameDescription string
-  // list of the operations allowed in this state. This list is advisory only and the server state may have changed by the time this field is read by a client.
+	// list of the operations allowed in this state. This list is advisory only and the server state may have changed by the time this field is read by a client.
 	AllowedOperations []StorageOperations
-  // links each of the running tasks using this object (by reference) to a current_operation enum which describes the nature of the task.
+	// links each of the running tasks using this object (by reference) to a current_operation enum which describes the nature of the task.
 	CurrentOperations map[string]StorageOperations
-  // all virtual disks known to this storage repository
+	// all virtual disks known to this storage repository
 	VDIs []VDIRef
-  // describes how particular hosts can see this storage repository
+	// describes how particular hosts can see this storage repository
 	PBDs []PBDRef
-  // sum of virtual_sizes of all VDIs in this storage repository (in bytes)
+	// sum of virtual_sizes of all VDIs in this storage repository (in bytes)
 	VirtualAllocation int
-  // physical space currently utilised on this storage repository (in bytes). Note that for sparse disk formats, physical_utilisation may be less than virtual_allocation
+	// physical space currently utilised on this storage repository (in bytes). Note that for sparse disk formats, physical_utilisation may be less than virtual_allocation
 	PhysicalUtilisation int
-  // total physical size of the repository (in bytes)
+	// total physical size of the repository (in bytes)
 	PhysicalSize int
-  // type of the storage repository
+	// type of the storage repository
 	Type string
-  // the type of the SR's content, if required (e.g. ISOs)
+	// the type of the SR's content, if required (e.g. ISOs)
 	ContentType string
-  // true if this SR is (capable of being) shared between multiple hosts
+	// true if this SR is (capable of being) shared between multiple hosts
 	Shared bool
-  // additional configuration
+	// additional configuration
 	OtherConfig map[string]string
-  // user-specified tags for categorization purposes
+	// user-specified tags for categorization purposes
 	Tags []string
-  // SM dependent data
+	// SM dependent data
 	SmConfig map[string]string
-  // Binary blobs associated with this SR
+	// Binary blobs associated with this SR
 	Blobs map[string]BlobRef
-  // True if this SR is assigned to be the local cache for its host
+	// True if this SR is assigned to be the local cache for its host
 	LocalCacheEnabled bool
-  // The disaster recovery task which introduced this SR
+	// The disaster recovery task which introduced this SR
 	IntroducedBy DRTaskRef
-  // True if the SR is using aggregated local storage
+	// True if the SR is using aggregated local storage
 	Clustered bool
-  // True if this is the SR that contains the Tools ISO VDIs
+	// True if this is the SR that contains the Tools ISO VDIs
 	IsToolsSr bool
 }
 

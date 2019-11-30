@@ -126,6 +126,10 @@ func formatGoDoc(input string) string {
 	return reBeginningOfLine.ReplaceAllString(input, "// ")
 }
 
+func formatSingleLine(input string) string {
+	return strings.Replace(input, "\n", " ", -1)
+}
+
 func exportedGoIdentifier(input string) string {
 	input = strings.Replace(input, "-", "_", -1)
 	return snaker.SnakeToCamel(input)
@@ -273,14 +277,14 @@ const enumTypeTemplate string = `
 type {{ .Name|exported }} string
 
 const ({{ range .Values }}
-  {{ .Doc|godoc }}
+	{{ .Doc|godoc }}
 	{{ (printf "%s_%s" $.Name .Name)|exported }} {{ $.Name|exported }} = {{ printf "%q" .Name }}{{ end }}
 )
 `
 
 const recordTypeTemplate string = `
 type {{ .Name|exported }}Record struct {{ "{" }}{{ range .Fields }}
-  {{ .Description|godoc }}
+	{{ .Description|godoc }}
 	{{ .Name|exported }} {{ .GoType }}{{ end }}
 }
 `
@@ -297,7 +301,7 @@ type {{ .Name|exported }}Ref string
 `
 
 const messageFuncTemplate string = `
-{{ .Message.Name|exported|godoc }} {{ .Message.Description }}{{ if .Message.Errors }}
+{{ .Message.Name|exported|godoc }} {{ .Message.Description|singleLine }}{{ if .Message.Errors }}
 //
 // Errors:{{ range .Message.Errors }}
 //  {{ .Name }} - {{ .Doc }}{{ end }}{{ end }}
@@ -544,6 +548,7 @@ func (generator *apiGenerator) prepTemplates() (err error) {
 
 	generator.templates.Funcs(template.FuncMap{
 		"godoc":    formatGoDoc,
+		"singleLine":    formatSingleLine,
 		"exported": exportedGoIdentifier,
 		"internal": internalGoIdentifier,
 		"convertToGo": func(xenType string) (string, error) {

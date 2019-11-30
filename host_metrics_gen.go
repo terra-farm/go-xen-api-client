@@ -21,17 +21,17 @@ var _ = strconv.Atoi
 var _ = time.UTC
 
 type HostMetricsRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // Total host memory (bytes)
+	// Total host memory (bytes)
 	MemoryTotal int
-  // Free host memory (bytes)
+	// Free host memory (bytes)
 	MemoryFree int
-  // Pool master thinks this host is live
+	// Pool master thinks this host is live
 	Live bool
-  // Time at which this information was last updated
+	// Time at which this information was last updated
 	LastUpdated time.Time
-  // additional configuration
+	// additional configuration
 	OtherConfig map[string]string
 }
 

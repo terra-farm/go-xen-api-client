@@ -21,13 +21,13 @@ var _ = strconv.Atoi
 var _ = time.UTC
 
 type UserRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // short name (e.g. userid)
+	// short name (e.g. userid)
 	ShortName string
-  // full name
+	// full name
 	Fullname string
-  // additional configuration
+	// additional configuration
 	OtherConfig map[string]string
 }
 
@@ -209,8 +209,7 @@ func (_class UserClass) Destroy(sessionID SessionRef, self UserRef) (_err error)
 	return
 }
 
-// Create Create a new user instance, and return its handle.
-The constructor args are: short_name*, fullname*, other_config (* = non-optional).
+// Create Create a new user instance, and return its handle. The constructor args are: short_name*, fullname*, other_config (* = non-optional).
 func (_class UserClass) Create(sessionID SessionRef, args UserRecord) (_retval UserRef, _err error) {
 	_method := "user.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

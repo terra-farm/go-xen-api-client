@@ -21,9 +21,9 @@ var _ = strconv.Atoi
 var _ = time.UTC
 
 type DRTaskRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // All SRs introduced by this appliance
+	// All SRs introduced by this appliance
 	IntroducedSRs []SRRef
 }
 

@@ -21,11 +21,11 @@ var _ = strconv.Atoi
 var _ = time.UTC
 
 type VTPMRecord struct {
-  // Unique identifier/object reference
+	// Unique identifier/object reference
 	UUID string
-  // the virtual machine
+	// the virtual machine
 	VM VMRef
-  // the domain where the backend is located
+	// the domain where the backend is located
 	Backend VMRef
 }
 
@@ -108,8 +108,7 @@ func (_class VTPMClass) Destroy(sessionID SessionRef, self VTPMRef) (_err error)
 	return
 }
 
-// Create Create a new VTPM instance, and return its handle.
-The constructor args are: VM*, backend* (* = non-optional).
+// Create Create a new VTPM instance, and return its handle. The constructor args are: VM*, backend* (* = non-optional).
 func (_class VTPMClass) Create(sessionID SessionRef, args VTPMRecord) (_retval VTPMRef, _err error) {
 	_method := "VTPM.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
