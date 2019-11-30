@@ -8,16 +8,16 @@ import (
 )
 
 func TestAuthentication(t *testing.T) {
-	client := NewClient("http://localhost:40080")
+	client, err := NewClient("http://localhost:40080", nil)
 
-	sessionRef, err := client.Session().LoginWithPassword("terraform", "testing", "1.0", "terraform")
+	sessionRef, err := client.Session.LoginWithPassword("terraform", "testing", "1.0", "terraform")
 	if err != nil {
 		t.Log(err)
 		t.Fail()
 		return
 	}
 
-	err = client.Session().Logout(sessionRef)
+	err = client.Session.Logout(sessionRef)
 	if err != nil {
 		t.Log(err)
 		t.Fail()
