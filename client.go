@@ -1,6 +1,6 @@
 //go:generate go run xenapi.go
 
-package xenAPI
+package xenapi
 
 import (
 	"crypto/tls"

@@ -1,4 +1,4 @@
-package xenAPI
+package xenapi
 
 import (
 	"fmt"

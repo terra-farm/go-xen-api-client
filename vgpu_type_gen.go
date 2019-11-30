@@ -4,7 +4,7 @@
 // change xenapi.go and execute 'go generate'.
 //
 
-package xenAPI
+package xenapi
 
 import (
 	"fmt"
