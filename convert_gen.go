@@ -42,50 +42,6 @@ func convertBondRefToBondRecordMapToGo(context string, input interface{}) (goMap
 	return
 }
 
-func convertClusterRefToClusterRecordMapToGo(context string, input interface{}) (goMap map[ClusterRef]ClusterRecord, err error) {
-	xenMap, ok := input.(xmlrpc.Struct)
-	if !ok {
-		err = fmt.Errorf("Failed to parse XenAPI response: expected Go type %s at %s but got Go type %s with value %v", "xmlrpc.Struct", context, reflect.TypeOf(input), input)
-		return
-	}
-	goMap = make(map[ClusterRef]ClusterRecord, len(xenMap))
-	for xenKey, xenValue := range xenMap {
-		keyContext := fmt.Sprintf("%s[%s]", context, xenKey)
-		goKey, err := convertClusterRefToGo(keyContext, xenKey)
-		if err != nil {
-			return goMap, err
-		}
-		goValue, err := convertClusterRecordToGo(keyContext, xenValue)
-		if err != nil {
-			return goMap, err
-		}
-		goMap[goKey] = goValue
-	}
-	return
-}
-
-func convertClusterHostRefToClusterHostRecordMapToGo(context string, input interface{}) (goMap map[ClusterHostRef]ClusterHostRecord, err error) {
-	xenMap, ok := input.(xmlrpc.Struct)
-	if !ok {
-		err = fmt.Errorf("Failed to parse XenAPI response: expected Go type %s at %s but got Go type %s with value %v", "xmlrpc.Struct", context, reflect.TypeOf(input), input)
-		return
-	}
-	goMap = make(map[ClusterHostRef]ClusterHostRecord, len(xenMap))
-	for xenKey, xenValue := range xenMap {
-		keyContext := fmt.Sprintf("%s[%s]", context, xenKey)
-		goKey, err := convertClusterHostRefToGo(keyContext, xenKey)
-		if err != nil {
-			return goMap, err
-		}
-		goValue, err := convertClusterHostRecordToGo(keyContext, xenValue)
-		if err != nil {
-			return goMap, err
-		}
-		goMap[goKey] = goValue
-	}
-	return
-}
-
 func convertDRTaskRefToDRTaskRecordMapToGo(context string, input interface{}) (goMap map[DRTaskRef]DRTaskRecord, err error) {
 	xenMap, ok := input.(xmlrpc.Struct)
 	if !ok {
@@ -1310,28 +1266,6 @@ func convertNetworkRefToNetworkRecordMapToGo(context string, input interface{}) 
 	return
 }
 
-func convertNetworkSriovRefToNetworkSriovRecordMapToGo(context string, input interface{}) (goMap map[NetworkSriovRef]NetworkSriovRecord, err error) {
-	xenMap, ok := input.(xmlrpc.Struct)
-	if !ok {
-		err = fmt.Errorf("Failed to parse XenAPI response: expected Go type %s at %s but got Go type %s with value %v", "xmlrpc.Struct", context, reflect.TypeOf(input), input)
-		return
-	}
-	goMap = make(map[NetworkSriovRef]NetworkSriovRecord, len(xenMap))
-	for xenKey, xenValue := range xenMap {
-		keyContext := fmt.Sprintf("%s[%s]", context, xenKey)
-		goKey, err := convertNetworkSriovRefToGo(keyContext, xenKey)
-		if err != nil {
-			return goMap, err
-		}
-		goValue, err := convertNetworkSriovRecordToGo(keyContext, xenValue)
-		if err != nil {
-			return goMap, err
-		}
-		goMap[goKey] = goValue
-	}
-	return
-}
-
 func convertPoolRefToPoolRecordMapToGo(context string, input interface{}) (goMap map[PoolRef]PoolRecord, err error) {
 	xenMap, ok := input.(xmlrpc.Struct)
 	if !ok {
@@ -1477,50 +1411,6 @@ func convertStringToBlobRefMapToXen(context string, goMap map[string]BlobRef) (x
 			return xenMap, err
 		}
 		xenMap[xenKey] = xenValue
-	}
-	return
-}
-
-func convertStringToEnumClusterHostOperationMapToGo(context string, input interface{}) (goMap map[string]ClusterHostOperation, err error) {
-	xenMap, ok := input.(xmlrpc.Struct)
-	if !ok {
-		err = fmt.Errorf("Failed to parse XenAPI response: expected Go type %s at %s but got Go type %s with value %v", "xmlrpc.Struct", context, reflect.TypeOf(input), input)
-		return
-	}
-	goMap = make(map[string]ClusterHostOperation, len(xenMap))
-	for xenKey, xenValue := range xenMap {
-		keyContext := fmt.Sprintf("%s[%s]", context, xenKey)
-		goKey, err := convertStringToGo(keyContext, xenKey)
-		if err != nil {
-			return goMap, err
-		}
-		goValue, err := convertEnumClusterHostOperationToGo(keyContext, xenValue)
-		if err != nil {
-			return goMap, err
-		}
-		goMap[goKey] = goValue
-	}
-	return
-}
-
-func convertStringToEnumClusterOperationMapToGo(context string, input interface{}) (goMap map[string]ClusterOperation, err error) {
-	xenMap, ok := input.(xmlrpc.Struct)
-	if !ok {
-		err = fmt.Errorf("Failed to parse XenAPI response: expected Go type %s at %s but got Go type %s with value %v", "xmlrpc.Struct", context, reflect.TypeOf(input), input)
-		return
-	}
-	goMap = make(map[string]ClusterOperation, len(xenMap))
-	for xenKey, xenValue := range xenMap {
-		keyContext := fmt.Sprintf("%s[%s]", context, xenKey)
-		goKey, err := convertStringToGo(keyContext, xenKey)
-		if err != nil {
-			return goMap, err
-		}
-		goValue, err := convertEnumClusterOperationToGo(keyContext, xenValue)
-		if err != nil {
-			return goMap, err
-		}
-		goMap[goKey] = goValue
 	}
 	return
 }
@@ -2093,221 +1983,6 @@ func convertBondRefToXen(context string, ref BondRef) (string, error) {
 	return string(ref), nil
 }
 
-func convertClusterRecordToGo(context string, input interface{}) (record ClusterRecord, err error) {
-	rpcStruct, ok := input.(xmlrpc.Struct)
-	if !ok {
-		err = fmt.Errorf("Failed to parse XenAPI response: expected Go type %s at %s but got Go type %s with value %v", "xmlrpc.Struct", context, reflect.TypeOf(input), input)
-		return
-	}
-  uuidValue, ok := rpcStruct["uuid"]
-	if ok && uuidValue != nil {
-  	record.UUID, err = convertStringToGo(fmt.Sprintf("%s.%s", context, "uuid"), uuidValue)
-		if err != nil {
-			return
-		}
-	}
-  clusterHostsValue, ok := rpcStruct["cluster_hosts"]
-	if ok && clusterHostsValue != nil {
-  	record.ClusterHosts, err = convertClusterHostRefSetToGo(fmt.Sprintf("%s.%s", context, "cluster_hosts"), clusterHostsValue)
-		if err != nil {
-			return
-		}
-	}
-  networkValue, ok := rpcStruct["network"]
-	if ok && networkValue != nil {
-  	record.Network, err = convertNetworkRefToGo(fmt.Sprintf("%s.%s", context, "network"), networkValue)
-		if err != nil {
-			return
-		}
-	}
-  clusterTokenValue, ok := rpcStruct["cluster_token"]
-	if ok && clusterTokenValue != nil {
-  	record.ClusterToken, err = convertStringToGo(fmt.Sprintf("%s.%s", context, "cluster_token"), clusterTokenValue)
-		if err != nil {
-			return
-		}
-	}
-  clusterStackValue, ok := rpcStruct["cluster_stack"]
-	if ok && clusterStackValue != nil {
-  	record.ClusterStack, err = convertStringToGo(fmt.Sprintf("%s.%s", context, "cluster_stack"), clusterStackValue)
-		if err != nil {
-			return
-		}
-	}
-  allowedOperationsValue, ok := rpcStruct["allowed_operations"]
-	if ok && allowedOperationsValue != nil {
-  	record.AllowedOperations, err = convertEnumClusterOperationSetToGo(fmt.Sprintf("%s.%s", context, "allowed_operations"), allowedOperationsValue)
-		if err != nil {
-			return
-		}
-	}
-  currentOperationsValue, ok := rpcStruct["current_operations"]
-	if ok && currentOperationsValue != nil {
-  	record.CurrentOperations, err = convertStringToEnumClusterOperationMapToGo(fmt.Sprintf("%s.%s", context, "current_operations"), currentOperationsValue)
-		if err != nil {
-			return
-		}
-	}
-  poolAutoJoinValue, ok := rpcStruct["pool_auto_join"]
-	if ok && poolAutoJoinValue != nil {
-  	record.PoolAutoJoin, err = convertBoolToGo(fmt.Sprintf("%s.%s", context, "pool_auto_join"), poolAutoJoinValue)
-		if err != nil {
-			return
-		}
-	}
-  tokenTimeoutValue, ok := rpcStruct["token_timeout"]
-	if ok && tokenTimeoutValue != nil {
-  	record.TokenTimeout, err = convertIntToGo(fmt.Sprintf("%s.%s", context, "token_timeout"), tokenTimeoutValue)
-		if err != nil {
-			return
-		}
-	}
-  tokenTimeoutCoefficientValue, ok := rpcStruct["token_timeout_coefficient"]
-	if ok && tokenTimeoutCoefficientValue != nil {
-  	record.TokenTimeoutCoefficient, err = convertIntToGo(fmt.Sprintf("%s.%s", context, "token_timeout_coefficient"), tokenTimeoutCoefficientValue)
-		if err != nil {
-			return
-		}
-	}
-  clusterConfigValue, ok := rpcStruct["cluster_config"]
-	if ok && clusterConfigValue != nil {
-  	record.ClusterConfig, err = convertStringToStringMapToGo(fmt.Sprintf("%s.%s", context, "cluster_config"), clusterConfigValue)
-		if err != nil {
-			return
-		}
-	}
-  otherConfigValue, ok := rpcStruct["other_config"]
-	if ok && otherConfigValue != nil {
-  	record.OtherConfig, err = convertStringToStringMapToGo(fmt.Sprintf("%s.%s", context, "other_config"), otherConfigValue)
-		if err != nil {
-			return
-		}
-	}
-	return
-}
-
-func convertClusterRefSetToGo(context string, input interface{}) (slice []ClusterRef, err error) {
-	set, ok := input.([]interface{})
-	if !ok {
-		err = fmt.Errorf("Failed to parse XenAPI response: expected Go type %s at %s but got Go type %s with value %v", "[]interface{}", context, reflect.TypeOf(input), input)
-		return
-	}
-	slice = make([]ClusterRef, len(set))
-	for index, item := range set {
-		itemContext := fmt.Sprintf("%s[%d]", context, index)
-		itemValue, err := convertClusterRefToGo(itemContext, item)
-		if err != nil {
-			return slice, err
-		}
-		slice[index] = itemValue
-	}
-	return
-}
-
-func convertClusterRefToGo(context string, input interface{}) (ref ClusterRef, err error) {
-	value, ok := input.(string)
-	if !ok {
-		err = fmt.Errorf("Failed to parse XenAPI response: expected Go type %s at %s but got Go type %s with value %v", "string", context, reflect.TypeOf(input), input)
-	} else {
-		ref = ClusterRef(value)
-	}
-	return
-}
-
-func convertClusterRefToXen(context string, ref ClusterRef) (string, error) {
-	return string(ref), nil
-}
-
-func convertClusterHostRecordToGo(context string, input interface{}) (record ClusterHostRecord, err error) {
-	rpcStruct, ok := input.(xmlrpc.Struct)
-	if !ok {
-		err = fmt.Errorf("Failed to parse XenAPI response: expected Go type %s at %s but got Go type %s with value %v", "xmlrpc.Struct", context, reflect.TypeOf(input), input)
-		return
-	}
-  uuidValue, ok := rpcStruct["uuid"]
-	if ok && uuidValue != nil {
-  	record.UUID, err = convertStringToGo(fmt.Sprintf("%s.%s", context, "uuid"), uuidValue)
-		if err != nil {
-			return
-		}
-	}
-  clusterValue, ok := rpcStruct["cluster"]
-	if ok && clusterValue != nil {
-  	record.Cluster, err = convertClusterRefToGo(fmt.Sprintf("%s.%s", context, "cluster"), clusterValue)
-		if err != nil {
-			return
-		}
-	}
-  hostValue, ok := rpcStruct["host"]
-	if ok && hostValue != nil {
-  	record.Host, err = convertHostRefToGo(fmt.Sprintf("%s.%s", context, "host"), hostValue)
-		if err != nil {
-			return
-		}
-	}
-  enabledValue, ok := rpcStruct["enabled"]
-	if ok && enabledValue != nil {
-  	record.Enabled, err = convertBoolToGo(fmt.Sprintf("%s.%s", context, "enabled"), enabledValue)
-		if err != nil {
-			return
-		}
-	}
-  allowedOperationsValue, ok := rpcStruct["allowed_operations"]
-	if ok && allowedOperationsValue != nil {
-  	record.AllowedOperations, err = convertEnumClusterHostOperationSetToGo(fmt.Sprintf("%s.%s", context, "allowed_operations"), allowedOperationsValue)
-		if err != nil {
-			return
-		}
-	}
-  currentOperationsValue, ok := rpcStruct["current_operations"]
-	if ok && currentOperationsValue != nil {
-  	record.CurrentOperations, err = convertStringToEnumClusterHostOperationMapToGo(fmt.Sprintf("%s.%s", context, "current_operations"), currentOperationsValue)
-		if err != nil {
-			return
-		}
-	}
-  otherConfigValue, ok := rpcStruct["other_config"]
-	if ok && otherConfigValue != nil {
-  	record.OtherConfig, err = convertStringToStringMapToGo(fmt.Sprintf("%s.%s", context, "other_config"), otherConfigValue)
-		if err != nil {
-			return
-		}
-	}
-	return
-}
-
-func convertClusterHostRefSetToGo(context string, input interface{}) (slice []ClusterHostRef, err error) {
-	set, ok := input.([]interface{})
-	if !ok {
-		err = fmt.Errorf("Failed to parse XenAPI response: expected Go type %s at %s but got Go type %s with value %v", "[]interface{}", context, reflect.TypeOf(input), input)
-		return
-	}
-	slice = make([]ClusterHostRef, len(set))
-	for index, item := range set {
-		itemContext := fmt.Sprintf("%s[%d]", context, index)
-		itemValue, err := convertClusterHostRefToGo(itemContext, item)
-		if err != nil {
-			return slice, err
-		}
-		slice[index] = itemValue
-	}
-	return
-}
-
-func convertClusterHostRefToGo(context string, input interface{}) (ref ClusterHostRef, err error) {
-	value, ok := input.(string)
-	if !ok {
-		err = fmt.Errorf("Failed to parse XenAPI response: expected Go type %s at %s but got Go type %s with value %v", "string", context, reflect.TypeOf(input), input)
-	} else {
-		ref = ClusterHostRef(value)
-	}
-	return
-}
-
-func convertClusterHostRefToXen(context string, ref ClusterHostRef) (string, error) {
-	return string(ref), nil
-}
-
 func convertDRTaskRecordToGo(context string, input interface{}) (record DRTaskRecord, err error) {
 	rpcStruct, ok := input.(xmlrpc.Struct)
 	if !ok {
@@ -2782,13 +2457,6 @@ func convertPCIRecordToGo(context string, input interface{}) (record PCIRecord, 
 			return
 		}
 	}
-  driverNameValue, ok := rpcStruct["driver_name"]
-	if ok && driverNameValue != nil {
-  	record.DriverName, err = convertStringToGo(fmt.Sprintf("%s.%s", context, "driver_name"), driverNameValue)
-		if err != nil {
-			return
-		}
-	}
 	return
 }
 
@@ -3188,27 +2856,6 @@ func convertPIFRecordToGo(context string, input interface{}) (record PIFRecord, 
   igmpSnoopingStatusValue, ok := rpcStruct["igmp_snooping_status"]
 	if ok && igmpSnoopingStatusValue != nil {
   	record.IgmpSnoopingStatus, err = convertEnumPifIgmpStatusToGo(fmt.Sprintf("%s.%s", context, "igmp_snooping_status"), igmpSnoopingStatusValue)
-		if err != nil {
-			return
-		}
-	}
-  sriovPhysicalPIFOfValue, ok := rpcStruct["sriov_physical_PIF_of"]
-	if ok && sriovPhysicalPIFOfValue != nil {
-  	record.SriovPhysicalPIFOf, err = convertNetworkSriovRefSetToGo(fmt.Sprintf("%s.%s", context, "sriov_physical_PIF_of"), sriovPhysicalPIFOfValue)
-		if err != nil {
-			return
-		}
-	}
-  sriovLogicalPIFOfValue, ok := rpcStruct["sriov_logical_PIF_of"]
-	if ok && sriovLogicalPIFOfValue != nil {
-  	record.SriovLogicalPIFOf, err = convertNetworkSriovRefSetToGo(fmt.Sprintf("%s.%s", context, "sriov_logical_PIF_of"), sriovLogicalPIFOfValue)
-		if err != nil {
-			return
-		}
-	}
-  pciValue, ok := rpcStruct["PCI"]
-	if ok && pciValue != nil {
-  	record.PCI, err = convertPCIRefToGo(fmt.Sprintf("%s.%s", context, "PCI"), pciValue)
 		if err != nil {
 			return
 		}
@@ -6537,13 +6184,6 @@ func convertVMRecordToGo(context string, input interface{}) (record VMRecord, er
 			return
 		}
 	}
-  domainTypeValue, ok := rpcStruct["domain_type"]
-	if ok && domainTypeValue != nil {
-  	record.DomainType, err = convertEnumDomainTypeToGo(fmt.Sprintf("%s.%s", context, "domain_type"), domainTypeValue)
-		if err != nil {
-			return
-		}
-	}
 	return
 }
 
@@ -6878,10 +6518,6 @@ func convertVMRecordToXen(context string, record VMRecord) (rpcStruct xmlrpc.Str
 		return
 	}
   rpcStruct["reference_label"], err = convertStringToXen(fmt.Sprintf("%s.%s", context, "reference_label"), record.ReferenceLabel)
-  if err != nil {
-		return
-	}
-  rpcStruct["domain_type"], err = convertEnumDomainTypeToXen(fmt.Sprintf("%s.%s", context, "domain_type"), record.DomainType)
   if err != nil {
 		return
 	}
@@ -7717,13 +7353,6 @@ func convertVMMetricsRecordToGo(context string, input interface{}) (record VMMet
 			return
 		}
 	}
-  currentDomainTypeValue, ok := rpcStruct["current_domain_type"]
-	if ok && currentDomainTypeValue != nil {
-  	record.CurrentDomainType, err = convertEnumDomainTypeToGo(fmt.Sprintf("%s.%s", context, "current_domain_type"), currentDomainTypeValue)
-		if err != nil {
-			return
-		}
-	}
 	return
 }
 
@@ -8465,82 +8094,6 @@ func convertEnumClsToXen(context string, value Cls) (string, error) {
 	return string(value), nil
 }
 
-func convertEnumClusterHostOperationSetToGo(context string, input interface{}) (slice []ClusterHostOperation, err error) {
-	set, ok := input.([]interface{})
-	if !ok {
-		err = fmt.Errorf("Failed to parse XenAPI response: expected Go type %s at %s but got Go type %s with value %v", "[]interface{}", context, reflect.TypeOf(input), input)
-		return
-	}
-	slice = make([]ClusterHostOperation, len(set))
-	for index, item := range set {
-		itemContext := fmt.Sprintf("%s[%d]", context, index)
-		itemValue, err := convertEnumClusterHostOperationToGo(itemContext, item)
-		if err != nil {
-			return slice, err
-		}
-		slice[index] = itemValue
-	}
-	return
-}
-
-func convertEnumClusterHostOperationToGo(context string, input interface{}) (value ClusterHostOperation, err error) {
-	strValue, err := convertStringToGo(context, input)
-	if err != nil {
-		return
-	}
-  switch strValue {
-    case "enable":
-      value = ClusterHostOperationEnable
-    case "disable":
-      value = ClusterHostOperationDisable
-    case "destroy":
-      value = ClusterHostOperationDestroy
-    default:
-      err = fmt.Errorf("Unable to parse XenAPI response: got value %q for enum %s at %s, but this is not any of the known values", strValue, "ClusterHostOperation", context)
-	}
-	return
-}
-
-func convertEnumClusterOperationSetToGo(context string, input interface{}) (slice []ClusterOperation, err error) {
-	set, ok := input.([]interface{})
-	if !ok {
-		err = fmt.Errorf("Failed to parse XenAPI response: expected Go type %s at %s but got Go type %s with value %v", "[]interface{}", context, reflect.TypeOf(input), input)
-		return
-	}
-	slice = make([]ClusterOperation, len(set))
-	for index, item := range set {
-		itemContext := fmt.Sprintf("%s[%d]", context, index)
-		itemValue, err := convertEnumClusterOperationToGo(itemContext, item)
-		if err != nil {
-			return slice, err
-		}
-		slice[index] = itemValue
-	}
-	return
-}
-
-func convertEnumClusterOperationToGo(context string, input interface{}) (value ClusterOperation, err error) {
-	strValue, err := convertStringToGo(context, input)
-	if err != nil {
-		return
-	}
-  switch strValue {
-    case "add":
-      value = ClusterOperationAdd
-    case "remove":
-      value = ClusterOperationRemove
-    case "enable":
-      value = ClusterOperationEnable
-    case "disable":
-      value = ClusterOperationDisable
-    case "destroy":
-      value = ClusterOperationDestroy
-    default:
-      err = fmt.Errorf("Unable to parse XenAPI response: got value %q for enum %s at %s, but this is not any of the known values", strValue, "ClusterOperation", context)
-	}
-	return
-}
-
 func convertEnumConsoleProtocolToGo(context string, input interface{}) (value ConsoleProtocol, err error) {
 	strValue, err := convertStringToGo(context, input)
 	if err != nil {
@@ -8560,30 +8113,6 @@ func convertEnumConsoleProtocolToGo(context string, input interface{}) (value Co
 }
 
 func convertEnumConsoleProtocolToXen(context string, value ConsoleProtocol) (string, error) {
-	return string(value), nil
-}
-
-func convertEnumDomainTypeToGo(context string, input interface{}) (value DomainType, err error) {
-	strValue, err := convertStringToGo(context, input)
-	if err != nil {
-		return
-	}
-  switch strValue {
-    case "hvm":
-      value = DomainTypeHvm
-    case "pv":
-      value = DomainTypePv
-    case "pv_in_pvh":
-      value = DomainTypePvInPvh
-    case "unspecified":
-      value = DomainTypeUnspecified
-    default:
-      err = fmt.Errorf("Unable to parse XenAPI response: got value %q for enum %s at %s, but this is not any of the known values", strValue, "DomainType", context)
-	}
-	return
-}
-
-func convertEnumDomainTypeToXen(context string, value DomainType) (string, error) {
 	return string(value), nil
 }
 
@@ -8993,8 +8522,6 @@ func convertEnumPoolAllowedOperationsToGo(context string, input interface{}) (va
       value = PoolAllowedOperationsHaEnable
     case "ha_disable":
       value = PoolAllowedOperationsHaDisable
-    case "cluster_create":
-      value = PoolAllowedOperationsClusterCreate
     default:
       err = fmt.Errorf("Unable to parse XenAPI response: got value %q for enum %s at %s, but this is not any of the known values", strValue, "PoolAllowedOperations", context)
 	}
@@ -9061,24 +8588,6 @@ func convertEnumSdnControllerProtocolToGo(context string, input interface{}) (va
 
 func convertEnumSdnControllerProtocolToXen(context string, value SdnControllerProtocol) (string, error) {
 	return string(value), nil
-}
-
-func convertEnumSriovConfigurationModeToGo(context string, input interface{}) (value SriovConfigurationMode, err error) {
-	strValue, err := convertStringToGo(context, input)
-	if err != nil {
-		return
-	}
-  switch strValue {
-    case "sysfs":
-      value = SriovConfigurationModeSysfs
-    case "modprobe":
-      value = SriovConfigurationModeModprobe
-    case "unknown":
-      value = SriovConfigurationModeUnknown
-    default:
-      err = fmt.Errorf("Unable to parse XenAPI response: got value %q for enum %s at %s, but this is not any of the known values", strValue, "SriovConfigurationMode", context)
-	}
-	return
 }
 
 func convertEnumStorageOperationsSetToGo(context string, input interface{}) (slice []StorageOperations, err error) {
@@ -10498,20 +10007,6 @@ func convertHostRecordToGo(context string, input interface{}) (record HostRecord
 			return
 		}
 	}
-  iscsiIqnValue, ok := rpcStruct["iscsi_iqn"]
-	if ok && iscsiIqnValue != nil {
-  	record.IscsiIqn, err = convertStringToGo(fmt.Sprintf("%s.%s", context, "iscsi_iqn"), iscsiIqnValue)
-		if err != nil {
-			return
-		}
-	}
-  multipathingValue, ok := rpcStruct["multipathing"]
-	if ok && multipathingValue != nil {
-  	record.Multipathing, err = convertBoolToGo(fmt.Sprintf("%s.%s", context, "multipathing"), multipathingValue)
-		if err != nil {
-			return
-		}
-	}
 	return
 }
 
@@ -11303,82 +10798,6 @@ func convertNetworkRefToGo(context string, input interface{}) (ref NetworkRef, e
 }
 
 func convertNetworkRefToXen(context string, ref NetworkRef) (string, error) {
-	return string(ref), nil
-}
-
-func convertNetworkSriovRecordToGo(context string, input interface{}) (record NetworkSriovRecord, err error) {
-	rpcStruct, ok := input.(xmlrpc.Struct)
-	if !ok {
-		err = fmt.Errorf("Failed to parse XenAPI response: expected Go type %s at %s but got Go type %s with value %v", "xmlrpc.Struct", context, reflect.TypeOf(input), input)
-		return
-	}
-  uuidValue, ok := rpcStruct["uuid"]
-	if ok && uuidValue != nil {
-  	record.UUID, err = convertStringToGo(fmt.Sprintf("%s.%s", context, "uuid"), uuidValue)
-		if err != nil {
-			return
-		}
-	}
-  physicalPIFValue, ok := rpcStruct["physical_PIF"]
-	if ok && physicalPIFValue != nil {
-  	record.PhysicalPIF, err = convertPIFRefToGo(fmt.Sprintf("%s.%s", context, "physical_PIF"), physicalPIFValue)
-		if err != nil {
-			return
-		}
-	}
-  logicalPIFValue, ok := rpcStruct["logical_PIF"]
-	if ok && logicalPIFValue != nil {
-  	record.LogicalPIF, err = convertPIFRefToGo(fmt.Sprintf("%s.%s", context, "logical_PIF"), logicalPIFValue)
-		if err != nil {
-			return
-		}
-	}
-  requiresRebootValue, ok := rpcStruct["requires_reboot"]
-	if ok && requiresRebootValue != nil {
-  	record.RequiresReboot, err = convertBoolToGo(fmt.Sprintf("%s.%s", context, "requires_reboot"), requiresRebootValue)
-		if err != nil {
-			return
-		}
-	}
-  configurationModeValue, ok := rpcStruct["configuration_mode"]
-	if ok && configurationModeValue != nil {
-  	record.ConfigurationMode, err = convertEnumSriovConfigurationModeToGo(fmt.Sprintf("%s.%s", context, "configuration_mode"), configurationModeValue)
-		if err != nil {
-			return
-		}
-	}
-	return
-}
-
-func convertNetworkSriovRefSetToGo(context string, input interface{}) (slice []NetworkSriovRef, err error) {
-	set, ok := input.([]interface{})
-	if !ok {
-		err = fmt.Errorf("Failed to parse XenAPI response: expected Go type %s at %s but got Go type %s with value %v", "[]interface{}", context, reflect.TypeOf(input), input)
-		return
-	}
-	slice = make([]NetworkSriovRef, len(set))
-	for index, item := range set {
-		itemContext := fmt.Sprintf("%s[%d]", context, index)
-		itemValue, err := convertNetworkSriovRefToGo(itemContext, item)
-		if err != nil {
-			return slice, err
-		}
-		slice[index] = itemValue
-	}
-	return
-}
-
-func convertNetworkSriovRefToGo(context string, input interface{}) (ref NetworkSriovRef, err error) {
-	value, ok := input.(string)
-	if !ok {
-		err = fmt.Errorf("Failed to parse XenAPI response: expected Go type %s at %s but got Go type %s with value %v", "string", context, reflect.TypeOf(input), input)
-	} else {
-		ref = NetworkSriovRef(value)
-	}
-	return
-}
-
-func convertNetworkSriovRefToXen(context string, ref NetworkSriovRef) (string, error) {
 	return string(ref), nil
 }
 
