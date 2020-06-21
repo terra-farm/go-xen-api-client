@@ -1,3 +1,5 @@
+![Continuous Integration](https://github.com/terra-farm/go-xen-api-client/workflows/Continuous%20Integration/badge.svg)
+
 # Go XenAPI client library
 
 This is a client library for the Xapi toolstack
