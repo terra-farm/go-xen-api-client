@@ -371,7 +371,7 @@ func (_class VDIClass) ReadDatabasePoolUUID(sessionID SessionRef, self VDIRef) (
 	return
 }
 
-// OpenDatabase Load the metadata found on the supplied VDI and return a session reference which can be used in XenAPI calls to query its contents.
+// OpenDatabase Load the metadata found on the supplied VDI and return a session reference which can be used in API calls to query its contents.
 func (_class VDIClass) OpenDatabase(sessionID SessionRef, self VDIRef) (_retval SessionRef, _err error) {
 	_method := "VDI.open_database"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -466,139 +466,6 @@ func (_class VDIClass) SetNameLabel(sessionID SessionRef, self VDIRef, value str
 	return
 }
 
-// SetMetadataOfPool Records the pool whose metadata is contained by this VDI.
-func (_class VDIClass) SetMetadataOfPool(sessionID SessionRef, self VDIRef, value PoolRef) (_err error) {
-	_method := "VDI.set_metadata_of_pool"
-	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
-	if _err != nil {
-		return
-	}
-	_selfArg, _err := convertVDIRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
-	if _err != nil {
-		return
-	}
-	_valueArg, _err := convertPoolRefToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
-	if _err != nil {
-		return
-	}
-	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
-	return
-}
-
-// SetSnapshotTime Sets the snapshot time of this VDI.
-func (_class VDIClass) SetSnapshotTime(sessionID SessionRef, self VDIRef, value time.Time) (_err error) {
-	_method := "VDI.set_snapshot_time"
-	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
-	if _err != nil {
-		return
-	}
-	_selfArg, _err := convertVDIRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
-	if _err != nil {
-		return
-	}
-	_valueArg, _err := convertTimeToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
-	if _err != nil {
-		return
-	}
-	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
-	return
-}
-
-// SetSnapshotOf Sets the VDI of which this VDI is a snapshot
-func (_class VDIClass) SetSnapshotOf(sessionID SessionRef, self VDIRef, value VDIRef) (_err error) {
-	_method := "VDI.set_snapshot_of"
-	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
-	if _err != nil {
-		return
-	}
-	_selfArg, _err := convertVDIRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
-	if _err != nil {
-		return
-	}
-	_valueArg, _err := convertVDIRefToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
-	if _err != nil {
-		return
-	}
-	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
-	return
-}
-
-// SetIsASnapshot Sets whether this VDI is a snapshot
-func (_class VDIClass) SetIsASnapshot(sessionID SessionRef, self VDIRef, value bool) (_err error) {
-	_method := "VDI.set_is_a_snapshot"
-	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
-	if _err != nil {
-		return
-	}
-	_selfArg, _err := convertVDIRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
-	if _err != nil {
-		return
-	}
-	_valueArg, _err := convertBoolToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
-	if _err != nil {
-		return
-	}
-	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
-	return
-}
-
-// SetPhysicalUtilisation Sets the VDI's physical_utilisation field
-func (_class VDIClass) SetPhysicalUtilisation(sessionID SessionRef, self VDIRef, value int) (_err error) {
-	_method := "VDI.set_physical_utilisation"
-	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
-	if _err != nil {
-		return
-	}
-	_selfArg, _err := convertVDIRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
-	if _err != nil {
-		return
-	}
-	_valueArg, _err := convertIntToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
-	if _err != nil {
-		return
-	}
-	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
-	return
-}
-
-// SetVirtualSize Sets the VDI's virtual_size field
-func (_class VDIClass) SetVirtualSize(sessionID SessionRef, self VDIRef, value int) (_err error) {
-	_method := "VDI.set_virtual_size"
-	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
-	if _err != nil {
-		return
-	}
-	_selfArg, _err := convertVDIRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
-	if _err != nil {
-		return
-	}
-	_valueArg, _err := convertIntToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
-	if _err != nil {
-		return
-	}
-	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
-	return
-}
-
-// SetMissing Sets the VDI's missing field
-func (_class VDIClass) SetMissing(sessionID SessionRef, self VDIRef, value bool) (_err error) {
-	_method := "VDI.set_missing"
-	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
-	if _err != nil {
-		return
-	}
-	_selfArg, _err := convertVDIRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
-	if _err != nil {
-		return
-	}
-	_valueArg, _err := convertBoolToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
-	if _err != nil {
-		return
-	}
-	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
-	return
-}
-
 // SetReadOnly Sets the VDI's read_only field
 func (_class VDIClass) SetReadOnly(sessionID SessionRef, self VDIRef, value bool) (_err error) {
 	_method := "VDI.set_read_only"
@@ -649,25 +516,6 @@ func (_class VDIClass) Forget(sessionID SessionRef, vdi VDIRef) (_err error) {
 		return
 	}
 	_, _err =  _class.client.APICall(_method, _sessionIDArg, _vdiArg)
-	return
-}
-
-// SetManaged Sets the VDI's managed field
-func (_class VDIClass) SetManaged(sessionID SessionRef, self VDIRef, value bool) (_err error) {
-	_method := "VDI.set_managed"
-	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
-	if _err != nil {
-		return
-	}
-	_selfArg, _err := convertVDIRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
-	if _err != nil {
-		return
-	}
-	_valueArg, _err := convertBoolToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
-	if _err != nil {
-		return
-	}
-	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
 	return
 }
 
@@ -722,112 +570,6 @@ func (_class VDIClass) Update(sessionID SessionRef, vdi VDIRef) (_err error) {
 		return
 	}
 	_, _err =  _class.client.APICall(_method, _sessionIDArg, _vdiArg)
-	return
-}
-
-// DbForget Removes a VDI record from the database
-func (_class VDIClass) DbForget(sessionID SessionRef, vdi VDIRef) (_err error) {
-	_method := "VDI.db_forget"
-	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
-	if _err != nil {
-		return
-	}
-	_vdiArg, _err := convertVDIRefToXen(fmt.Sprintf("%s(%s)", _method, "vdi"), vdi)
-	if _err != nil {
-		return
-	}
-	_, _err =  _class.client.APICall(_method, _sessionIDArg, _vdiArg)
-	return
-}
-
-// DbIntroduce Create a new VDI record in the database only
-func (_class VDIClass) DbIntroduce(sessionID SessionRef, uuid string, nameLabel string, nameDescription string, sr SRRef, atype VdiType, sharable bool, readOnly bool, otherConfig map[string]string, location string, xenstoreData map[string]string, smConfig map[string]string, managed bool, virtualSize int, physicalUtilisation int, metadataOfPool PoolRef, isASnapshot bool, snapshotTime time.Time, snapshotOf VDIRef, cbtEnabled bool) (_retval VDIRef, _err error) {
-	_method := "VDI.db_introduce"
-	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
-	if _err != nil {
-		return
-	}
-	_uuidArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "uuid"), uuid)
-	if _err != nil {
-		return
-	}
-	_nameLabelArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "name_label"), nameLabel)
-	if _err != nil {
-		return
-	}
-	_nameDescriptionArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "name_description"), nameDescription)
-	if _err != nil {
-		return
-	}
-	_srArg, _err := convertSRRefToXen(fmt.Sprintf("%s(%s)", _method, "SR"), sr)
-	if _err != nil {
-		return
-	}
-	_atypeArg, _err := convertEnumVdiTypeToXen(fmt.Sprintf("%s(%s)", _method, "type"), atype)
-	if _err != nil {
-		return
-	}
-	_sharableArg, _err := convertBoolToXen(fmt.Sprintf("%s(%s)", _method, "sharable"), sharable)
-	if _err != nil {
-		return
-	}
-	_readOnlyArg, _err := convertBoolToXen(fmt.Sprintf("%s(%s)", _method, "read_only"), readOnly)
-	if _err != nil {
-		return
-	}
-	_otherConfigArg, _err := convertStringToStringMapToXen(fmt.Sprintf("%s(%s)", _method, "other_config"), otherConfig)
-	if _err != nil {
-		return
-	}
-	_locationArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "location"), location)
-	if _err != nil {
-		return
-	}
-	_xenstoreDataArg, _err := convertStringToStringMapToXen(fmt.Sprintf("%s(%s)", _method, "xenstore_data"), xenstoreData)
-	if _err != nil {
-		return
-	}
-	_smConfigArg, _err := convertStringToStringMapToXen(fmt.Sprintf("%s(%s)", _method, "sm_config"), smConfig)
-	if _err != nil {
-		return
-	}
-	_managedArg, _err := convertBoolToXen(fmt.Sprintf("%s(%s)", _method, "managed"), managed)
-	if _err != nil {
-		return
-	}
-	_virtualSizeArg, _err := convertIntToXen(fmt.Sprintf("%s(%s)", _method, "virtual_size"), virtualSize)
-	if _err != nil {
-		return
-	}
-	_physicalUtilisationArg, _err := convertIntToXen(fmt.Sprintf("%s(%s)", _method, "physical_utilisation"), physicalUtilisation)
-	if _err != nil {
-		return
-	}
-	_metadataOfPoolArg, _err := convertPoolRefToXen(fmt.Sprintf("%s(%s)", _method, "metadata_of_pool"), metadataOfPool)
-	if _err != nil {
-		return
-	}
-	_isASnapshotArg, _err := convertBoolToXen(fmt.Sprintf("%s(%s)", _method, "is_a_snapshot"), isASnapshot)
-	if _err != nil {
-		return
-	}
-	_snapshotTimeArg, _err := convertTimeToXen(fmt.Sprintf("%s(%s)", _method, "snapshot_time"), snapshotTime)
-	if _err != nil {
-		return
-	}
-	_snapshotOfArg, _err := convertVDIRefToXen(fmt.Sprintf("%s(%s)", _method, "snapshot_of"), snapshotOf)
-	if _err != nil {
-		return
-	}
-	_cbtEnabledArg, _err := convertBoolToXen(fmt.Sprintf("%s(%s)", _method, "cbt_enabled"), cbtEnabled)
-	if _err != nil {
-		return
-	}
-	_result, _err := _class.client.APICall(_method, _sessionIDArg, _uuidArg, _nameLabelArg, _nameDescriptionArg, _srArg, _atypeArg, _sharableArg, _readOnlyArg, _otherConfigArg, _locationArg, _xenstoreDataArg, _smConfigArg, _managedArg, _virtualSizeArg, _physicalUtilisationArg, _metadataOfPoolArg, _isASnapshotArg, _snapshotTimeArg, _snapshotOfArg, _cbtEnabledArg)
-	if _err != nil {
-		return
-	}
-	_retval, _err = convertVDIRefToGo(_method + " -> ", _result.Value)
 	return
 }
 

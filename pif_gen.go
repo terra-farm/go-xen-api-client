@@ -93,13 +93,13 @@ type PIFRecord struct {
 	Netmask string
 	// IP gateway
 	Gateway string
-	// IP address of DNS servers to use
+	// Comma separated list of the IP addresses of the DNS servers to use
 	DNS string
 	// Indicates which bond this interface is part of
 	BondSlaveOf BondRef
 	// Indicates this PIF represents the results of a bond
 	BondMasterOf []BondRef
-	// Indicates wich VLAN this interface receives untagged traffic from
+	// Indicates which VLAN this interface receives untagged traffic from
 	VLANMasterOf VLANRef
 	// Indicates which VLANs this interface transmits tagged traffic to
 	VLANSlaveOf []VLANRef
@@ -121,7 +121,7 @@ type PIFRecord struct {
 	Ipv6Gateway string
 	// Which protocol should define the primary address of this interface
 	PrimaryAddressType PrimaryAddressType
-	// Indicates whether the interface is managed by xapi. If it is not, then xapi will not configure the interface, the commands PIF.plug/unplug/reconfigure_ip(v6) can not be used, nor can the interface be bonded or have VLANs based on top through xapi.
+	// Indicates whether the interface is managed by xapi. If it is not, then xapi will not configure the interface, the commands PIF.plug/unplug/reconfigure_ip(v6) cannot be used, nor can the interface be bonded or have VLANs based on top through xapi.
 	Managed bool
 	// Additional configuration properties for the interface.
 	Properties map[string]string
@@ -129,6 +129,12 @@ type PIFRecord struct {
 	Capabilities []string
 	// The IGMP snooping status of the corresponding network bridge
 	IgmpSnoopingStatus PifIgmpStatus
+	// Indicates which network_sriov this interface is physical of
+	SriovPhysicalPIFOf []NetworkSriovRef
+	// Indicates which network_sriov this interface is logical of
+	SriovLogicalPIFOf []NetworkSriovRef
+	// Link to underlying PCI device
+	PCI PCIRef
 }
 
 type PIFRef string
@@ -331,6 +337,29 @@ func (_class PIFClass) Plug(sessionID SessionRef, self PIFRef) (_err error) {
 	return
 }
 
+// SetDisallowUnplug Set whether unplugging the PIF is allowed
+//
+// Errors:
+//  OTHER_OPERATION_IN_PROGRESS - Another operation involving the object is currently in progress
+//  CLUSTERING_ENABLED - An operation was attempted while clustering was enabled on the cluster_host.
+func (_class PIFClass) SetDisallowUnplug(sessionID SessionRef, self PIFRef, value bool) (_err error) {
+	_method := "PIF.set_disallow_unplug"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPIFRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_valueArg, _err := convertBoolToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
 // Unplug Attempt to bring down a physical interface
 //
 // Errors:
@@ -356,6 +385,7 @@ func (_class PIFClass) Unplug(sessionID SessionRef, self PIFRef) (_err error) {
 //
 // Errors:
 //  PIF_TUNNEL_STILL_EXISTS - Operation cannot proceed while a tunnel exists on this interface.
+//  CLUSTERING_ENABLED - An operation was attempted while clustering was enabled on the cluster_host.
 func (_class PIFClass) Forget(sessionID SessionRef, self PIFRef) (_err error) {
 	_method := "PIF.forget"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -436,6 +466,9 @@ func (_class PIFClass) SetPrimaryAddressType(sessionID SessionRef, self PIFRef, 
 }
 
 // ReconfigureIpv6 Reconfigure the IPv6 address settings for this interface
+//
+// Errors:
+//  CLUSTERING_ENABLED - An operation was attempted while clustering was enabled on the cluster_host.
 func (_class PIFClass) ReconfigureIpv6(sessionID SessionRef, self PIFRef, mode Ipv6ConfigurationMode, ipv6 string, gateway string, dns string) (_err error) {
 	_method := "PIF.reconfigure_ipv6"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -467,6 +500,9 @@ func (_class PIFClass) ReconfigureIpv6(sessionID SessionRef, self PIFRef, mode I
 }
 
 // ReconfigureIP Reconfigure the IP address settings for this interface
+//
+// Errors:
+//  CLUSTERING_ENABLED - An operation was attempted while clustering was enabled on the cluster_host.
 func (_class PIFClass) ReconfigureIP(sessionID SessionRef, self PIFRef, mode IPConfigurationMode, ip string, netmask string, gateway string, dns string) (_err error) {
 	_method := "PIF.reconfigure_ip"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -504,7 +540,7 @@ func (_class PIFClass) ReconfigureIP(sessionID SessionRef, self PIFRef, mode IPC
 // Destroy Destroy the PIF object (provided it is a VLAN interface). This call is deprecated: use VLAN.destroy or Bond.destroy instead
 //
 // Errors:
-//  PIF_IS_PHYSICAL - You tried to destroy a PIF, but it represents an aspect of the physical host configuration, and so cannot be destroyed.  The parameter echoes the PIF handle you gave.
+//  PIF_IS_PHYSICAL - You tried to destroy a PIF, but it represents an aspect of the physical host configuration, and so cannot be destroyed. The parameter echoes the PIF handle you gave.
 func (_class PIFClass) Destroy(sessionID SessionRef, self PIFRef) (_err error) {
 	_method := "PIF.destroy"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -522,7 +558,7 @@ func (_class PIFClass) Destroy(sessionID SessionRef, self PIFRef) (_err error) {
 // CreateVLAN Create a VLAN interface from an existing physical interface. This call is deprecated: use VLAN.create instead
 //
 // Errors:
-//  VLAN_TAG_INVALID - You tried to create a VLAN, but the tag you gave was invalid -- it must be between 0 and 4094.  The parameter echoes the VLAN tag you gave.
+//  VLAN_TAG_INVALID - You tried to create a VLAN, but the tag you gave was invalid -- it must be between 0 and 4094. The parameter echoes the VLAN tag you gave.
 func (_class PIFClass) CreateVLAN(sessionID SessionRef, device string, network NetworkRef, host HostRef, vlan int) (_retval PIFRef, _err error) {
 	_method := "PIF.create_VLAN"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -550,25 +586,6 @@ func (_class PIFClass) CreateVLAN(sessionID SessionRef, device string, network N
 		return
 	}
 	_retval, _err = convertPIFRefToGo(_method + " -> ", _result.Value)
-	return
-}
-
-// SetDisallowUnplug Set the disallow_unplug field of the given PIF.
-func (_class PIFClass) SetDisallowUnplug(sessionID SessionRef, self PIFRef, value bool) (_err error) {
-	_method := "PIF.set_disallow_unplug"
-	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
-	if _err != nil {
-		return
-	}
-	_selfArg, _err := convertPIFRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
-	if _err != nil {
-		return
-	}
-	_valueArg, _err := convertBoolToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
-	if _err != nil {
-		return
-	}
-	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
 	return
 }
 
@@ -630,6 +647,63 @@ func (_class PIFClass) SetOtherConfig(sessionID SessionRef, self PIFRef, value m
 		return
 	}
 	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// GetPCI Get the PCI field of the given PIF.
+func (_class PIFClass) GetPCI(sessionID SessionRef, self PIFRef) (_retval PCIRef, _err error) {
+	_method := "PIF.get_PCI"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPIFRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertPCIRefToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// GetSriovLogicalPIFOf Get the sriov_logical_PIF_of field of the given PIF.
+func (_class PIFClass) GetSriovLogicalPIFOf(sessionID SessionRef, self PIFRef) (_retval []NetworkSriovRef, _err error) {
+	_method := "PIF.get_sriov_logical_PIF_of"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPIFRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertNetworkSriovRefSetToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// GetSriovPhysicalPIFOf Get the sriov_physical_PIF_of field of the given PIF.
+func (_class PIFClass) GetSriovPhysicalPIFOf(sessionID SessionRef, self PIFRef) (_retval []NetworkSriovRef, _err error) {
+	_method := "PIF.get_sriov_physical_PIF_of"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPIFRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertNetworkSriovRefSetToGo(_method + " -> ", _result.Value)
 	return
 }
 

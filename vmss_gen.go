@@ -38,7 +38,7 @@ const (
 	VmssTypeSnapshot VmssType = "snapshot"
 	// The snapshot is a checkpoint
 	VmssTypeCheckpoint VmssType = "checkpoint"
-	// The snapshot is a VSS
+	// Support for VSS has been removed.
 	VmssTypeSnapshotWithQuiesce VmssType = "snapshot_with_quiesce"
 )
 

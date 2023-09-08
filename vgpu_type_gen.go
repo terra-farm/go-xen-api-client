@@ -27,6 +27,8 @@ const (
 	VgpuTypeImplementationPassthrough VgpuTypeImplementation = "passthrough"
 	// vGPU using NVIDIA hardware
 	VgpuTypeImplementationNvidia VgpuTypeImplementation = "nvidia"
+	// vGPU using NVIDIA hardware with SR-IOV
+	VgpuTypeImplementationNvidiaSriov VgpuTypeImplementation = "nvidia_sriov"
 	// vGPU using Intel GVT-g
 	VgpuTypeImplementationGvtG VgpuTypeImplementation = "gvt_g"
 	// vGPU using AMD MxGPU
@@ -64,6 +66,8 @@ type VGPUTypeRecord struct {
 	Identifier string
 	// Indicates whether VGPUs of this type should be considered experimental
 	Experimental bool
+	// List of VGPU types which are compatible in one VM
+	CompatibleTypesInVM []VGPUTypeRef
 }
 
 type VGPUTypeRef string
@@ -96,6 +100,25 @@ func (_class VGPUTypeClass) GetAll(sessionID SessionRef) (_retval []VGPUTypeRef,
 		return
 	}
 	_result, _err := _class.client.APICall(_method, _sessionIDArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertVGPUTypeRefSetToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// GetCompatibleTypesInVM Get the compatible_types_in_vm field of the given VGPU_type.
+func (_class VGPUTypeClass) GetCompatibleTypesInVM(sessionID SessionRef, self VGPUTypeRef) (_retval []VGPUTypeRef, _err error) {
+	_method := "VGPU_type.get_compatible_types_in_vm"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVGPUTypeRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
 	if _err != nil {
 		return
 	}

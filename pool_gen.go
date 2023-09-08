@@ -27,6 +27,39 @@ const (
 	PoolAllowedOperationsHaEnable PoolAllowedOperations = "ha_enable"
 	// Indicates this pool is in the process of disabling HA
 	PoolAllowedOperationsHaDisable PoolAllowedOperations = "ha_disable"
+	// Indicates this pool is in the process of creating a cluster
+	PoolAllowedOperationsClusterCreate PoolAllowedOperations = "cluster_create"
+	// Indicates this pool is in the process of changing master
+	PoolAllowedOperationsDesignateNewMaster PoolAllowedOperations = "designate_new_master"
+	// Indicates this pool is in the process of configuring repositories
+	PoolAllowedOperationsConfigureRepositories PoolAllowedOperations = "configure_repositories"
+	// Indicates this pool is in the process of syncing updates
+	PoolAllowedOperationsSyncUpdates PoolAllowedOperations = "sync_updates"
+	// Indicates this pool is in the process of getting updates
+	PoolAllowedOperationsGetUpdates PoolAllowedOperations = "get_updates"
+	// Indicates this pool is in the process of applying updates
+	PoolAllowedOperationsApplyUpdates PoolAllowedOperations = "apply_updates"
+	// Indicates this pool is in the process of enabling TLS verification
+	PoolAllowedOperationsTLSVerificationEnable PoolAllowedOperations = "tls_verification_enable"
+	// A certificate refresh and distribution is in progress
+	PoolAllowedOperationsCertRefresh PoolAllowedOperations = "cert_refresh"
+	// Indicates this pool is exchanging internal certificates with a new joiner
+	PoolAllowedOperationsExchangeCertificatesOnJoin PoolAllowedOperations = "exchange_certificates_on_join"
+	// Indicates this pool is exchanging ca certificates with a new joiner
+	PoolAllowedOperationsExchangeCaCertificatesOnJoin PoolAllowedOperations = "exchange_ca_certificates_on_join"
+	// Indicates the primary host is sending its certificates to another host
+	PoolAllowedOperationsCopyPrimaryHostCerts PoolAllowedOperations = "copy_primary_host_certs"
+)
+
+type TelemetryFrequency string
+
+const (
+	// Run telemetry task daily
+	TelemetryFrequencyDaily TelemetryFrequency = "daily"
+	// Run telemetry task weekly
+	TelemetryFrequencyWeekly TelemetryFrequency = "weekly"
+	// Run telemetry task monthly
+	TelemetryFrequencyMonthly TelemetryFrequency = "monthly"
 )
 
 type PoolRecord struct {
@@ -74,7 +107,7 @@ type PoolRecord struct {
 	WlbUsername string
 	// true if workload balancing is enabled on the pool, false otherwise
 	WlbEnabled bool
-	// true if communication with the WLB server should enforce SSL certificate verification.
+	// true if communication with the WLB server should enforce TLS certificate verification.
 	WlbVerifyCert bool
 	// true a redo-log is to be used other than when HA is enabled, false otherwise
 	RedoLogEnabled bool
@@ -102,6 +135,34 @@ type PoolRecord struct {
 	LivePatchingDisabled bool
 	// true if IGMP snooping is enabled in the pool, false otherwise.
 	IgmpSnoopingEnabled bool
+	// The UEFI certificates allowing Secure Boot
+	UefiCertificates string
+	// True if either a PSR is running or we are waiting for a PSR to be re-run
+	IsPsrPending bool
+	// True iff TLS certificate verification is enabled
+	TLSVerificationEnabled bool
+	// The set of currently enabled repositories
+	Repositories []RepositoryRef
+	// True if authentication by TLS client certificates is enabled
+	ClientCertificateAuthEnabled bool
+	// The name (CN/SAN) that an incoming client certificate must have to allow authentication
+	ClientCertificateAuthName string
+	// Url of the proxy used in syncing with the enabled repositories
+	RepositoryProxyURL string
+	// Username for the authentication of the proxy used in syncing with the enabled repositories
+	RepositoryProxyUsername string
+	// Password for the authentication of the proxy used in syncing with the enabled repositories
+	RepositoryProxyPassword SecretRef
+	// Default behaviour during migration, True if stream compression should be used
+	MigrationCompression bool
+	// true if bias against pool master when scheduling vms is enabled, false otherwise
+	CoordinatorBias bool
+	// The UUID of the pool for identification of telemetry data
+	TelemetryUUID SecretRef
+	// How often the telemetry collection will be carried out
+	TelemetryFrequency TelemetryFrequency
+	// The earliest timestamp (in UTC) when the next round of telemetry collection can be carried out
+	TelemetryNextCollection time.Time
 }
 
 type PoolRef string
@@ -138,6 +199,283 @@ func (_class PoolClass) GetAll(sessionID SessionRef) (_retval []PoolRef, _err er
 		return
 	}
 	_retval, _err = convertPoolRefSetToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// ResetTelemetryUUID Assign a new UUID to telemetry data.
+func (_class PoolClass) ResetTelemetryUUID(sessionID SessionRef, self PoolRef) (_err error) {
+	_method := "pool.reset_telemetry_uuid"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPoolRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	return
+}
+
+// SetTelemetryNextCollection Set the timestamp for the next telemetry data collection.
+func (_class PoolClass) SetTelemetryNextCollection(sessionID SessionRef, self PoolRef, value time.Time) (_err error) {
+	_method := "pool.set_telemetry_next_collection"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPoolRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_valueArg, _err := convertTimeToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// SetHTTPSOnly updates all the host firewalls in the pool to open or close port 80 depending on the value
+func (_class PoolClass) SetHTTPSOnly(sessionID SessionRef, self PoolRef, value bool) (_err error) {
+	_method := "pool.set_https_only"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPoolRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_valueArg, _err := convertBoolToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// SetUefiCertificates Sets the UEFI certificates for a pool and all its hosts
+func (_class PoolClass) SetUefiCertificates(sessionID SessionRef, self PoolRef, value string) (_err error) {
+	_method := "pool.set_uefi_certificates"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPoolRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_valueArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// DisableRepositoryProxy Disable the proxy for RPM package repositories.
+func (_class PoolClass) DisableRepositoryProxy(sessionID SessionRef, self PoolRef) (_err error) {
+	_method := "pool.disable_repository_proxy"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPoolRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	return
+}
+
+// ConfigureRepositoryProxy Configure proxy for RPM package repositories.
+func (_class PoolClass) ConfigureRepositoryProxy(sessionID SessionRef, self PoolRef, url string, username string, password string) (_err error) {
+	_method := "pool.configure_repository_proxy"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPoolRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_urlArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "url"), url)
+	if _err != nil {
+		return
+	}
+	_usernameArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "username"), username)
+	if _err != nil {
+		return
+	}
+	_passwordArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "password"), password)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _urlArg, _usernameArg, _passwordArg)
+	return
+}
+
+// DisableClientCertificateAuth Disable client certificate authentication on the pool
+func (_class PoolClass) DisableClientCertificateAuth(sessionID SessionRef, self PoolRef) (_err error) {
+	_method := "pool.disable_client_certificate_auth"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPoolRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	return
+}
+
+// EnableClientCertificateAuth Enable client certificate authentication on the pool
+func (_class PoolClass) EnableClientCertificateAuth(sessionID SessionRef, self PoolRef, name string) (_err error) {
+	_method := "pool.enable_client_certificate_auth"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPoolRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_nameArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "name"), name)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _nameArg)
+	return
+}
+
+// CheckUpdateReadiness Check if the pool is ready to be updated. If not, report the reasons.
+func (_class PoolClass) CheckUpdateReadiness(sessionID SessionRef, self PoolRef, requiresReboot bool) (_retval [][]string, _err error) {
+	_method := "pool.check_update_readiness"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPoolRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_requiresRebootArg, _err := convertBoolToXen(fmt.Sprintf("%s(%s)", _method, "requires_reboot"), requiresReboot)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg, _requiresRebootArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertStringSetSetToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// SyncUpdates Sync with the enabled repository
+func (_class PoolClass) SyncUpdates(sessionID SessionRef, self PoolRef, force bool, token string, tokenID string) (_retval string, _err error) {
+	_method := "pool.sync_updates"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPoolRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_forceArg, _err := convertBoolToXen(fmt.Sprintf("%s(%s)", _method, "force"), force)
+	if _err != nil {
+		return
+	}
+	_tokenArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "token"), token)
+	if _err != nil {
+		return
+	}
+	_tokenIDArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "token_id"), tokenID)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg, _forceArg, _tokenArg, _tokenIDArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertStringToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// RemoveRepository Remove a repository from the enabled set
+func (_class PoolClass) RemoveRepository(sessionID SessionRef, self PoolRef, value RepositoryRef) (_err error) {
+	_method := "pool.remove_repository"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPoolRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_valueArg, _err := convertRepositoryRefToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// AddRepository Add a repository to the enabled set
+func (_class PoolClass) AddRepository(sessionID SessionRef, self PoolRef, value RepositoryRef) (_err error) {
+	_method := "pool.add_repository"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPoolRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_valueArg, _err := convertRepositoryRefToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// SetRepositories Set enabled set of repositories
+func (_class PoolClass) SetRepositories(sessionID SessionRef, self PoolRef, value []RepositoryRef) (_err error) {
+	_method := "pool.set_repositories"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPoolRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_valueArg, _err := convertRepositoryRefSetToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// RotateSecret 
+//
+// Errors:
+//  INTERNAL_ERROR - The server failed to handle your request, due to an internal error. The given message may give details useful for debugging the problem.
+//  HOST_IS_SLAVE - You cannot make regular API calls directly on a supporter. Please pass API calls via the coordinator host.
+//  CANNOT_CONTACT_HOST - Cannot forward messages because the server cannot be contacted. The server may be switched off or there may be network connectivity problems.
+//  HA_IS_ENABLED - The operation could not be performed because HA is enabled on the Pool
+//  NOT_SUPPORTED_DURING_UPGRADE - This operation is not supported during an upgrade.
+func (_class PoolClass) RotateSecret(sessionID SessionRef) (_err error) {
+	_method := "pool.rotate_secret"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg)
 	return
 }
 
@@ -225,7 +563,7 @@ func (_class PoolClass) SetIgmpSnoopingEnabled(sessionID SessionRef, self PoolRe
 	return
 }
 
-// DisableSslLegacy Sets ssl_legacy true on each host, pool-master last. See Host.ssl_legacy and Host.set_ssl_legacy.
+// DisableSslLegacy Sets ssl_legacy false on each host, pool-master last. See Host.ssl_legacy and Host.set_ssl_legacy.
 func (_class PoolClass) DisableSslLegacy(sessionID SessionRef, self PoolRef) (_err error) {
 	_method := "pool.disable_ssl_legacy"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -387,7 +725,18 @@ func (_class PoolClass) EnableRedoLog(sessionID SessionRef, sr SRRef) (_err erro
 	return
 }
 
-// CertificateSync Sync SSL certificates from master to slaves.
+// EnableTLSVerification Enable TLS server certificate verification
+func (_class PoolClass) EnableTLSVerification(sessionID SessionRef) (_err error) {
+	_method := "pool.enable_tls_verification"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg)
+	return
+}
+
+// CertificateSync Copy the TLS CA certificates and CRLs of the master to all slaves.
 func (_class PoolClass) CertificateSync(sessionID SessionRef) (_err error) {
 	_method := "pool.certificate_sync"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -398,7 +747,7 @@ func (_class PoolClass) CertificateSync(sessionID SessionRef) (_err error) {
 	return
 }
 
-// CrlList List all installed SSL certificate revocation lists.
+// CrlList List the names of all installed TLS CA-issued Certificate Revocation Lists.
 func (_class PoolClass) CrlList(sessionID SessionRef) (_retval []string, _err error) {
 	_method := "pool.crl_list"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -413,7 +762,7 @@ func (_class PoolClass) CrlList(sessionID SessionRef) (_retval []string, _err er
 	return
 }
 
-// CrlUninstall Remove an SSL certificate revocation list.
+// CrlUninstall Remove a pool-wide TLS CA-issued Certificate Revocation List.
 func (_class PoolClass) CrlUninstall(sessionID SessionRef, name string) (_err error) {
 	_method := "pool.crl_uninstall"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -428,7 +777,7 @@ func (_class PoolClass) CrlUninstall(sessionID SessionRef, name string) (_err er
 	return
 }
 
-// CrlInstall Install an SSL certificate revocation list, pool-wide.
+// CrlInstall Install a TLS CA-issued Certificate Revocation List, pool-wide.
 func (_class PoolClass) CrlInstall(sessionID SessionRef, name string, cert string) (_err error) {
 	_method := "pool.crl_install"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -447,7 +796,41 @@ func (_class PoolClass) CrlInstall(sessionID SessionRef, name string, cert strin
 	return
 }
 
-// CertificateList List all installed SSL certificates.
+// UninstallCaCertificate Remove a pool-wide TLS CA certificate.
+func (_class PoolClass) UninstallCaCertificate(sessionID SessionRef, name string) (_err error) {
+	_method := "pool.uninstall_ca_certificate"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_nameArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "name"), name)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _nameArg)
+	return
+}
+
+// InstallCaCertificate Install a TLS CA certificate, pool-wide.
+func (_class PoolClass) InstallCaCertificate(sessionID SessionRef, name string, cert string) (_err error) {
+	_method := "pool.install_ca_certificate"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_nameArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "name"), name)
+	if _err != nil {
+		return
+	}
+	_certArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "cert"), cert)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _nameArg, _certArg)
+	return
+}
+
+// CertificateList List the names of all installed TLS CA certificates.
 func (_class PoolClass) CertificateList(sessionID SessionRef) (_retval []string, _err error) {
 	_method := "pool.certificate_list"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -462,7 +845,7 @@ func (_class PoolClass) CertificateList(sessionID SessionRef) (_retval []string,
 	return
 }
 
-// CertificateUninstall Remove an SSL certificate.
+// CertificateUninstall Remove a pool-wide TLS CA certificate.
 func (_class PoolClass) CertificateUninstall(sessionID SessionRef, name string) (_err error) {
 	_method := "pool.certificate_uninstall"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -477,7 +860,7 @@ func (_class PoolClass) CertificateUninstall(sessionID SessionRef, name string) 
 	return
 }
 
-// CertificateInstall Install an SSL certificate pool-wide.
+// CertificateInstall Install a TLS CA certificate, pool-wide.
 func (_class PoolClass) CertificateInstall(sessionID SessionRef, name string, cert string) (_err error) {
 	_method := "pool.certificate_install"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -871,7 +1254,7 @@ func (_class PoolClass) EnableHa(sessionID SessionRef, heartbeatSrs []SRRef, con
 // CreateVLANFromPIF Create a pool-wide VLAN by taking the PIF.
 //
 // Errors:
-//  VLAN_TAG_INVALID - You tried to create a VLAN, but the tag you gave was invalid -- it must be between 0 and 4094.  The parameter echoes the VLAN tag you gave.
+//  VLAN_TAG_INVALID - You tried to create a VLAN, but the tag you gave was invalid -- it must be between 0 and 4094. The parameter echoes the VLAN tag you gave.
 func (_class PoolClass) CreateVLANFromPIF(sessionID SessionRef, pif PIFRef, network NetworkRef, vlan int) (_retval []PIFRef, _err error) {
 	_method := "pool.create_VLAN_from_PIF"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -903,7 +1286,7 @@ func (_class PoolClass) CreateVLANFromPIF(sessionID SessionRef, pif PIFRef, netw
 // Errors:
 //  HA_IS_ENABLED - The operation could not be performed because HA is enabled on the Pool
 //  PIF_NOT_PRESENT - This host has no PIF on the given network.
-//  CANNOT_PLUG_BOND_SLAVE - This PIF is a bond slave and cannot be plugged.
+//  CANNOT_PLUG_BOND_SLAVE - This PIF is a bond member and cannot be plugged.
 //  PIF_INCOMPATIBLE_PRIMARY_ADDRESS_TYPE - The primary address types are not compatible
 //  PIF_HAS_NO_NETWORK_CONFIGURATION - PIF has no IP configuration (mode currently set to 'none')
 //  PIF_HAS_NO_V6_NETWORK_CONFIGURATION - PIF has no IPv6 configuration (mode currently set to 'none')
@@ -924,7 +1307,7 @@ func (_class PoolClass) ManagementReconfigure(sessionID SessionRef, network Netw
 // CreateVLAN Create PIFs, mapping a network to the same physical interface/VLAN on each host. This call is deprecated: use Pool.create_VLAN_from_PIF instead.
 //
 // Errors:
-//  VLAN_TAG_INVALID - You tried to create a VLAN, but the tag you gave was invalid -- it must be between 0 and 4094.  The parameter echoes the VLAN tag you gave.
+//  VLAN_TAG_INVALID - You tried to create a VLAN, but the tag you gave was invalid -- it must be between 0 and 4094. The parameter echoes the VLAN tag you gave.
 func (_class PoolClass) CreateVLAN(sessionID SessionRef, device string, network NetworkRef, vlan int) (_retval []PIFRef, _err error) {
 	_method := "pool.create_VLAN"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1033,7 +1416,7 @@ func (_class PoolClass) JoinForce(sessionID SessionRef, masterAddress string, ma
 // Join Instruct host to join a new pool
 //
 // Errors:
-//  JOINING_HOST_CANNOT_CONTAIN_SHARED_SRS - The host joining the pool cannot contain any shared storage.
+//  JOINING_HOST_CANNOT_CONTAIN_SHARED_SRS - The server joining the pool cannot contain any shared storage.
 func (_class PoolClass) Join(sessionID SessionRef, masterAddress string, masterUsername string, masterPassword string) (_err error) {
 	_method := "pool.join"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1053,6 +1436,63 @@ func (_class PoolClass) Join(sessionID SessionRef, masterAddress string, masterU
 		return
 	}
 	_, _err =  _class.client.APICall(_method, _sessionIDArg, _masterAddressArg, _masterUsernameArg, _masterPasswordArg)
+	return
+}
+
+// SetCoordinatorBias Set the coordinator_bias field of the given pool.
+func (_class PoolClass) SetCoordinatorBias(sessionID SessionRef, self PoolRef, value bool) (_err error) {
+	_method := "pool.set_coordinator_bias"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPoolRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_valueArg, _err := convertBoolToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// SetMigrationCompression Set the migration_compression field of the given pool.
+func (_class PoolClass) SetMigrationCompression(sessionID SessionRef, self PoolRef, value bool) (_err error) {
+	_method := "pool.set_migration_compression"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPoolRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_valueArg, _err := convertBoolToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// SetIsPsrPending Set the is_psr_pending field of the given pool.
+func (_class PoolClass) SetIsPsrPending(sessionID SessionRef, self PoolRef, value bool) (_err error) {
+	_method := "pool.set_is_psr_pending"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPoolRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_valueArg, _err := convertBoolToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
 	return
 }
 
@@ -1483,6 +1923,272 @@ func (_class PoolClass) SetNameLabel(sessionID SessionRef, self PoolRef, value s
 		return
 	}
 	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// GetTelemetryNextCollection Get the telemetry_next_collection field of the given pool.
+func (_class PoolClass) GetTelemetryNextCollection(sessionID SessionRef, self PoolRef) (_retval time.Time, _err error) {
+	_method := "pool.get_telemetry_next_collection"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPoolRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertTimeToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// GetTelemetryFrequency Get the telemetry_frequency field of the given pool.
+func (_class PoolClass) GetTelemetryFrequency(sessionID SessionRef, self PoolRef) (_retval TelemetryFrequency, _err error) {
+	_method := "pool.get_telemetry_frequency"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPoolRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertEnumTelemetryFrequencyToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// GetTelemetryUUID Get the telemetry_uuid field of the given pool.
+func (_class PoolClass) GetTelemetryUUID(sessionID SessionRef, self PoolRef) (_retval SecretRef, _err error) {
+	_method := "pool.get_telemetry_uuid"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPoolRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertSecretRefToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// GetCoordinatorBias Get the coordinator_bias field of the given pool.
+func (_class PoolClass) GetCoordinatorBias(sessionID SessionRef, self PoolRef) (_retval bool, _err error) {
+	_method := "pool.get_coordinator_bias"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPoolRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertBoolToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// GetMigrationCompression Get the migration_compression field of the given pool.
+func (_class PoolClass) GetMigrationCompression(sessionID SessionRef, self PoolRef) (_retval bool, _err error) {
+	_method := "pool.get_migration_compression"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPoolRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertBoolToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// GetRepositoryProxyPassword Get the repository_proxy_password field of the given pool.
+func (_class PoolClass) GetRepositoryProxyPassword(sessionID SessionRef, self PoolRef) (_retval SecretRef, _err error) {
+	_method := "pool.get_repository_proxy_password"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPoolRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertSecretRefToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// GetRepositoryProxyUsername Get the repository_proxy_username field of the given pool.
+func (_class PoolClass) GetRepositoryProxyUsername(sessionID SessionRef, self PoolRef) (_retval string, _err error) {
+	_method := "pool.get_repository_proxy_username"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPoolRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertStringToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// GetRepositoryProxyURL Get the repository_proxy_url field of the given pool.
+func (_class PoolClass) GetRepositoryProxyURL(sessionID SessionRef, self PoolRef) (_retval string, _err error) {
+	_method := "pool.get_repository_proxy_url"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPoolRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertStringToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// GetClientCertificateAuthName Get the client_certificate_auth_name field of the given pool.
+func (_class PoolClass) GetClientCertificateAuthName(sessionID SessionRef, self PoolRef) (_retval string, _err error) {
+	_method := "pool.get_client_certificate_auth_name"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPoolRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertStringToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// GetClientCertificateAuthEnabled Get the client_certificate_auth_enabled field of the given pool.
+func (_class PoolClass) GetClientCertificateAuthEnabled(sessionID SessionRef, self PoolRef) (_retval bool, _err error) {
+	_method := "pool.get_client_certificate_auth_enabled"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPoolRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertBoolToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// GetRepositories Get the repositories field of the given pool.
+func (_class PoolClass) GetRepositories(sessionID SessionRef, self PoolRef) (_retval []RepositoryRef, _err error) {
+	_method := "pool.get_repositories"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPoolRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertRepositoryRefSetToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// GetTLSVerificationEnabled Get the tls_verification_enabled field of the given pool.
+func (_class PoolClass) GetTLSVerificationEnabled(sessionID SessionRef, self PoolRef) (_retval bool, _err error) {
+	_method := "pool.get_tls_verification_enabled"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPoolRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertBoolToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// GetIsPsrPending Get the is_psr_pending field of the given pool.
+func (_class PoolClass) GetIsPsrPending(sessionID SessionRef, self PoolRef) (_retval bool, _err error) {
+	_method := "pool.get_is_psr_pending"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPoolRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertBoolToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// GetUefiCertificates Get the uefi_certificates field of the given pool.
+func (_class PoolClass) GetUefiCertificates(sessionID SessionRef, self PoolRef) (_retval string, _err error) {
+	_method := "pool.get_uefi_certificates"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPoolRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertStringToGo(_method + " -> ", _result.Value)
 	return
 }
 

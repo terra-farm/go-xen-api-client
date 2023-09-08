@@ -1076,7 +1076,7 @@ func (_class VIFClass) Destroy(sessionID SessionRef, self VIFRef) (_err error) {
 	return
 }
 
-// Create Create a new VIF instance, and return its handle. The constructor args are: device*, network*, VM*, MAC*, MTU*, other_config*, qos_algorithm_type*, qos_algorithm_params*, locking_mode, ipv4_allowed, ipv6_allowed (* = non-optional).
+// Create Create a new VIF instance, and return its handle. The constructor args are: device*, network*, VM*, MAC*, MTU*, other_config*, currently_attached, qos_algorithm_type*, qos_algorithm_params*, locking_mode, ipv4_allowed, ipv6_allowed (* = non-optional).
 func (_class VIFClass) Create(sessionID SessionRef, args VIFRecord) (_retval VIFRef, _err error) {
 	_method := "VIF.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)

@@ -39,6 +39,8 @@ const (
 	ClsPVSProxy Cls = "PVS_proxy"
 	// VDI
 	ClsVDI Cls = "VDI"
+	// Certificate
+	ClsCertificate Cls = "Certificate"
 )
 
 type MessageRecord struct {
@@ -195,6 +197,21 @@ func (_class MessageClass) Get(sessionID SessionRef, cls Cls, objUUID string, si
 		return
 	}
 	_retval, _err = convertMessageRefToMessageRecordMapToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// DestroyMany 
+func (_class MessageClass) DestroyMany(sessionID SessionRef, messages []MessageRef) (_err error) {
+	_method := "message.destroy_many"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_messagesArg, _err := convertMessageRefSetToXen(fmt.Sprintf("%s(%s)", _method, "messages"), messages)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _messagesArg)
 	return
 }
 

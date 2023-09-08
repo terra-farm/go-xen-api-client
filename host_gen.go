@@ -39,6 +39,8 @@ const (
 	HostAllowedOperationsVMResume HostAllowedOperations = "vm_resume"
 	// This host is the migration target of a VM
 	HostAllowedOperationsVMMigrate HostAllowedOperations = "vm_migrate"
+	// Indicates this host is being updated
+	HostAllowedOperationsApplyUpdates HostAllowedOperations = "apply_updates"
 )
 
 type HostDisplay string
@@ -52,6 +54,17 @@ const (
 	HostDisplayDisabled HostDisplay = "disabled"
 	// The host will start outputting its console to a physical display device on next boot
 	HostDisplayEnableOnReboot HostDisplay = "enable_on_reboot"
+)
+
+type HostSchedGran string
+
+const (
+	// core scheduling
+	HostSchedGranCore HostSchedGran = "core"
+	// CPU scheduling
+	HostSchedGranCPU HostSchedGran = "cpu"
+	// socket scheduling
+	HostSchedGranSocket HostSchedGran = "socket"
 )
 
 type HostRecord struct {
@@ -153,7 +166,7 @@ type HostRecord struct {
 	PGPUs []PGPURef
 	// List of physical USBs in the host
 	PUSBs []PUSBRef
-	// Allow SSLv3 protocol and ciphersuites as used by older XenServers. This controls both incoming and outgoing connections. When this is set to a different value, the host immediately restarts its SSL/TLS listening service; typically this takes less than a second but existing connections to it will be broken. XenAPI login sessions will remain valid.
+	// Allow SSLv3 protocol and ciphersuites as used by older server versions. This controls both incoming and outgoing connections. When this is set to a different value, the host immediately restarts its SSL/TLS listening service; typically this takes less than a second but existing connections to it will be broken. API login sessions will remain valid.
 	SslLegacy bool
 	// VCPUs params to apply to all resident guests
 	GuestVCPUsParams map[string]string
@@ -167,6 +180,24 @@ type HostRecord struct {
 	UpdatesRequiringReboot []PoolUpdateRef
 	// List of features available on this host
 	Features []FeatureRef
+	// The initiator IQN for the host
+	IscsiIqn string
+	// Specifies whether multipathing is enabled
+	Multipathing bool
+	// The UEFI certificates allowing Secure Boot
+	UefiCertificates string
+	// List of certificates installed in the host
+	Certificates []CertificateRef
+	// List of all available product editions
+	Editions []string
+	// The set of pending guidances after applying updates
+	PendingGuidances []UpdateGuidances
+	// True if this host has TLS verifcation enabled
+	TLSVerificationEnabled bool
+	// Date and time when the last software update was applied
+	LastSoftwareUpdate time.Time
+	// Reflects whether port 80 is open (false) or not (true)
+	HTTPSOnly bool
 }
 
 type HostRef string
@@ -206,7 +237,166 @@ func (_class HostClass) GetAll(sessionID SessionRef) (_retval []HostRef, _err er
 	return
 }
 
-// SetSslLegacy Enable/disable SSLv3 for interoperability with older versions of XenServer. When this is set to a different value, the host immediately restarts its SSL/TLS listening service; typically this takes less than a second but existing connections to it will be broken. XenAPI login sessions will remain valid.
+// SetHTTPSOnly updates the host firewall to open or close port 80 depending on the value
+func (_class HostClass) SetHTTPSOnly(sessionID SessionRef, self HostRef, value bool) (_err error) {
+	_method := "host.set_https_only"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertHostRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_valueArg, _err := convertBoolToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// ApplyUpdates apply updates from current enabled repository on a host
+func (_class HostClass) ApplyUpdates(sessionID SessionRef, self HostRef, hash string) (_retval [][]string, _err error) {
+	_method := "host.apply_updates"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertHostRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_hashArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "hash"), hash)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg, _hashArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertStringSetSetToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// EmergencyReenableTLSVerification Reenable TLS verification for this host only
+func (_class HostClass) EmergencyReenableTLSVerification(sessionID SessionRef) (_err error) {
+	_method := "host.emergency_reenable_tls_verification"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg)
+	return
+}
+
+// EmergencyDisableTLSVerification Disable TLS verification for this host only
+func (_class HostClass) EmergencyDisableTLSVerification(sessionID SessionRef) (_err error) {
+	_method := "host.emergency_disable_tls_verification"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg)
+	return
+}
+
+// GetSchedGran Gets xen's sched-gran on a host
+func (_class HostClass) GetSchedGran(sessionID SessionRef, self HostRef) (_retval HostSchedGran, _err error) {
+	_method := "host.get_sched_gran"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertHostRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertEnumHostSchedGranToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// SetSchedGran Sets xen's sched-gran on a host. See: https://xenbits.xen.org/docs/unstable/misc/xen-command-line.html#sched-gran-x86
+func (_class HostClass) SetSchedGran(sessionID SessionRef, self HostRef, value HostSchedGran) (_err error) {
+	_method := "host.set_sched_gran"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertHostRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_valueArg, _err := convertEnumHostSchedGranToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// SetUefiCertificates Sets the UEFI certificates on a host
+func (_class HostClass) SetUefiCertificates(sessionID SessionRef, host HostRef, value string) (_err error) {
+	_method := "host.set_uefi_certificates"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_hostArg, _err := convertHostRefToXen(fmt.Sprintf("%s(%s)", _method, "host"), host)
+	if _err != nil {
+		return
+	}
+	_valueArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _hostArg, _valueArg)
+	return
+}
+
+// SetMultipathing Specifies whether multipathing is enabled
+func (_class HostClass) SetMultipathing(sessionID SessionRef, host HostRef, value bool) (_err error) {
+	_method := "host.set_multipathing"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_hostArg, _err := convertHostRefToXen(fmt.Sprintf("%s(%s)", _method, "host"), host)
+	if _err != nil {
+		return
+	}
+	_valueArg, _err := convertBoolToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _hostArg, _valueArg)
+	return
+}
+
+// SetIscsiIqn Sets the initiator IQN for the host
+func (_class HostClass) SetIscsiIqn(sessionID SessionRef, host HostRef, value string) (_err error) {
+	_method := "host.set_iscsi_iqn"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_hostArg, _err := convertHostRefToXen(fmt.Sprintf("%s(%s)", _method, "host"), host)
+	if _err != nil {
+		return
+	}
+	_valueArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _hostArg, _valueArg)
+	return
+}
+
+// SetSslLegacy Enable/disable SSLv3 for interoperability with older server versions. When this is set to a different value, the host immediately restarts its SSL/TLS listening service; typically this takes less than a second but existing connections to it will be broken. API login sessions will remain valid.
 func (_class HostClass) SetSslLegacy(sessionID SessionRef, self HostRef, value bool) (_err error) {
 	_method := "host.set_ssl_legacy"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -434,6 +624,74 @@ func (_class HostClass) ApplyEdition(sessionID SessionRef, host HostRef, edition
 	return
 }
 
+// ResetServerCertificate Delete the current TLS server certificate and replace by a new, self-signed one. This should only be used with extreme care.
+func (_class HostClass) ResetServerCertificate(sessionID SessionRef, host HostRef) (_err error) {
+	_method := "host.reset_server_certificate"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_hostArg, _err := convertHostRefToXen(fmt.Sprintf("%s(%s)", _method, "host"), host)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _hostArg)
+	return
+}
+
+// EmergencyResetServerCertificate Delete the current TLS server certificate and replace by a new, self-signed one. This should only be used with extreme care.
+func (_class HostClass) EmergencyResetServerCertificate(sessionID SessionRef) (_err error) {
+	_method := "host.emergency_reset_server_certificate"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg)
+	return
+}
+
+// InstallServerCertificate Install the TLS server certificate.
+func (_class HostClass) InstallServerCertificate(sessionID SessionRef, host HostRef, certificate string, privateKey string, certificateChain string) (_err error) {
+	_method := "host.install_server_certificate"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_hostArg, _err := convertHostRefToXen(fmt.Sprintf("%s(%s)", _method, "host"), host)
+	if _err != nil {
+		return
+	}
+	_certificateArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "certificate"), certificate)
+	if _err != nil {
+		return
+	}
+	_privateKeyArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "private_key"), privateKey)
+	if _err != nil {
+		return
+	}
+	_certificateChainArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "certificate_chain"), certificateChain)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _hostArg, _certificateArg, _privateKeyArg, _certificateChainArg)
+	return
+}
+
+// RefreshServerCertificate Replace the internal self-signed host certficate with a new one.
+func (_class HostClass) RefreshServerCertificate(sessionID SessionRef, host HostRef) (_err error) {
+	_method := "host.refresh_server_certificate"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_hostArg, _err := convertHostRefToXen(fmt.Sprintf("%s(%s)", _method, "host"), host)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _hostArg)
+	return
+}
+
 // GetServerCertificate Get the installed server public TLS certificate.
 func (_class HostClass) GetServerCertificate(sessionID SessionRef, host HostRef) (_retval string, _err error) {
 	_method := "host.get_server_certificate"
@@ -556,7 +814,7 @@ func (_class HostClass) GetServertime(sessionID SessionRef, host HostRef) (_retv
 	return
 }
 
-// CallExtension Call a XenAPI extension on this host
+// CallExtension Call an API extension on this host
 func (_class HostClass) CallExtension(sessionID SessionRef, host HostRef, call string) (_retval string, _err error) {
 	_method := "host.call_extension"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -602,7 +860,7 @@ func (_class HostClass) HasExtension(sessionID SessionRef, host HostRef, name st
 	return
 }
 
-// CallPlugin Call a XenAPI plugin on this host
+// CallPlugin Call an API plugin on this host
 func (_class HostClass) CallPlugin(sessionID SessionRef, host HostRef, plugin string, fn string, args map[string]string) (_retval string, _err error) {
 	_method := "host.call_plugin"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -739,7 +997,7 @@ func (_class HostClass) ComputeFreeMemory(sessionID SessionRef, host HostRef) (_
 // SetHostnameLive Sets the host name to the specified string.  Both the API and lower-level system hostname are changed immediately.
 //
 // Errors:
-//  HOST_NAME_INVALID - The host name is invalid.
+//  HOST_NAME_INVALID - The server name is invalid.
 func (_class HostClass) SetHostnameLive(sessionID SessionRef, host HostRef, hostname string) (_err error) {
 	_method := "host.set_hostname_live"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -879,7 +1137,7 @@ func (_class HostClass) SyslogReconfigure(sessionID SessionRef, host HostRef) (_
 }
 
 // Evacuate Migrate all VMs off of this host, where possible.
-func (_class HostClass) Evacuate(sessionID SessionRef, host HostRef) (_err error) {
+func (_class HostClass) Evacuate(sessionID SessionRef, host HostRef, network NetworkRef) (_err error) {
 	_method := "host.evacuate"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
 	if _err != nil {
@@ -889,7 +1147,11 @@ func (_class HostClass) Evacuate(sessionID SessionRef, host HostRef) (_err error
 	if _err != nil {
 		return
 	}
-	_, _err =  _class.client.APICall(_method, _sessionIDArg, _hostArg)
+	_networkArg, _err := convertNetworkRefToXen(fmt.Sprintf("%s(%s)", _method, "network"), network)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _hostArg, _networkArg)
 	return
 }
 
@@ -1089,7 +1351,7 @@ func (_class HostClass) LicenseRemove(sessionID SessionRef, host HostRef) (_err 
 // LicenseAdd Apply a new license to a host
 //
 // Errors:
-//  LICENSE_PROCESSING_ERROR - There was an error processing your license.  Please contact your support representative.
+//  LICENSE_PROCESSING_ERROR - There was an error processing your license. Please contact your support representative.
 func (_class HostClass) LicenseAdd(sessionID SessionRef, host HostRef, contents string) (_err error) {
 	_method := "host.license_add"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1111,7 +1373,7 @@ func (_class HostClass) LicenseAdd(sessionID SessionRef, host HostRef, contents 
 // LicenseApply Apply a new license to a host
 //
 // Errors:
-//  LICENSE_PROCESSING_ERROR - There was an error processing your license.  Please contact your support representative.
+//  LICENSE_PROCESSING_ERROR - There was an error processing your license. Please contact your support representative.
 func (_class HostClass) LicenseApply(sessionID SessionRef, host HostRef, contents string) (_err error) {
 	_method := "host.license_apply"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
@@ -1735,6 +1997,177 @@ func (_class HostClass) SetNameLabel(sessionID SessionRef, self HostRef, value s
 		return
 	}
 	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// GetHTTPSOnly Get the https_only field of the given host.
+func (_class HostClass) GetHTTPSOnly(sessionID SessionRef, self HostRef) (_retval bool, _err error) {
+	_method := "host.get_https_only"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertHostRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertBoolToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// GetLastSoftwareUpdate Get the last_software_update field of the given host.
+func (_class HostClass) GetLastSoftwareUpdate(sessionID SessionRef, self HostRef) (_retval time.Time, _err error) {
+	_method := "host.get_last_software_update"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertHostRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertTimeToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// GetTLSVerificationEnabled Get the tls_verification_enabled field of the given host.
+func (_class HostClass) GetTLSVerificationEnabled(sessionID SessionRef, self HostRef) (_retval bool, _err error) {
+	_method := "host.get_tls_verification_enabled"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertHostRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertBoolToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// GetPendingGuidances Get the pending_guidances field of the given host.
+func (_class HostClass) GetPendingGuidances(sessionID SessionRef, self HostRef) (_retval []UpdateGuidances, _err error) {
+	_method := "host.get_pending_guidances"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertHostRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertEnumUpdateGuidancesSetToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// GetEditions Get the editions field of the given host.
+func (_class HostClass) GetEditions(sessionID SessionRef, self HostRef) (_retval []string, _err error) {
+	_method := "host.get_editions"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertHostRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertStringSetToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// GetCertificates Get the certificates field of the given host.
+func (_class HostClass) GetCertificates(sessionID SessionRef, self HostRef) (_retval []CertificateRef, _err error) {
+	_method := "host.get_certificates"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertHostRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertCertificateRefSetToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// GetUefiCertificates Get the uefi_certificates field of the given host.
+func (_class HostClass) GetUefiCertificates(sessionID SessionRef, self HostRef) (_retval string, _err error) {
+	_method := "host.get_uefi_certificates"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertHostRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertStringToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// GetMultipathing Get the multipathing field of the given host.
+func (_class HostClass) GetMultipathing(sessionID SessionRef, self HostRef) (_retval bool, _err error) {
+	_method := "host.get_multipathing"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertHostRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertBoolToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// GetIscsiIqn Get the iscsi_iqn field of the given host.
+func (_class HostClass) GetIscsiIqn(sessionID SessionRef, self HostRef) (_retval string, _err error) {
+	_method := "host.get_iscsi_iqn"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertHostRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertStringToGo(_method + " -> ", _result.Value)
 	return
 }
 

@@ -48,6 +48,8 @@ type BondRecord struct {
 	Properties map[string]string
 	// Number of links up in this bond
 	LinksUp int
+	// true if the MAC was taken from the primary slave when the bond was created, and false if the client specified the MAC
+	AutoUpdateMac bool
 }
 
 type BondRef string
@@ -237,6 +239,25 @@ func (_class BondClass) SetOtherConfig(sessionID SessionRef, self BondRef, value
 		return
 	}
 	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// GetAutoUpdateMac Get the auto_update_mac field of the given Bond.
+func (_class BondClass) GetAutoUpdateMac(sessionID SessionRef, self BondRef) (_retval bool, _err error) {
+	_method := "Bond.get_auto_update_mac"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertBondRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertBoolToGo(_method + " -> ", _result.Value)
 	return
 }
 

@@ -20,6 +20,15 @@ var _ = reflect.TypeOf
 var _ = strconv.Atoi
 var _ = time.UTC
 
+type TunnelProtocol string
+
+const (
+	// GRE protocol
+	TunnelProtocolGre TunnelProtocol = "gre"
+	// VxLAN Protocol
+	TunnelProtocolVxlan TunnelProtocol = "vxlan"
+)
+
 type TunnelRecord struct {
 	// Unique identifier/object reference
 	UUID string
@@ -31,6 +40,8 @@ type TunnelRecord struct {
 	Status map[string]string
 	// Additional configuration
 	OtherConfig map[string]string
+	// The protocol used for tunneling (either GRE or VxLAN)
+	Protocol TunnelProtocol
 }
 
 type TunnelRef string
@@ -90,8 +101,8 @@ func (_class TunnelClass) Destroy(sessionID SessionRef, self TunnelRef) (_err er
 // Errors:
 //  OPENVSWITCH_NOT_ACTIVE - This operation needs the OpenVSwitch networking backend to be enabled on all hosts in the pool.
 //  TRANSPORT_PIF_NOT_CONFIGURED - The tunnel transport PIF has no IP configuration set.
-//  IS_TUNNEL_ACCESS_PIF - You tried to create a VLAN or tunnel on top of a tunnel access PIF - use the underlying transport PIF instead.
-func (_class TunnelClass) Create(sessionID SessionRef, transportPIF PIFRef, network NetworkRef) (_retval TunnelRef, _err error) {
+//  IS_TUNNEL_ACCESS_PIF - Cannot create a VLAN or tunnel on top of a tunnel access PIF - use the underlying transport PIF instead.
+func (_class TunnelClass) Create(sessionID SessionRef, transportPIF PIFRef, network NetworkRef, protocol TunnelProtocol) (_retval TunnelRef, _err error) {
 	_method := "tunnel.create"
 	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
 	if _err != nil {
@@ -105,11 +116,34 @@ func (_class TunnelClass) Create(sessionID SessionRef, transportPIF PIFRef, netw
 	if _err != nil {
 		return
 	}
-	_result, _err := _class.client.APICall(_method, _sessionIDArg, _transportPIFArg, _networkArg)
+	_protocolArg, _err := convertEnumTunnelProtocolToXen(fmt.Sprintf("%s(%s)", _method, "protocol"), protocol)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _transportPIFArg, _networkArg, _protocolArg)
 	if _err != nil {
 		return
 	}
 	_retval, _err = convertTunnelRefToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// SetProtocol Set the protocol field of the given tunnel.
+func (_class TunnelClass) SetProtocol(sessionID SessionRef, self TunnelRef, value TunnelProtocol) (_err error) {
+	_method := "tunnel.set_protocol"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertTunnelRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_valueArg, _err := convertEnumTunnelProtocolToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
 	return
 }
 
@@ -232,6 +266,25 @@ func (_class TunnelClass) SetStatus(sessionID SessionRef, self TunnelRef, value 
 		return
 	}
 	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// GetProtocol Get the protocol field of the given tunnel.
+func (_class TunnelClass) GetProtocol(sessionID SessionRef, self TunnelRef) (_retval TunnelProtocol, _err error) {
+	_method := "tunnel.get_protocol"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertTunnelRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertEnumTunnelProtocolToGo(_method + " -> ", _result.Value)
 	return
 }
 

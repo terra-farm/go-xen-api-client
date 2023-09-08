@@ -51,6 +51,8 @@ type VMMetricsRecord struct {
 	NestedVirt bool
 	// VM is immobile and can't migrate between hosts
 	Nomigrate bool
+	// The current domain type of the VM (for running,suspended, or paused VMs). The last-known domain type for halted VMs.
+	CurrentDomainType DomainType
 }
 
 type VMMetricsRef string
@@ -148,6 +150,25 @@ func (_class VMMetricsClass) SetOtherConfig(sessionID SessionRef, self VMMetrics
 		return
 	}
 	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// GetCurrentDomainType Get the current_domain_type field of the given VM_metrics.
+func (_class VMMetricsClass) GetCurrentDomainType(sessionID SessionRef, self VMMetricsRef) (_retval DomainType, _err error) {
+	_method := "VM_metrics.get_current_domain_type"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVMMetricsRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertEnumDomainTypeToGo(_method + " -> ", _result.Value)
 	return
 }
 

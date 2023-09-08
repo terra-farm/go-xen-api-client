@@ -1,3 +1,4 @@
+//go:build ignore
 // +build ignore
 
 package main
@@ -9,6 +10,7 @@ import (
 	"io/ioutil"
 	"os"
 	"regexp"
+	"slices"
 	"sort"
 	"strings"
 	"text/template"
@@ -17,14 +19,28 @@ import (
 )
 
 var (
-	reXenRefType    = regexp.MustCompile("^(.+?) ref$")
-	reXenSetType    = regexp.MustCompile("^(.+?) set$")
-	reXenRecordType = regexp.MustCompile("^(.+?) record$")
-	reXenEnumType   = regexp.MustCompile("^enum (.+)$")
-	reXenMapType    = regexp.MustCompile("^\\((.+?) -> (.+?)\\) map$")
+	reXenRefType             = regexp.MustCompile("^(.+?) ref$")
+	reXenSetType             = regexp.MustCompile("^(.+?) set$")
+	reXenRecordType          = regexp.MustCompile("^(.+?) record$")
+	reXenRecordInterfaceType = regexp.MustCompile("^&lt;object record&gt;$")
+	reXenEnumType            = regexp.MustCompile("^enum (.+)$")
+	reXenMapType             = regexp.MustCompile("^\\((.+?) -> (.+?)\\) map$")
+	reXenBatchType           = regexp.MustCompile("^an (.+?) batch$")
 )
 
+func normaliseXenType(xenType string) (normalisedXenType string) {
+	if strings.Contains(xenType, " option") {
+		normalisedXenType = strings.TrimRight(xenType, " option")
+	} else {
+		normalisedXenType = xenType
+	}
+
+	return normalisedXenType
+}
+
 func goTypeForXenType(xenType string) (goType string, err error) {
+	xenType = normaliseXenType(xenType)
+
 	var match []string
 	if xenType == "bool" {
 		goType = "bool"
@@ -47,6 +63,8 @@ func goTypeForXenType(xenType string) (goType string, err error) {
 		goType = snaker.SnakeToCamel(match[1]) + "Ref"
 	} else if match = reXenRecordType.FindStringSubmatch(xenType); match != nil {
 		goType = snaker.SnakeToCamel(match[1]) + "Record"
+	} else if match = reXenRecordInterfaceType.FindStringSubmatch(xenType); match != nil {
+		goType = "RecordInterface"
 	} else if match = reXenEnumType.FindStringSubmatch(xenType); match != nil {
 		goType = snaker.SnakeToCamel(match[1])
 	} else if match = reXenMapType.FindStringSubmatch(xenType); match != nil {
@@ -61,6 +79,8 @@ func goTypeForXenType(xenType string) (goType string, err error) {
 			return
 		}
 		goType = "map[" + goKeyType + "]" + goValueType
+	} else if match = reXenBatchType.FindStringSubmatch(xenType); match != nil {
+		goType = snaker.SnakeToCamel(match[1]) + "Batch"
 	} else {
 		err = fmt.Errorf("Unsupported XenAPI type: %s", xenType)
 	}
@@ -68,6 +88,8 @@ func goTypeForXenType(xenType string) (goType string, err error) {
 }
 
 func funcPartialForXenType(xenType string) (partial string, err error) {
+	xenType = normaliseXenType(xenType)
+
 	var match []string
 	if xenType == "bool" {
 		partial = "Bool"
@@ -90,6 +112,8 @@ func funcPartialForXenType(xenType string) (partial string, err error) {
 		partial = snaker.SnakeToCamel(match[1]) + "Ref"
 	} else if match = reXenRecordType.FindStringSubmatch(xenType); match != nil {
 		partial = snaker.SnakeToCamel(match[1]) + "Record"
+	} else if match = reXenRecordInterfaceType.FindStringSubmatch(xenType); match != nil {
+		partial = "RecordInterface"
 	} else if match = reXenEnumType.FindStringSubmatch(xenType); match != nil {
 		partial = "Enum" + snaker.SnakeToCamel(match[1])
 	} else if match = reXenMapType.FindStringSubmatch(xenType); match != nil {
@@ -104,6 +128,8 @@ func funcPartialForXenType(xenType string) (partial string, err error) {
 			return
 		}
 		partial = keyPartial + "To" + valuePartial + "Map"
+	} else if match = reXenBatchType.FindStringSubmatch(xenType); match != nil {
+		partial = snaker.SnakeToCamel(match[1]) + "Batch"
 	} else {
 		err = fmt.Errorf("Unsupported XenAPI type: %s", xenType)
 	}
@@ -186,13 +212,13 @@ type xapiEnum struct {
 }
 
 type xapiField struct {
-	Default     string           `json:"default,omitempty"`
-	Lifecycle   []*xapiLifecycle `json:"lifecycle"`
-	Tag         string           `json:"tag"`
-	Qualifier   string           `json:"qualifier"`
-	Type        string           `json:"type"`
-	Description string           `json:"description"`
-	Name        string           `json:"name"`
+	Default     string         `json:"default,omitempty"`
+	Lifecycle   *xapiLifecycle `json:"lifecycle"`
+	Tag         string         `json:"tag"`
+	Qualifier   string         `json:"qualifier"`
+	Type        string         `json:"type"`
+	Description string         `json:"description"`
+	Name        string         `json:"name"`
 }
 
 func (field *xapiField) GoType() (string, error) {
@@ -229,25 +255,25 @@ type xapiError struct {
 }
 
 type xapiMessage struct {
-	Implicit    bool             `json:"implicit"`
-	Lifecycle   []*xapiLifecycle `json:"lifecycle"`
-	Tag         string           `json:"tag"`
-	Roles       []string         `json:"roles"`
-	Errors      []*xapiError     `json:"errors"`
-	Params      []*xapiParam     `json:"params"`
-	Result      *xapiResult      `json:"result"`
-	Description string           `json:"description"`
-	Name        string           `json:"name"`
+	Implicit    bool           `json:"implicit"`
+	Lifecycle   *xapiLifecycle `json:"lifecycle"`
+	Tag         string         `json:"tag"`
+	Roles       []string       `json:"roles"`
+	Errors      []*xapiError   `json:"errors"`
+	Params      []*xapiParam   `json:"params"`
+	Result      *xapiResult    `json:"result"`
+	Description string         `json:"description"`
+	Name        string         `json:"name"`
 }
 
 type xapiClass struct {
-	Tag         string           `json:"tag"`
-	Lifecycle   []*xapiLifecycle `json:"lifecycle"`
-	Enums       []*xapiEnum      `json:"enums"`
-	Messages    []*xapiMessage   `json:"messages"`
-	Fields      []*xapiField     `json:"fields"`
-	Name        string           `json:"name"`
-	Description string           `json:"description"`
+	Tag         string         `json:"tag"`
+	Lifecycle   *xapiLifecycle `json:"lifecycle"`
+	Enums       []*xapiEnum    `json:"enums"`
+	Messages    []*xapiMessage `json:"messages"`
+	Fields      []*xapiField   `json:"fields"`
+	Name        string         `json:"name"`
+	Description string         `json:"description"`
 }
 
 const fileHeaderTemplate string = `//
@@ -286,6 +312,18 @@ const recordTypeTemplate string = `
 type {{ .Name|exported }}Record struct {{ "{" }}{{ range .Fields }}
 	{{ .Description|godoc }}
 	{{ .Name|exported }} {{ .GoType }}{{ end }}
+}
+`
+
+const recordInterfaceTypeTemplate string = `
+type RecordInterface interface {{ "{" }}}
+`
+
+const batchTypeTemplate string = `
+type {{ .Name|exported }}Batch struct {{ "{" }}
+	Token                 string
+	ValidRefCounts        map[string]int
+	{{ .Name|exported }}s []{{ .Name|exported }}Record
 }
 `
 
@@ -431,23 +469,30 @@ func {{ .FuncName }}(context string, input interface{}) (record {{ .GoType }}, e
 		err = fmt.Errorf("Failed to parse XenAPI response: expected Go type %s at %s but got Go type %s with value %v", "xmlrpc.Struct", context, reflect.TypeOf(input), input)
 		return
 	}{{ range .Fields }}
-  {{ .Name|internal }}Value, ok := rpcStruct[{{ printf "%q" .Name }}]
+	{{ .Name|internal }}Value, ok := rpcStruct[{{ printf "%q" .Name }}]
 	if ok && {{ .Name|internal }}Value != nil {
   	record.{{ .Name|exported }}, err = {{ .Type|convertToGo }}(fmt.Sprintf("%s.%s", context, {{ printf "%q" .Name }}), {{ .Name|internal }}Value)
 		if err != nil {
 			return
 		}
-	}{{ end }}
+		}{{ end }}
 	return
 }
 `
 
 const convertRecordTypeToXenFuncTemplate string = `
 func {{ .FuncName }}(context string, record {{ .GoType }}) (rpcStruct xmlrpc.Struct, err error) {{ "{\n  rpcStruct = xmlrpc.Struct{}" }}{{ range .Fields }}
-  rpcStruct[{{ printf "%q" .Name }}], err = {{ .Type|convertToXen }}(fmt.Sprintf("%s.%s", context, {{ printf "%q" .Name }}), record.{{ .Name|exported }})
-  if err != nil {
+	rpcStruct[{{ printf "%q" .Name }}], err = {{ .Type|convertToXen }}(fmt.Sprintf("%s.%s", context, {{ printf "%q" .Name }}), record.{{ .Name|exported }})
+	if err != nil {
 		return
-	}{{ end }}
+		}{{ end }}
+		return
+	}
+`
+
+const convertRecordInterfaceTypeToGoFuncTemplate string = `
+func {{ .FuncName }}(context string, input interface{}) (recordInterface {{ .GoType }}, err error) {
+	recordInterface = input
 	return
 }
 `
@@ -501,7 +546,7 @@ func {{ .FuncName }}(context string, input interface{}) (value {{ .GoType }}, er
 	if err != nil {
 		return
 	}
-  switch strValue {{ "{" }}{{ range .Values }}
+  	switch strValue {{ "{" }}{{ range .Values }}
     case {{ printf "%q" .Name }}:
       value = {{ $.GoType }}{{ .Name|exported }}{{ end }}
     default:
@@ -514,6 +559,24 @@ func {{ .FuncName }}(context string, input interface{}) (value {{ .GoType }}, er
 const convertEnumTypeToXenFuncTemplate string = `
 func {{ .FuncName }}(context string, value {{ .GoType }}) (string, error) {
 	return string(value), nil
+}
+`
+
+const convertBatchTypeToGoFuncTemplate string = `
+func {{ .FuncName }}(context string, input interface{}) (batch {{ .GoType }}, err error) {
+	rpcStruct, ok := input.(xmlrpc.Struct)
+	if !ok {
+		err = fmt.Errorf("Failed to parse XenAPI response: expected Go type %s at %s but got Go type %s with value %v", "xmlrpc.Struct", context, reflect.TypeOf(input), input)
+		return
+	}{{ range .BatchElements }}
+	{{ .Name|internal }}Value, ok := rpcStruct[{{ printf "%q" .Name }}]
+	if ok && {{ .Name|internal }}Value != nil {
+  	batch.{{ .Name|exported }}, err = {{ .Type|convertToGo }}(fmt.Sprintf("%s.%s", context, {{ printf "%q" .Name }}), {{ .Name|internal }}Value)
+		if err != nil {
+			return
+		}
+	}{{ end }}
+	return
 }
 `
 
@@ -547,10 +610,10 @@ func (generator *apiGenerator) prepTemplates() (err error) {
 	generator.templates = template.New("")
 
 	generator.templates.Funcs(template.FuncMap{
-		"godoc":    formatGoDoc,
-		"singleLine":    formatSingleLine,
-		"exported": exportedGoIdentifier,
-		"internal": internalGoIdentifier,
+		"godoc":      formatGoDoc,
+		"singleLine": formatSingleLine,
+		"exported":   exportedGoIdentifier,
+		"internal":   internalGoIdentifier,
 		"convertToGo": func(xenType string) (string, error) {
 			converter, err := generator.getOrCreateConverterFunc(xenType, "ToGo")
 			if err != nil {
@@ -568,27 +631,31 @@ func (generator *apiGenerator) prepTemplates() (err error) {
 	})
 
 	templateLedger := map[string]string{
-		"FileHeader":                 fileHeaderTemplate,
-		"EnumType":                   enumTypeTemplate,
-		"RecordType":                 recordTypeTemplate,
-		"ClassType":                  classTypeTemplate,
-		"RefType":                    refTypeTemplate,
-		"MessageFunc":                messageFuncTemplate,
-		"ClientStruct":               clientStructTemplate,
-		"convertSimpleTypeToGoFunc":  convertSimpleTypeToGoFuncTemplate,
-		"convertSimpleTypeToXenFunc": convertSimpleTypeToXenFuncTemplate,
-		"convertIntToGoFunc":         convertIntToGoFuncTemplate,
-		"convertIntToXenFunc":        convertIntToXenFuncTemplate,
-		"convertRefTypeToGoFunc":     convertRefTypeToGoFuncTemplate,
-		"convertRefTypeToXenFunc":    convertRefTypeToXenFuncTemplate,
-		"convertSetTypeToGoFunc":     convertSetTypeToGoFuncTemplate,
-		"convertSetTypeToXenFunc":    convertSetTypeToXenFuncTemplate,
-		"convertRecordTypeToGoFunc":  convertRecordTypeToGoFuncTemplate,
-		"convertRecordTypeToXenFunc": convertRecordTypeToXenFuncTemplate,
-		"convertMapTypeToGoFunc":     convertMapTypeToGoFuncTemplate,
-		"convertMapTypeToXenFunc":    convertMapTypeToXenFuncTemplate,
-		"convertEnumTypeToGoFunc":    convertEnumTypeToGoFuncTemplate,
-		"convertEnumTypeToXenFunc":   convertEnumTypeToXenFuncTemplate,
+		"FileHeader":                         fileHeaderTemplate,
+		"EnumType":                           enumTypeTemplate,
+		"RecordType":                         recordTypeTemplate,
+		"RecordInterfaceType":                recordInterfaceTypeTemplate,
+		"BatchType":                          batchTypeTemplate,
+		"ClassType":                          classTypeTemplate,
+		"RefType":                            refTypeTemplate,
+		"MessageFunc":                        messageFuncTemplate,
+		"ClientStruct":                       clientStructTemplate,
+		"convertSimpleTypeToGoFunc":          convertSimpleTypeToGoFuncTemplate,
+		"convertSimpleTypeToXenFunc":         convertSimpleTypeToXenFuncTemplate,
+		"convertIntToGoFunc":                 convertIntToGoFuncTemplate,
+		"convertIntToXenFunc":                convertIntToXenFuncTemplate,
+		"convertRefTypeToGoFunc":             convertRefTypeToGoFuncTemplate,
+		"convertRefTypeToXenFunc":            convertRefTypeToXenFuncTemplate,
+		"convertSetTypeToGoFunc":             convertSetTypeToGoFuncTemplate,
+		"convertSetTypeToXenFunc":            convertSetTypeToXenFuncTemplate,
+		"convertRecordTypeToGoFunc":          convertRecordTypeToGoFuncTemplate,
+		"convertRecordTypeToXenFunc":         convertRecordTypeToXenFuncTemplate,
+		"convertRecordInterfaceTypeToGoFunc": convertRecordInterfaceTypeToGoFuncTemplate,
+		"convertMapTypeToGoFunc":             convertMapTypeToGoFuncTemplate,
+		"convertMapTypeToXenFunc":            convertMapTypeToXenFuncTemplate,
+		"convertEnumTypeToGoFunc":            convertEnumTypeToGoFuncTemplate,
+		"convertEnumTypeToXenFunc":           convertEnumTypeToXenFuncTemplate,
+		"convertBatchTypeToGoFunc":           convertBatchTypeToGoFuncTemplate,
 	}
 
 	for name, value := range templateLedger {
@@ -678,6 +745,20 @@ func (generator *apiGenerator) buildRecordConverterFunc(xenType string, directio
 	return executeTemplateToString(generator.templates, "convertRecordType"+direction+"Func", args)
 }
 
+func (generator *apiGenerator) buildRecordInterfaceConverterFunc(xenType string, direction string, funcName string) (string, error) {
+	goType, err := goTypeForXenType(xenType)
+	if err != nil {
+		return "", err
+	}
+
+	args := map[string]interface{}{
+		"FuncName": funcName,
+		"GoType":   goType,
+	}
+
+	return executeTemplateToString(generator.templates, "convertRecordInterfaceType"+direction+"Func", args)
+}
+
 func (generator *apiGenerator) buildMapConverterFunc(xenType string, direction string, funcName string, keyType string, valueType string) (string, error) {
 	goType, err := goTypeForXenType(xenType)
 	if err != nil {
@@ -733,6 +814,36 @@ classLoop:
 	return executeTemplateToString(generator.templates, "convertEnumType"+direction+"Func", args)
 }
 
+func (generator *apiGenerator) buildBatchConverterFunc(xenType string, direction string, funcName string) (string, error) {
+	goType, err := goTypeForXenType(xenType)
+	if err != nil {
+		return "", err
+	}
+
+	match := reXenBatchType.FindStringSubmatch(xenType)
+
+	args := map[string]interface{}{
+		"FuncName": funcName,
+		"GoType":   goType,
+		"BatchElements": [3]map[string]string{
+			{
+				"Name": "token",
+				"Type": "string",
+			},
+			{
+				"Name": "valid_ref_counts",
+				"Type": "(string -> int) map",
+			},
+			{
+				"Name": match[1] + "s",
+				"Type": "event record set",
+			},
+		},
+	}
+
+	return executeTemplateToString(generator.templates, "convertBatchType"+direction+"Func", args)
+}
+
 func (generator *apiGenerator) buildConverterFunc(xenType string, direction string) (converter converterFunc, err error) {
 	funcName, err := convertXenTypeFuncName(xenType, direction)
 	if err != nil {
@@ -756,10 +867,14 @@ func (generator *apiGenerator) buildConverterFunc(xenType string, direction stri
 		funcDefinition, err = generator.buildSetConverterFunc(xenType, direction, funcName, match[1])
 	} else if match := reXenRecordType.FindStringSubmatch(xenType); match != nil {
 		funcDefinition, err = generator.buildRecordConverterFunc(xenType, direction, funcName, match[1])
+	} else if match = reXenRecordInterfaceType.FindStringSubmatch(xenType); match != nil {
+		funcDefinition, err = generator.buildRecordInterfaceConverterFunc(xenType, direction, funcName)
 	} else if match := reXenMapType.FindStringSubmatch(xenType); match != nil {
 		funcDefinition, err = generator.buildMapConverterFunc(xenType, direction, funcName, match[1], match[2])
 	} else if match := reXenEnumType.FindStringSubmatch(xenType); match != nil {
 		funcDefinition, err = generator.buildEnumConverterFunc(xenType, direction, funcName, match[1])
+	} else if match := reXenBatchType.FindStringSubmatch(xenType); match != nil {
+		funcDefinition, err = generator.buildBatchConverterFunc(xenType, direction, funcName)
 	} else {
 		err = fmt.Errorf("Unable to build type conversion function for XenAPI: unsupported type %q", xenType)
 	}
@@ -772,6 +887,8 @@ func (generator *apiGenerator) buildConverterFunc(xenType string, direction stri
 }
 
 func (generator *apiGenerator) getOrCreateConverterFunc(xenType string, direction string) (converter converterFunc, err error) {
+	xenType = normaliseXenType(xenType)
+
 	converterKey := xenType + direction
 	converter, found := generator.converters[converterKey]
 	if !found {
@@ -806,6 +923,13 @@ func (generator *apiGenerator) generateClassAPI(class *xapiClass) (err error) {
 		}
 	}
 
+	if class.Name == "event" {
+		err = generator.templates.ExecuteTemplate(fileHandle, "RecordInterfaceType", class)
+		if err != nil {
+			return
+		}
+	}
+
 	if len(class.Fields) > 0 {
 		err = generator.templates.ExecuteTemplate(fileHandle, "RecordType", class)
 		if err != nil {
@@ -824,10 +948,16 @@ func (generator *apiGenerator) generateClassAPI(class *xapiClass) (err error) {
 	}
 
 	for _, message := range class.Messages {
-
 		context := map[string]interface{}{
 			"Class":   class,
 			"Message": message,
+		}
+
+		if match := reXenBatchType.FindStringSubmatch(message.Result.Type()); match != nil {
+			err = generator.templates.ExecuteTemplate(fileHandle, "BatchType", class)
+			if err != nil {
+				return
+			}
 		}
 
 		err = generator.templates.ExecuteTemplate(fileHandle, "MessageFunc", context)
@@ -889,8 +1019,38 @@ func (generator *apiGenerator) generateClient() (err error) {
 	return
 }
 
+func (generator *apiGenerator) checkForDuplicateEnums() (err error) {
+	var enumsFoundSlice []string
+	for _, class := range generator.classes {
+		if len(class.Enums) == 0 {
+			continue
+		}
+
+		var indexesToRemove []int
+		for index, enum := range class.Enums {
+			if slices.Contains(enumsFoundSlice, enum.Name) {
+				indexesToRemove = append(indexesToRemove, index)
+			} else {
+				enumsFoundSlice = append(enumsFoundSlice, enum.Name)
+			}
+		}
+
+		sort.Sort(sort.Reverse(sort.IntSlice(indexesToRemove)))
+		for _, i := range indexesToRemove {
+			class.Enums = append(class.Enums[:i], class.Enums[(i+1):]...)
+		}
+	}
+
+	return
+}
+
 func (generator *apiGenerator) run() (err error) {
 	err = generator.loadXenAPI("xenapi.json")
+	if err != nil {
+		return
+	}
+
+	err = generator.checkForDuplicateEnums()
 	if err != nil {
 		return
 	}

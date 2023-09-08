@@ -51,6 +51,8 @@ type SessionRecord struct {
 	Parent SessionRef
 	// a key string provided by a API user to distinguish itself from other users sharing the same login name
 	Originator string
+	// indicates whether this session was authenticated using a client certificate
+	ClientCertificate bool
 }
 
 type SessionRef string
@@ -173,7 +175,7 @@ func (_class SessionClass) Logout(sessionID SessionRef) (_err error) {
 //
 // Errors:
 //  SESSION_AUTHENTICATION_FAILED - The credentials given by the user are incorrect, so access has been denied, and you have not been issued a session handle.
-//  HOST_IS_SLAVE - You cannot make regular API calls directly on a slave. Please pass API calls via the master host.
+//  HOST_IS_SLAVE - You cannot make regular API calls directly on a supporter. Please pass API calls via the coordinator host.
 func (_class SessionClass) LoginWithPassword(uname string, pwd string, version string, originator string) (_retval SessionRef, _err error) {
 	_method := "session.login_with_password"
 	_unameArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "uname"), uname)
@@ -258,6 +260,25 @@ func (_class SessionClass) SetOtherConfig(sessionID SessionRef, self SessionRef,
 		return
 	}
 	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// GetClientCertificate Get the client_certificate field of the given session.
+func (_class SessionClass) GetClientCertificate(sessionID SessionRef, self SessionRef) (_retval bool, _err error) {
+	_method := "session.get_client_certificate"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertBoolToGo(_method + " -> ", _result.Value)
 	return
 }
 

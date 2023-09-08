@@ -29,6 +29,8 @@ type RoleRecord struct {
 	NameDescription string
 	// a list of pointers to other roles or permissions
 	Subroles []RoleRef
+	// Indicates whether the role is only to be assigned internally by xapi, or can be used by clients
+	IsInternal bool
 }
 
 type RoleRef string
@@ -141,6 +143,25 @@ func (_class RoleClass) GetPermissions(sessionID SessionRef, self RoleRef) (_ret
 		return
 	}
 	_retval, _err = convertRoleRefSetToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// GetIsInternal Get the is_internal field of the given role.
+func (_class RoleClass) GetIsInternal(sessionID SessionRef, self RoleRef) (_retval bool, _err error) {
+	_method := "role.get_is_internal"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertRoleRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertBoolToGo(_method + " -> ", _result.Value)
 	return
 }
 

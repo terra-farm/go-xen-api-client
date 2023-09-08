@@ -47,6 +47,8 @@ type PUSBRecord struct {
 	PassthroughEnabled bool
 	// additional configuration
 	OtherConfig map[string]string
+	// USB device speed
+	Speed float64
 }
 
 type PUSBRef string
@@ -178,6 +180,25 @@ func (_class PUSBClass) SetOtherConfig(sessionID SessionRef, self PUSBRef, value
 		return
 	}
 	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// GetSpeed Get the speed field of the given PUSB.
+func (_class PUSBClass) GetSpeed(sessionID SessionRef, self PUSBRef) (_retval float64, _err error) {
+	_method := "PUSB.get_speed"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertPUSBRefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertFloatToGo(_method + " -> ", _result.Value)
 	return
 }
 

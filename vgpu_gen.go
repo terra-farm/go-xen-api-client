@@ -41,6 +41,10 @@ type VGPURecord struct {
 	ScheduledToBeResidentOn PGPURef
 	// VGPU metadata to determine whether a VGPU can migrate between two PGPUs
 	CompatibilityMetadata map[string]string
+	// Extra arguments for vGPU and passed to demu
+	ExtraArgs string
+	// Device passed trough to VM, either as full device or SR-IOV virtual function
+	PCI PCIRef
 }
 
 type VGPURef string
@@ -130,6 +134,25 @@ func (_class VGPUClass) Create(sessionID SessionRef, vm VMRef, gpuGroup GPUGroup
 	return
 }
 
+// SetExtraArgs Set the extra_args field of the given VGPU.
+func (_class VGPUClass) SetExtraArgs(sessionID SessionRef, self VGPURef, value string) (_err error) {
+	_method := "VGPU.set_extra_args"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVGPURefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_valueArg, _err := convertStringToXen(fmt.Sprintf("%s(%s)", _method, "value"), value)
+	if _err != nil {
+		return
+	}
+	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
 // RemoveFromOtherConfig Remove the given key and its corresponding value from the other_config field of the given VGPU.  If the key is not in that Map, then do nothing.
 func (_class VGPUClass) RemoveFromOtherConfig(sessionID SessionRef, self VGPURef, key string) (_err error) {
 	_method := "VGPU.remove_from_other_config"
@@ -188,6 +211,44 @@ func (_class VGPUClass) SetOtherConfig(sessionID SessionRef, self VGPURef, value
 		return
 	}
 	_, _err =  _class.client.APICall(_method, _sessionIDArg, _selfArg, _valueArg)
+	return
+}
+
+// GetPCI Get the PCI field of the given VGPU.
+func (_class VGPUClass) GetPCI(sessionID SessionRef, self VGPURef) (_retval PCIRef, _err error) {
+	_method := "VGPU.get_PCI"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVGPURefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertPCIRefToGo(_method + " -> ", _result.Value)
+	return
+}
+
+// GetExtraArgs Get the extra_args field of the given VGPU.
+func (_class VGPUClass) GetExtraArgs(sessionID SessionRef, self VGPURef) (_retval string, _err error) {
+	_method := "VGPU.get_extra_args"
+	_sessionIDArg, _err := convertSessionRefToXen(fmt.Sprintf("%s(%s)", _method, "session_id"), sessionID)
+	if _err != nil {
+		return
+	}
+	_selfArg, _err := convertVGPURefToXen(fmt.Sprintf("%s(%s)", _method, "self"), self)
+	if _err != nil {
+		return
+	}
+	_result, _err := _class.client.APICall(_method, _sessionIDArg, _selfArg)
+	if _err != nil {
+		return
+	}
+	_retval, _err = convertStringToGo(_method + " -> ", _result.Value)
 	return
 }
 
